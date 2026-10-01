@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1a1420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>По ту сторону 🌸</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+    --pink: #f8a5b8; --pink-dark: #f28b9e; --pink-deep: #c44569;
+    --bg-dark: #1a1420; --bg-panel: #241b2e; --bg-card: #2d2238;
+    --text-light: #f5e6ee; --text-muted: #b8a3c4;
+    --border-pink: rgba(255,183,197,0.25); --shadow-pink: rgba(255,150,180,0.15);
+    --green: #4cd137; --red: #e84118; --yellow: #fbc531; --blue: #4a9eff;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+body.light-theme {
+    --bg-dark: #fff5f7; --bg-panel: #ffffff; --bg-card: rgba(255,255,255,0.9);
+    --text-light: #4a3f5c; --text-muted: #7a6b8a;
+    --border-pink: rgba(255,182,193,0.4); --shadow-pink: rgba(255,150,180,0.2);
+}
+html, body { overflow-x: hidden; overscroll-behavior-y: contain; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-light); line-height: 1.5; background: var(--bg-dark); min-height: 100vh; transition: background 0.5s, color 0.5s; font-size: 15px; padding-bottom: var(--safe-bottom); }
+.petals-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; will-change: transform; }
+@keyframes fall { 0% { transform: translateY(-30px) rotate(0); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.5; } 100% { transform: translateY(100vh) rotate(540deg) translateX(60px); opacity: 0; } }
+body::before { content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(248,165,184,0.08), transparent 50%), radial-gradient(circle at 70% 60%, rgba(196,69,105,0.06), transparent 50%); pointer-events: none; z-index: 0; animation: glow 15s ease-in-out infinite alternate; }
+@keyframes glow { 100% { transform: translate(-20px, -20px) scale(1.05); } }
+.container { width: 100%; max-width: 100%; padding: 0 16px; position: relative; z-index: 1; }
+h1, h2, h3 { font-weight: 300; letter-spacing: 0.3px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; line-height: 1.2; }
+h2 { font-size: 1.4rem; text-align: center; margin-bottom: 24px; }
+h2:after { content: '🌸'; display: block; font-size: 1.4rem; margin-top: 4px; }
+p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
+.section { padding: 32px 0; background: var(--bg-panel); border-radius: 24px; margin: 14px 0; box-shadow: 0 5px 25px var(--shadow-pink); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(248,165,184,0.4); min-height: 48px; }
+.btn:active { transform: scale(0.97); filter: brightness(1.1); }
+.btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); box-shadow: none; }
+.btn-blue { background: linear-gradient(135deg, var(--blue), #2d7dd2); }
+.btn-green { background: linear-gradient(135deg, var(--green), #3aa02a); }
+.btn-yellow { background: linear-gradient(135deg, var(--yellow), #e1b12c); color: #333; }
+.btn-red { background: linear-gradient(135deg, var(--red), #c0392b); }
+.btn-sm { padding: 8px 14px; font-size: 0.8rem; min-height: 36px; }
+.btn-full { width: 100%; }
+.header { background: linear-gradient(135deg, rgba(248,165,184,0.95), rgba(196,69,105,0.85)); color: #fff; padding: calc(40px + var(--safe-top)) 16px 30px; text-align: center; border-radius: 0 0 40px 40px; position: relative; overflow: hidden; }
+.header::after { content: '🌸'; font-size: 5rem; position: absolute; bottom: -20px; right: -10px; opacity: 0.15; transform: rotate(-15deg); }
+.header h1 { color: #fff; font-weight: 700; }
+.header p { color: rgba(255,255,255,0.95); font-size: 0.95rem; margin: 10px 0 16px; }
+.header .btn { margin: 4px 2px; padding: 12px 18px; font-size: 0.85rem; }
+.benefits-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.benefit-card { background: var(--bg-card); padding: 18px 16px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px var(--shadow-pink); border: 1px solid var(--border-pink); }
+.benefit-card .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.benefit-card h3 { font-weight: 600; margin-bottom: 6px; font-size: 1.05rem; }
+.benefit-card p { font-size: 0.85rem; margin: 0; }
+.steps { display: flex; flex-direction: column; gap: 12px; }
+.step-item { background: var(--bg-card); padding: 16px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-pink); border: 1px solid var(--border-pink); border-left: 4px solid var(--pink); }
+.step-item h4 { font-weight: 600; color: var(--pink); margin-bottom: 6px; font-size: 1rem; }
+.step-item p { font-size: 0.88rem; margin: 0; }
+.faq-item { background: var(--bg-card); padding: 16px 18px; border-radius: 16px; margin-bottom: 10px; box-shadow: 0 3px 12px var(--shadow-pink); border: 1px solid var(--border-pink); }
+.faq-item strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.95rem; }
+.faq-item p { font-size: 0.88rem; margin: 0; }
+.reviews-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.review-card { background: var(--bg-card); padding: 18px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-pink); font-style: italic; border: 1px solid var(--border-pink); font-size: 0.9rem; }
+.review-card .author { margin-top: 10px; font-weight: 600; color: var(--pink); font-style: normal; font-size: 0.88rem; }
+.contacts { text-align: center; }
+.contacts .btn { margin: 6px; }
+
+/* ПАНЕЛИ */
+.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; min-height: 100vh; }
+.panel-section.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.panel-container { background: var(--bg-panel); border-radius: 24px; padding: 20px 16px; box-shadow: 0 10px 40px var(--shadow-pink); border: 2px solid var(--border-pink); margin: 0 12px; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+.panel-header h3 { font-size: 1.3rem; margin: 0; font-weight: 700; }
+.role-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.role-badge.user { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
+.role-badge.admin { background: rgba(248,165,184,0.2); color: var(--pink); border: 1px solid var(--pink); }
+.role-badge.owner { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700; }
+.role-badge.moderator { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
+.role-badge.support { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
+
+/* Свёртываемые блоки */
+.collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-pink); margin-bottom: 10px; overflow: hidden; }
+.collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; cursor: pointer; gap: 10px; min-height: 52px; }
+.collapse-header:active { background: rgba(248,165,184,0.08); }
+.collapse-header h4 { color: var(--pink); font-size: 1rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.collapse-header .chevron { color: var(--text-muted); font-size: 0.9rem; transition: transform 0.3s; }
+.collapse-block.open .chevron { transform: rotate(180deg); }
+.collapse-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border-pink); }
+.collapse-block.open .collapse-body { display: block; }
+.collapse-badge { background: var(--pink); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 4px; }
+
+/* Профиль */
+.profile-card { background: var(--bg-card); border-radius: 20px; padding: 16px; border: 2px solid var(--border-pink); margin-bottom: 14px; display: flex; gap: 14px; align-items: center; }
+.profile-avatar-big { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
+.profile-info-block { flex: 1; min-width: 0; }
+.profile-info-block h3 { color: var(--text-light); font-size: 1.15rem; margin-bottom: 2px; }
+.profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.8rem; }
+.avatar-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.avatar-option { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border-pink); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
+.avatar-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.2); }
+.nickname-row { display: flex; gap: 8px; flex-direction: column; }
+.nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; min-height: 48px; }
+.nickname-row button { width: 100%; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 48px; }
+
+/* Список админов */
+.admins-picker { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; transition: all 0.2s; cursor: pointer; position: relative; }
+.admin-pick-card:active { transform: scale(0.98); }
+.admin-pick-card.selected { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink); }
+.admin-pick-card.resting { opacity: 0.6; cursor: not-allowed; border-color: var(--yellow); }
+.admin-pick-card.resting::after { content: '😴'; position: absolute; top: 8px; right: 8px; background: rgba(251,197,49,0.9); color: #333; padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; }
+.admin-pick-card .pick-header { display: flex; align-items: center; gap: 10px; }
+.admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.95rem; flex-shrink: 0; }
+.admin-pick-card .pick-info { min-width: 0; flex: 1; }
+.admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
+.admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
+
+/* Чат */
+.user-dialog-block { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--border-pink); }
+.user-dialog-block.hidden { display: none; }
+.user-dialog-title { color: var(--pink); font-size: 1rem; margin-bottom: 10px; font-weight: 700; }
+.chat-container { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-pink); }
+.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 12px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 0.9rem; }
+.chat-header-left { display: flex; align-items: center; gap: 8px; }
+.chat-header .status-dot { background: var(--green); width: 8px; height: 8px; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.finish-btn { background: rgba(255,255,255,0.25); color: #fff; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 0.78rem; min-height: 36px; }
+.chat-messages { height: 320px; padding: 14px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--bg-dark); display: flex; flex-direction: column; gap: 10px; }
+.message { max-width: 85%; padding: 10px 14px; border-radius: 18px; word-wrap: break-word; line-height: 1.4; font-size: 0.9rem; }
+.message.user { align-self: flex-end; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border-bottom-right-radius: 5px; }
+.message.bot { align-self: flex-start; background: var(--bg-panel); color: var(--text-light); border-bottom-left-radius: 5px; border: 1px solid var(--border-pink); }
+.message.system { align-self: center; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.8rem; text-align: center; font-weight: 600; }
+.message.closed { align-self: center; background: rgba(232,65,24,0.15); color: var(--red); border: 1px solid var(--red); font-size: 0.85rem; text-align: center; font-weight: 600; }
+.message.waiting { align-self: center; background: rgba(74,158,255,0.12); color: var(--blue); border: 1px dashed var(--blue); font-size: 0.85rem; text-align: center; font-weight: 600; }
+.message .time { font-size: 0.6rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
+.message audio { max-width: 100%; margin-top: 6px; height: 30px; }
+.attachment-photo { display: block; margin-top: 6px; max-width: 200px; border-radius: 10px; overflow: hidden; }
+.attachment-photo img { width: 100%; display: block; }
+.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; flex-wrap: wrap; }
+.chat-input-area input[type="text"] { flex: 1; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 1rem; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 48px; min-width: 0; }
+.chat-input-area input[type="text"]:disabled { opacity: 0.4; }
+.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+.attach-btn:active { background: var(--pink); color: #fff; border-color: var(--pink); }
+.attach-btn.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
+.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 48px; font-size: 1rem; }
+.send-btn:active { transform: scale(0.95); }
+.send-btn:disabled { opacity: 0.4; }
+
+/* Списки */
+.dialogs-list { max-height: 400px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
+.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
+.dialog-item:active { transform: scale(0.99); }
+.dialog-item.banned { opacity: 0.6; border-color: var(--red); }
+.dialog-item.closed { opacity: 0.6; border-color: var(--text-muted); }
+.dialog-item .dialog-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.dialog-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
+.dialog-item .dialog-name { font-weight: 600; color: var(--text-light); font-size: 0.95rem; }
+.dialog-item .dialog-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+.dialog-item .dialog-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.dialog-item .dialog-time { font-size: 0.7rem; color: var(--text-muted); }
+.dialog-item .dialog-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 50px; }
+.dialog-item .dialog-status.online { color: var(--green); background: rgba(76,209,55,0.15); }
+.dialog-item .dialog-status.banned { color: var(--red); background: rgba(232,65,24,0.15); font-weight: 700; }
+.dialog-item .dialog-status.closed { color: var(--text-muted); background: rgba(184,163,196,0.15); font-weight: 700; }
+.dialog-item .dialog-status.waiting { color: var(--blue); background: rgba(74,158,255,0.15); font-weight: 700; }
+.dialog-item .dialog-status.viewer { color: var(--text-muted); background: rgba(184,163,196,0.15); font-size: 0.7rem; padding: 2px 8px; }
+.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--bg-card); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid var(--border-pink); }
+.stat-card .number { font-size: 1.5rem; font-weight: 700; color: var(--pink); }
+.stat-card .label { font-size: 0.75rem; color: var(--text-muted); }
+.user-list { margin-top: 10px; }
+.user-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); flex-wrap: wrap; gap: 8px; }
+.user-item .user-info { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.user-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
+.user-item .user-name { font-weight: 600; color: var(--text-light); font-size: 0.9rem; }
+.user-item .user-status { font-size: 0.78rem; color: var(--text-muted); }
+.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-left: 4px; }
+.user-item .user-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+.user-item .user-actions button:active { background: var(--pink); color: #fff; border-color: var(--pink); }
+.norm-block { background: var(--bg-panel); padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border-pink); }
+.norm-block h4 { color: var(--pink); margin-bottom: 12px; font-size: 1rem; }
+.norm-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-muted); gap: 8px; }
+.norm-row .norm-value { font-weight: 700; color: var(--pink); text-align: right; }
+.norm-bar { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin-top: 4px; margin-bottom: 12px; }
+.norm-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--pink-deep)); }
+.norm-clean-date { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-pink); }
+.add-admin-form { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+.add-admin-form input, .add-admin-form select { padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; width: 100%; min-height: 48px; }
+.add-admin-form .full-width { grid-column: 1 / -1; }
+.reviews-list { max-height: 400px; overflow-y: auto; }
+.review-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border-pink); }
+.review-item .review-head { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+.review-item .review-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
+.review-item .review-stars { color: #ffd700; font-size: 0.9rem; }
+.review-item .review-text { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
+.review-item .review-admin { font-size: 0.72rem; color: var(--pink); margin-top: 4px; }
+.admin-profile-card { text-align: center; padding: 16px 0; border-bottom: 1px dashed var(--border-pink); margin-bottom: 16px; }
+.admin-profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; color: #fff; margin: 0 auto 10px; }
+.admin-profile-name { font-size: 1.2rem; font-weight: 700; color: var(--text-light); }
+.admin-profile-tag { font-size: 0.9rem; color: var(--pink); margin-top: 4px; font-weight: 600; }
+.admin-profile-category { display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-top: 6px; }
+.rest-request-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
+.rest-request-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
+.rest-request-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+.rest-request-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
+.rest-request-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+.rest-request-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
+.rest-request-info { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
+.rest-request-info strong { color: var(--text-light); }
+.rest-request-reason { font-size: 0.85rem; color: var(--text-light); font-style: italic; padding: 8px 12px; background: var(--bg-card); border-radius: 10px; border-left: 3px solid var(--pink); margin: 6px 0; }
+.rest-request-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.rest-request-form { background: var(--bg-panel); padding: 14px; border-radius: 12px; border: 1px solid var(--border-pink); display: flex; flex-direction: column; gap: 10px; }
+.rest-request-form input, .rest-request-form textarea { padding: 10px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; width: 100%; min-height: 44px; }
+.rest-request-form textarea { min-height: 70px; resize: vertical; }
+.rest-request-form label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 3px; }
+.rest-badge { display: inline-block; padding: 3px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
+.report-item { background: var(--bg-panel); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
+.report-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
+.report-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 6px; flex-wrap: wrap; }
+.report-author { font-weight: 700; color: var(--text-light); font-size: 0.85rem; }
+.report-time { font-size: 0.7rem; color: var(--text-muted); }
+.report-text { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px; }
+.report-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.ticket-form { background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 16px; }
+.ticket-form h3 { color: var(--green); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; }
+.ticket-form label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
+.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-panel); color: var(--text-light); font-size: 0.95rem; font-family: inherit; outline: none; margin-bottom: 10px; min-height: 48px; }
+.ticket-form textarea { min-height: 90px; resize: vertical; }
+.ticket-list { display: flex; flex-direction: column; gap: 10px; }
+.ticket-item { background: var(--bg-panel); border: 1px solid var(--border-pink); border-radius: 14px; padding: 14px 16px; }
+.ticket-item.pending { border-color: var(--yellow); }
+.ticket-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+.ticket-item-id { font-weight: 700; color: var(--pink); font-size: 0.8rem; }
+.ticket-item-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+.ticket-item-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
+.ticket-item-title { font-weight: 700; color: var(--text-light); font-size: 0.95rem; margin-bottom: 4px; }
+.ticket-item-category { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid var(--blue); margin-bottom: 6px; }
+.ticket-item-text { color: var(--text-muted); font-size: 0.85rem; }
+.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.ticket-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.ticket-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
+.anketa-block { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 14px; }
+.anketa-block h3 { color: var(--pink); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; border-bottom: 2px dashed var(--border-pink); padding-bottom: 8px; }
+.anketa-question { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 10px; }
+.anketa-question strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.9rem; }
+.anketa-question input, .anketa-question textarea { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; min-height: 44px; }
+.anketa-question textarea { min-height: 80px; resize: vertical; }
+.anketa-options { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.anketa-option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg-card); border: 2px solid var(--border-pink); border-radius: 10px; cursor: pointer; color: var(--text-light); font-size: 0.88rem; min-height: 44px; }
+.anketa-option input[type="radio"] { width: 18px; height: 18px; accent-color: var(--pink); flex-shrink: 0; }
+.anketa-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.15); }
+.anketa-situation { background: rgba(74,158,255,0.08); padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(74,158,255,0.3); margin-bottom: 10px; }
+.anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 4px; font-size: 0.88rem; }
+.anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; padding-left: 10px; border-left: 3px solid var(--blue); }
+
+/* Уведомления */
+.notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; box-shadow: 0 6px 25px rgba(248,165,184,0.5); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
+.notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Модалки */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
+.modal-overlay.active { display: flex; }
+.modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 100%; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
+.close-modal { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; }
+.auth-modal-content { text-align: center; }
+.auth-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
+.auth-modal-content p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; }
+.auth-modal-content input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; margin-bottom: 12px; min-height: 48px; }
+.rating-modal-content { text-align: center; }
+.rating-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
+.rating-modal-content p { color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem; }
+.rating-stars-input { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
+.rating-stars-input .star { font-size: 2.4rem; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 4px; }
+.rating-stars-input .star.active { color: #ffd700; }
+.rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
+
+/* Нижняя навигация */
+.mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 6px 2px calc(6px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
+.nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; padding: 6px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 10px; font-weight: 600; min-height: 50px; transition: all 0.2s; }
+.nav-btn .nav-icon { font-size: 1.3rem; line-height: 1; }
+.nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
+.nav-btn:active { transform: scale(0.95); }
+
+/* Контент с отступом под нижнюю панель */
+#mainContent { padding-bottom: 80px; }
+.panel-section { padding-bottom: 80px; }
+
+/* Кнопка темы */
+.theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+.theme-float:active { transform: scale(0.9); }
+
+/* Модалка для админских настроек */
+.settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+.settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: inherit; min-height: 48px; }
+
+.footer { background: var(--bg-panel); color: var(--text-muted); padding: 24px 0 calc(24px + var(--safe-bottom)); text-align: center; font-size: 0.85rem; margin-top: 20px; border-top: 1px solid var(--border-pink); }
+.footer a { color: var(--pink); text-decoration: none; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<div class="petals-container" id="petalsContainer"></div>
+<div class="notification" id="notification"><span id="notificationIcon">🌸</span><span id="notificationText">Готово!</span></div>
+
+<button class="theme-float" id="themeToggle">🌙</button>
+
+<!-- ШАПКА -->
+<header class="header" id="mainHeader">
+    <h1>🌸 По ту сторону</h1>
+    <p>Помощь и понимание в трудные моменты</p>
+    <div>
+        <button class="btn btn-green" onclick="switchPanel('anketaPanel')" style="margin:4px 2px;">📝 Анкета</button>
+        <button class="btn btn-blue" onclick="switchPanel('supportPanel')" style="margin:4px 2px;">🎫 Техподдержка</button>
+    </div>
+</header>
+
+<!-- ГЛАВНАЯ -->
+<main id="mainContent">
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Что такое бот поддержки?</h2>
+            <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки, в которой каждый сможет найти утешение, тёплые слова, советы и помощь в трудные времена.</p>
+        </div>
+    </section>
+
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Концепция и задачи</h2>
+            <p style="text-align:center;">Основные принципы и задачи бота поддержки — инструмента для решения личных проблем и оказания эмоциональной помощи.</p>
+        </div>
+    </section>
+
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Преимущества</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card"><span class="icon">🕒</span><h3>Доступность</h3><p>Обратитесь за поддержкой в любое время.</p></div>
+                <div class="benefit-card"><span class="icon">🔒</span><h3>Конфиденциальность</h3><p>Ваши данные под защитой.</p></div>
+                <div class="benefit-card"><span class="icon">👨‍⚕️</span><h3>Профессионализм</h3><p>Квалифицированная помощь.</p></div>
+                <div class="benefit-card"><span class="icon">🎯</span><h3>Индивидуально</h3><p>Под ваши потребности.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Как работает бот?</h2>
+            <div class="steps">
+                <div class="step-item"><h4>🔍 Определение проблемы</h4><p>Администратор анализирует эмоциональные трудности пользователя.</p></div>
+                <div class="step-item"><h4>❤️ Эмоциональная поддержка</h4><p>Поддержка и понимание в непростых ситуациях.</p></div>
+                <div class="step-item"><h4>💡 Поиск решений</h4><p>Стратегии и методы для преодоления проблем.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Частые вопросы</h2>
+            <div class="faq-item"><strong>🌸 Для чего предназначен бот?</strong><p>Для оказания помощи в решении различных вопросов и проблем. Он выявляет и анализирует эмоциональные трудности, предлагает поддержку и стратегии для преодоления.</p></div>
+            <div class="faq-item"><strong>🌸 С какими вопросами поможет?</strong><p>С разнообразными вопросами: одиночество, семейные отношения, индивидуальные трудности и другие эмоциональные проблемы.</p></div>
+            <div class="faq-item"><strong>🌸 Какими навыками обладает?</strong><p>Проявляет эмпатию, предлагает инструменты для саморефлексии, обеспечивает безопасность и этику.</p></div>
+        </div>
+    </section>
+
+    <section class="section" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Отзывы</h2>
+            <div class="reviews-grid">
+                <div class="review-card"><p>«Бот поддержки стал для меня настоящим спасением в трудные моменты. Он всегда готов выслушать и поддержать.»</p><div class="author">— Пользователь</div></div>
+                <div class="review-card"><p>«Я очень рад, что нашёл этого бота. Он помог мне разобраться в сложных ситуациях и найти правильные решения.»</p><div class="author">— Пользователь</div></div>
+                <div class="review-card"><p>«Бот поддержки — это не просто программа, это настоящий друг, который всегда рядом. Спасибо за вашу работу!»</p><div class="author">— Пользователь</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contacts" style="margin:14px 12px;">
+        <div class="container">
+            <h2>Контакты</h2>
+            <p>Вы можете связаться с нами по юзернейм бота или написать в тгк.</p>
+            <a href="#" class="btn" onclick="showNotification('🌸 Telegram...', '📱'); return false;">📱 Написать в Telegram</a>
+            <a href="#" class="btn btn-outline" onclick="showNotification('🌸 Скопировано!', '📋'); return false;">@support_bot</a>
+        </div>
+    </section>
+</main>
+
+<!-- АНКЕТА -->
+<section class="panel-section" id="anketaPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>📝 Анкета</h3>
+            <span class="role-badge support">Анкета</span>
+        </div>
+        <div class="anketa-block">
+            <h3>БЛОК 1. ОСНОВНАЯ ИНФОРМАЦИЯ</h3>
+            <div class="anketa-question"><strong>1. Имя:</strong><input type="text" id="anketaName"></div>
+            <div class="anketa-question"><strong>2. Ваш тег:</strong><input type="text" id="anketaTag" placeholder="ваш_тег"></div>
+            <div class="anketa-question"><strong>3. Возраст:</strong><input type="number" id="anketaAge"></div>
+            <div class="anketa-question">
+                <strong>4. Опыт работы?</strong>
+                <div class="anketa-options">
+                    <label class="anketa-option"><input type="radio" name="anketaExp" value="Нет" onchange="selectRadio(this)"> Нет</label>
+                    <label class="anketa-option"><input type="radio" name="anketaExp" value="Да" onchange="selectRadio(this)"> Да</label>
+                </div>
+                <textarea id="anketaExpDetails" placeholder="Кратко" style="margin-top:8px;"></textarea>
+            </div>
+            <div class="anketa-question">
+                <strong>5. Долговременно?</strong>
+                <div class="anketa-options">
+                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Да" onchange="selectRadio(this)"> Да</label>
+                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Временно" onchange="selectRadio(this)"> Временно</label>
+                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Не знаю" onchange="selectRadio(this)"> Не знаю</label>
+                </div>
+            </div>
+            <div class="anketa-question"><strong>6. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
+            <div class="anketa-question"><strong>7. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
+        </div>
+        <div class="anketa-block">
+            <h3>БЛОК 2. ПСИХОФИЛЬТР</h3>
+            <div class="anketa-situation"><div class="anketa-situation-title">Собеседник:</div><div class="anketa-situation-text">— Я ничтожество, зачем пишу сюда.</div></div>
+            <div class="anketa-question"><strong>1. Интуитивное:</strong><textarea id="anketaPsy1"></textarea></div>
+            <div class="anketa-question"><strong>2. Противоположное:</strong><textarea id="anketaPsy2"></textarea></div>
+            <div class="anketa-question"><strong>3. Реальное:</strong><textarea id="anketaPsy3"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Задача:</div><div class="anketa-situation-text">Мужчина 40+: «Жена наскучила, дети не радуют».</div></div>
+            <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:110px;"></textarea></div>
+        </div>
+        <div class="anketa-block">
+            <h3>БЛОК 3. НАДЁЖНОСТЬ</h3>
+            <div class="anketa-question"><strong>1. Триггер ухода:</strong><textarea id="anketaTrigger"></textarea></div>
+            <div class="anketa-question">
+                <strong>2. Если жизнь изменится:</strong>
+                <div class="anketa-options">
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="А" onchange="selectRadio(this)"> А) Предупредите</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="Б" onchange="selectRadio(this)"> Б) Сократите</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="В" onchange="selectRadio(this)"> В) Исчезнете</label>
+                </div>
+                <textarea id="anketaCrisisWhy" placeholder="Почему" style="margin-top:8px;"></textarea>
+            </div>
+            <div class="anketa-question"><strong>3. Мотивация:</strong><textarea id="anketaMotivation"></textarea></div>
+        </div>
+        <div class="anketa-block">
+            <h3>БЛОК 5. СИТУАЦИИ</h3>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко..</div></div>
+            <div class="anketa-question"><textarea id="anketaSit1" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">— Привет. Я первый раз пишу...</div></div>
+            <div class="anketa-question"><textarea id="anketaSit2" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">— Привет! Проблема... селфхарм...</div></div>
+            <div class="anketa-question"><textarea id="anketaSit3" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">— Здравствуйте.. Травля...</div></div>
+            <div class="anketa-question"><textarea id="anketaSit4" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">— привет. я лесбиянка...</div></div>
+            <div class="anketa-question"><textarea id="anketaSit5" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">— привет, бывший парень украл кошку...</div></div>
+            <div class="anketa-question"><textarea id="anketaSit6" style="min-height:120px;"></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <button class="btn btn-green btn-full" onclick="saveAnketa()">💾 Сохранить</button>
+            <button class="btn btn-blue btn-full" onclick="copyAnketaFilled()">📋 Скопировать</button>
+            <button class="btn btn-outline btn-full" onclick="clearAnketa()">🗑️ Очистить</button>
+        </div>
+    </div>
+</section>
+
+<!-- ТЕХПОДДЕРЖКА -->
+<section class="panel-section" id="supportPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>🎫 Техподдержка</h3>
+            <span class="role-badge support">Тикеты</span>
+        </div>
+        <div class="ticket-form">
+            <h3>➕ Создать тикет</h3>
+            <label>Имя:</label>
+            <input type="text" id="ticketName">
+            <label>Контакт:</label>
+            <input type="text" id="ticketContact" placeholder="#тег">
+            <label>Категория:</label>
+            <select id="ticketCategory">
+                <option value="">— Категория —</option>
+                <option value="Техническая проблема">🔧 Техническая проблема</option>
+                <option value="Ошибка">🐛 Ошибка</option>
+                <option value="Жалоба на админа">⚠️ Жалоба на админа</option>
+                <option value="Жалоба на пользователя">🚫 Жалоба на пользователя</option>
+                <option value="Предложение">💡 Предложение</option>
+                <option value="Другое">📝 Другое</option>
+            </select>
+            <label>Тема:</label>
+            <input type="text" id="ticketSubject">
+            <label>Описание:</label>
+            <textarea id="ticketDescription"></textarea>
+            <button class="btn btn-green btn-full" onclick="createTicket()">🎫 Отправить</button>
+        </div>
+        <h4 style="color:var(--green);margin:16px 0 8px;font-size:1rem;">📋 Мои тикеты</h4>
+        <div class="ticket-list" id="ticketList"><div class="ticket-empty">🎫 Нет тикетов</div></div>
+    </div>
+</section>
+
+<!-- ПОЛЬЗОВАТЕЛЬ -->
+<section class="panel-section" id="userPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>💬 Чат поддержки</h3>
+            <span class="role-badge user">Пользователь</span>
+        </div>
+        <div class="profile-card">
+            <div class="profile-avatar-big" id="profileAvatarBig" onclick="toggleAvatarPicker()">😊</div>
+            <div class="profile-info-block">
+                <h3 id="profileNicknameDisplay">Аноним</h3>
+                <div class="profile-username-line">Нажмите на аватар</div>
+                <div class="avatar-picker" id="avatarPicker" style="display:none;"></div>
+            </div>
+        </div>
+        <div class="nickname-row" style="margin-bottom:14px;">
+            <input type="text" id="nicknameInput" placeholder="Ваш псевдоним..." maxlength="30">
+            <button onclick="saveNickname()">💾 Сохранить</button>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>👥 Выбрать администратора</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="admins-picker" id="adminsPicker"></div>
+            </div>
+        </div>
+        <div class="user-dialog-block hidden" id="userDialogBlock">
+            <div class="user-dialog-title">💬 Диалог с <span id="chatWithName">—</span></div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-header-left">
+                        <span class="status-dot"></span> <span id="chatWithNameHeader">—</span> 🌸
+                    </div>
+                    <button class="finish-btn" onclick="finishDialog()" id="finishBtnUser">✅ Завершить</button>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input-area">
+                    <button class="attach-btn" onclick="attachPhoto()">📷</button>
+                    <button class="attach-btn" onclick="attachFile()">📎</button>
+                    <button class="attach-btn" id="voiceBtnUser" onclick="toggleVoiceRecord()">🎤</button>
+                    <input type="text" id="chatInput" placeholder="Сообщение..." autocomplete="off">
+                    <button class="send-btn" id="sendBtn">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- МОДЕРАТОР -->
+<section class="panel-section" id="moderatorPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>🛡️ Модератор</h3>
+            <span class="role-badge moderator">Модератор</span>
+        </div>
+        <div class="stats">
+            <div class="stat-card"><div class="number" id="modStatDialogs">0</div><div class="label">Диалогов</div></div>
+            <div class="stat-card"><div class="number" id="modStatBanned">0</div><div class="label">Забанено</div></div>
+            <div class="stat-card"><div class="number" id="modStatWarns">0</div><div class="label">Варнов</div></div>
+            <div class="stat-card"><div class="number" id="modStatReports">0</div><div class="label">Жалоб</div></div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>💬 Диалоги под наблюдением</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:10px;">👁️ Только просмотр</p>
+                <input type="text" id="modSearchInput" placeholder="🔍 Поиск..." oninput="searchModDialogs(this.value)" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.9rem;outline:none;margin-bottom:10px;min-height:44px;">
+                <div class="dialogs-list" id="moderatorDialogsList"></div>
+            </div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>🚨 Активные жалобы <span class="collapse-badge" id="modReportsBadge">0</span></h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div id="moderatorReportsList"><div class="empty-state">🚨 Нет жалоб</div></div>
+            </div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>⚠️ Нарушители</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="user-list" id="moderatorViolatorsList"><div class="empty-state">👮 Нет нарушителей</div></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>📊 Моя активность</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="norm-block">
+                    <div class="norm-row"><span>Проверено диалогов:</span><span class="norm-value" id="modChecked">0</span></div>
+                    <div class="norm-row"><span>Жалоб обработано:</span><span class="norm-value" id="modReportsHandled">0</span></div>
+                    <div class="norm-row"><span>Варнов выдано:</span><span class="norm-value" id="modWarnsIssued">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- АДМИН -->
+<section class="panel-section" id="adminPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>💼 Админ</h3>
+            <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
+                <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
+                <span id="adminRatingMini" style="color:#ffd700;font-size:0.8rem;">☆☆☆☆☆</span>
+            </div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>💬 Активные диалоги <span class="collapse-badge" id="adminDialogsCount">0</span></h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="dialogs-list" id="dialogsList"></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>💬 Отзывы обо мне</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div id="adminReviewsList" class="reviews-list"><div class="empty-state">💬 Нет отзывов</div></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>🎯 Моя норма</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="norm-block">
+                    <h4>📊 Прогресс за сегодня</h4>
+                    <div class="norm-row"><span>Сообщений:</span><span class="norm-value" id="adminNormMsgText">0 / 0</span></div>
+                    <div class="norm-bar"><div class="norm-bar-fill" id="adminNormMsgBar" style="width:0%"></div></div>
+                    <div class="norm-row"><span>Пользователей:</span><span class="norm-value" id="adminNormUserText">0 / 0</span></div>
+                    <div class="norm-bar"><div class="norm-bar-fill" id="adminNormUserBar" style="width:0%"></div></div>
+                    <div class="norm-clean-date" id="adminNormCleanDate">🌸 Норма сброшена сегодня</div>
+                </div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>😴 Заявка на рест</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div style="display:flex;justify-content:space-between;padding:8px 0;margin-bottom:10px;">
+                    <label style="color:var(--text-muted);font-size:0.88rem;">Статус:</label>
+                    <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.88rem;">🟢 Работаю</span>
+                </div>
+                <div id="adminRestRequestFormWrap">
+                    <div class="rest-request-form">
+                        <div><label>Дата начала:</label><input type="text" id="restDateFrom" placeholder="15.01.2025"></div>
+                        <div><label>До какого:</label><input type="text" id="restDateTo" placeholder="20.01.2025"></div>
+                        <div><label>Причина:</label><textarea id="restReason" placeholder="Причина"></textarea></div>
+                        <button class="btn btn-yellow btn-full" onclick="submitRestRequest()">📩 Отправить</button>
+                    </div>
+                </div>
+                <div id="adminRestRequestInfo" style="display:none;margin-top:10px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ВЛАДЕЛЕЦ -->
+<section class="panel-section" id="ownerPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <h3>👑 Владелец</h3>
+            <span class="role-badge owner">Владелец</span>
+        </div>
+        <div class="stats">
+            <div class="stat-card"><div class="number" id="ownerActiveDialogs">0</div><div class="label">Диалогов</div></div>
+            <div class="stat-card"><div class="number" id="adminsCount">0</div><div class="label">Админов</div></div>
+            <div class="stat-card"><div class="number" id="ownerTicketsCount">0</div><div class="label">Тикетов</div></div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>⚠️ Жалобы <span class="collapse-badge" id="ownerReportsBadge">0</span></h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div id="ownerReportsList"><div class="empty-state">⚠️ Нет жалоб</div></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>🎫 Тикеты <span class="collapse-badge" id="ownerTicketsBadge">0</span></h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="ticket-list" id="ownerTicketList"><div class="ticket-empty">🎫 Нет тикетов</div></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>📩 Заявки на рест <span class="collapse-badge" id="ownerRestBadge">0</span></h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div id="ownerRestRequestsList"><div class="empty-state">📩 Нет заявок</div></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>⭐ Отзывы всех админов</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div id="ownerReviewsList" class="reviews-list"><div class="empty-state">💬 Нет отзывов</div></div>
+            </div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>👥 Список администраторов</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="user-list" id="adminsList"></div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>➕ Добавить администратора</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="add-admin-form">
+                    <input type="text" id="newAdminName" placeholder="Имя">
+                    <input type="text" id="newAdminUsername" placeholder="username (без #)">
+                    <select id="newAdminCategory">
+                        <option value="">— Категория —</option>
+                        <option value="Главный администратор">👑 Главный администратор</option>
+                        <option value="Модератор">🛡️ Модератор</option>
+                        <option value="Психолог">🧠 Психолог</option>
+                        <option value="Специалист поддержки">💬 Специалист поддержки</option>
+                        <option value="Консультант">💡 Консультант</option>
+                        <option value="Технический специалист">⚙️ Технический специалист</option>
+                    </select>
+                    <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
+                    <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
+                </div>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>🎯 Норма администраторов</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <label style="color:var(--text-muted);font-size:0.85rem;">Сообщений/день:</label>
+                <input type="number" id="normMessagesInput" value="300" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:10px;min-height:44px;">
+                <label style="color:var(--text-muted);font-size:0.85rem;">Пользователей/день:</label>
+                <input type="number" id="normUsersInput" value="3" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:12px;min-height:44px;">
+                <button class="btn btn-full" onclick="saveNorm()">💾 Сохранить</button>
+            </div>
+        </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>💬 Все диалоги (просмотр)</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <div class="dialogs-list" id="ownerDialogsList"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- МОДАЛКА АВТОРИЗАЦИИ -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-card" style="max-width:100%;">
+        <button class="close-modal" onclick="closeAuthModal()">✕</button>
+        <div class="auth-modal-content">
+            <h3 id="authTitle">🌸 Вход</h3>
+            <p id="authSubtitle">Введите данные</p>
+            <div id="authTagField" style="display:none;">
+                <input type="text" id="authTag" placeholder="Тег (например: admin_sakura)">
+            </div>
+            <input type="password" id="authPassword" placeholder="Пароль">
+            <button class="btn btn-full" onclick="submitAuth()">Войти</button>
+        </div>
+    </div>
+</div>
+
+<!-- МОДАЛКА ПРОФИЛЯ АДМИНА -->
+<div class="modal-overlay" id="adminProfileModal">
+    <div class="modal-card" style="max-width:100%;">
+        <button class="close-modal" onclick="closeAdminProfile()">✕</button>
+        <div id="adminProfileContent"></div>
+    </div>
+</div>
+
+<!-- МОДАЛКА НАСТРОЕК ВХОДА -->
+<div class="modal-overlay" id="adminSettingsModal">
+    <div class="modal-card" style="max-width:100%;">
+        <button class="close-modal" onclick="closeAdminSettings()">✕</button>
+        <h3 style="color:var(--text-light);text-align:center;margin-bottom:16px;font-size:1.3rem;">⚙️ Настройки входа</h3>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.85rem;">Тег и пароль для <strong id="settingsAdminName" style="color:var(--pink);">—</strong></p>
+        <label class="settings-label">Тег (без #):</label>
+        <input type="text" id="settingsTag" placeholder="admin_sakura" class="settings-input">
+        <label class="settings-label">Новый пароль:</label>
+        <input type="text" id="settingsPassword" placeholder="Оставьте пустым" class="settings-input">
+        <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" style="flex:1;" onclick="closeAdminSettings()">Отмена</button>
+            <button class="btn" style="flex:1;" onclick="saveAdminSettings()">💾 Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<!-- МОДАЛКА ОЦЕНКИ -->
+<div class="modal-overlay" id="ratingModal">
+    <div class="modal-card" style="max-width:100%;">
+        <div class="rating-modal-content">
+            <h3>🌸 Оцените диалог</h3>
+            <p>Оценка и отзыв обязательны</p>
+            <div class="rating-stars-input" id="ratingStarsInput">
+                <button class="star" data-value="1" onclick="setRating(1)">★</button>
+                <button class="star" data-value="2" onclick="setRating(2)">★</button>
+                <button class="star" data-value="3" onclick="setRating(3)">★</button>
+                <button class="star" data-value="4" onclick="setRating(4)">★</button>
+                <button class="star" data-value="5" onclick="setRating(5)">★</button>
+            </div>
+            <textarea id="reviewText" placeholder="Напишите отзыв..."></textarea>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline" style="flex:1;" onclick="closeRatingModal()">Отмена</button>
+                <button class="btn" style="flex:1;" onclick="submitRating()">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- МОДАЛКА ФОТО -->
+<div class="modal-overlay" id="photoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <img id="photoModalImg" src="" style="max-width:95vw;max-height:95vh;border-radius:12px;">
+</div>
+
+<!-- НИЖНЯЯ НАВИГАЦИЯ -->
+<nav class="mobile-nav">
+    <button class="nav-btn active-role" id="navHome">
+        <span class="nav-icon">🏠</span>
+        <span>Главная</span>
+    </button>
+    <button class="nav-btn" id="navUser">
+        <span class="nav-icon">👤</span>
+        <span>Пользователь</span>
+    </button>
+    <button class="nav-btn" id="navModerator">
+        <span class="nav-icon">🛡️</span>
+        <span>Модератор</span>
+    </button>
+    <button class="nav-btn" id="navAdmin">
+        <span class="nav-icon">💼</span>
+        <span>Админ</span>
+    </button>
+    <button class="nav-btn" id="navOwner">
+        <span class="nav-icon">👑</span>
+        <span>Владелец</span>
+    </button>
+</nav>
+
+<footer class="footer">
+    <p>🌸 По ту сторону — сделано с любовью 🌸</p>
+</footer>
+
+<script>
+// ============================================================
+// ХРАНИЛИЩА
+// ============================================================
+let tickets = [];
+let realDialogs = [];
+let adminsData = [
+    { name: 'admin_sakura', username: '#admin_sakura', initials: 'А1', category: 'Главный администратор' },
+    { name: 'mod_hanami', username: '#mod_hanami', initials: 'А2', category: 'Модератор' },
+    { name: 'psy_yuki', username: '#psy_yuki', initials: 'А3', category: 'Психолог' }
+];
+let userAdminData = [
+    { id: 'admin_sakura', name: 'admin_sakura', initials: 'А1', category: 'Главный администратор' },
+    { id: 'mod_hanami', name: 'mod_hanami', initials: 'А2', category: 'Модератор' },
+    { id: 'support_kei', name: 'support_kei', initials: 'А3', category: 'Специалист поддержки' },
+    { id: 'psy_yuki', name: 'psy_yuki', initials: 'А4', category: 'Психолог' }
+];
+let adminRests = {};
+let restRequests = [];
+let reports = [];
+let adminReviews = [];
+let userProfile = { nickname: '', avatar: '😊', since: Date.now() };
+let userRecentMessages = [];
+let moderatorStats = { checked: 0, reportsHandled: 0, warnsIssued: 0 };
+let adminNorm = { messages: 300, users: 3 };
+
+const AUTH = {
+    admin: { tag: '#admin_sakura', password: 'admin123', category: 'Главный администратор' },
+    moderator: { tag: '#mod_hanami', password: 'mod123', category: 'Модератор' },
+    owner: { password: 'owner123' }
+};
+
+try {
+    const sT = localStorage.getItem('sakura-tickets'); if (sT) tickets = JSON.parse(sT);
+    const sD = localStorage.getItem('sakura-real-dialogs'); if (sD) realDialogs = JSON.parse(sD);
+    const sA = localStorage.getItem('sakura-admins'); if (sA) adminsData = JSON.parse(sA);
+    const sUA = localStorage.getItem('sakura-user-admins'); if (sUA) userAdminData = JSON.parse(sUA);
+    const sR = localStorage.getItem('sakura-admin-rests'); if (sR) adminRests = JSON.parse(sR);
+    const sRR = localStorage.getItem('sakura-rest-requests'); if (sRR) restRequests = JSON.parse(sRR);
+    const sRep = localStorage.getItem('sakura-reports'); if (sRep) reports = JSON.parse(sRep);
+    const sRv = localStorage.getItem('sakura-admin-reviews'); if (sRv) adminReviews = JSON.parse(sRv);
+    const sProf = localStorage.getItem('sakura-profile'); if (sProf) userProfile = JSON.parse(sProf);
+    const sMod = localStorage.getItem('sakura-mod-stats'); if (sMod) moderatorStats = JSON.parse(sMod);
+    const sN = localStorage.getItem('sakura-norm'); if (sN) adminNorm = JSON.parse(sN);
+    const sAuth = localStorage.getItem('sakura-auth'); 
+    if (sAuth) { Object.assign(AUTH, JSON.parse(sAuth)); }
+} catch(e) {}
+
+const saveTickets = () => { try { localStorage.setItem('sakura-tickets', JSON.stringify(tickets)); } catch(e) {} };
+const saveDialogs = () => { try { localStorage.setItem('sakura-real-dialogs', JSON.stringify(realDialogs)); } catch(e) {} };
+const saveAdmins = () => { try { localStorage.setItem('sakura-admins', JSON.stringify(adminsData)); } catch(e) {} };
+const saveUserAdmins = () => { try { localStorage.setItem('sakura-user-admins', JSON.stringify(userAdminData)); } catch(e) {} };
+const saveRests = () => { try { localStorage.setItem('sakura-admin-rests', JSON.stringify(adminRests)); } catch(e) {} };
+const saveRestReqs = () => { try { localStorage.setItem('sakura-rest-requests', JSON.stringify(restRequests)); } catch(e) {} };
+const saveReports = () => { try { localStorage.setItem('sakura-reports', JSON.stringify(reports)); } catch(e) {} };
+const saveReviews = () => { try { localStorage.setItem('sakura-admin-reviews', JSON.stringify(adminReviews)); } catch(e) {} };
+const saveProfile = () => { try { localStorage.setItem('sakura-profile', JSON.stringify(userProfile)); } catch(e) {} };
+const saveModStats = () => { try { localStorage.setItem('sakura-mod-stats', JSON.stringify(moderatorStats)); } catch(e) {} };
+const saveNorm = () => { try { localStorage.setItem('sakura-norm', JSON.stringify(adminNorm)); } catch(e) {} };
+const saveAuth = () => { try { localStorage.setItem('sakura-auth', JSON.stringify(AUTH)); } catch(e) {} };
+
+function toggleCollapse(header) {
+    header.closest('.collapse-block').classList.toggle('open');
+}
+
+// ============================================================
+// НОРМА
+// ============================================================
+function saveNormSettings() {
+    const m = parseInt(document.getElementById('normMessagesInput').value) || 300;
+    const u = parseInt(document.getElementById('normUsersInput').value) || 3;
+    adminNorm = { messages: m, users: u };
+    saveNorm();
+    showNotification(`Норма: ${m}/${u}`, '✅');
+    renderAdminsList();
+    renderAdminNorm();
+}
+
+function loadNorm() {
+    const mi = document.getElementById('normMessagesInput');
+    const ui = document.getElementById('normUsersInput');
+    if (mi) mi.value = adminNorm.messages;
+    if (ui) ui.value = adminNorm.users;
+}
+
+function renderAdminNorm() {
+    if (!currentAuth.tag) return;
+    const myDialogs = realDialogs.filter(d => d.adminName === currentAuth.tag.replace('#',''));
+    let msgCount = 0;
+    const userSet = new Set();
+    myDialogs.forEach(d => {
+        d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; });
+        userSet.add(d.userNickname);
+    });
+    const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
+    const userPct = Math.min(100, Math.round(userSet.size / adminNorm.users * 100));
+    const mt = document.getElementById('adminNormMsgText');
+    const mb = document.getElementById('adminNormMsgBar');
+    const ut = document.getElementById('adminNormUserText');
+    const ub = document.getElementById('adminNormUserBar');
+    if (mt) mt.textContent = `${msgCount} / ${adminNorm.messages}`;
+    if (mb) mb.style.width = msgPct + '%';
+    if (ut) ut.textContent = `${userSet.size} / ${adminNorm.users}`;
+    if (ub) ub.style.width = userPct + '%';
+}
+
+// ============================================================
+// МОДЕРАЦИЯ
+// ============================================================
+const personalInfoPatterns = [
+    /\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i,
+    /\bмне\s+\d{1,2}\b/i,
+    /\bвозраст\s*[:\-]?\s*\d{1,2}\b/i,
+    /\b(?:город|г\.)\s*[:\-]?\s*[А-ЯЁ][а-яё\-]+/i,
+    /\bживу\s+в\s+[А-ЯЁ][а-яё\-]+/i,
+    /\b\+?\d[\d\s\-\(\)]{8,}\b/,
+    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/
+];
+
+function containsPersonalInfo(t) { return personalInfoPatterns.some(p => p.test(t)); }
+
+let spamTracker = {};
+function isSpam(text, userId) {
+    if (text.length > 500) return { spam: true, reason: 'Слишком длинное' };
+    if (/(.)\1{6,}/.test(text)) return { spam: true, reason: 'Много повторов' };
+    if (text.length > 20 && text === text.toUpperCase() && /[А-ЯЁA-Z]/.test(text)) return { spam: true, reason: 'Не пишите капсом' };
+    const now = Date.now();
+    if (!spamTracker[userId]) spamTracker[userId] = [];
+    spamTracker[userId] = spamTracker[userId].filter(t => now - t.time < 10000);
+    const dup = spamTracker[userId].filter(t => t.text === text).length;
+    if (dup >= 2) return { spam: true, reason: 'Не флудите' };
+    spamTracker[userId].push({ text, time: now });
+    if (spamTracker[userId].length > 5) return { spam: true, reason: 'Слишком часто' };
+    return { spam: false };
+}
+
+function moderateMessage(text, userId) {
+    if (containsPersonalInfo(text)) return { blocked: true, reason: '🚫 Запрещена личная информация' };
+    const s = isSpam(text, userId);
+    if (s.spam) return { blocked: true, reason: `🚫 ${s.reason}` };
+    return { blocked: false };
+}
+
+function autoWarnOrBan(dialog) {
+    dialog.warns = (dialog.warns || 0) + 1;
+    if (dialog.warns >= 3) {
+        dialog.banned = true;
+        dialog.closed = true;
+        showNotification('🚫 Забанен (3/3)', '🚫');
+        return true;
+    }
+    showNotification(`⚠️ Варн ${dialog.warns}/3`, '⚠️');
+    return false;
+}
+
+// ============================================================
+// АВТОРИЗАЦИЯ
+// ============================================================
+let currentAuth = { role: null, tag: null, category: null };
+let pendingAuthRole = null;
+let selectedAdminId = null;
+let currentDialogId = null;
+let dialogClosed = false;
+let currentRating = 0;
+
+function openAuthModal(role) {
+    pendingAuthRole = role;
+    document.getElementById('authTag').value = '';
+    document.getElementById('authPassword').value = '';
+    if (role === 'admin') {
+        document.getElementById('authTitle').textContent = '💼 Вход для админа';
+        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
+        document.getElementById('authTagField').style.display = 'block';
+    } else if (role === 'moderator') {
+        document.getElementById('authTitle').textContent = '🛡️ Вход для модератора';
+        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
+        document.getElementById('authTagField').style.display = 'block';
+    } else {
+        document.getElementById('authTitle').textContent = '👑 Вход для владельца';
+        document.getElementById('authSubtitle').textContent = 'Введите пароль';
+        document.getElementById('authTagField').style.display = 'none';
+    }
+    document.getElementById('authModal').classList.add('active');
+}
+
+function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('active');
+    pendingAuthRole = null;
+}
+
+function submitAuth() {
+    const role = pendingAuthRole;
+    if (!role) return;
+    const password = document.getElementById('authPassword').value;
+    let tag = role === 'owner' ? null : document.getElementById('authTag').value.trim();
+    if (tag && !tag.startsWith('#')) tag = '#' + tag;
+
+    if (role === 'owner') {
+        if (password === AUTH.owner.password) {
+            currentAuth = { role: 'owner', tag: null, category: null };
+            closeAuthModal(); switchPanel('ownerPanel');
+            showNotification('🌸 Добро пожаловать!', '✅');
+        } else showNotification('❌ Неверный пароль', '❌');
+        return;
+    }
+    if (role === 'admin') {
+        if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
+            currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
+            closeAuthModal();
+            document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
+            switchPanel('adminPanel');
+            renderAdminRestRequest();
+            renderAdminReviews();
+            updateAdminRatingMini();
+            renderAdminNorm();
+            showNotification(`🌸 Добро пожаловать!`, '✅');
+        } else showNotification('❌ Неверный тег или пароль', '❌');
+        return;
+    }
+    if (role === 'moderator') {
+        if (tag === AUTH.moderator.tag && password === AUTH.moderator.password) {
+            currentAuth = { role: 'moderator', tag: AUTH.moderator.tag, category: AUTH.moderator.category };
+            closeAuthModal(); switchPanel('moderatorPanel');
+            showNotification(`🌸 Добро пожаловать!`, '✅');
+        } else showNotification('❌ Неверный тег или пароль', '❌');
+    }
+}
+
+// ============================================================
+// ПРОФИЛЬ АДМИНА
+// ============================================================
+function openAdminProfile() {
+    if (currentAuth.tag) showAdminReviewsByTag(currentAuth.tag);
+}
+function closeAdminProfile() {
+    document.getElementById('adminProfileModal').classList.remove('active');
+}
+function updateAdminRatingMini() {
+    const tag = currentAuth.tag;
+    if (!tag) return;
+    const reviews = adminReviews.filter(r => r.adminName === tag);
+    const avg = reviews.length > 0 ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
+    const el = document.getElementById('adminRatingMini');
+    if (el) el.textContent = `${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))} (${avg})`;
+}
+
+// ============================================================
+// НАСТРОЙКИ ВХОДА
+// ============================================================
+let settingsAdminIndex = -1;
+function openAdminSettings(idx) {
+    if (idx < 0 || idx >= adminsData.length) return;
+    settingsAdminIndex = idx;
+    const a = adminsData[idx];
+    document.getElementById('settingsAdminName').textContent = a.name;
+    document.getElementById('settingsTag').value = a.username.replace('#', '');
+    document.getElementById('settingsPassword').value = '';
+    document.getElementById('adminSettingsModal').classList.add('active');
+}
+function closeAdminSettings() {
+    document.getElementById('adminSettingsModal').classList.remove('active');
+    settingsAdminIndex = -1;
+}
+function saveAdminSettings() {
+    if (settingsAdminIndex < 0 || settingsAdminIndex >= adminsData.length) return;
+    const a = adminsData[settingsAdminIndex];
+    const newTag = document.getElementById('settingsTag').value.trim();
+    const newPassword = document.getElementById('settingsPassword').value.trim();
+    if (!newTag) { showNotification('⚠️ Введите тег', '⚠️'); return; }
+    const fullTag = newTag.startsWith('#') ? newTag : '#' + newTag;
+    const existing = adminsData.find((ad, i) => i !== settingsAdminIndex && ad.username === fullTag);
+    if (existing) { showNotification('⚠️ Тег занят', '⚠️'); return; }
+    const oldTag = a.username;
+    a.username = fullTag;
+    saveAdmins();
+    if (a.name === 'admin_sakura' || oldTag === AUTH.admin.tag) {
+        AUTH.admin.tag = fullTag;
+        if (newPassword) AUTH.admin.password = newPassword;
+    }
+    if (a.name === 'mod_hanami' || oldTag === AUTH.moderator.tag) {
+        AUTH.moderator.tag = fullTag;
+        if (newPassword) AUTH.moderator.password = newPassword;
+    }
+    saveAuth();
+    if (currentAuth.tag === oldTag) {
+        currentAuth.tag = fullTag;
+        const el = document.getElementById('adminTagDisplay');
+        if (el) el.textContent = fullTag;
+    }
+    closeAdminSettings();
+    renderAdminsList();
+    showNotification(`✅ Сохранено`, '✅');
+}
+
+// ============================================================
+// ПЕРЕКЛЮЧЕНИЕ ПАНЕЛЕЙ
+// ============================================================
+function switchPanel(panelId) {
+    ['mainContent', 'mainHeader'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    ['userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+    });
+    if (panelId === 'mainContent') {
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('mainHeader').style.display = 'block';
+    } else {
+        document.getElementById(panelId).classList.add('active');
+    }
+    // Обновляем нижнюю навигацию
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-role'));
+    if (panelId === 'mainContent') document.getElementById('navHome').classList.add('active-role');
+    if (panelId === 'userPanel') document.getElementById('navUser').classList.add('active-role');
+    if (panelId === 'moderatorPanel') document.getElementById('navModerator').classList.add('active-role');
+    if (panelId === 'adminPanel') document.getElementById('navAdmin').classList.add('active-role');
+    if (panelId === 'ownerPanel') document.getElementById('navOwner').classList.add('active-role');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (panelId === 'supportPanel') renderTickets();
+    if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminRestRequest(); renderAdminReviews(); updateAdminRatingMini(); renderAdminNorm(); }
+    if (panelId === 'moderatorPanel') { renderModeratorDialogs(); renderModeratorViolators(); renderModeratorReports(); renderModeratorActivity(); }
+    if (panelId === 'ownerPanel') { renderOwnerReports(); renderAdminsList(); renderOwnerRestRequests(); renderOwnerDialogs(); renderOwnerTickets(); renderOwnerReviews(); loadNorm(); }
+    if (panelId === 'anketaPanel') loadAnketa();
+    if (panelId === 'userPanel') { renderProfile(); renderAdminsPicker(); }
+}
+
+// ============================================================
+// ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
+// ============================================================
+const AVATARS = ['😊','🌸','🌺','🌷','🌻','🦋','🐱','🐶','🦊','🐼','🦄','🐧','🐰','🐨','🌙','⭐','☀️','🍀','💎','👑'];
+
+function toggleAvatarPicker() {
+    const p = document.getElementById('avatarPicker');
+    if (p.style.display === 'none') {
+        p.innerHTML = '';
+        AVATARS.forEach(av => {
+            const d = document.createElement('div');
+            d.className = 'avatar-option' + (userProfile.avatar === av ? ' selected' : '');
+            d.textContent = av;
+            d.onclick = () => { userProfile.avatar = av; saveProfile(); renderProfile(); };
+            p.appendChild(d);
+        });
+        p.style.display = 'flex';
+    } else p.style.display = 'none';
+}
+
+function renderProfile() {
+    document.getElementById('profileAvatarBig').textContent = userProfile.avatar;
+    document.getElementById('profileNicknameDisplay').textContent = userProfile.nickname || 'Аноним';
+    if (userProfile.nickname) document.getElementById('nicknameInput').value = userProfile.nickname;
+}
+
+function saveNickname() {
+    const val = document.getElementById('nicknameInput').value.trim();
+    if (!val) { showNotification('⚠️ Введите псевдоним', '⚠️'); return; }
+    userProfile.nickname = val;
+    saveProfile(); renderProfile();
+    showNotification(`🌸 ${val}`, '✏️');
+}
+
+// ============================================================
+// РЕСТЫ
+// ============================================================
+function isAdminResting(tag) { return adminRests[tag] === true; }
+
+function submitRestRequest() {
+    const from = document.getElementById('restDateFrom').value.trim();
+    const to = document.getElementById('restDateTo').value.trim();
+    const reason = document.getElementById('restReason').value.trim();
+    if (!from || !to || !reason) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    const dateRegex = /^\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4}$/;
+    if (!dateRegex.test(from) || !dateRegex.test(to)) { showNotification('⚠️ Формат: ДД.ММ.ГГГГ', '⚠️'); return; }
+    if (restRequests.find(r => r.adminTag === currentAuth.tag && r.status === 'pending')) {
+        showNotification('⚠️ Уже есть заявка', '⚠️'); return;
+    }
+    const admin = adminsData.find(a => a.username === currentAuth.tag);
+    restRequests.unshift({
+        id: 'RR-' + Date.now().toString().slice(-6),
+        adminTag: currentAuth.tag,
+        adminName: admin ? admin.name : currentAuth.tag.substring(1),
+        from, to, reason,
+        status: 'pending',
+        createdAt: Date.now()
+    });
+    saveRestReqs();
+    renderAdminRestRequest();
+    showNotification('📩 Отправлено!', '✅');
+}
+
+function cancelRestRequest() {
+    const idx = restRequests.findIndex(r => r.adminTag === currentAuth.tag && r.status === 'pending');
+    if (idx === -1) return;
+    restRequests.splice(idx, 1);
+    saveRestReqs();
+    renderAdminRestRequest();
+}
+
+function approveRestRequest(id) {
+    const r = restRequests.find(x => x.id === id);
+    if (!r) return;
+    r.status = 'approved';
+    adminRests[r.adminTag] = true;
+    saveRestReqs(); saveRests();
+    restRequests = restRequests.filter(x => x.id !== id);
+    saveRestReqs();
+    renderOwnerRestRequests(); renderAdminsList(); renderAdminsPicker();
+    showNotification(`✅ ${r.adminName} в ресте`, '😴');
+}
+
+function rejectRestRequest(id) {
+    restRequests = restRequests.filter(x => x.id !== id);
+    saveRestReqs();
+    renderOwnerRestRequests();
+    showNotification('✖ Отклонено', '✖');
+}
+
+function forceEndRest(tag) {
+    adminRests[tag] = false;
+    saveRests();
+    restRequests = restRequests.filter(r => r.adminTag !== tag);
+    saveRestReqs();
+    renderOwnerRestRequests(); renderAdminsList(); renderAdminsPicker();
+    showNotification('🟢 Вернулся', '✅');
+}
+
+function renderAdminRestRequest() {
+    const formWrap = document.getElementById('adminRestRequestFormWrap');
+    const infoWrap = document.getElementById('adminRestRequestInfo');
+    if (!formWrap || !infoWrap) return;
+    const pending = restRequests.find(r => r.adminTag === currentAuth.tag && r.status === 'pending');
+    const statusEl = document.getElementById('adminRestStatus');
+    if (pending) {
+        formWrap.style.display = 'none';
+        infoWrap.style.display = 'block';
+        infoWrap.innerHTML = `<div class="rest-request-item pending">
+            <div class="rest-request-header"><span class="rest-request-author">Ваша заявка</span><span class="rest-request-status pending">⏳</span></div>
+            <div class="rest-request-info">📅 С <strong>${pending.from}</strong> по <strong>${pending.to}</strong></div>
+            <div class="rest-request-reason">${pending.reason}</div>
+            <button class="btn btn-outline btn-sm" onclick="cancelRestRequest()">✖ Отменить</button>
+        </div>`;
+    } else {
+        formWrap.style.display = 'block';
+        infoWrap.style.display = 'none';
+    }
+    if (statusEl) {
+        statusEl.textContent = adminRests[currentAuth.tag] ? '😴 В ресте' : '🟢 Работаю';
+        statusEl.style.color = adminRests[currentAuth.tag] ? 'var(--yellow)' : 'var(--green)';
+    }
+}
+
+function renderOwnerRestRequests() {
+    const list = document.getElementById('ownerRestRequestsList');
+    if (!list) return;
+    list.innerHTML = '';
+    const pending = restRequests.filter(r => r.status === 'pending');
+    if (pending.length === 0) list.innerHTML = `<div class="empty-state">📩 Нет заявок</div>`;
+    else {
+        pending.forEach(r => {
+            const item = document.createElement('div');
+            item.className = 'rest-request-item pending';
+            item.innerHTML = `
+                <div class="rest-request-header">
+                    <span class="rest-request-author">👤 ${r.adminName}</span>
+                    <span class="rest-request-status pending">⏳</span>
+                </div>
+                <div class="rest-request-info">📅 С <strong>${r.from}</strong> по <strong>${r.to}</strong></div>
+                <div class="rest-request-reason">${r.reason}</div>
+                <div class="rest-request-actions">
+                    <button class="btn btn-green btn-sm" onclick="approveRestRequest('${r.id}')">✅ Одобрить</button>
+                    <button class="btn btn-red btn-sm" onclick="rejectRestRequest('${r.id}')">✖ Отклонить</button>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+    const resting = adminsData.filter(a => adminRests[a.username] === true);
+    if (resting.length > 0) {
+        const h = document.createElement('h5');
+        h.style.cssText = 'color:var(--yellow);margin:12px 0 8px;font-size:0.9rem;';
+        h.textContent = '😴 Сейчас в ресте:';
+        list.appendChild(h);
+        resting.forEach(a => {
+            const item = document.createElement('div');
+            item.className = 'user-item';
+            item.innerHTML = `
+                <div class="user-info">
+                    <div class="avatar" style="background:linear-gradient(135deg,var(--yellow),#e1b12c);color:#333;">${a.initials}</div>
+                    <div style="min-width:0;">
+                        <div class="user-name">${a.name} <span class="rest-badge">😴</span></div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <button title="Вернуть" onclick="forceEndRest('${a.username}')">🟢</button>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+    const badge = document.getElementById('ownerRestBadge');
+    if (badge) badge.textContent = pending.length;
+}
+
+// ============================================================
+// ЖАЛОБЫ
+// ============================================================
+function renderOwnerReports() {
+    const list = document.getElementById('ownerReportsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (reports.length === 0) list.innerHTML = `<div class="empty-state">⚠️ Нет жалоб</div>`;
+    else {
+        reports.forEach(r => {
+            const item = document.createElement('div');
+            item.className = 'report-item pending';
+            item.innerHTML = `
+                <div class="report-header">
+                    <span class="report-author">👤 ${r.fromNickname} → ${r.adminName}</span>
+                    <span class="report-time">${new Date(r.createdAt).toLocaleString('ru-RU')}</span>
+                </div>
+                <div class="report-text">${r.text}</div>
+                <div class="report-actions">
+                    <button class="btn btn-green btn-sm" onclick="resolveReport('${r.id}')">✅ Одобрить</button>
+                    <button class="btn btn-outline btn-sm" onclick="deleteReport('${r.id}')">✖ Отклонить</button>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+    const badge = document.getElementById('ownerReportsBadge');
+    if (badge) badge.textContent = reports.length;
+}
+
+function resolveReport(id) {
+    reports = reports.filter(r => r.id !== id);
+    saveReports(); renderOwnerReports(); renderModeratorReports();
+    showNotification('🌸 Обработано', '✅');
+}
+function deleteReport(id) {
+    reports = reports.filter(r => r.id !== id);
+    saveReports(); renderOwnerReports(); renderModeratorReports();
+    showNotification('✖ Отклонено', '✖');
+}
+
+// ============================================================
+// ДИАЛОГИ
+// ============================================================
+function selectAdmin(adminId) {
+    const admin = userAdminData.find(a => a.id === adminId);
+    if (!admin) return;
+    const uAdmin = adminsData.find(ad => ad.name === admin.name);
+    if (uAdmin && isAdminResting(uAdmin.username)) {
+        showNotification(`😴 ${admin.name} на отдыхе`, '😴'); return;
+    }
+    if (!userProfile.nickname) { showNotification('⚠️ Сначала псевдоним', '⚠️'); return; }
+    selectedAdminId = adminId;
+    dialogClosed = false;
+    let existing = realDialogs.find(d => d.adminId === adminId && !d.closed && d.userNickname === userProfile.nickname);
+    if (existing) currentDialogId = existing.id;
+    else {
+        const nd = {
+            id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            adminId, adminName: admin.name,
+            userNickname: userProfile.nickname,
+            status: 'waiting', closed: false, banned: false,
+            warns: 0, createdAt: Date.now(), lastActivity: Date.now(),
+            messages: []
+        };
+        realDialogs.push(nd);
+        saveDialogs();
+        currentDialogId = nd.id;
+    }
+    const d = realDialogs.find(x => x.id === currentDialogId);
+    document.getElementById('userDialogBlock').classList.remove('hidden');
+    document.getElementById('chatWithName').textContent = admin.name;
+    document.getElementById('chatWithNameHeader').textContent = admin.name;
+    renderUserDialogMessages(d);
+    document.getElementById('chatInput').disabled = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('finishBtnUser').disabled = false;
+    document.querySelectorAll('.admin-pick-card').forEach(c => c.classList.remove('selected'));
+    const card = document.querySelector(`.admin-pick-card[data-admin-id="${adminId}"]`);
+    if (card) card.classList.add('selected');
+}
+
+function renderUserDialogMessages(d) {
+    const cm = document.getElementById('chatMessages');
+    if (!cm) return;
+    cm.innerHTML = '';
+    if (!d.messages || d.messages.length === 0) {
+        cm.innerHTML = `<div class="message waiting">💬 Диалог создан</div>`;
+        return;
+    }
+    d.messages.forEach(m => {
+        const div = document.createElement('div');
+        div.classList.add('message', m.sender);
+        div.innerHTML = (m.text || '') + (m.attachment || '') + `<span class="time">${m.time || ''}</span>`;
+        cm.appendChild(div);
+    });
+    cm.scrollTop = cm.scrollHeight;
+}
+
+function sendMessage() {
+    if (dialogClosed || !selectedAdminId) return;
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const d = realDialogs.find(x => x.id === currentDialogId);
+    if (!d || d.closed || d.banned) return;
+    const mod = moderateMessage(text, userProfile.nickname);
+    if (mod.blocked) {
+        const cm = document.getElementById('chatMessages');
+        const sys = document.createElement('div');
+        sys.classList.add('message', 'system');
+        sys.textContent = mod.reason;
+        cm.appendChild(sys);
+        cm.scrollTop = cm.scrollHeight;
+        showNotification(mod.reason, '🚫');
+        const banned = autoWarnOrBan(d);
+        saveDialogs();
+        if (banned) finishDialogUI('🚫 Диалог завершён');
+        input.value = '';
+        return;
+    }
+    d.messages.push({ text, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
+    d.lastActivity = Date.now();
+    d.status = 'active';
+    saveDialogs();
+    renderUserDialogMessages(d);
+    input.value = '';
+}
+
+function attachPhoto() {
+    const input = document.createElement('input');
+    input.type = 'file'; input.accept = 'image/*';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const html = `<span class="attachment-photo" onclick="openPhoto('${ev.target.result}')"><img src="${ev.target.result}"></span>`;
+            const d = realDialogs.find(x => x.id === currentDialogId);
+            if (!d) return;
+            d.messages.push({ text: '📷 Фото', sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html });
+            d.lastActivity = Date.now();
+            saveDialogs();
+            renderUserDialogMessages(d);
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+
+function attachFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const d = realDialogs.find(x => x.id === currentDialogId);
+        if (!d) return;
+        d.messages.push({ text: `📎 ${file.name}`, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
+        d.lastActivity = Date.now();
+        saveDialogs();
+        renderUserDialogMessages(d);
+    };
+    input.click();
+}
+
+let mediaRecorder = null;
+let audioChunks = [];
+let recordStartTime = 0;
+
+async function toggleVoiceRecord() {
+    const btn = document.getElementById('voiceBtnUser');
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop(); return;
+    }
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            const duration = Math.round((Date.now() - recordStartTime) / 1000);
+            const html = `<audio controls src="${url}"></audio>`;
+            const d = realDialogs.find(x => x.id === currentDialogId);
+            if (d) {
+                d.messages.push({ text: `🎤 Голосовое (${duration} сек)`, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html });
+                d.lastActivity = Date.now();
+                saveDialogs();
+                renderUserDialogMessages(d);
+            }
+            btn.classList.remove('recording');
+            stream.getTracks().forEach(t => t.stop());
+        };
+        mediaRecorder.start();
+        recordStartTime = Date.now();
+        btn.classList.add('recording');
+        showNotification('🎤 Запись...', '🎤');
+    } catch(e) {
+        showNotification('❌ Нет доступа', '❌');
+    }
+}
+
+function finishDialog() {
+    if (dialogClosed || !selectedAdminId) return;
+    document.getElementById('ratingModal').classList.add('active');
+    currentRating = 0;
+    document.querySelectorAll('.rating-stars-input .star').forEach(s => s.classList.remove('active'));
+    document.getElementById('reviewText').value = '';
+}
+
+function setRating(val) {
+    currentRating = val;
+    document.querySelectorAll('.rating-stars-input .star').forEach((s, i) => {
+        s.classList.toggle('active', i < val);
+    });
+}
+
+function closeRatingModal() {
+    document.getElementById('ratingModal').classList.remove('active');
+}
+
+function submitRating() {
+    if (currentRating === 0) { showNotification('⚠️ Поставьте оценку', '⚠️'); return; }
+    const review = document.getElementById('reviewText').value.trim();
+    if (!review) { showNotification('⚠️ Напишите отзыв', '⚠️'); return; }
+    const d = realDialogs.find(x => x.id === currentDialogId);
+    if (d) {
+        adminReviews.unshift({
+            id: 'RV-' + Date.now(),
+            adminName: d.adminName,
+            fromNickname: d.userNickname,
+            rating: currentRating,
+            text: review,
+            createdAt: Date.now()
+        });
+        saveReviews();
+        realDialogs = realDialogs.filter(x => x.id !== d.id);
+        saveDialogs();
+    }
+    closeRatingModal();
+    finishDialogUI('🌸 Спасибо за оценку!');
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+    renderOwnerReviews(); renderAdminReviews(); updateAdminRatingMini();
+}
+
+function finishDialogUI(reason) {
+    dialogClosed = true;
+    const cm = document.getElementById('chatMessages');
+    if (cm) {
+        const div = document.createElement('div');
+        div.classList.add('message', 'closed');
+        div.textContent = reason;
+        cm.appendChild(div);
+        cm.scrollTop = cm.scrollHeight;
+    }
+    document.getElementById('chatInput').disabled = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('finishBtnUser').disabled = true;
+    const dlgId = currentDialogId;
+    setTimeout(() => {
+        realDialogs = realDialogs.filter(d => d.id !== dlgId);
+        saveDialogs();
+        renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+        renderModeratorViolators();
+    }, 2000);
+    selectedAdminId = null;
+    currentDialogId = null;
+}
+
+// ============================================================
+// СПИСКИ АДМИНОВ
+// ============================================================
+function renderAdminsPicker() {
+    const picker = document.getElementById('adminsPicker');
+    if (!picker) return;
+    picker.innerHTML = '';
+    userAdminData.forEach(a => {
+        const uAdmin = adminsData.find(ad => ad.name === a.name);
+        const resting = uAdmin ? isAdminResting(uAdmin.username) : false;
+        const card = document.createElement('div');
+        card.className = 'admin-pick-card' + (resting ? ' resting' : '');
+        card.dataset.adminId = a.id;
+        card.innerHTML = `
+            <div class="pick-header">
+                <div class="pick-avatar">${a.initials}</div>
+                <div class="pick-info">
+                    <div class="pick-name">${a.name}</div>
+                    <div class="pick-category">${a.category}</div>
+                </div>
+            </div>
+        `;
+        if (!resting) card.onclick = () => selectAdmin(a.id);
+        else card.onclick = e => { e.stopPropagation(); showNotification(`😴 ${a.name} на отдыхе`, '😴'); };
+        picker.appendChild(card);
+    });
+}
+
+function renderAdminsList() {
+    const list = document.getElementById('adminsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (adminsData.length === 0) { list.innerHTML = `<div class="empty-state">👥 Нет админов</div>`; return; }
+    adminsData.forEach((a, idx) => {
+        const resting = adminRests[a.username] === true;
+        const reviews = adminReviews.filter(r => r.adminName === a.username);
+        const avg = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
+        const myDialogs = realDialogs.filter(d => d.adminName === a.name);
+        let msgCount = 0; const userSet = new Set();
+        myDialogs.forEach(d => {
+            d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; });
+            userSet.add(d.userNickname);
+        });
+        const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
+        const item = document.createElement('div');
+        item.className = 'user-item';
+        item.innerHTML = `
+            <div class="user-info">
+                <div class="avatar">${a.initials}</div>
+                <div style="min-width:0;flex:1;">
+                    <div class="user-name">${a.name} <span class="user-category">${a.category}</span> ${resting ? '<span class="rest-badge">😴</span>' : ''}</div>
+                    <div class="user-status">${a.username} • ⭐ ${avg}</div>
+                    <div class="norm-bar" style="margin-top:6px;height:6px;"><div class="norm-bar-fill" style="width:${msgPct}%"></div></div>
+                    <div class="user-status" style="font-size:0.7rem;">📩 ${msgCount}/${adminNorm.messages} • 👥 ${userSet.size}/${adminNorm.users}</div>
+                </div>
+            </div>
+            <div class="user-actions">
+                <button title="Настройки" onclick="openAdminSettings(${idx})">⚙️</button>
+                <button title="Отзывы" onclick="showAdminReviewsByTag('${a.username}')">⭐</button>
+                <button title="Удалить" onclick="removeAdmin(${idx})">🗑️</button>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+    const c = document.getElementById('adminsCount');
+    if (c) c.textContent = adminsData.length;
+}
+
+function showAdminReviewsByTag(tag) {
+    const reviews = adminReviews.filter(r => r.adminName === tag);
+    const avg = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
+    const admin = adminsData.find(a => a.username === tag);
+    const initials = admin ? admin.initials : tag.substring(1, 3).toUpperCase();
+    document.getElementById('adminProfileContent').innerHTML = `
+        <div class="admin-profile-card">
+            <div class="admin-profile-avatar">${initials}</div>
+            <div class="admin-profile-name">${tag.substring(1)}</div>
+            <div class="admin-profile-tag">${tag}</div>
+            <div class="admin-profile-category">${admin ? admin.category : '—'}</div>
+        </div>
+        <div style="text-align:center;margin-bottom:16px;">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--pink);">${avg}</div>
+            <div style="color:#ffd700;font-size:1.1rem;">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</div>
+            <div style="color:var(--text-muted);font-size:0.8rem;margin-top:4px;">${reviews.length} отзывов</div>
+        </div>
+        <h4 style="color:var(--pink);margin-bottom:10px;">💬 Отзывы</h4>
+        <div class="reviews-list">
+            ${reviews.length === 0 ? '<div class="empty-state">💬 Нет отзывов</div>' :
+                reviews.map(r => `
+                    <div class="review-item">
+                        <div class="review-head">
+                            <span class="review-author">${r.fromNickname}</span>
+                            <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                        </div>
+                        <div class="review-text">${r.text}</div>
+                    </div>
+                `).join('')}
+        </div>
+    `;
+    document.getElementById('adminProfileModal').classList.add('active');
+}
+
+function removeAdmin(idx) {
+    if (idx < 0 || idx >= adminsData.length) return;
+    const name = adminsData[idx].name;
+    adminsData.splice(idx, 1);
+    saveAdmins(); renderAdminsList();
+    showNotification(`🗑️ ${name}`, '🗑️');
+}
+
+function addAdmin() {
+    const name = document.getElementById('newAdminName').value.trim();
+    let username = document.getElementById('newAdminUsername').value.trim();
+    const category = document.getElementById('newAdminCategory').value;
+    const password = document.getElementById('newAdminPassword').value.trim();
+    if (!name || !username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    if (!username.startsWith('#')) username = '#' + username;
+    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'А';
+    adminsData.push({ name, username, initials, category });
+    saveAdmins();
+    userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
+    saveUserAdmins();
+    renderAdminsList(); renderAdminsPicker();
+    document.getElementById('newAdminName').value = '';
+    document.getElementById('newAdminUsername').value = '';
+    document.getElementById('newAdminCategory').value = '';
+    document.getElementById('newAdminPassword').value = '';
+    showNotification(`🌸 ${name}`, '✅');
+}
+
+// ============================================================
+// ДИАЛОГИ У АДМИНА / МОДЕРАТОРА / ВЛАДЕЛЬЦА
+// ============================================================
+function openAdminDialogActions(d) {
+    if (currentAuth.role === 'moderator' || currentAuth.role === 'owner' || currentAuth.role !== 'admin') {
+        showDialogPreview(d); return;
+    }
+    if (d.banned) { showNotification('🚫 Забанен', '🚫'); return; }
+    if (d.closed) { showNotification('✓ Завершён', '✓'); return; }
+    const text = prompt(`Ответ ${d.userNickname}:`);
+    if (text === null || !text.trim()) return;
+    const mod = moderateMessage(text, currentAuth.tag || 'admin');
+    if (mod.blocked) { showNotification(mod.reason, '🚫'); return; }
+    d.messages.push({ text, sender: 'bot', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
+    d.lastActivity = Date.now();
+    d.status = 'active';
+    saveDialogs();
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+    showNotification('📤 Отправлено', '✅');
+    setTimeout(() => {
+        const action = prompt('1 — Варн\n2 — Бан\n3 — Завершить (удалить)\n4 — Ничего');
+        if (action === '1') { autoWarnOrBan(d); saveDialogs(); }
+        else if (action === '2') { d.banned = true; d.closed = true; saveDialogs(); showNotification('🚫', '🚫'); }
+        else if (action === '3') { realDialogs = realDialogs.filter(x => x.id !== d.id); saveDialogs(); showNotification('✅ Удалён', '✅'); }
+        renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+        renderAdminNorm();
+    }, 300);
+}
+
+function showDialogPreview(d) {
+    const history = d.messages.map(m => 
+        `[${m.time || ''}] ${m.sender === 'user' ? d.userNickname : (m.sender === 'system' ? 'СИС' : 'Админ')}: ${m.text || '(влож)'}`
+    ).join('\n');
+    alert(`👁️ Просмотр\n\n${d.userNickname}\nСтатус: ${d.banned ? '🚫' : d.closed ? '✓' : '●'}\nВарнов: ${d.warns || 0}/3\n\n${history.substring(0, 1500)}${history.length > 1500 ? '...' : ''}`);
+}
+
+function renderAdminDialogs() {
+    const list = document.getElementById('dialogsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (realDialogs.length === 0) list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
+    else {
+        realDialogs.forEach(d => {
+            const item = document.createElement('div');
+            item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
+            let statusHtml;
+            if (d.banned) statusHtml = '<div class="dialog-status banned">🚫</div>';
+            else if (d.closed) statusHtml = '<div class="dialog-status closed">✓</div>';
+            else if (d.status === 'waiting') statusHtml = '<div class="dialog-status waiting">⏳</div>';
+            else statusHtml = '<div class="dialog-status online">●</div>';
+            const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
+            const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+            item.innerHTML = `
+                <div class="dialog-info">
+                    <div class="avatar">${init}</div>
+                    <div style="min-width:0;">
+                        <div class="dialog-name">${d.userNickname} ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div>
+                        <div class="dialog-preview">${lastMsg}</div>
+                    </div>
+                </div>
+                <div class="dialog-meta">
+                    <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                    ${statusHtml}
+                </div>
+            `;
+            item.onclick = () => openAdminDialogActions(d);
+            list.appendChild(item);
+        });
+    }
+    const c = document.getElementById('adminDialogsCount');
+    if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+}
+
+function renderModeratorDialogs() {
+    const list = document.getElementById('moderatorDialogsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (realDialogs.length === 0) list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
+    else {
+        realDialogs.forEach(d => {
+            const item = document.createElement('div');
+            item.className = 'dialog-item' + (d.banned ? ' banned' : '') + (d.closed ? ' closed' : '');
+            const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
+            const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+            item.innerHTML = `
+                <div class="dialog-info">
+                    <div class="avatar" style="background:linear-gradient(135deg,var(--blue),#2d7dd2);">${init}</div>
+                    <div style="min-width:0;">
+                        <div class="dialog-name">${d.userNickname} ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div>
+                        <div class="dialog-preview">${lastMsg}</div>
+                    </div>
+                </div>
+                <div class="dialog-meta">
+                    <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                    <div class="dialog-status viewer">👁️</div>
+                </div>
+            `;
+            item.onclick = () => {
+                moderatorStats.checked++;
+                saveModStats();
+                renderModeratorActivity();
+                showDialogPreview(d);
+            };
+            list.appendChild(item);
+        });
+    }
+    const sD = document.getElementById('modStatDialogs');
+    const sB = document.getElementById('modStatBanned');
+    const sW = document.getElementById('modStatWarns');
+    const sR = document.getElementById('modStatReports');
+    if (sD) sD.textContent = realDialogs.length;
+    if (sB) sB.textContent = realDialogs.filter(d => d.banned).length;
+    if (sW) sW.textContent = realDialogs.reduce((a, d) => a + (d.warns || 0), 0);
+    if (sR) sR.textContent = reports.length;
+}
+
+function renderModeratorViolators() {
+    const list = document.getElementById('moderatorViolatorsList');
+    if (!list) return;
+    const violators = realDialogs.filter(d => d.banned || (d.warns || 0) > 0);
+    if (violators.length === 0) { list.innerHTML = `<div class="empty-state">👮 Нет нарушителей</div>`; return; }
+    list.innerHTML = '';
+    violators.forEach(v => {
+        const item = document.createElement('div');
+        item.className = 'user-item';
+        const init = v.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+        item.innerHTML = `
+            <div class="user-info">
+                <div class="avatar" style="background:linear-gradient(135deg,var(--red),#c0392b);">${init}</div>
+                <div style="min-width:0;">
+                    <div class="user-name">${v.userNickname} ${v.banned ? '🚫' : ''}</div>
+                    <div class="user-status">Варнов: ${v.warns || 0}/3</div>
+                </div>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function renderModeratorReports() {
+    const list = document.getElementById('moderatorReportsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (reports.length === 0) {
+        list.innerHTML = `<div class="empty-state">🚨 Нет жалоб</div>`;
+        const badge = document.getElementById('modReportsBadge');
+        if (badge) badge.textContent = '0';
+        return;
+    }
+    reports.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'report-item pending';
+        item.innerHTML = `
+            <div class="report-header">
+                <span class="report-author">👤 ${r.fromNickname} → ${r.adminName}</span>
+                <span class="report-time">${new Date(r.createdAt).toLocaleString('ru-RU')}</span>
+            </div>
+            <div class="report-text">${r.text}</div>
+            <div class="report-actions">
+                <button class="btn btn-green btn-sm" onclick="modHandleReport('${r.id}')">✅ Владельцу</button>
+                <button class="btn btn-outline btn-sm" onclick="modDismissReport('${r.id}')">✖ Отклонить</button>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+    const badge = document.getElementById('modReportsBadge');
+    if (badge) badge.textContent = reports.length;
+}
+
+function modHandleReport(id) {
+    moderatorStats.reportsHandled++;
+    saveModStats();
+    renderModeratorActivity();
+    showNotification('✅ Владельцу', '✅');
+}
+function modDismissReport(id) {
+    reports = reports.filter(r => r.id !== id);
+    saveReports();
+    moderatorStats.reportsHandled++;
+    saveModStats();
+    renderModeratorReports(); renderOwnerReports(); renderModeratorActivity();
+    showNotification('✖ Отклонено', '✖');
+}
+
+function renderModeratorActivity() {
+    const c = document.getElementById('modChecked');
+    const rh = document.getElementById('modReportsHandled');
+    const wi = document.getElementById('modWarnsIssued');
+    if (c) c.textContent = moderatorStats.checked;
+    if (rh) rh.textContent = moderatorStats.reportsHandled;
+    if (wi) wi.textContent = moderatorStats.warnsIssued;
+}
+
+function searchModDialogs(q) {
+    const query = (q || '').toLowerCase();
+    document.querySelectorAll('#moderatorDialogsList .dialog-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+}
+
+function renderOwnerDialogs() {
+    const list = document.getElementById('ownerDialogsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (realDialogs.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`; return; }
+    realDialogs.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
+        const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
+        const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+        let statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' :
+                        d.closed ? '<div class="dialog-status closed">✓</div>' :
+                        d.status === 'waiting' ? '<div class="dialog-status waiting">⏳</div>' :
+                        '<div class="dialog-status online">●</div>';
+        item.innerHTML = `
+            <div class="dialog-info">
+                <div class="avatar">${init}</div>
+                <div style="min-width:0;">
+                    <div class="dialog-name">${d.userNickname} ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div>
+                    <div class="dialog-preview">${lastMsg}</div>
+                </div>
+            </div>
+            <div class="dialog-meta">
+                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                ${statusHtml}
+            </div>
+        `;
+        item.onclick = () => showDialogPreview(d);
+        list.appendChild(item);
+    });
+    const c = document.getElementById('ownerActiveDialogs');
+    if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+}
+
+// ============================================================
+// ОТЗЫВЫ
+// ============================================================
+function renderAdminReviews() {
+    const list = document.getElementById('adminReviewsList');
+    if (!list) return;
+    const my = adminReviews.filter(r => r.adminName === currentAuth.tag);
+    if (my.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет отзывов</div>`; return; }
+    list.innerHTML = '';
+    my.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        item.innerHTML = `
+            <div class="review-head">
+                <span class="review-author">${r.fromNickname}</span>
+                <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            </div>
+            <div class="review-text">${r.text}</div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function renderOwnerReviews() {
+    const list = document.getElementById('ownerReviewsList');
+    if (!list) return;
+    if (adminReviews.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет отзывов</div>`; return; }
+    list.innerHTML = '';
+    adminReviews.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        item.innerHTML = `
+            <div class="review-head">
+                <span class="review-author">${r.fromNickname}</span>
+                <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            </div>
+            <div class="review-text">${r.text}</div>
+            <div class="review-admin">→ ${r.adminName}</div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+// ============================================================
+// ТИКЕТЫ
+// ============================================================
+function createTicket() {
+    const name = document.getElementById('ticketName').value.trim();
+    const contact = document.getElementById('ticketContact').value.trim();
+    const category = document.getElementById('ticketCategory').value;
+    const subject = document.getElementById('ticketSubject').value.trim();
+    const description = document.getElementById('ticketDescription').value.trim();
+    if (!name || !subject || !description || !category) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    tickets.unshift({
+        id: 'TKT-' + Date.now().toString().slice(-6),
+        name, contact, category, subject, description,
+        status: 'pending',
+        createdAt: Date.now()
+    });
+    saveTickets(); renderTickets(); renderOwnerTickets();
+    document.getElementById('ticketName').value = '';
+    document.getElementById('ticketContact').value = '';
+    document.getElementById('ticketCategory').value = '';
+    document.getElementById('ticketSubject').value = '';
+    document.getElementById('ticketDescription').value = '';
+    showNotification('🎫 Создан!', '✅');
+}
+
+function renderTicketCard(t, isOwner = false) {
+    let actionsHtml = '';
+    if (isOwner && t.status === 'pending') {
+        actionsHtml = `<div class="ticket-actions">
+            <button class="btn btn-green btn-sm" onclick="acceptTicket('${t.id}')">✅ Принять</button>
+            <button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button>
+        </div>`;
+    }
+    return `
+        <div class="ticket-item pending">
+            <div class="ticket-item-header">
+                <span class="ticket-item-id">${t.id}</span>
+                <span class="ticket-item-status pending">⏳</span>
+            </div>
+            <div class="ticket-item-title">${t.subject}</div>
+            <span class="ticket-item-category">${t.category}</span>
+            <div class="ticket-item-text">${t.description}</div>
+            <div class="ticket-item-footer">
+                <span>👤 ${t.name}</span>
+                <span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span>
+            </div>
+            ${actionsHtml}
+        </div>
+    `;
+}
+
+function renderTickets() {
+    const list = document.getElementById('ticketList');
+    if (!list) return;
+    if (tickets.length === 0) { list.innerHTML = `<div class="ticket-empty">🎫 Нет тикетов</div>`; return; }
+    list.innerHTML = tickets.map(t => renderTicketCard(t)).join('');
+}
+
+function renderOwnerTickets() {
+    const list = document.getElementById('ownerTicketList');
+    if (!list) return;
+    if (tickets.length === 0) list.innerHTML = `<div class="ticket-empty">🎫 Нет тикетов</div>`;
+    else list.innerHTML = tickets.map(t => renderTicketCard(t, true)).join('');
+    const c = document.getElementById('ownerTicketsCount');
+    if (c) c.textContent = tickets.length;
+    const badge = document.getElementById('ownerTicketsBadge');
+    if (badge) badge.textContent = tickets.filter(t => t.status === 'pending').length;
+}
+
+function acceptTicket(id) {
+    tickets = tickets.filter(t => t.id !== id);
+    saveTickets(); renderTickets(); renderOwnerTickets();
+    showNotification('✅ Принято', '✅');
+}
+function deleteTicket(id) {
+    tickets = tickets.filter(t => t.id !== id);
+    saveTickets(); renderTickets(); renderOwnerTickets();
+    showNotification('✖ Удалено', '✖');
+}
+
+// ============================================================
+// АНКЕТА
+// ============================================================
+const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
+const ANKETA_RADIOS = ['anketaExp','anketaLong','anketaCrisis'];
+
+function selectRadio(input) {
+    document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+        r.closest('.anketa-option').classList.toggle('selected', r.checked);
+    });
+}
+
+function saveAnketa() {
+    const data = {};
+    ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
+    ANKETA_RADIOS.forEach(n => { const c = document.querySelector(`input[name="${n}"]:checked`); if (c) data[n] = c.value; });
+    try { localStorage.setItem('sakura-anketa', JSON.stringify(data)); } catch(e) {}
+    showNotification('💾 Сохранено', '✅');
+}
+
+function loadAnketa() {
+    try {
+        const saved = localStorage.getItem('sakura-anketa');
+        if (!saved) return;
+        const data = JSON.parse(saved);
+        ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el && data[id] !== undefined) el.value = data[id]; });
+        ANKETA_RADIOS.forEach(n => {
+            if (data[n]) {
+                const r = document.querySelector(`input[name="${n}"][value="${data[n]}"]`);
+                if (r) { r.checked = true; r.closest('.anketa-option').classList.add('selected'); }
+            }
+        });
+    } catch(e) {}
+}
+
+function copyAnketaFilled() {
+    const data = {};
+    ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
+    navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => showNotification('📋 Скопировано', '✅'));
+}
+
+function clearAnketa() {
+    if (!confirm('Очистить?')) return;
+    ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    ANKETA_RADIOS.forEach(n => document.querySelectorAll(`input[name="${n}"]`).forEach(r => { r.checked = false; r.closest('.anketa-option').classList.remove('selected'); }));
+    try { localStorage.removeItem('sakura-anketa'); } catch(e) {}
+}
+
+// ============================================================
+// ПРОЧЕЕ
+// ============================================================
+function openPhoto(src) {
+    document.getElementById('photoModalImg').src = src;
+    document.getElementById('photoModal').classList.add('active');
+}
+
+function showNotification(text, icon = '🌸') {
+    const n = document.getElementById('notification');
+    document.getElementById('notificationText').textContent = text;
+    document.getElementById('notificationIcon').textContent = icon;
+    n.classList.add('show');
+    clearTimeout(window._nt);
+    window._nt = setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+(function() {
+    const c = document.getElementById('petalsContainer');
+    const e = ['🌸','🌺','🌷','💮','🏵️'];
+    for (let i = 0; i < 15; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.textContent = e[Math.floor(Math.random() * e.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.fontSize = (0.7 + Math.random() * 0.8) + 'rem';
+        p.style.animationDuration = (10 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 18) + 's';
+        p.style.opacity = 0.3 + Math.random() * 0.4;
+        c.appendChild(p);
+    }
+})();
+
+const themeToggle = document.getElementById('themeToggle');
+let isDark = true;
+try {
+    if (localStorage.getItem('sakura-theme') === 'light') {
+        isDark = false;
+        document.body.classList.add('light-theme');
+        themeToggle.textContent = '☀️';
+    }
+} catch(e) {}
+themeToggle.addEventListener('click', () => {
+    isDark = !isDark;
+    if (isDark) {
+        document.body.classList.remove('light-theme');
+        themeToggle.textContent = '🌙';
+        try { localStorage.setItem('sakura-theme', 'dark'); } catch(e) {}
+    } else {
+        document.body.classList.add('light-theme');
+        themeToggle.textContent = '☀️';
+        try { localStorage.setItem('sakura-theme', 'light'); } catch(e) {}
+    }
+});
+
+// ============================================================
+// НИЖНЯЯ НАВИГАЦИЯ
+// ============================================================
+document.getElementById('navHome').addEventListener('click', () => switchPanel('mainContent'));
+document.getElementById('navUser').addEventListener('click', () => switchPanel('userPanel'));
+document.getElementById('navModerator').addEventListener('click', () => openAuthModal('moderator'));
+document.getElementById('navAdmin').addEventListener('click', () => openAuthModal('admin'));
+document.getElementById('navOwner').addEventListener('click', () => openAuthModal('owner'));
+
+document.getElementById('sendBtn').addEventListener('click', sendMessage);
+document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeAuthModal(); });
+document.getElementById('authPassword').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
+document.getElementById('authTag').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
+document.getElementById('adminProfileModal').addEventListener('click', function(e) { if (e.target === this) closeAdminProfile(); });
+document.getElementById('adminSettingsModal').addEventListener('click', function(e) { if (e.target === this) closeAdminSettings(); });
+
+// Синхронизация
+window.addEventListener('storage', e => {
+    try {
+        if (e.key === 'sakura-real-dialogs') { realDialogs = JSON.parse(e.newValue) || []; renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderModeratorViolators(); renderAdminNorm(); }
+        if (e.key === 'sakura-tickets') { tickets = JSON.parse(e.newValue) || []; renderTickets(); renderOwnerTickets(); }
+        if (e.key === 'sakura-admins') { adminsData = JSON.parse(e.newValue) || []; renderAdminsList(); renderAdminsPicker(); }
+        if (e.key === 'sakura-rest-requests') { restRequests = JSON.parse(e.newValue) || []; renderOwnerRestRequests(); }
+        if (e.key === 'sakura-reports') { reports = JSON.parse(e.newValue) || []; renderOwnerReports(); renderModeratorReports(); }
+        if (e.key === 'sakura-admin-reviews') { adminReviews = JSON.parse(e.newValue) || []; renderAdminReviews(); renderOwnerReviews(); updateAdminRatingMini(); }
+        if (e.key === 'sakura-admin-rests') { adminRests = JSON.parse(e.newValue) || {}; renderAdminsList(); renderAdminsPicker(); renderOwnerRestRequests(); }
+        if (e.key === 'sakura-norm') { adminNorm = JSON.parse(e.newValue) || { messages: 300, users: 3 }; renderAdminsList(); renderAdminNorm(); }
+        if (e.key === 'sakura-auth') { Object.assign(AUTH, JSON.parse(e.newValue)); }
+    } catch(err) {}
+});
+
+// Инициализация
+window.addEventListener('DOMContentLoaded', () => {
+    switchPanel('mainContent');
+    renderProfile();
+    renderAdminsPicker();
+    renderTickets();
+    loadAnketa();
+    renderModeratorReports();
+    renderModeratorActivity();
+    loadNorm();
+});
+</script>
+</body>
+</html>
