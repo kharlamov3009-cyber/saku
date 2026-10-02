@@ -400,6 +400,19 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <h3>📝 Анкета</h3>
             <span class="role-badge support">Анкета</span>
         </div>
+
+        <!-- БЛОК 0. КАТЕГОРИЯ -->
+        <div class="anketa-block">
+            <h3>БЛОК 0. КАТЕГОРИЯ</h3>
+            <div class="anketa-question">
+                <strong>Выберите категорию:</strong>
+                <div class="anketa-options">
+                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Поддержка" onchange="onCategoryChange(this)"> 🆘 Поддержка</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Общение" onchange="onCategoryChange(this)"> 💬 Общение</label>
+                </div>
+            </div>
+        </div>
+
         <div class="anketa-block">
             <h3>БЛОК 1. ОСНОВНАЯ ИНФОРМАЦИЯ</h3>
             <div class="anketa-question"><strong>1. Имя:</strong><input type="text" id="anketaName"></div>
@@ -424,7 +437,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question"><strong>6. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
             <div class="anketa-question"><strong>7. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
         </div>
-        <div class="anketa-block">
+
+        <!-- БЛОК 2. ПСИХОФИЛЬТР -->
+        <div class="anketa-block" id="anketaPsyBlock">
             <h3>БЛОК 2. ПСИХОФИЛЬТР</h3>
             <div class="anketa-situation"><div class="anketa-situation-title">Собеседник:</div><div class="anketa-situation-text">— Я ничтожество, зачем пишу сюда.</div></div>
             <div class="anketa-question"><strong>1. Интуитивное:</strong><textarea id="anketaPsy1"></textarea></div>
@@ -433,7 +448,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-situation"><div class="anketa-situation-title">Задача:</div><div class="anketa-situation-text">Мужчина 40+: «Жена наскучила, дети не радуют».</div></div>
             <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:110px;"></textarea></div>
         </div>
-        <div class="anketa-block">
+
+        <!-- БЛОК 3. НАДЁЖНОСТЬ -->
+        <div class="anketa-block" id="anketaRelBlock">
             <h3>БЛОК 3. НАДЁЖНОСТЬ</h3>
             <div class="anketa-question"><strong>1. Триггер ухода:</strong><textarea id="anketaTrigger"></textarea></div>
             <div class="anketa-question">
@@ -447,21 +464,24 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             </div>
             <div class="anketa-question"><strong>3. Мотивация:</strong><textarea id="anketaMotivation"></textarea></div>
         </div>
-        <div class="anketa-block">
-            <h3>БЛОК 5. СИТУАЦИИ</h3>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко..</div></div>
+
+        <!-- БЛОК 5. СИТУАЦИИ (только для «Поддержки») -->
+        <div class="anketa-block" id="anketaSupportBlock">
+            <h3>БЛОК 5. СИТУАЦИИ (только для «Поддержки»)</h3>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко.. я не знаю, кому ещё написать. все друзья куда-то пропали, а дома тишина такая, что становится страшно. как вообще с этим справляются?</div></div>
             <div class="anketa-question"><textarea id="anketaSit1" style="min-height:120px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">— Привет. Я первый раз пишу...</div></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">— Привет. Я первый раз пишу... честно, не думал(а), что решусь. Просто накопилось, и вроде бы рассказать некому. Не знаю даже, с чего начать.</div></div>
             <div class="anketa-question"><textarea id="anketaSit2" style="min-height:120px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">— Привет! Проблема... селфхарм...</div></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">— Привет! Проблема... селфхарм... я режу себя, когда становится совсем невыносимо. Это помогает на пару часов, а потом всё возвращается. Я устал(а) так жить, но бросить не получается.</div></div>
             <div class="anketa-question"><textarea id="anketaSit3" style="min-height:120px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">— Здравствуйте.. Травля...</div></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">— Здравствуйте.. Травля... в школе/на работе каждый день одно и то же. Меня унижают, обзывают, иногда бьют. Я боюсь идти туда, но и рассказать родителям/кому-то страшно — вдруг станет только хуже.</div></div>
             <div class="anketa-question"><textarea id="anketaSit4" style="min-height:120px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">— привет. я лесбиянка...</div></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">— привет. я лесбиянка... я никому не могу об этом сказать. родители точно не поймут, друзья могут отвернуться. я чувствую себя очень одиноко и не знаю, что делать дальше.</div></div>
             <div class="anketa-question"><textarea id="anketaSit5" style="min-height:120px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">— привет, бывший парень украл кошку...</div></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">— привет, бывший парень украл кошку... я в шоке, не знаю, что делать. Это моя кошка, она мне как ребёнок. Он не отдаёт, говорит, что оставит себе. Полиция не помогает.</div></div>
             <div class="anketa-question"><textarea id="anketaSit6" style="min-height:120px;"></textarea></div>
         </div>
+
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <button class="btn btn-green btn-full" onclick="saveAnketa()">💾 Сохранить</button>
             <button class="btn btn-blue btn-full" onclick="copyAnketaFilled()">📋 Скопировать</button>
@@ -770,7 +790,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <input type="number" id="normMessagesInput" value="300" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:10px;min-height:44px;">
                 <label style="color:var(--text-muted);font-size:0.85rem;">Пользователей/день:</label>
                 <input type="number" id="normUsersInput" value="3" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:12px;min-height:44px;">
-                <button class="btn btn-full" onclick="saveNorm()">💾 Сохранить</button>
+                <button class="btn btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
             </div>
         </div>
         <div class="collapse-block">
@@ -1086,20 +1106,34 @@ function submitAuth() {
         } else showNotification('❌ Неверный пароль', '❌');
         return;
     }
+
     if (role === 'admin') {
+        // 1) стандартный админ
         if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
             currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
-            closeAuthModal();
-            document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
-            switchPanel('adminPanel');
-            renderAdminRestRequest();
-            renderAdminReviews();
-            updateAdminRatingMini();
-            renderAdminNorm();
-            showNotification(`🌸 Добро пожаловать!`, '✅');
-        } else showNotification('❌ Неверный тег или пароль', '❌');
+        }
+        // 2) добавленные админы
+        else {
+            const key = tag ? tag.replace('#','') : '';
+            const custom = AUTH[key];
+            if (custom && custom.password === password) {
+                currentAuth = { role: 'admin', tag: custom.tag, category: custom.category, name: custom.name };
+            } else {
+                showNotification('❌ Неверный тег или пароль', '❌');
+                return;
+            }
+        }
+        closeAuthModal();
+        document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
+        switchPanel('adminPanel');
+        renderAdminRestRequest();
+        renderAdminReviews();
+        updateAdminRatingMini();
+        renderAdminNorm();
+        showNotification(`🌸 Добро пожаловать!`, '✅');
         return;
     }
+
     if (role === 'moderator') {
         if (tag === AUTH.moderator.tag && password === AUTH.moderator.password) {
             currentAuth = { role: 'moderator', tag: AUTH.moderator.tag, category: AUTH.moderator.category };
@@ -1154,6 +1188,7 @@ function saveAdminSettings() {
     const existing = adminsData.find((ad, i) => i !== settingsAdminIndex && ad.username === fullTag);
     if (existing) { showNotification('⚠️ Тег занят', '⚠️'); return; }
     const oldTag = a.username;
+    const oldKey = oldTag.replace('#','');
     a.username = fullTag;
     saveAdmins();
     if (a.name === 'admin_sakura' || oldTag === AUTH.admin.tag) {
@@ -1163,6 +1198,13 @@ function saveAdminSettings() {
     if (a.name === 'mod_hanami' || oldTag === AUTH.moderator.tag) {
         AUTH.moderator.tag = fullTag;
         if (newPassword) AUTH.moderator.password = newPassword;
+    }
+    // переносим пароль в AUTH по новому ключу
+    if (AUTH[oldKey] && oldKey !== fullTag.replace('#','')) {
+        AUTH[fullTag.replace('#','')] = AUTH[oldKey];
+        AUTH[fullTag.replace('#','')].tag = fullTag;
+        if (newPassword) AUTH[fullTag.replace('#','')].password = newPassword;
+        delete AUTH[oldKey];
     }
     saveAuth();
     if (currentAuth.tag === oldTag) {
@@ -1193,7 +1235,6 @@ function switchPanel(panelId) {
     } else {
         document.getElementById(panelId).classList.add('active');
     }
-    // Обновляем нижнюю навигацию
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-role'));
     if (panelId === 'mainContent') document.getElementById('navHome').classList.add('active-role');
     if (panelId === 'userPanel') document.getElementById('navUser').classList.add('active-role');
@@ -1762,10 +1803,14 @@ function showAdminReviewsByTag(tag) {
 
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
-    const name = adminsData[idx].name;
+    const a = adminsData[idx];
+    // удаляем из AUTH
+    delete AUTH[a.username.replace('#','')];
+    saveAuth();
     adminsData.splice(idx, 1);
-    saveAdmins(); renderAdminsList();
-    showNotification(`🗑️ ${name}`, '🗑️');
+    saveAdmins();
+    renderAdminsList();
+    showNotification(`🗑️ ${a.name} удалён`, '🗑️');
 }
 
 function addAdmin() {
@@ -1775,17 +1820,29 @@ function addAdmin() {
     const password = document.getElementById('newAdminPassword').value.trim();
     if (!name || !username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
+
+    // проверка, что тег не занят
+    if (adminsData.find(a => a.username === username)) {
+        showNotification('⚠️ Тег уже занят', '⚠️'); return;
+    }
+
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'А';
     adminsData.push({ name, username, initials, category });
     saveAdmins();
+
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
     saveUserAdmins();
+
+    // сохраняем пароль в AUTH
+    AUTH[username.replace('#','')] = { tag: username, password, category, name };
+    saveAuth();
+
     renderAdminsList(); renderAdminsPicker();
     document.getElementById('newAdminName').value = '';
     document.getElementById('newAdminUsername').value = '';
     document.getElementById('newAdminCategory').value = '';
     document.getElementById('newAdminPassword').value = '';
-    showNotification(`🌸 ${name}`, '✅');
+    showNotification(`🌸 ${name} добавлен`, '✅');
 }
 
 // ============================================================
@@ -2149,12 +2206,23 @@ function deleteTicket(id) {
 // АНКЕТА
 // ============================================================
 const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
-const ANKETA_RADIOS = ['anketaExp','anketaLong','anketaCrisis'];
+const ANKETA_RADIOS = ['anketaExp','anketaLong','anketaCrisis','anketaCategory'];
 
 function selectRadio(input) {
     document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
         r.closest('.anketa-option').classList.toggle('selected', r.checked);
     });
+}
+
+function onCategoryChange(input) {
+    selectRadio(input);
+    const isSupport = input.value === 'Поддержка';
+    const ids = ['anketaSupportBlock', 'anketaPsyBlock', 'anketaRelBlock'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = isSupport ? 'block' : 'none';
+    });
+    showNotification(isSupport ? '🆘 Категория: Поддержка' : '💬 Категория: Общение', isSupport ? '🆘' : '💬');
 }
 
 function saveAnketa() {
@@ -2177,6 +2245,8 @@ function loadAnketa() {
                 if (r) { r.checked = true; r.closest('.anketa-option').classList.add('selected'); }
             }
         });
+        const cat = document.querySelector('input[name="anketaCategory"]:checked');
+        if (cat) onCategoryChange(cat);
     } catch(e) {}
 }
 
