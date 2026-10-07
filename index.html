@@ -339,12 +339,49 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     }
     textarea { min-height: 96px !important; }
 
-    .user-item { padding: 14px 14px; gap: 10px; }
-    .user-item .avatar { width: 48px; height: 48px; font-size: 1rem; }
-    .user-item .user-name { font-size: 1rem; }
-    .user-item .user-status { font-size: 0.85rem; }
-    .user-item .user-actions button { width: 44px; height: 44px; font-size: 1.1rem; }
-    .user-item .user-actions { gap: 8px; }
+    /* Карточка админа — вертикально, крупно, удобно */
+    .user-item {
+        padding: 14px;
+        gap: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .user-item .user-info {
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .user-item .avatar { width: 52px; height: 52px; font-size: 1.1rem; }
+    .user-item .user-name {
+        font-size: 1.05rem;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+    .user-item .user-category {
+        display: inline-block;
+        margin: 4px 0 0 0;
+        font-size: 0.78rem;
+        padding: 4px 10px;
+    }
+    .user-item .user-status {
+        font-size: 0.88rem;
+        margin-top: 4px;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+    .user-item .user-actions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+    }
+    .user-item .user-actions button {
+        width: 100%;
+        height: 52px;
+        font-size: 1.3rem;
+        border-radius: 14px;
+        background: rgba(248,165,184,0.08);
+    }
+    .norm-bar { height: 8px; margin-top: 8px; }
 
     .dialog-item { padding: 14px 14px; }
     .dialog-item .avatar { width: 44px; height: 44px; }
@@ -505,8 +542,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question">
                 <strong>Выберите категорию:</strong>
                 <div class="anketa-options">
-                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Поддержка" onchange="onCategoryChange(this)"> 🆘 Поддержка</label>
                     <label class="anketa-option"><input type="radio" name="anketaCategory" value="Общение" onchange="onCategoryChange(this)"> 💬 Общение</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Поддержка" onchange="onCategoryChange(this)"> 🆘 Поддержка</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Универсал" onchange="onCategoryChange(this)"> ⭐ Универсал</label>
                 </div>
             </div>
         </div>
@@ -721,6 +759,22 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 </div>
             </div>
         </div>
+        <div class="collapse-block">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>⚙️ Сменить мой пароль</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <label class="settings-label">Новый пароль:</label>
+                <input type="text" id="modNewPassword" placeholder="Новый пароль" class="settings-input">
+                <label class="settings-label">Повторите пароль:</label>
+                <input type="text" id="modNewPassword2" placeholder="Повторите" class="settings-input">
+                <button class="btn btn-full" onclick="changeMyPassword('moderator')">💾 Сохранить</button>
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
+                    Пароль хранится локально в этом браузере. Чтобы применить на всех устройствах — сообщи владельцу.
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -858,12 +912,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <input type="text" id="newAdminUsername" placeholder="username (без #)">
                     <select id="newAdminCategory">
                         <option value="">— Категория —</option>
-                        <option value="Главный администратор">👑 Главный администратор</option>
-                        <option value="Модератор">🛡️ Модератор</option>
-                        <option value="Психолог">🧠 Психолог</option>
-                        <option value="Специалист поддержки">💬 Специалист поддержки</option>
-                        <option value="Консультант">💡 Консультант</option>
-                        <option value="Технический специалист">⚙️ Технический специалист</option>
+                        <option value="Общение">💬 Общение</option>
+                        <option value="Поддержка">🆘 Поддержка</option>
+                        <option value="Универсал">⭐ Универсал</option>
                     </select>
                     <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
                     <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
@@ -885,6 +936,22 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
         <div class="collapse-block open">
             <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>⚙️ Сменить мой пароль</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <label class="settings-label">Новый пароль владельца:</label>
+                <input type="text" id="ownerNewPassword" placeholder="Новый пароль" class="settings-input">
+                <label class="settings-label">Повторите пароль:</label>
+                <input type="text" id="ownerNewPassword2" placeholder="Повторите" class="settings-input">
+                <button class="btn btn-full" onclick="changeMyPassword('owner')">💾 Сохранить</button>
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
+                    Пароль хранится локально в этом браузере. На других устройствах будет действовать старый, пока не импортируешь бэкап.
+                </p>
+            </div>
+        </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
                 <h4>📦 Экспорт / Импорт данных</h4>
                 <span class="chevron">▼</span>
             </div>
@@ -899,7 +966,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" onchange="importAllData(event)">
                 <p style="color:var(--text-muted);font-size:0.78rem;margin-top:10px;">
                     📱 <strong>На телефоне:</strong> при экспорте откроется <strong>меню «Поделиться»</strong> — отправь файл себе в Telegram/почту.
-                    Если меню не появилось — приложение откроет <strong>окно с JSON-текстом</strong>, там будет кнопка <strong>«Копировать всё»</strong>.
+                    Если меню не появилось — откроется окно с JSON-текстом, там будет кнопка <strong>«Копировать всё»</strong>.
                 </p>
                 <p style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">
                     ⚠️ Файл содержит пароли в открытом виде — передавай только доверенным людям.
@@ -1012,15 +1079,15 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 let tickets = [];
 let realDialogs = [];
 let adminsData = [
-    { name: 'admin_sakura', username: '#admin_sakura', initials: 'А1', category: 'Главный администратор' },
-    { name: 'mod_hanami', username: '#mod_hanami', initials: 'А2', category: 'Модератор' },
-    { name: 'psy_yuki', username: '#psy_yuki', initials: 'А3', category: 'Психолог' }
+    { name: 'admin_sakura', username: '#admin_sakura', initials: 'А1', category: 'Универсал' },
+    { name: 'mod_hanami', username: '#mod_hanami', initials: 'А2', category: 'Общение' },
+    { name: 'psy_yuki', username: '#psy_yuki', initials: 'А3', category: 'Поддержка' }
 ];
 let userAdminData = [
-    { id: 'admin_sakura', name: 'admin_sakura', initials: 'А1', category: 'Главный администратор' },
-    { id: 'mod_hanami', name: 'mod_hanami', initials: 'А2', category: 'Модератор' },
-    { id: 'support_kei', name: 'support_kei', initials: 'А3', category: 'Специалист поддержки' },
-    { id: 'psy_yuki', name: 'psy_yuki', initials: 'А4', category: 'Психолог' }
+    { id: 'admin_sakura', name: 'admin_sakura', initials: 'А1', category: 'Универсал' },
+    { id: 'mod_hanami', name: 'mod_hanami', initials: 'А2', category: 'Общение' },
+    { id: 'support_kei', name: 'support_kei', initials: 'А3', category: 'Поддержка' },
+    { id: 'psy_yuki', name: 'psy_yuki', initials: 'А4', category: 'Поддержка' }
 ];
 let adminRests = {};
 let restRequests = [];
@@ -1032,8 +1099,8 @@ let moderatorStats = { checked: 0, reportsHandled: 0, warnsIssued: 0 };
 let adminNorm = { messages: 300, users: 3 };
 
 const AUTH = {
-    admin: { tag: '#admin_sakura', password: 'admin123', category: 'Главный администратор' },
-    moderator: { tag: '#mod_hanami', password: 'mod123', category: 'Модератор' },
+    admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал' },
+    moderator: { tag: '#mod_hanami', password: 'mod123', category: 'Общение' },
     owner: { password: 'owner123' }
 };
 
@@ -1068,6 +1135,34 @@ const saveAuth = () => { try { localStorage.setItem('sakura-auth', JSON.stringif
 
 function toggleCollapse(header) {
     header.closest('.collapse-block').classList.toggle('open');
+}
+
+// Смена пароля владельца / модератора
+function changeMyPassword(role) {
+    if (role === 'owner') {
+        const p1 = document.getElementById('ownerNewPassword').value.trim();
+        const p2 = document.getElementById('ownerNewPassword2').value.trim();
+        if (!p1 || !p2) { showNotification('⚠️ Заполните оба поля', '⚠️'); return; }
+        if (p1 !== p2) { showNotification('⚠️ Пароли не совпадают', '⚠️'); return; }
+        if (p1.length < 4) { showNotification('⚠️ Минимум 4 символа', '⚠️'); return; }
+        AUTH.owner.password = p1;
+        saveAuth();
+        document.getElementById('ownerNewPassword').value = '';
+        document.getElementById('ownerNewPassword2').value = '';
+        showNotification('✅ Пароль владельца изменён', '✅');
+    }
+    if (role === 'moderator') {
+        const p1 = document.getElementById('modNewPassword').value.trim();
+        const p2 = document.getElementById('modNewPassword2').value.trim();
+        if (!p1 || !p2) { showNotification('⚠️ Заполните оба поля', '⚠️'); return; }
+        if (p1 !== p2) { showNotification('⚠️ Пароли не совпадают', '⚠️'); return; }
+        if (p1.length < 4) { showNotification('⚠️ Минимум 4 символа', '⚠️'); return; }
+        AUTH.moderator.password = p1;
+        saveAuth();
+        document.getElementById('modNewPassword').value = '';
+        document.getElementById('modNewPassword2').value = '';
+        showNotification('✅ Пароль модератора изменён', '✅');
+    }
 }
 
 function saveNormSettings() {
@@ -2263,13 +2358,21 @@ function selectRadio(input) {
 
 function onCategoryChange(input) {
     selectRadio(input);
-    const isSupport = input.value === 'Поддержка';
-    const ids = ['anketaSupportBlock', 'anketaPsyBlock', 'anketaRelBlock'];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = isSupport ? 'block' : 'none';
-    });
-    showNotification(isSupport ? '🆘 Категория: Поддержка' : '💬 Категория: Общение', isSupport ? '🆘' : '💬');
+    const cat = input.value;
+    // Общение — только базовая инфа
+    // Поддержка — базовая + психофильтр + надёжность + ситуации
+    // Универсал — всё
+    const showPsy = (cat === 'Поддержка' || cat === 'Универсал');
+    const showRel = (cat === 'Поддержка' || cat === 'Универсал');
+    const showSit = (cat === 'Поддержка' || cat === 'Универсал');
+    const psy = document.getElementById('anketaPsyBlock');
+    const rel = document.getElementById('anketaRelBlock');
+    const sit = document.getElementById('anketaSupportBlock');
+    if (psy) psy.style.display = showPsy ? 'block' : 'none';
+    if (rel) rel.style.display = showRel ? 'block' : 'none';
+    if (sit) sit.style.display = showSit ? 'block' : 'none';
+    const icons = { 'Общение': '💬', 'Поддержка': '🆘', 'Универсал': '⭐' };
+    showNotification(`${icons[cat] || '🌸'} Категория: ${cat}`, icons[cat] || '🌸');
 }
 
 function saveAnketa() {
@@ -2409,7 +2512,6 @@ async function exportAllData() {
     const filename = 'sakura-backup-' + stamp + '.json';
     const blob = new Blob([json], { type: 'application/json' });
 
-    // 1) Пробуем нативный share (Яндекс.Браузер Android поддерживает)
     try {
         const file = new File([blob], filename, { type: 'application/json' });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -2426,7 +2528,6 @@ async function exportAllData() {
         console.warn('share failed:', err);
     }
 
-    // 2) Fallback — открываем окно с текстом JSON и кнопкой "Копировать"
     openExportWindow(json, filename);
 }
 
