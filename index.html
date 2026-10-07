@@ -44,20 +44,20 @@ h2 { font-size: 1.4rem; text-align: center; margin-bottom: 24px; }
 h2:after { content: '🌸'; display: block; font-size: 1.4rem; margin-top: 4px; }
 p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .section { padding: 32px 0; background: var(--bg-panel); border-radius: 24px; margin: 14px 0; box-shadow: 0 5px 25px var(--shadow-pink); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(248,165,184,0.4); min-height: 48px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 11px 18px; border-radius: 50px; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(248,165,184,0.4); min-height: 42px; }
 .btn:active { transform: scale(0.97); filter: brightness(1.1); }
 .btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); box-shadow: none; }
 .btn-blue { background: linear-gradient(135deg, var(--blue), #2d7dd2); }
 .btn-green { background: linear-gradient(135deg, var(--green), #3aa02a); }
 .btn-yellow { background: linear-gradient(135deg, var(--yellow), #e1b12c); color: #333; }
 .btn-red { background: linear-gradient(135deg, var(--red), #c0392b); }
-.btn-sm { padding: 8px 14px; font-size: 0.8rem; min-height: 36px; }
+.btn-sm { padding: 6px 11px; font-size: 0.75rem; min-height: 32px; }
 .btn-full { width: 100%; }
-.header { background: linear-gradient(135deg, rgba(248,165,184,0.95), rgba(196,69,105,0.85)); color: #fff; padding: calc(40px + var(--safe-top)) 16px 30px; text-align: center; border-radius: 0 0 40px 40px; position: relative; overflow: hidden; }
-.header::after { content: '🌸'; font-size: 5rem; position: absolute; bottom: -20px; right: -10px; opacity: 0.15; transform: rotate(-15deg); }
-.header h1 { color: #fff; font-weight: 700; }
-.header p { color: rgba(255,255,255,0.95); font-size: 0.95rem; margin: 10px 0 16px; }
-.header .btn { margin: 4px 2px; padding: 12px 18px; font-size: 0.85rem; }
+.header { background: linear-gradient(135deg, rgba(248,165,184,0.95), rgba(196,69,105,0.85)); color: #fff; padding: calc(30px + var(--safe-top)) 14px 22px; text-align: center; border-radius: 0 0 28px 28px; position: relative; overflow: hidden; }
+.header::after { content: '🌸'; font-size: 4rem; position: absolute; bottom: -20px; right: -10px; opacity: 0.15; transform: rotate(-15deg); }
+.header h1 { color: #fff; font-weight: 700; font-size: 1.55rem; }
+.header p { color: rgba(255,255,255,0.95); font-size: 0.88rem; margin: 8px 0 12px; }
+.header .btn { margin: 3px 2px; padding: 9px 14px; font-size: 0.78rem; min-height: 38px; }
 .benefits-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .benefit-card { background: var(--bg-card); padding: 18px 16px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px var(--shadow-pink); border: 1px solid var(--border-pink); }
 .benefit-card .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
@@ -76,373 +76,337 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .contacts { text-align: center; }
 .contacts .btn { margin: 6px; }
 
-.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; }
+.panel-section { display: none; padding: calc(60px + var(--safe-top)) 0 85px; }
 .panel-section.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.panel-container { background: var(--bg-panel); border-radius: 24px; padding: 20px 16px; box-shadow: 0 10px 40px var(--shadow-pink); border: 2px solid var(--border-pink); margin: 0 12px; }
-.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
-.panel-header h3 { font-size: 1.3rem; margin: 0; font-weight: 700; }
-.role-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.panel-container { background: var(--bg-panel); border-radius: 18px; padding: 14px 12px; box-shadow: 0 10px 40px var(--shadow-pink); border: 2px solid var(--border-pink); margin: 0 8px; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
+.panel-header h3 { font-size: 1.1rem; margin: 0; font-weight: 700; }
+.role-badge { display: inline-block; padding: 4px 10px; border-radius: 50px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; }
 .role-badge.user { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
 .role-badge.admin { background: rgba(248,165,184,0.2); color: var(--pink); border: 1px solid var(--pink); }
 .role-badge.owner { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700; }
 .role-badge.moderator { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
 .role-badge.support { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
 
-.collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-pink); margin-bottom: 10px; overflow: hidden; }
-.collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; cursor: pointer; gap: 10px; min-height: 52px; }
+.collapse-block { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 7px; overflow: hidden; }
+.collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; cursor: pointer; gap: 8px; min-height: 42px; }
 .collapse-header:active { background: rgba(248,165,184,0.08); }
-.collapse-header h4 { color: var(--pink); font-size: 1rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.collapse-header .chevron { color: var(--text-muted); font-size: 0.9rem; transition: transform 0.3s; }
+.collapse-header h4 { color: var(--pink); font-size: 0.88rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.collapse-header .chevron { color: var(--text-muted); font-size: 0.8rem; transition: transform 0.3s; }
 .collapse-block.open .chevron { transform: rotate(180deg); }
-.collapse-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border-pink); }
+.collapse-body { display: none; padding: 10px 12px; border-top: 1px solid var(--border-pink); }
 .collapse-block.open .collapse-body { display: block; }
-.collapse-badge { background: var(--pink); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 4px; }
+.collapse-badge { background: var(--pink); color: #fff; font-size: 0.62rem; font-weight: 700; padding: 2px 7px; border-radius: 50px; margin-left: 4px; }
 
-.profile-card { background: var(--bg-card); border-radius: 20px; padding: 16px; border: 2px solid var(--border-pink); margin-bottom: 14px; display: flex; gap: 14px; align-items: center; }
-.profile-avatar-big { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
+.profile-card { background: var(--bg-card); border-radius: 14px; padding: 10px; border: 2px solid var(--border-pink); margin-bottom: 10px; display: flex; gap: 10px; align-items: center; }
+.profile-avatar-big { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; flex-shrink: 0; }
 .profile-info-block { flex: 1; min-width: 0; }
-.profile-info-block h3 { color: var(--text-light); font-size: 1.15rem; margin-bottom: 2px; }
-.profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.8rem; }
-.avatar-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-.avatar-option { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border-pink); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
+.profile-info-block h3 { color: var(--text-light); font-size: 1rem; margin-bottom: 2px; }
+.profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.72rem; }
+.avatar-picker { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+.avatar-option { width: 30px; height: 30px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border-pink); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; cursor: pointer; }
 .avatar-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.2); }
-.nickname-row { display: flex; gap: 8px; flex-direction: column; }
-.nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; min-height: 48px; }
-.nickname-row button { width: 100%; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 48px; }
+.nickname-row { display: flex; gap: 6px; flex-direction: column; }
+.nickname-row input { width: 100%; padding: 9px 12px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 0.88rem; outline: none; font-family: inherit; min-height: 40px; }
+.nickname-row button { width: 100%; padding: 9px 14px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 40px; font-size: 0.88rem; }
 
-.admins-picker { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; transition: all 0.2s; cursor: pointer; position: relative; }
+.admins-picker { display: grid; grid-template-columns: 1fr; gap: 7px; }
+.admin-pick-card { background: var(--bg-panel); border-radius: 12px; border: 2px solid var(--border-pink); padding: 9px; transition: all 0.2s; cursor: pointer; position: relative; }
 .admin-pick-card:active { transform: scale(0.98); }
 .admin-pick-card.selected { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink); }
 .admin-pick-card.resting { opacity: 0.6; cursor: not-allowed; border-color: var(--yellow); }
-.admin-pick-card.resting::after { content: '😴'; position: absolute; top: 8px; right: 8px; background: rgba(251,197,49,0.9); color: #333; padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; }
-.admin-pick-card .pick-header { display: flex; align-items: center; gap: 10px; }
-.admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.95rem; flex-shrink: 0; }
+.admin-pick-card.resting::after { content: '😴'; position: absolute; top: 8px; right: 8px; background: rgba(251,197,49,0.9); color: #333; padding: 2px 7px; border-radius: 50px; font-size: 0.6rem; font-weight: 700; }
+.admin-pick-card .pick-header { display: flex; align-items: center; gap: 9px; }
+.admin-pick-card .pick-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.85rem; flex-shrink: 0; }
 .admin-pick-card .pick-info { min-width: 0; flex: 1; }
-.admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
-.admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
+.admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.88rem; }
+.admin-pick-card .pick-category { font-size: 0.68rem; color: var(--pink); }
 
-.user-dialog-block { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--border-pink); }
+.user-dialog-block { margin-top: 10px; padding-top: 10px; border-top: 2px dashed var(--border-pink); }
 .user-dialog-block.hidden { display: none; }
-.user-dialog-title { color: var(--pink); font-size: 1rem; margin-bottom: 10px; font-weight: 700; }
-.chat-container { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-pink); }
-.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 12px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 0.9rem; }
+.user-dialog-title { color: var(--pink); font-size: 0.88rem; margin-bottom: 8px; font-weight: 700; }
+.chat-container { background: var(--bg-card); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-pink); }
+.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 9px 12px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 0.85rem; }
 .chat-header-left { display: flex; align-items: center; gap: 8px; }
-.chat-header .status-dot { background: var(--green); width: 8px; height: 8px; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+.chat-header .status-dot { background: var(--green); width: 7px; height: 7px; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-.finish-btn { background: rgba(255,255,255,0.25); color: #fff; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 0.78rem; min-height: 36px; }
-.chat-messages { height: 320px; padding: 14px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--bg-dark); display: flex; flex-direction: column; gap: 10px; }
-.message { max-width: 85%; padding: 10px 14px; border-radius: 18px; word-wrap: break-word; line-height: 1.4; font-size: 0.9rem; }
+.finish-btn { background: rgba(255,255,255,0.25); color: #fff; border: none; padding: 6px 11px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 0.72rem; min-height: 32px; }
+.chat-messages { height: 280px; padding: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--bg-dark); display: flex; flex-direction: column; gap: 8px; }
+.message { max-width: 85%; padding: 8px 11px; border-radius: 14px; word-wrap: break-word; line-height: 1.4; font-size: 0.85rem; }
 .message.user { align-self: flex-end; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border-bottom-right-radius: 5px; }
 .message.bot { align-self: flex-start; background: var(--bg-panel); color: var(--text-light); border-bottom-left-radius: 5px; border: 1px solid var(--border-pink); }
-.message.system { align-self: center; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.8rem; text-align: center; font-weight: 600; }
-.message.closed { align-self: center; background: rgba(232,65,24,0.15); color: var(--red); border: 1px solid var(--red); font-size: 0.85rem; text-align: center; font-weight: 600; }
-.message.waiting { align-self: center; background: rgba(74,158,255,0.12); color: var(--blue); border: 1px dashed var(--blue); font-size: 0.85rem; text-align: center; font-weight: 600; }
-.message .time { font-size: 0.6rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
-.message audio { max-width: 100%; margin-top: 6px; height: 30px; }
+.message.system { align-self: center; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.75rem; text-align: center; font-weight: 600; }
+.message.closed { align-self: center; background: rgba(232,65,24,0.15); color: var(--red); border: 1px solid var(--red); font-size: 0.8rem; text-align: center; font-weight: 600; }
+.message.waiting { align-self: center; background: rgba(74,158,255,0.12); color: var(--blue); border: 1px dashed var(--blue); font-size: 0.8rem; text-align: center; font-weight: 600; }
+.message .time { font-size: 0.56rem; opacity: 0.7; margin-top: 3px; display: block; text-align: right; }
+.message audio { max-width: 100%; margin-top: 6px; height: 28px; }
 .attachment-photo { display: block; margin-top: 6px; max-width: 200px; border-radius: 10px; overflow: hidden; }
 .attachment-photo img { width: 100%; display: block; }
-.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; flex-wrap: nowrap; }
-.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 14px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 52px; min-width: 0; }
+.chat-input-area { display: flex; padding: 7px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 5px; align-items: center; flex-wrap: nowrap; }
+.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 42px; min-width: 0; }
 .chat-input-area input[type="text"]:disabled { opacity: 0.4; }
-.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0; }
 .attach-btn:active { background: var(--pink); color: #fff; border-color: var(--pink); }
 .attach-btn.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
-.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1.05rem; flex-shrink: 0; }
+.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 10px 14px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 42px; font-size: 0.92rem; flex-shrink: 0; }
 .send-btn:active { transform: scale(0.95); }
 .send-btn:disabled { opacity: 0.4; }
 
 .dialogs-list { max-height: 400px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
-.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
+.empty-state { text-align: center; padding: 18px 12px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 12px; border: 1px dashed var(--border-pink); font-size: 0.82rem; }
+.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 11px; background: var(--bg-panel); border-radius: 10px; margin-bottom: 6px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
 .dialog-item:active { transform: scale(0.99); }
 .dialog-item.banned { opacity: 0.6; border-color: var(--red); }
 .dialog-item.closed { opacity: 0.6; border-color: var(--text-muted); }
-.dialog-item .dialog-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-.dialog-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
-.dialog-item .dialog-name { font-weight: 600; color: var(--text-light); font-size: 0.95rem; }
-.dialog-item .dialog-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+.dialog-item .dialog-info { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; }
+.dialog-item .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.8rem; flex-shrink: 0; }
+.dialog-item .dialog-name { font-weight: 600; color: var(--text-light); font-size: 0.88rem; }
+.dialog-item .dialog-preview { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 .dialog-item .dialog-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
-.dialog-item .dialog-time { font-size: 0.7rem; color: var(--text-muted); }
-.dialog-item .dialog-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 50px; }
+.dialog-item .dialog-time { font-size: 0.65rem; color: var(--text-muted); }
+.dialog-item .dialog-status { font-size: 0.65rem; padding: 2px 7px; border-radius: 50px; }
 .dialog-item .dialog-status.online { color: var(--green); background: rgba(76,209,55,0.15); }
 .dialog-item .dialog-status.banned { color: var(--red); background: rgba(232,65,24,0.15); font-weight: 700; }
 .dialog-item .dialog-status.closed { color: var(--text-muted); background: rgba(184,163,196,0.15); font-weight: 700; }
 .dialog-item .dialog-status.waiting { color: var(--blue); background: rgba(74,158,255,0.15); font-weight: 700; }
-.dialog-item .dialog-status.viewer { color: var(--text-muted); background: rgba(184,163,196,0.15); font-size: 0.7rem; padding: 2px 8px; }
-.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-.stat-card { background: var(--bg-card); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid var(--border-pink); }
-.stat-card .number { font-size: 1.5rem; font-weight: 700; color: var(--pink); }
-.stat-card .label { font-size: 0.75rem; color: var(--text-muted); }
-.user-list { margin-top: 10px; }
-.user-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); flex-wrap: wrap; gap: 8px; }
-.user-item .user-info { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-.user-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
-.user-item .user-name { font-weight: 600; color: var(--text-light); font-size: 0.9rem; }
-.user-item .user-status { font-size: 0.78rem; color: var(--text-muted); }
-.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-left: 4px; }
-.user-item .user-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+.dialog-item .dialog-status.viewer { color: var(--text-muted); background: rgba(184,163,196,0.15); font-size: 0.65rem; padding: 2px 7px; }
+.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.62rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+.stat-card { background: var(--bg-card); padding: 10px 8px; border-radius: 12px; text-align: center; border: 1px solid var(--border-pink); }
+.stat-card .number { font-size: 1.25rem; font-weight: 700; color: var(--pink); }
+.stat-card .label { font-size: 0.68rem; color: var(--text-muted); }
+.user-list { margin-top: 6px; }
+.user-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 11px; background: var(--bg-panel); border-radius: 10px; margin-bottom: 6px; border: 1px solid var(--border-pink); flex-wrap: wrap; gap: 8px; }
+.user-item .user-info { display: flex; align-items: center; gap: 9px; min-width: 0; flex: 1; }
+.user-item .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.8rem; flex-shrink: 0; }
+.user-item .user-name { font-weight: 600; color: var(--text-light); font-size: 0.85rem; }
+.user-item .user-status { font-size: 0.72rem; color: var(--text-muted); }
+.user-item .user-category { display: inline-block; padding: 2px 7px; border-radius: 50px; font-size: 0.62rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-left: 4px; }
+.user-item .user-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
 .user-item .user-actions button:active { background: var(--pink); color: #fff; border-color: var(--pink); }
-.norm-block { background: var(--bg-panel); padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border-pink); }
-.norm-block h4 { color: var(--pink); margin-bottom: 12px; font-size: 1rem; }
-.norm-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-muted); gap: 8px; }
+.norm-block { background: var(--bg-panel); padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-pink); }
+.norm-block h4 { color: var(--pink); margin-bottom: 10px; font-size: 0.88rem; }
+.norm-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.82rem; color: var(--text-muted); gap: 8px; }
 .norm-row .norm-value { font-weight: 700; color: var(--pink); text-align: right; }
-.norm-bar { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin-top: 4px; margin-bottom: 12px; }
+.norm-bar { width: 100%; height: 7px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin-top: 3px; margin-bottom: 8px; }
 .norm-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--pink-deep)); }
-.norm-clean-date { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-pink); }
-.add-admin-form { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-.add-admin-form input, .add-admin-form select { padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; width: 100%; min-height: 48px; }
+.norm-clean-date { text-align: center; font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-pink); }
+.add-admin-form { display: grid; grid-template-columns: 1fr; gap: 7px; margin-top: 7px; }
+.add-admin-form input, .add-admin-form select { padding: 9px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-panel); color: var(--text-light); font-size: 0.88rem; outline: none; font-family: inherit; width: 100%; min-height: 42px; }
 .add-admin-form .full-width { grid-column: 1 / -1; }
 .reviews-list { max-height: 400px; overflow-y: auto; }
-.review-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border-pink); }
+.review-item { background: var(--bg-panel); padding: 9px 11px; border-radius: 9px; margin-bottom: 6px; border: 1px solid var(--border-pink); }
 .review-item .review-head { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
-.review-item .review-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
-.review-item .review-stars { color: #ffd700; font-size: 0.9rem; }
-.review-item .review-text { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
-.review-item .review-admin { font-size: 0.72rem; color: var(--pink); margin-top: 4px; }
-.admin-profile-card { text-align: center; padding: 16px 0; border-bottom: 1px dashed var(--border-pink); margin-bottom: 16px; }
-.admin-profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; color: #fff; margin: 0 auto 10px; }
-.admin-profile-name { font-size: 1.2rem; font-weight: 700; color: var(--text-light); }
-.admin-profile-tag { font-size: 0.9rem; color: var(--pink); margin-top: 4px; font-weight: 600; }
-.admin-profile-category { display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-top: 6px; }
-.rest-request-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
+.review-item .review-author { font-weight: 700; color: var(--text-light); font-size: 0.85rem; }
+.review-item .review-stars { color: #ffd700; font-size: 0.85rem; }
+.review-item .review-text { color: var(--text-muted); font-size: 0.8rem; font-style: italic; }
+.review-item .review-admin { font-size: 0.68rem; color: var(--pink); margin-top: 4px; }
+.admin-profile-card { text-align: center; padding: 12px 0; border-bottom: 1px dashed var(--border-pink); margin-bottom: 12px; }
+.admin-profile-avatar { width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 1.45rem; font-weight: 700; color: #fff; margin: 0 auto 8px; }
+.admin-profile-name { font-size: 1rem; font-weight: 700; color: var(--text-light); }
+.admin-profile-tag { font-size: 0.8rem; color: var(--pink); margin-top: 4px; font-weight: 600; }
+.admin-profile-category { display: inline-block; padding: 3px 9px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-top: 6px; }
+.rest-request-item { background: var(--bg-panel); padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border-pink); margin-bottom: 6px; }
 .rest-request-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
 .rest-request-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
-.rest-request-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
-.rest-request-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+.rest-request-author { font-weight: 700; color: var(--text-light); font-size: 0.85rem; }
+.rest-request-status { padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; }
 .rest-request-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
-.rest-request-info { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
+.rest-request-info { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
 .rest-request-info strong { color: var(--text-light); }
-.rest-request-reason { font-size: 0.85rem; color: var(--text-light); font-style: italic; padding: 8px 12px; background: var(--bg-card); border-radius: 10px; border-left: 3px solid var(--pink); margin: 6px 0; }
+.rest-request-reason { font-size: 0.8rem; color: var(--text-light); font-style: italic; padding: 7px 10px; background: var(--bg-card); border-radius: 8px; border-left: 3px solid var(--pink); margin: 6px 0; }
 .rest-request-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.rest-request-form { background: var(--bg-panel); padding: 14px; border-radius: 12px; border: 1px solid var(--border-pink); display: flex; flex-direction: column; gap: 10px; }
-.rest-request-form input, .rest-request-form textarea { padding: 10px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; width: 100%; min-height: 44px; }
-.rest-request-form textarea { min-height: 70px; resize: vertical; }
-.rest-request-form label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 3px; }
-.rest-badge { display: inline-block; padding: 3px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
-.report-item { background: var(--bg-panel); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
+.rest-request-form { background: var(--bg-panel); padding: 10px; border-radius: 9px; border: 1px solid var(--border-pink); display: flex; flex-direction: column; gap: 8px; }
+.rest-request-form input, .rest-request-form textarea { padding: 9px 11px; border: 2px solid var(--border-pink); border-radius: 9px; background: var(--bg-card); color: var(--text-light); font-size: 0.85rem; font-family: inherit; outline: none; width: 100%; min-height: 40px; }
+.rest-request-form textarea { min-height: 62px; resize: vertical; }
+.rest-request-form label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 3px; }
+.rest-badge { display: inline-block; padding: 2px 7px; border-radius: 50px; font-size: 0.62rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
+.report-item { background: var(--bg-panel); padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border-pink); margin-bottom: 6px; }
 .report-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
 .report-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 6px; flex-wrap: wrap; }
-.report-author { font-weight: 700; color: var(--text-light); font-size: 0.85rem; }
-.report-time { font-size: 0.7rem; color: var(--text-muted); }
-.report-text { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px; }
+.report-author { font-weight: 700; color: var(--text-light); font-size: 0.8rem; }
+.report-time { font-size: 0.65rem; color: var(--text-muted); }
+.report-text { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; }
 .report-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-.ticket-form { background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 16px; }
-.ticket-form h3 { color: var(--green); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; }
-.ticket-form label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
-.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-panel); color: var(--text-light); font-size: 0.95rem; font-family: inherit; outline: none; margin-bottom: 10px; min-height: 48px; }
-.ticket-form textarea { min-height: 90px; resize: vertical; }
-.ticket-list { display: flex; flex-direction: column; gap: 10px; }
-.ticket-item { background: var(--bg-panel); border: 1px solid var(--border-pink); border-radius: 14px; padding: 14px 16px; }
+.ticket-form { background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border-pink); padding: 12px; margin-bottom: 12px; }
+.ticket-form h3 { color: var(--green); font-size: 0.92rem; margin-bottom: 10px; font-weight: 700; }
+.ticket-form label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 4px; font-size: 0.78rem; }
+.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 9px 11px; border: 2px solid var(--border-pink); border-radius: 9px; background: var(--bg-panel); color: var(--text-light); font-size: 0.88rem; font-family: inherit; outline: none; margin-bottom: 8px; min-height: 42px; }
+.ticket-form textarea { min-height: 72px; resize: vertical; }
+.ticket-list { display: flex; flex-direction: column; gap: 8px; }
+.ticket-item { background: var(--bg-panel); border: 1px solid var(--border-pink); border-radius: 10px; padding: 10px 12px; }
 .ticket-item.pending { border-color: var(--yellow); }
 .ticket-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
-.ticket-item-id { font-weight: 700; color: var(--pink); font-size: 0.8rem; }
-.ticket-item-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+.ticket-item-id { font-weight: 700; color: var(--pink); font-size: 0.72rem; }
+.ticket-item-status { padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; }
 .ticket-item-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
-.ticket-item-title { font-weight: 700; color: var(--text-light); font-size: 0.95rem; margin-bottom: 4px; }
-.ticket-item-category { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid var(--blue); margin-bottom: 6px; }
-.ticket-item-text { color: var(--text-muted); font-size: 0.85rem; }
-.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.ticket-item-title { font-weight: 700; color: var(--text-light); font-size: 0.85rem; margin-bottom: 4px; }
+.ticket-item-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 600; background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid var(--blue); margin-bottom: 6px; }
+.ticket-item-text { color: var(--text-muted); font-size: 0.8rem; }
+.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .ticket-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.ticket-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
-.anketa-block { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 14px; }
-.anketa-block h3 { color: var(--pink); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; border-bottom: 2px dashed var(--border-pink); padding-bottom: 8px; }
-.anketa-question { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 10px; }
-.anketa-question strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.9rem; }
-.anketa-question input, .anketa-question textarea { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; min-height: 44px; }
-.anketa-question textarea { min-height: 80px; resize: vertical; }
-.anketa-options { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-.anketa-option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg-card); border: 2px solid var(--border-pink); border-radius: 10px; cursor: pointer; color: var(--text-light); font-size: 0.88rem; min-height: 44px; }
-.anketa-option input[type="radio"] { width: 18px; height: 18px; accent-color: var(--pink); flex-shrink: 0; }
+.ticket-empty { text-align: center; padding: 18px 12px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-pink); font-size: 0.82rem; }
+.anketa-block { background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border-pink); padding: 12px; margin-bottom: 10px; }
+.anketa-block h3 { color: var(--pink); font-size: 0.92rem; margin-bottom: 10px; font-weight: 700; border-bottom: 2px dashed var(--border-pink); padding-bottom: 6px; }
+.anketa-question { background: var(--bg-panel); padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border-pink); margin-bottom: 7px; }
+.anketa-question strong { color: var(--text-light); display: block; margin-bottom: 5px; font-size: 0.85rem; }
+.anketa-question input, .anketa-question textarea { width: 100%; padding: 9px 11px; border: 2px solid var(--border-pink); border-radius: 9px; background: var(--bg-card); color: var(--text-light); font-size: 0.88rem; font-family: inherit; outline: none; min-height: 42px; }
+.anketa-question textarea { min-height: 70px; resize: vertical; }
+.anketa-options { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+.anketa-option { display: flex; align-items: center; gap: 8px; padding: 7px 11px; background: var(--bg-card); border: 2px solid var(--border-pink); border-radius: 9px; cursor: pointer; color: var(--text-light); font-size: 0.84rem; min-height: 40px; }
+.anketa-option input[type="radio"] { width: 17px; height: 17px; accent-color: var(--pink); flex-shrink: 0; }
 .anketa-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.15); }
-.anketa-situation { background: rgba(74,158,255,0.08); padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(74,158,255,0.3); margin-bottom: 10px; }
-.anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 4px; font-size: 0.88rem; }
-.anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; padding-left: 10px; border-left: 3px solid var(--blue); }
+.anketa-situation { background: rgba(74,158,255,0.08); padding: 9px 11px; border-radius: 9px; border: 1px solid rgba(74,158,255,0.3); margin-bottom: 7px; }
+.anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 3px; font-size: 0.82rem; }
+.anketa-situation-text { color: var(--text-light); font-size: 0.8rem; font-style: italic; padding-left: 8px; border-left: 3px solid var(--blue); }
 
-.notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; box-shadow: 0 6px 25px rgba(248,165,184,0.5); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
+.notification { position: fixed; top: calc(56px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 8px 14px; border-radius: 50px; font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 25px rgba(248,165,184,0.5); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 14px; overflow-y: auto; }
 .modal-overlay.active { display: flex; }
-.modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 100%; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
-.close-modal { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; }
+.modal-card { background: var(--bg-panel); border-radius: 18px; padding: 18px 14px; width: 100%; max-width: 100%; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
+.close-modal { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; }
 .auth-modal-content { text-align: center; }
-.auth-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
-.auth-modal-content p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; }
-.auth-modal-content input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; margin-bottom: 12px; min-height: 48px; }
+.auth-modal-content h3 { color: var(--text-light); font-size: 1.1rem; margin-bottom: 6px; }
+.auth-modal-content p { color: var(--text-muted); margin-bottom: 14px; font-size: 0.82rem; }
+.auth-modal-content input { width: 100%; padding: 11px 14px; border: 2px solid var(--border-pink); border-radius: 11px; background: var(--bg-card); color: var(--text-light); font-size: 0.92rem; font-family: inherit; outline: none; margin-bottom: 10px; min-height: 42px; }
 .rating-modal-content { text-align: center; }
-.rating-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
-.rating-modal-content p { color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem; }
-.rating-stars-input { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
-.rating-stars-input .star { font-size: 2.4rem; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 4px; }
+.rating-modal-content h3 { color: var(--text-light); font-size: 1.1rem; margin-bottom: 6px; }
+.rating-modal-content p { color: var(--text-muted); margin-bottom: 12px; font-size: 0.82rem; }
+.rating-stars-input { display: flex; justify-content: center; gap: 4px; margin-bottom: 12px; }
+.rating-stars-input .star { font-size: 2rem; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 3px; }
 .rating-stars-input .star.active { color: #ffd700; }
-.rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
+.rating-modal-content textarea { width: 100%; padding: 11px 14px; border: 2px solid var(--border-pink); border-radius: 11px; background: var(--bg-card); color: var(--text-light); font-size: 0.92rem; font-family: inherit; outline: none; min-height: 72px; margin-bottom: 12px; resize: vertical; }
 
-.mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 6px 2px calc(6px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
-.nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; padding: 6px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 10px; font-weight: 600; min-height: 50px; transition: all 0.2s; }
-.nav-btn .nav-icon { font-size: 1.3rem; line-height: 1; }
+.mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 3px 2px calc(3px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
+.nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.58rem; padding: 3px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 1px; border-radius: 8px; font-weight: 600; min-height: 44px; transition: all 0.2s; }
+.nav-btn .nav-icon { font-size: 1.1rem; line-height: 1; }
 .nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
 .nav-btn:active { transform: scale(0.95); }
 
-#mainContent { padding-bottom: 80px; }
-.panel-section { padding-bottom: 80px; }
+#mainContent { padding-bottom: 65px; }
+.panel-section { padding-bottom: 65px; }
 
-.theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+.theme-float { position: fixed; top: calc(7px + var(--safe-top)); right: 9px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.05rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .theme-float:active { transform: scale(0.9); }
 
-.settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-.settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: inherit; min-height: 48px; }
+.settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 4px; font-size: 0.8rem; }
+.settings-input { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 11px; background: var(--bg-card); color: var(--text-light); font-size: 0.88rem; outline: none; margin-bottom: 10px; font-family: inherit; min-height: 42px; }
 
-.footer { background: var(--bg-panel); color: var(--text-muted); padding: 24px 0 calc(24px + var(--safe-bottom)); text-align: center; font-size: 0.85rem; margin-top: 20px; border-top: 1px solid var(--border-pink); }
+.footer { background: var(--bg-panel); color: var(--text-muted); padding: 18px 0 calc(18px + var(--safe-bottom)); text-align: center; font-size: 0.78rem; margin-top: 18px; border-top: 1px solid var(--border-pink); }
 .footer a { color: var(--pink); text-decoration: none; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
 
 /* ============================================================
-   МОБИЛЬНАЯ АДАПТАЦИЯ
+   МОБИЛЬНАЯ АДАПТАЦИЯ — компактная
    ============================================================ */
 @media (max-width: 480px) {
-    body { font-size: 16px; line-height: 1.55; }
+    .panel-container { padding: 12px 10px; margin: 0 5px; border-radius: 16px; }
 
-    h1 { font-size: 1.9rem; }
-    h2 { font-size: 1.5rem; margin-bottom: 20px; }
-    p { font-size: 1rem; }
+    .btn { padding: 10px 16px; font-size: 0.85rem; min-height: 40px; }
 
-    .container { padding: 0 14px; }
-    .section { padding: 24px 0; border-radius: 20px; margin: 12px 10px; }
-    .panel-container { padding: 18px 14px; margin: 0 8px; border-radius: 20px; }
+    .header { padding: calc(24px + var(--safe-top)) 12px 18px; }
+    .header h1 { font-size: 1.4rem; }
+    .header p { font-size: 0.82rem; margin: 6px 0 10px; }
+    .header .btn { padding: 8px 12px; font-size: 0.75rem; min-height: 36px; }
 
-    .btn { padding: 16px 22px; font-size: 1rem; min-height: 54px; border-radius: 50px; }
-    .btn-sm { padding: 12px 18px; font-size: 0.88rem; min-height: 46px; }
+    .panel-header { margin-bottom: 10px; }
+    .panel-header h3 { font-size: 1rem; }
+    .role-badge { padding: 3px 8px; font-size: 0.6rem; }
 
-    .header { padding: calc(36px + var(--safe-top)) 16px 26px; }
-    .header h1 { font-size: 2rem; }
-    .header p { font-size: 1rem; }
-    .header .btn { padding: 14px 20px; font-size: 0.92rem; }
-
-    .panel-header h3 { font-size: 1.35rem; }
-    .role-badge { padding: 6px 12px; font-size: 0.72rem; }
-
-    .collapse-header { padding: 16px 14px; min-height: 58px; }
-    .collapse-header h4 { font-size: 1.05rem; }
-    .collapse-header .chevron { font-size: 1.1rem; }
-    .collapse-body { padding: 14px 14px 16px; }
+    .collapse-block { border-radius: 11px; margin-bottom: 6px; }
+    .collapse-header { padding: 9px 11px; min-height: 40px; }
+    .collapse-header h4 { font-size: 0.84rem; }
+    .collapse-header .chevron { font-size: 0.85rem; }
+    .collapse-body { padding: 10px 11px 12px; }
 
     input[type="text"], input[type="number"], input[type="password"], textarea, select {
         font-size: 16px !important;
-        padding: 14px 16px !important;
-        min-height: 54px !important;
-        border-radius: 14px !important;
+        padding: 9px 11px !important;
+        min-height: 40px !important;
+        border-radius: 10px !important;
     }
-    textarea { min-height: 96px !important; }
+    textarea { min-height: 68px !important; }
 
-    /* Карточка админа — вертикально, крупно, удобно */
-    .user-item {
-        padding: 14px;
-        gap: 12px;
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .user-item .user-info {
-        align-items: flex-start;
-        gap: 12px;
-    }
-    .user-item .avatar { width: 52px; height: 52px; font-size: 1.1rem; }
-    .user-item .user-name {
-        font-size: 1.05rem;
-        line-height: 1.4;
-        word-break: break-word;
-    }
-    .user-item .user-category {
-        display: inline-block;
-        margin: 4px 0 0 0;
-        font-size: 0.78rem;
-        padding: 4px 10px;
-    }
-    .user-item .user-status {
-        font-size: 0.88rem;
-        margin-top: 4px;
-        line-height: 1.4;
-        word-break: break-word;
-    }
+    .user-item { padding: 9px 10px; gap: 6px; flex-direction: column; align-items: stretch; }
+    .user-item .user-info { align-items: flex-start; gap: 8px; }
+    .user-item .avatar { width: 36px; height: 36px; font-size: 0.85rem; }
+    .user-item .user-name { font-size: 0.88rem; line-height: 1.3; }
+    .user-item .user-category { margin: 2px 0 0 0; font-size: 0.64rem; padding: 2px 7px; }
+    .user-item .user-status { font-size: 0.72rem; margin-top: 2px; }
     .user-item .user-actions {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+        gap: 5px;
         width: 100%;
     }
-    .user-item .user-actions button {
-        width: 100%;
-        height: 52px;
-        font-size: 1.3rem;
-        border-radius: 14px;
-        background: rgba(248,165,184,0.08);
-    }
-    .norm-bar { height: 8px; margin-top: 8px; }
+    .user-item .user-actions button { width: 100%; height: 34px; font-size: 0.92rem; border-radius: 8px; background: rgba(248,165,184,0.08); }
+    .norm-bar { height: 5px; margin-top: 5px; margin-bottom: 6px; }
 
-    .dialog-item { padding: 14px 14px; }
-    .dialog-item .avatar { width: 44px; height: 44px; }
-    .dialog-item .dialog-name { font-size: 1rem; }
-    .dialog-item .dialog-preview { font-size: 0.88rem; max-width: 200px; }
-    .dialog-item .dialog-time { font-size: 0.78rem; }
-    .dialog-item .dialog-status { font-size: 0.78rem; padding: 3px 10px; }
+    .dialog-item { padding: 8px 10px; border-radius: 9px; }
+    .dialog-item .avatar { width: 32px; height: 32px; font-size: 0.78rem; }
+    .dialog-item .dialog-name { font-size: 0.82rem; }
+    .dialog-item .dialog-preview { font-size: 0.7rem; max-width: 150px; }
 
-    .mobile-nav { padding: 8px 2px calc(8px + var(--safe-bottom)); }
-    .nav-btn { font-size: 0.7rem; min-height: 58px; padding: 6px 2px; }
-    .nav-btn .nav-icon { font-size: 1.6rem; }
+    .mobile-nav { padding: 3px 2px calc(3px + var(--safe-bottom)); }
+    .nav-btn { font-size: 0.55rem; min-height: 42px; }
+    .nav-btn .nav-icon { font-size: 1rem; }
 
-    .modal-card { padding: 22px 16px; border-radius: 20px; max-height: 92vh; }
-    .modal-card h3 { font-size: 1.35rem; }
-    .close-modal { width: 44px; height: 44px; font-size: 1.6rem; top: 10px; right: 10px; }
-    .auth-modal-content input { font-size: 16px !important; padding: 14px 16px !important; min-height: 54px !important; }
-    .rating-stars-input .star { font-size: 2.8rem; padding: 6px; }
+    .modal-card { padding: 15px 12px; border-radius: 15px; }
+    .modal-card h3 { font-size: 1rem; }
+    .close-modal { width: 32px; height: 32px; font-size: 1.25rem; top: 6px; right: 6px; }
+    .rating-stars-input .star { font-size: 2rem; padding: 3px; }
 
-    .add-admin-form input, .add-admin-form select { font-size: 16px !important; min-height: 54px !important; padding: 14px 16px !important; }
-    .ticket-form input, .ticket-form select, .ticket-form textarea { font-size: 16px !important; min-height: 54px !important; padding: 14px 16px !important; }
-    .anketa-question input, .anketa-question textarea { font-size: 16px !important; min-height: 52px !important; padding: 12px 14px !important; }
-    .anketa-option { padding: 12px 14px; min-height: 52px; font-size: 1rem; }
-    .anketa-option input[type="radio"] { width: 22px; height: 22px; }
-    .rest-request-form input, .rest-request-form textarea { font-size: 16px !important; min-height: 52px !important; padding: 12px 14px !important; }
+    .add-admin-form input, .add-admin-form select { font-size: 16px !important; min-height: 40px !important; padding: 9px 11px !important; }
+    .ticket-form input, .ticket-form select, .ticket-form textarea { font-size: 16px !important; min-height: 40px !important; padding: 9px 11px !important; }
+    .anketa-question input, .anketa-question textarea { font-size: 16px !important; min-height: 40px !important; padding: 9px 11px !important; }
+    .anketa-block { padding: 10px; }
+    .anketa-block h3 { font-size: 0.85rem; }
+    .anketa-option { padding: 7px 10px; min-height: 38px; font-size: 0.82rem; }
+    .anketa-option input[type="radio"] { width: 17px; height: 17px; }
+    .rest-request-form input, .rest-request-form textarea { font-size: 16px !important; min-height: 40px !important; padding: 9px 11px !important; }
 
-    .profile-avatar-big { width: 72px; height: 72px; font-size: 2.2rem; }
-    .profile-info-block h3 { font-size: 1.25rem; }
-    .avatar-option { width: 44px; height: 44px; font-size: 1.3rem; }
-    .nickname-row input { font-size: 16px !important; min-height: 54px !important; }
-    .nickname-row button { min-height: 54px; font-size: 1rem; }
+    .profile-card { padding: 9px; border-radius: 13px; }
+    .profile-avatar-big { width: 42px; height: 42px; font-size: 1.35rem; }
+    .profile-info-block h3 { font-size: 0.92rem; }
+    .avatar-option { width: 30px; height: 30px; font-size: 0.95rem; }
+    .nickname-row input { font-size: 16px !important; min-height: 40px !important; padding: 9px 11px !important; }
+    .nickname-row button { min-height: 40px; font-size: 0.82rem; }
 
-    .admin-pick-card { padding: 14px; }
-    .admin-pick-card .pick-avatar { width: 48px; height: 48px; font-size: 1rem; }
-    .admin-pick-card .pick-name { font-size: 1rem; }
-    .admin-pick-card .pick-category { font-size: 0.82rem; }
+    .admin-pick-card { padding: 8px; border-radius: 11px; }
+    .admin-pick-card .pick-avatar { width: 32px; height: 32px; font-size: 0.8rem; }
+    .admin-pick-card .pick-name { font-size: 0.82rem; }
+    .admin-pick-card .pick-category { font-size: 0.64rem; }
 
-    .stat-card .number { font-size: 1.7rem; }
-    .stat-card .label { font-size: 0.82rem; }
+    .stat-card { padding: 9px 6px; }
+    .stat-card .number { font-size: 1.15rem; }
+    .stat-card .label { font-size: 0.65rem; }
 
     #ownerPanel .collapse-body > div[style*="display:flex"] { flex-direction: column !important; }
     #ownerPanel .collapse-body > div[style*="display:flex"] .btn { width: 100%; }
 
-    .review-item .review-text { font-size: 0.95rem; }
-    .review-item .review-author { font-size: 1rem; }
-    .report-text { font-size: 0.95rem; }
-    .ticket-item-text { font-size: 0.95rem; }
-    .ticket-item-title { font-size: 1.05rem; }
+    .chat-messages { height: 42vh; min-height: 200px; padding: 9px; }
+    .chat-input-area { flex-wrap: wrap; gap: 5px; padding: 6px; }
+    .chat-input-area input[type="text"] { flex: 1 1 100%; order: -1; margin-bottom: 3px; }
+    .attach-btn, .send-btn { flex: 1 1 auto; width: auto; min-width: 40px; height: 40px; font-size: 1rem; }
+    .send-btn { padding: 10px 16px; font-size: 0.88rem; }
+    .message { max-width: 92%; font-size: 0.82rem; padding: 7px 10px; }
 
-    .chat-messages { height: 55vh; min-height: 260px; }
-    .chat-input-area { flex-wrap: wrap; gap: 6px; padding: 8px; }
-    .chat-input-area input[type="text"] { flex: 1 1 100%; order: -1; margin-bottom: 4px; }
-    .attach-btn, .send-btn { flex: 1 1 auto; width: auto; min-width: 52px; height: 52px; }
-    .send-btn { padding: 12px 24px; }
-    .message { max-width: 92%; font-size: 0.95rem; }
+    .section { padding: 18px 0; border-radius: 14px; margin: 10px 8px; }
+    .benefit-card { padding: 14px 12px; border-radius: 16px; }
+    .step-item { padding: 12px; border-radius: 16px; }
+    .faq-item { padding: 12px 14px; border-radius: 14px; }
+    .review-card { padding: 14px; border-radius: 16px; }
 }
 
 @media (max-width: 360px) {
-    body { font-size: 15px; }
-    .btn { padding: 14px 18px; font-size: 0.95rem; }
-    .attach-btn, .send-btn { height: 48px; min-width: 48px; }
-    .panel-container { padding: 14px 12px; margin: 0 6px; }
+    .btn { padding: 9px 14px; font-size: 0.8rem; }
+    .panel-container { padding: 10px 9px; margin: 0 4px; }
+    .header h1 { font-size: 1.3rem; }
 }
 </style>
 </head>
@@ -457,27 +421,27 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     <h1>🌸 По ту сторону</h1>
     <p>Помощь и понимание в трудные моменты</p>
     <div>
-        <button class="btn btn-green" onclick="switchPanel('anketaPanel')" style="margin:4px 2px;">📝 Анкета</button>
-        <button class="btn btn-blue" onclick="switchPanel('supportPanel')" style="margin:4px 2px;">🎫 Техподдержка</button>
+        <button class="btn btn-green" onclick="switchPanel('anketaPanel')" style="margin:3px 2px;">📝 Анкета</button>
+        <button class="btn btn-blue" onclick="switchPanel('supportPanel')" style="margin:3px 2px;">🎫 Техподдержка</button>
     </div>
 </header>
 
 <main id="mainContent">
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Что такое бот поддержки?</h2>
             <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки, в которой каждый сможет найти утешение, тёплые слова, советы и помощь в трудные времена.</p>
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Концепция и задачи</h2>
             <p style="text-align:center;">Основные принципы и задачи бота поддержки — инструмента для решения личных проблем и оказания эмоциональной помощи.</p>
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Преимущества</h2>
             <div class="benefits-grid">
@@ -489,7 +453,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Как работает бот?</h2>
             <div class="steps">
@@ -500,7 +464,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Частые вопросы</h2>
             <div class="faq-item"><strong>🌸 Для чего предназначен бот?</strong><p>Для оказания помощи в решении различных вопросов и проблем. Он выявляет и анализирует эмоциональные трудности, предлагает поддержку и стратегии для преодоления.</p></div>
@@ -509,7 +473,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
+    <section class="section" style="margin:12px 10px;">
         <div class="container">
             <h2>Отзывы</h2>
             <div class="reviews-grid">
@@ -520,7 +484,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
     </section>
 
-    <section class="section contacts" style="margin:14px 12px;">
+    <section class="section contacts" style="margin:12px 10px;">
         <div class="container">
             <h2>Контакты</h2>
             <p>Вы можете связаться с нами по юзернейм бота или написать в тгк.</p>
@@ -560,7 +524,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <label class="anketa-option"><input type="radio" name="anketaExp" value="Нет" onchange="selectRadio(this)"> Нет</label>
                     <label class="anketa-option"><input type="radio" name="anketaExp" value="Да" onchange="selectRadio(this)"> Да</label>
                 </div>
-                <textarea id="anketaExpDetails" placeholder="Кратко" style="margin-top:8px;"></textarea>
+                <textarea id="anketaExpDetails" placeholder="Кратко" style="margin-top:6px;"></textarea>
             </div>
             <div class="anketa-question">
                 <strong>5. Долговременно?</strong>
@@ -570,7 +534,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <label class="anketa-option"><input type="radio" name="anketaLong" value="Не знаю" onchange="selectRadio(this)"> Не знаю</label>
                 </div>
             </div>
-            <div class="anketa-question"><strong>6. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
+            <div class="anketa-question"><strong>6. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:6px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
             <div class="anketa-question"><strong>7. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
         </div>
 
@@ -581,7 +545,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question"><strong>2. Противоположное:</strong><textarea id="anketaPsy2"></textarea></div>
             <div class="anketa-question"><strong>3. Реальное:</strong><textarea id="anketaPsy3"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Задача:</div><div class="anketa-situation-text">Мужчина 40+: «Жена наскучила, дети не радуют».</div></div>
-            <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:110px;"></textarea></div>
+            <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:100px;"></textarea></div>
         </div>
 
         <div class="anketa-block" id="anketaRelBlock">
@@ -594,7 +558,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <label class="anketa-option"><input type="radio" name="anketaCrisis" value="Б" onchange="selectRadio(this)"> Б) Сократите</label>
                     <label class="anketa-option"><input type="radio" name="anketaCrisis" value="В" onchange="selectRadio(this)"> В) Исчезнете</label>
                 </div>
-                <textarea id="anketaCrisisWhy" placeholder="Почему" style="margin-top:8px;"></textarea>
+                <textarea id="anketaCrisisWhy" placeholder="Почему" style="margin-top:6px;"></textarea>
             </div>
             <div class="anketa-question"><strong>3. Мотивация:</strong><textarea id="anketaMotivation"></textarea></div>
         </div>
@@ -602,20 +566,20 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         <div class="anketa-block" id="anketaSupportBlock">
             <h3>БЛОК 5. СИТУАЦИИ (только для «Поддержки»)</h3>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко.. я не знаю, кому ещё написать. все друзья куда-то пропали, а дома тишина такая, что становится страшно. как вообще с этим справляются?</div></div>
-            <div class="anketa-question"><textarea id="anketaSit1" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit1" style="min-height:90px;"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">— Привет. Я первый раз пишу... честно, не думал(а), что решусь. Просто накопилось, и вроде бы рассказать некому. Не знаю даже, с чего начать.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit2" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit2" style="min-height:90px;"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">— Привет! Проблема... селфхарм... я режу себя, когда становится совсем невыносимо. Это помогает на пару часов, а потом всё возвращается. Я устал(а) так жить, но бросить не получается.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit3" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit3" style="min-height:90px;"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">— Здравствуйте.. Травля... в школе/на работе каждый день одно и то же. Меня унижают, обзывают, иногда бьют. Я боюсь идти туда, но и рассказать родителям/кому-то страшно — вдруг станет только хуже.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit4" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit4" style="min-height:90px;"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">— привет. я лесбиянка... я никому не могу об этом сказать. родители точно не поймут, друзья могут отвернуться. я чувствую себя очень одиноко и не знаю, что делать дальше.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit5" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit5" style="min-height:90px;"></textarea></div>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">— привет, бывший парень украл кошку... я в шоке, не знаю, что делать. Это моя кошка, она мне как ребёнок. Он не отдаёт, говорит, что оставит себе. Полиция не помогает.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit6" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><textarea id="anketaSit6" style="min-height:90px;"></textarea></div>
         </div>
 
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
             <button class="btn btn-green btn-full" onclick="saveAnketa()">💾 Сохранить</button>
             <button class="btn btn-blue btn-full" onclick="copyAnketaFilled()">📋 Скопировать</button>
             <button class="btn btn-outline btn-full" onclick="clearAnketa()">🗑️ Очистить</button>
@@ -651,7 +615,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <textarea id="ticketDescription"></textarea>
             <button class="btn btn-green btn-full" onclick="createTicket()">🎫 Отправить</button>
         </div>
-        <h4 style="color:var(--green);margin:16px 0 8px;font-size:1rem;">📋 Мои тикеты</h4>
+        <h4 style="color:var(--green);margin:14px 0 6px;font-size:0.9rem;">📋 Мои тикеты</h4>
         <div class="ticket-list" id="ticketList"><div class="ticket-empty">🎫 Нет тикетов</div></div>
     </div>
 </section>
@@ -670,7 +634,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <div class="avatar-picker" id="avatarPicker" style="display:none;"></div>
             </div>
         </div>
-        <div class="nickname-row" style="margin-bottom:14px;">
+        <div class="nickname-row" style="margin-bottom:12px;">
             <input type="text" id="nicknameInput" placeholder="Ваш псевдоним..." maxlength="30">
             <button onclick="saveNickname()">💾 Сохранить</button>
         </div>
@@ -723,8 +687,8 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <span class="chevron">▼</span>
             </div>
             <div class="collapse-body">
-                <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:10px;">👁️ Только просмотр</p>
-                <input type="text" id="modSearchInput" placeholder="🔍 Поиск..." oninput="searchModDialogs(this.value)" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.9rem;outline:none;margin-bottom:10px;min-height:44px;">
+                <p style="color:var(--text-muted);font-size:0.75rem;margin-bottom:8px;">👁️ Только просмотр</p>
+                <input type="text" id="modSearchInput" placeholder="🔍 Поиск..." oninput="searchModDialogs(this.value)" style="width:100%;padding:9px 12px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.85rem;outline:none;margin-bottom:8px;min-height:40px;">
                 <div class="dialogs-list" id="moderatorDialogsList"></div>
             </div>
         </div>
@@ -770,7 +734,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <label class="settings-label">Повторите пароль:</label>
                 <input type="text" id="modNewPassword2" placeholder="Повторите" class="settings-input">
                 <button class="btn btn-full" onclick="changeMyPassword('moderator')">💾 Сохранить</button>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
+                <p style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">
                     Пароль хранится локально в этом браузере. Чтобы применить на всех устройствах — сообщи владельцу.
                 </p>
             </div>
@@ -782,9 +746,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     <div class="panel-container">
         <div class="panel-header">
             <h3>💼 Админ</h3>
-            <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
-                <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
-                <span id="adminRatingMini" style="color:#ffd700;font-size:0.8rem;">☆☆☆☆☆</span>
+            <div onclick="openAdminProfile()" style="cursor:pointer;padding:5px 10px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:6px;">
+                <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.8rem;">#admin_sakura</span>
+                <span id="adminRatingMini" style="color:#ffd700;font-size:0.75rem;">☆☆☆☆☆</span>
             </div>
         </div>
         <div class="collapse-block open">
@@ -827,9 +791,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <span class="chevron">▼</span>
             </div>
             <div class="collapse-body">
-                <div style="display:flex;justify-content:space-between;padding:8px 0;margin-bottom:10px;">
-                    <label style="color:var(--text-muted);font-size:0.88rem;">Статус:</label>
-                    <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.88rem;">🟢 Работаю</span>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;margin-bottom:8px;">
+                    <label style="color:var(--text-muted);font-size:0.82rem;">Статус:</label>
+                    <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.82rem;">🟢 Работаю</span>
                 </div>
                 <div id="adminRestRequestFormWrap">
                     <div class="rest-request-form">
@@ -839,7 +803,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                         <button class="btn btn-yellow btn-full" onclick="submitRestRequest()">📩 Отправить</button>
                     </div>
                 </div>
-                <div id="adminRestRequestInfo" style="display:none;margin-top:10px;"></div>
+                <div id="adminRestRequestInfo" style="display:none;margin-top:8px;"></div>
             </div>
         </div>
     </div>
@@ -908,8 +872,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             </div>
             <div class="collapse-body">
                 <div class="add-admin-form">
-                    <input type="text" id="newAdminName" placeholder="Имя">
-                    <input type="text" id="newAdminUsername" placeholder="username (без #)">
+                    <input type="text" id="newAdminUsername" placeholder="Тег (без #)">
                     <select id="newAdminCategory">
                         <option value="">— Категория —</option>
                         <option value="Общение">💬 Общение</option>
@@ -917,7 +880,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                         <option value="Универсал">⭐ Универсал</option>
                     </select>
                     <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
-                    <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
+                    <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:4px;">🌸 Добавить</button>
                 </div>
             </div>
         </div>
@@ -927,10 +890,10 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <span class="chevron">▼</span>
             </div>
             <div class="collapse-body">
-                <label style="color:var(--text-muted);font-size:0.85rem;">Сообщений/день:</label>
-                <input type="number" id="normMessagesInput" value="300" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:10px;min-height:44px;">
-                <label style="color:var(--text-muted);font-size:0.85rem;">Пользователей/день:</label>
-                <input type="number" id="normUsersInput" value="3" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:12px;min-height:44px;">
+                <label style="color:var(--text-muted);font-size:0.8rem;">Сообщений/день:</label>
+                <input type="number" id="normMessagesInput" value="300" min="1" style="width:100%;padding:9px 12px;border:2px solid var(--border-pink);border-radius:10px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:8px;min-height:42px;">
+                <label style="color:var(--text-muted);font-size:0.8rem;">Пользователей/день:</label>
+                <input type="number" id="normUsersInput" value="3" min="1" style="width:100%;padding:9px 12px;border:2px solid var(--border-pink);border-radius:10px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:10px;min-height:42px;">
                 <button class="btn btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
             </div>
         </div>
@@ -945,7 +908,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <label class="settings-label">Повторите пароль:</label>
                 <input type="text" id="ownerNewPassword2" placeholder="Повторите" class="settings-input">
                 <button class="btn btn-full" onclick="changeMyPassword('owner')">💾 Сохранить</button>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
+                <p style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">
                     Пароль хранится локально в этом браузере. На других устройствах будет действовать старый, пока не импортируешь бэкап.
                 </p>
             </div>
@@ -956,19 +919,19 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <span class="chevron">▼</span>
             </div>
             <div class="collapse-body">
-                <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:10px;">
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:8px;">
                     Экспорт скачает JSON-файл со всеми данными. Импорт восстановит данные из такого файла.
                 </p>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="btn btn-green" style="flex:1;min-width:150px;font-size:1rem;" onclick="exportAllData()">📤 Экспорт</button>
-                    <button class="btn btn-blue" style="flex:1;min-width:150px;font-size:1rem;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-green" style="flex:1;min-width:130px;font-size:0.92rem;" onclick="exportAllData()">📤 Экспорт</button>
+                    <button class="btn btn-blue" style="flex:1;min-width:130px;font-size:0.92rem;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
                 </div>
                 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" onchange="importAllData(event)">
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:10px;">
+                <p style="color:var(--text-muted);font-size:0.72rem;margin-top:8px;">
                     📱 <strong>На телефоне:</strong> при экспорте откроется <strong>меню «Поделиться»</strong> — отправь файл себе в Telegram/почту.
                     Если меню не появилось — откроется окно с JSON-текстом, там будет кнопка <strong>«Копировать всё»</strong>.
                 </p>
-                <p style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">
+                <p style="color:var(--text-muted);font-size:0.68rem;margin-top:6px;">
                     ⚠️ Файл содержит пароли в открытом виде — передавай только доверенным людям.
                 </p>
             </div>
@@ -1010,8 +973,8 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 <div class="modal-overlay" id="adminSettingsModal">
     <div class="modal-card" style="max-width:100%;">
         <button class="close-modal" onclick="closeAdminSettings()">✕</button>
-        <h3 style="color:var(--text-light);text-align:center;margin-bottom:16px;font-size:1.3rem;">⚙️ Настройки входа</h3>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.85rem;">Тег и пароль для <strong id="settingsAdminName" style="color:var(--pink);">—</strong></p>
+        <h3 style="color:var(--text-light);text-align:center;margin-bottom:14px;font-size:1.15rem;">⚙️ Настройки входа</h3>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:14px;font-size:0.82rem;">Тег и пароль для <strong id="settingsAdminName" style="color:var(--pink);">—</strong></p>
         <label class="settings-label">Тег (без #):</label>
         <input type="text" id="settingsTag" placeholder="admin_sakura" class="settings-input">
         <label class="settings-label">Новый пароль:</label>
@@ -1079,15 +1042,15 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 let tickets = [];
 let realDialogs = [];
 let adminsData = [
-    { name: 'admin_sakura', username: '#admin_sakura', initials: 'А1', category: 'Универсал' },
-    { name: 'mod_hanami', username: '#mod_hanami', initials: 'А2', category: 'Общение' },
-    { name: 'psy_yuki', username: '#psy_yuki', initials: 'А3', category: 'Поддержка' }
+    { name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал' },
+    { name: 'mod_hanami', username: '#mod_hanami', initials: 'MO', category: 'Общение' },
+    { name: 'psy_yuki', username: '#psy_yuki', initials: 'PS', category: 'Поддержка' }
 ];
 let userAdminData = [
-    { id: 'admin_sakura', name: 'admin_sakura', initials: 'А1', category: 'Универсал' },
-    { id: 'mod_hanami', name: 'mod_hanami', initials: 'А2', category: 'Общение' },
-    { id: 'support_kei', name: 'support_kei', initials: 'А3', category: 'Поддержка' },
-    { id: 'psy_yuki', name: 'psy_yuki', initials: 'А4', category: 'Поддержка' }
+    { id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' },
+    { id: 'mod_hanami', name: 'mod_hanami', initials: 'MO', category: 'Общение' },
+    { id: 'support_kei', name: 'support_kei', initials: 'SU', category: 'Поддержка' },
+    { id: 'psy_yuki', name: 'psy_yuki', initials: 'PS', category: 'Поддержка' }
 ];
 let adminRests = {};
 let restRequests = [];
@@ -1137,7 +1100,6 @@ function toggleCollapse(header) {
     header.closest('.collapse-block').classList.toggle('open');
 }
 
-// Смена пароля владельца / модератора
 function changeMyPassword(role) {
     if (role === 'owner') {
         const p1 = document.getElementById('ownerNewPassword').value.trim();
@@ -1371,6 +1333,8 @@ function saveAdminSettings() {
     const oldTag = a.username;
     const oldKey = oldTag.replace('#','');
     a.username = fullTag;
+    a.name = fullTag.replace('#','');
+    a.initials = a.name.slice(0,2).toUpperCase();
     saveAdmins();
     if (a.name === 'admin_sakura' || oldTag === AUTH.admin.tag) {
         AUTH.admin.tag = fullTag;
@@ -1383,6 +1347,7 @@ function saveAdminSettings() {
     if (AUTH[oldKey] && oldKey !== fullTag.replace('#','')) {
         AUTH[fullTag.replace('#','')] = AUTH[oldKey];
         AUTH[fullTag.replace('#','')].tag = fullTag;
+        AUTH[fullTag.replace('#','')].name = a.name;
         if (newPassword) AUTH[fullTag.replace('#','')].password = newPassword;
         delete AUTH[oldKey];
     }
@@ -1575,7 +1540,7 @@ function renderOwnerRestRequests() {
     const resting = adminsData.filter(a => adminRests[a.username] === true);
     if (resting.length > 0) {
         const h = document.createElement('h5');
-        h.style.cssText = 'color:var(--yellow);margin:12px 0 8px;font-size:0.9rem;';
+        h.style.cssText = 'color:var(--yellow);margin:10px 0 6px;font-size:0.85rem;';
         h.textContent = '😴 Сейчас в ресте:';
         list.appendChild(h);
         resting.forEach(a => {
@@ -1913,8 +1878,8 @@ function renderAdminsList() {
                 <div style="min-width:0;flex:1;">
                     <div class="user-name">${a.name} <span class="user-category">${a.category}</span> ${resting ? '<span class="rest-badge">😴</span>' : ''}</div>
                     <div class="user-status">${a.username} • ⭐ ${avg}</div>
-                    <div class="norm-bar" style="margin-top:6px;height:6px;"><div class="norm-bar-fill" style="width:${msgPct}%"></div></div>
-                    <div class="user-status" style="font-size:0.7rem;">📩 ${msgCount}/${adminNorm.messages} • 👥 ${userSet.size}/${adminNorm.users}</div>
+                    <div class="norm-bar" style="margin-top:5px;"><div class="norm-bar-fill" style="width:${msgPct}%"></div></div>
+                    <div class="user-status" style="font-size:0.68rem;">📩 ${msgCount}/${adminNorm.messages} • 👥 ${userSet.size}/${adminNorm.users}</div>
                 </div>
             </div>
             <div class="user-actions">
@@ -1941,12 +1906,12 @@ function showAdminReviewsByTag(tag) {
             <div class="admin-profile-tag">${tag}</div>
             <div class="admin-profile-category">${admin ? admin.category : '—'}</div>
         </div>
-        <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-size:1.8rem;font-weight:700;color:var(--pink);">${avg}</div>
-            <div style="color:#ffd700;font-size:1.1rem;">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</div>
-            <div style="color:var(--text-muted);font-size:0.8rem;margin-top:4px;">${reviews.length} отзывов</div>
+        <div style="text-align:center;margin-bottom:14px;">
+            <div style="font-size:1.6rem;font-weight:700;color:var(--pink);">${avg}</div>
+            <div style="color:#ffd700;font-size:1rem;">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</div>
+            <div style="color:var(--text-muted);font-size:0.75rem;margin-top:4px;">${reviews.length} отзывов</div>
         </div>
-        <h4 style="color:var(--pink);margin-bottom:10px;">💬 Отзывы</h4>
+        <h4 style="color:var(--pink);margin-bottom:10px;font-size:0.92rem;">💬 Отзывы</h4>
         <div class="reviews-list">
             ${reviews.length === 0 ? '<div class="empty-state">💬 Нет отзывов</div>' :
                 reviews.map(r => `
@@ -1975,16 +1940,18 @@ function removeAdmin(idx) {
 }
 
 function addAdmin() {
-    const name = document.getElementById('newAdminName').value.trim();
     let username = document.getElementById('newAdminUsername').value.trim();
     const category = document.getElementById('newAdminCategory').value;
     const password = document.getElementById('newAdminPassword').value.trim();
-    if (!name || !username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    if (!username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
+
+    const name = username.replace('#','');
+
     if (adminsData.find(a => a.username === username)) {
         showNotification('⚠️ Тег уже занят', '⚠️'); return;
     }
-    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'А';
+    const initials = name.slice(0, 2).toUpperCase();
     adminsData.push({ name, username, initials, category });
     saveAdmins();
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
@@ -1992,11 +1959,10 @@ function addAdmin() {
     AUTH[username.replace('#','')] = { tag: username, password, category, name };
     saveAuth();
     renderAdminsList(); renderAdminsPicker();
-    document.getElementById('newAdminName').value = '';
     document.getElementById('newAdminUsername').value = '';
     document.getElementById('newAdminCategory').value = '';
     document.getElementById('newAdminPassword').value = '';
-    showNotification(`🌸 ${name} добавлен`, '✅');
+    showNotification(`🌸 ${name} (${category})`, '✅');
 }
 
 function openAdminDialogActions(d) {
@@ -2359,9 +2325,6 @@ function selectRadio(input) {
 function onCategoryChange(input) {
     selectRadio(input);
     const cat = input.value;
-    // Общение — только базовая инфа
-    // Поддержка — базовая + психофильтр + надёжность + ситуации
-    // Универсал — всё
     const showPsy = (cat === 'Поддержка' || cat === 'Универсал');
     const showRel = (cat === 'Поддержка' || cat === 'Универсал');
     const showSit = (cat === 'Поддержка' || cat === 'Универсал');
@@ -2493,9 +2456,6 @@ window.addEventListener('storage', e => {
     } catch(err) {}
 });
 
-// ============================================================
-// ЭКСПОРТ / ИМПОРТ ДАННЫХ
-// ============================================================
 async function exportAllData() {
     const dump = {
         _meta: { app: 'sakura', version: 1, exportedAt: new Date().toISOString() },
