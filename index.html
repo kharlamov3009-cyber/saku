@@ -23,12 +23,19 @@ body.light-theme {
     --text-light: #4a3f5c; --text-muted: #7a6b8a;
     --border-pink: rgba(255,182,193,0.4); --shadow-pink: rgba(255,150,180,0.2);
 }
-html, body { overflow-x: hidden; overscroll-behavior-y: contain; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-light); line-height: 1.5; background: var(--bg-dark); min-height: 100vh; transition: background 0.5s, color 0.5s; font-size: 15px; padding-bottom: var(--safe-bottom); }
+html { overflow-x: hidden; overflow-y: auto; height: auto; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-light); line-height: 1.5; background: var(--bg-dark);
+    min-height: 100vh; transition: background 0.5s, color 0.5s;
+    font-size: 15px; padding-bottom: var(--safe-bottom);
+    position: static !important; overflow-y: auto !important; overflow-x: hidden;
+    touch-action: pan-y; -webkit-overflow-scrolling: touch;
+}
 .petals-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; will-change: transform; }
 @keyframes fall { 0% { transform: translateY(-30px) rotate(0); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.5; } 100% { transform: translateY(100vh) rotate(540deg) translateX(60px); opacity: 0; } }
-body::before { content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(248,165,184,0.08), transparent 50%), radial-gradient(circle at 70% 60%, rgba(196,69,105,0.06), transparent 50%); pointer-events: none; z-index: 0; animation: glow 15s ease-in-out infinite alternate; }
+body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 30% 40%, rgba(248,165,184,0.08), transparent 50%), radial-gradient(circle at 70% 60%, rgba(196,69,105,0.06), transparent 50%); pointer-events: none; z-index: 0; animation: glow 15s ease-in-out infinite alternate; }
 @keyframes glow { 100% { transform: translate(-20px, -20px) scale(1.05); } }
 .container { width: 100%; max-width: 100%; padding: 0 16px; position: relative; z-index: 1; }
 h1, h2, h3 { font-weight: 300; letter-spacing: 0.3px; }
@@ -69,8 +76,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .contacts { text-align: center; }
 .contacts .btn { margin: 6px; }
 
-/* ПАНЕЛИ */
-.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; min-height: 100vh; }
+.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; }
 .panel-section.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .panel-container { background: var(--bg-panel); border-radius: 24px; padding: 20px 16px; box-shadow: 0 10px 40px var(--shadow-pink); border: 2px solid var(--border-pink); margin: 0 12px; }
@@ -83,7 +89,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .role-badge.moderator { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
 .role-badge.support { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
 
-/* Свёртываемые блоки */
 .collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-pink); margin-bottom: 10px; overflow: hidden; }
 .collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; cursor: pointer; gap: 10px; min-height: 52px; }
 .collapse-header:active { background: rgba(248,165,184,0.08); }
@@ -94,7 +99,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .collapse-block.open .collapse-body { display: block; }
 .collapse-badge { background: var(--pink); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 4px; }
 
-/* Профиль */
 .profile-card { background: var(--bg-card); border-radius: 20px; padding: 16px; border: 2px solid var(--border-pink); margin-bottom: 14px; display: flex; gap: 14px; align-items: center; }
 .profile-avatar-big { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
 .profile-info-block { flex: 1; min-width: 0; }
@@ -107,7 +111,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; min-height: 48px; }
 .nickname-row button { width: 100%; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 48px; }
 
-/* Список админов */
 .admins-picker { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; transition: all 0.2s; cursor: pointer; position: relative; }
 .admin-pick-card:active { transform: scale(0.98); }
@@ -120,7 +123,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
 .admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
 
-/* Чат */
 .user-dialog-block { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--border-pink); }
 .user-dialog-block.hidden { display: none; }
 .user-dialog-title { color: var(--pink); font-size: 1rem; margin-bottom: 10px; font-weight: 700; }
@@ -141,17 +143,16 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .message audio { max-width: 100%; margin-top: 6px; height: 30px; }
 .attachment-photo { display: block; margin-top: 6px; max-width: 200px; border-radius: 10px; overflow: hidden; }
 .attachment-photo img { width: 100%; display: block; }
-.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; flex-wrap: wrap; }
-.chat-input-area input[type="text"] { flex: 1; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 1rem; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 48px; min-width: 0; }
+.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; flex-wrap: nowrap; }
+.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 14px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 52px; min-width: 0; }
 .chat-input-area input[type="text"]:disabled { opacity: 0.4; }
-.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
 .attach-btn:active { background: var(--pink); color: #fff; border-color: var(--pink); }
 .attach-btn.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
-.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 48px; font-size: 1rem; }
+.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1.05rem; flex-shrink: 0; }
 .send-btn:active { transform: scale(0.95); }
 .send-btn:disabled { opacity: 0.4; }
 
-/* Списки */
 .dialogs-list { max-height: 400px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
 .dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
@@ -261,11 +262,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 4px; font-size: 0.88rem; }
 .anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; padding-left: 10px; border-left: 3px solid var(--blue); }
 
-/* Уведомления */
 .notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; box-shadow: 0 6px 25px rgba(248,165,184,0.5); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* Модалки */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
 .modal-overlay.active { display: flex; }
 .modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 100%; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
@@ -282,22 +281,18 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .rating-stars-input .star.active { color: #ffd700; }
 .rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
 
-/* Нижняя навигация */
 .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 6px 2px calc(6px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
 .nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; padding: 6px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 10px; font-weight: 600; min-height: 50px; transition: all 0.2s; }
 .nav-btn .nav-icon { font-size: 1.3rem; line-height: 1; }
 .nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
 .nav-btn:active { transform: scale(0.95); }
 
-/* Контент с отступом под нижнюю панель */
 #mainContent { padding-bottom: 80px; }
 .panel-section { padding-bottom: 80px; }
 
-/* Кнопка темы */
 .theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .theme-float:active { transform: scale(0.9); }
 
-/* Модалка для админских настроек */
 .settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
 .settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: inherit; min-height: 48px; }
 
@@ -305,6 +300,113 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .footer a { color: var(--pink); text-decoration: none; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
+
+/* ============================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+   ============================================================ */
+@media (max-width: 480px) {
+    body { font-size: 16px; line-height: 1.55; }
+
+    h1 { font-size: 1.9rem; }
+    h2 { font-size: 1.5rem; margin-bottom: 20px; }
+    p { font-size: 1rem; }
+
+    .container { padding: 0 14px; }
+    .section { padding: 24px 0; border-radius: 20px; margin: 12px 10px; }
+    .panel-container { padding: 18px 14px; margin: 0 8px; border-radius: 20px; }
+
+    .btn { padding: 16px 22px; font-size: 1rem; min-height: 54px; border-radius: 50px; }
+    .btn-sm { padding: 12px 18px; font-size: 0.88rem; min-height: 46px; }
+
+    .header { padding: calc(36px + var(--safe-top)) 16px 26px; }
+    .header h1 { font-size: 2rem; }
+    .header p { font-size: 1rem; }
+    .header .btn { padding: 14px 20px; font-size: 0.92rem; }
+
+    .panel-header h3 { font-size: 1.35rem; }
+    .role-badge { padding: 6px 12px; font-size: 0.72rem; }
+
+    .collapse-header { padding: 16px 14px; min-height: 58px; }
+    .collapse-header h4 { font-size: 1.05rem; }
+    .collapse-header .chevron { font-size: 1.1rem; }
+    .collapse-body { padding: 14px 14px 16px; }
+
+    input[type="text"], input[type="number"], input[type="password"], textarea, select {
+        font-size: 16px !important;
+        padding: 14px 16px !important;
+        min-height: 54px !important;
+        border-radius: 14px !important;
+    }
+    textarea { min-height: 96px !important; }
+
+    .user-item { padding: 14px 14px; gap: 10px; }
+    .user-item .avatar { width: 48px; height: 48px; font-size: 1rem; }
+    .user-item .user-name { font-size: 1rem; }
+    .user-item .user-status { font-size: 0.85rem; }
+    .user-item .user-actions button { width: 44px; height: 44px; font-size: 1.1rem; }
+    .user-item .user-actions { gap: 8px; }
+
+    .dialog-item { padding: 14px 14px; }
+    .dialog-item .avatar { width: 44px; height: 44px; }
+    .dialog-item .dialog-name { font-size: 1rem; }
+    .dialog-item .dialog-preview { font-size: 0.88rem; max-width: 200px; }
+    .dialog-item .dialog-time { font-size: 0.78rem; }
+    .dialog-item .dialog-status { font-size: 0.78rem; padding: 3px 10px; }
+
+    .mobile-nav { padding: 8px 2px calc(8px + var(--safe-bottom)); }
+    .nav-btn { font-size: 0.7rem; min-height: 58px; padding: 6px 2px; }
+    .nav-btn .nav-icon { font-size: 1.6rem; }
+
+    .modal-card { padding: 22px 16px; border-radius: 20px; max-height: 92vh; }
+    .modal-card h3 { font-size: 1.35rem; }
+    .close-modal { width: 44px; height: 44px; font-size: 1.6rem; top: 10px; right: 10px; }
+    .auth-modal-content input { font-size: 16px !important; padding: 14px 16px !important; min-height: 54px !important; }
+    .rating-stars-input .star { font-size: 2.8rem; padding: 6px; }
+
+    .add-admin-form input, .add-admin-form select { font-size: 16px !important; min-height: 54px !important; padding: 14px 16px !important; }
+    .ticket-form input, .ticket-form select, .ticket-form textarea { font-size: 16px !important; min-height: 54px !important; padding: 14px 16px !important; }
+    .anketa-question input, .anketa-question textarea { font-size: 16px !important; min-height: 52px !important; padding: 12px 14px !important; }
+    .anketa-option { padding: 12px 14px; min-height: 52px; font-size: 1rem; }
+    .anketa-option input[type="radio"] { width: 22px; height: 22px; }
+    .rest-request-form input, .rest-request-form textarea { font-size: 16px !important; min-height: 52px !important; padding: 12px 14px !important; }
+
+    .profile-avatar-big { width: 72px; height: 72px; font-size: 2.2rem; }
+    .profile-info-block h3 { font-size: 1.25rem; }
+    .avatar-option { width: 44px; height: 44px; font-size: 1.3rem; }
+    .nickname-row input { font-size: 16px !important; min-height: 54px !important; }
+    .nickname-row button { min-height: 54px; font-size: 1rem; }
+
+    .admin-pick-card { padding: 14px; }
+    .admin-pick-card .pick-avatar { width: 48px; height: 48px; font-size: 1rem; }
+    .admin-pick-card .pick-name { font-size: 1rem; }
+    .admin-pick-card .pick-category { font-size: 0.82rem; }
+
+    .stat-card .number { font-size: 1.7rem; }
+    .stat-card .label { font-size: 0.82rem; }
+
+    #ownerPanel .collapse-body > div[style*="display:flex"] { flex-direction: column !important; }
+    #ownerPanel .collapse-body > div[style*="display:flex"] .btn { width: 100%; }
+
+    .review-item .review-text { font-size: 0.95rem; }
+    .review-item .review-author { font-size: 1rem; }
+    .report-text { font-size: 0.95rem; }
+    .ticket-item-text { font-size: 0.95rem; }
+    .ticket-item-title { font-size: 1.05rem; }
+
+    .chat-messages { height: 55vh; min-height: 260px; }
+    .chat-input-area { flex-wrap: wrap; gap: 6px; padding: 8px; }
+    .chat-input-area input[type="text"] { flex: 1 1 100%; order: -1; margin-bottom: 4px; }
+    .attach-btn, .send-btn { flex: 1 1 auto; width: auto; min-width: 52px; height: 52px; }
+    .send-btn { padding: 12px 24px; }
+    .message { max-width: 92%; font-size: 0.95rem; }
+}
+
+@media (max-width: 360px) {
+    body { font-size: 15px; }
+    .btn { padding: 14px 18px; font-size: 0.95rem; }
+    .attach-btn, .send-btn { height: 48px; min-width: 48px; }
+    .panel-container { padding: 14px 12px; margin: 0 6px; }
+}
 </style>
 </head>
 <body>
@@ -314,7 +416,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 
 <button class="theme-float" id="themeToggle">🌙</button>
 
-<!-- ШАПКА -->
 <header class="header" id="mainHeader">
     <h1>🌸 По ту сторону</h1>
     <p>Помощь и понимание в трудные моменты</p>
@@ -324,7 +425,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </header>
 
-<!-- ГЛАВНАЯ -->
 <main id="mainContent">
     <section class="section" style="margin:14px 12px;">
         <div class="container">
@@ -393,7 +493,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </section>
 </main>
 
-<!-- АНКЕТА -->
 <section class="panel-section" id="anketaPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -401,7 +500,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <span class="role-badge support">Анкета</span>
         </div>
 
-        <!-- БЛОК 0. КАТЕГОРИЯ -->
         <div class="anketa-block">
             <h3>БЛОК 0. КАТЕГОРИЯ</h3>
             <div class="anketa-question">
@@ -438,7 +536,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question"><strong>7. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
         </div>
 
-        <!-- БЛОК 2. ПСИХОФИЛЬТР -->
         <div class="anketa-block" id="anketaPsyBlock">
             <h3>БЛОК 2. ПСИХОФИЛЬТР</h3>
             <div class="anketa-situation"><div class="anketa-situation-title">Собеседник:</div><div class="anketa-situation-text">— Я ничтожество, зачем пишу сюда.</div></div>
@@ -449,7 +546,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:110px;"></textarea></div>
         </div>
 
-        <!-- БЛОК 3. НАДЁЖНОСТЬ -->
         <div class="anketa-block" id="anketaRelBlock">
             <h3>БЛОК 3. НАДЁЖНОСТЬ</h3>
             <div class="anketa-question"><strong>1. Триггер ухода:</strong><textarea id="anketaTrigger"></textarea></div>
@@ -465,7 +561,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="anketa-question"><strong>3. Мотивация:</strong><textarea id="anketaMotivation"></textarea></div>
         </div>
 
-        <!-- БЛОК 5. СИТУАЦИИ (только для «Поддержки») -->
         <div class="anketa-block" id="anketaSupportBlock">
             <h3>БЛОК 5. СИТУАЦИИ (только для «Поддержки»)</h3>
             <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко.. я не знаю, кому ещё написать. все друзья куда-то пропали, а дома тишина такая, что становится страшно. как вообще с этим справляются?</div></div>
@@ -490,7 +585,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- ТЕХПОДДЕРЖКА -->
 <section class="panel-section" id="supportPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -524,7 +618,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- ПОЛЬЗОВАТЕЛЬ -->
 <section class="panel-section" id="userPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -574,7 +667,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- МОДЕРАТОР -->
 <section class="panel-section" id="moderatorPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -632,7 +724,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- АДМИН -->
 <section class="panel-section" id="adminPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -700,7 +791,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- ВЛАДЕЛЕЦ -->
 <section class="panel-section" id="ownerPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -793,6 +883,29 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <button class="btn btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
             </div>
         </div>
+        <div class="collapse-block open">
+            <div class="collapse-header" onclick="toggleCollapse(this)">
+                <h4>📦 Экспорт / Импорт данных</h4>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="collapse-body">
+                <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:10px;">
+                    Экспорт скачает JSON-файл со всеми данными. Импорт восстановит данные из такого файла.
+                </p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-green" style="flex:1;min-width:150px;font-size:1rem;" onclick="exportAllData()">📤 Экспорт</button>
+                    <button class="btn btn-blue" style="flex:1;min-width:150px;font-size:1rem;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
+                </div>
+                <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" onchange="importAllData(event)">
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:10px;">
+                    📱 <strong>На телефоне:</strong> при экспорте откроется <strong>меню «Поделиться»</strong> — отправь файл себе в Telegram/почту.
+                    Если меню не появилось — приложение откроет <strong>окно с JSON-текстом</strong>, там будет кнопка <strong>«Копировать всё»</strong>.
+                </p>
+                <p style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">
+                    ⚠️ Файл содержит пароли в открытом виде — передавай только доверенным людям.
+                </p>
+            </div>
+        </div>
         <div class="collapse-block">
             <div class="collapse-header" onclick="toggleCollapse(this)">
                 <h4>💬 Все диалоги (просмотр)</h4>
@@ -805,7 +918,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
-<!-- МОДАЛКА АВТОРИЗАЦИИ -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card" style="max-width:100%;">
         <button class="close-modal" onclick="closeAuthModal()">✕</button>
@@ -821,7 +933,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </div>
 
-<!-- МОДАЛКА ПРОФИЛЯ АДМИНА -->
 <div class="modal-overlay" id="adminProfileModal">
     <div class="modal-card" style="max-width:100%;">
         <button class="close-modal" onclick="closeAdminProfile()">✕</button>
@@ -829,7 +940,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </div>
 
-<!-- МОДАЛКА НАСТРОЕК ВХОДА -->
 <div class="modal-overlay" id="adminSettingsModal">
     <div class="modal-card" style="max-width:100%;">
         <button class="close-modal" onclick="closeAdminSettings()">✕</button>
@@ -846,7 +956,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </div>
 
-<!-- МОДАЛКА ОЦЕНКИ -->
 <div class="modal-overlay" id="ratingModal">
     <div class="modal-card" style="max-width:100%;">
         <div class="rating-modal-content">
@@ -868,12 +977,10 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </div>
 
-<!-- МОДАЛКА ФОТО -->
 <div class="modal-overlay" id="photoModal" onclick="if(event.target===this)this.classList.remove('active')">
     <img id="photoModalImg" src="" style="max-width:95vw;max-height:95vh;border-radius:12px;">
 </div>
 
-<!-- НИЖНЯЯ НАВИГАЦИЯ -->
 <nav class="mobile-nav">
     <button class="nav-btn active-role" id="navHome">
         <span class="nav-icon">🏠</span>
@@ -902,9 +1009,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 </footer>
 
 <script>
-// ============================================================
-// ХРАНИЛИЩА
-// ============================================================
 let tickets = [];
 let realDialogs = [];
 let adminsData = [
@@ -966,9 +1070,6 @@ function toggleCollapse(header) {
     header.closest('.collapse-block').classList.toggle('open');
 }
 
-// ============================================================
-// НОРМА
-// ============================================================
 function saveNormSettings() {
     const m = parseInt(document.getElementById('normMessagesInput').value) || 300;
     const u = parseInt(document.getElementById('normUsersInput').value) || 3;
@@ -1007,9 +1108,6 @@ function renderAdminNorm() {
     if (ub) ub.style.width = userPct + '%';
 }
 
-// ============================================================
-// МОДЕРАЦИЯ
-// ============================================================
 const personalInfoPatterns = [
     /\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i,
     /\bмне\s+\d{1,2}\b/i,
@@ -1056,9 +1154,6 @@ function autoWarnOrBan(dialog) {
     return false;
 }
 
-// ============================================================
-// АВТОРИЗАЦИЯ
-// ============================================================
 let currentAuth = { role: null, tag: null, category: null };
 let pendingAuthRole = null;
 let selectedAdminId = null;
@@ -1108,12 +1203,9 @@ function submitAuth() {
     }
 
     if (role === 'admin') {
-        // 1) стандартный админ
         if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
             currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
-        }
-        // 2) добавленные админы
-        else {
+        } else {
             const key = tag ? tag.replace('#','') : '';
             const custom = AUTH[key];
             if (custom && custom.password === password) {
@@ -1143,9 +1235,6 @@ function submitAuth() {
     }
 }
 
-// ============================================================
-// ПРОФИЛЬ АДМИНА
-// ============================================================
 function openAdminProfile() {
     if (currentAuth.tag) showAdminReviewsByTag(currentAuth.tag);
 }
@@ -1161,9 +1250,6 @@ function updateAdminRatingMini() {
     if (el) el.textContent = `${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))} (${avg})`;
 }
 
-// ============================================================
-// НАСТРОЙКИ ВХОДА
-// ============================================================
 let settingsAdminIndex = -1;
 function openAdminSettings(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
@@ -1199,7 +1285,6 @@ function saveAdminSettings() {
         AUTH.moderator.tag = fullTag;
         if (newPassword) AUTH.moderator.password = newPassword;
     }
-    // переносим пароль в AUTH по новому ключу
     if (AUTH[oldKey] && oldKey !== fullTag.replace('#','')) {
         AUTH[fullTag.replace('#','')] = AUTH[oldKey];
         AUTH[fullTag.replace('#','')].tag = fullTag;
@@ -1217,9 +1302,6 @@ function saveAdminSettings() {
     showNotification(`✅ Сохранено`, '✅');
 }
 
-// ============================================================
-// ПЕРЕКЛЮЧЕНИЕ ПАНЕЛЕЙ
-// ============================================================
 function switchPanel(panelId) {
     ['mainContent', 'mainHeader'].forEach(id => {
         const el = document.getElementById(id);
@@ -1252,9 +1334,6 @@ function switchPanel(panelId) {
     if (panelId === 'userPanel') { renderProfile(); renderAdminsPicker(); }
 }
 
-// ============================================================
-// ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
-// ============================================================
 const AVATARS = ['😊','🌸','🌺','🌷','🌻','🦋','🐱','🐶','🦊','🐼','🦄','🐧','🐰','🐨','🌙','⭐','☀️','🍀','💎','👑'];
 
 function toggleAvatarPicker() {
@@ -1286,9 +1365,6 @@ function saveNickname() {
     showNotification(`🌸 ${val}`, '✏️');
 }
 
-// ============================================================
-// РЕСТЫ
-// ============================================================
 function isAdminResting(tag) { return adminRests[tag] === true; }
 
 function submitRestRequest() {
@@ -1428,9 +1504,6 @@ function renderOwnerRestRequests() {
     if (badge) badge.textContent = pending.length;
 }
 
-// ============================================================
-// ЖАЛОБЫ
-// ============================================================
 function renderOwnerReports() {
     const list = document.getElementById('ownerReportsList');
     if (!list) return;
@@ -1469,9 +1542,6 @@ function deleteReport(id) {
     showNotification('✖ Отклонено', '✖');
 }
 
-// ============================================================
-// ДИАЛОГИ
-// ============================================================
 function selectAdmin(adminId) {
     const admin = userAdminData.find(a => a.id === adminId);
     if (!admin) return;
@@ -1699,9 +1769,6 @@ function finishDialogUI(reason) {
     currentDialogId = null;
 }
 
-// ============================================================
-// СПИСКИ АДМИНОВ
-// ============================================================
 function renderAdminsPicker() {
     const picker = document.getElementById('adminsPicker');
     if (!picker) return;
@@ -1804,7 +1871,6 @@ function showAdminReviewsByTag(tag) {
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
     const a = adminsData[idx];
-    // удаляем из AUTH
     delete AUTH[a.username.replace('#','')];
     saveAuth();
     adminsData.splice(idx, 1);
@@ -1820,23 +1886,16 @@ function addAdmin() {
     const password = document.getElementById('newAdminPassword').value.trim();
     if (!name || !username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
-
-    // проверка, что тег не занят
     if (adminsData.find(a => a.username === username)) {
         showNotification('⚠️ Тег уже занят', '⚠️'); return;
     }
-
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'А';
     adminsData.push({ name, username, initials, category });
     saveAdmins();
-
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
     saveUserAdmins();
-
-    // сохраняем пароль в AUTH
     AUTH[username.replace('#','')] = { tag: username, password, category, name };
     saveAuth();
-
     renderAdminsList(); renderAdminsPicker();
     document.getElementById('newAdminName').value = '';
     document.getElementById('newAdminUsername').value = '';
@@ -1845,9 +1904,6 @@ function addAdmin() {
     showNotification(`🌸 ${name} добавлен`, '✅');
 }
 
-// ============================================================
-// ДИАЛОГИ У АДМИНА / МОДЕРАТОРА / ВЛАДЕЛЬЦА
-// ============================================================
 function openAdminDialogActions(d) {
     if (currentAuth.role === 'moderator' || currentAuth.role === 'owner' || currentAuth.role !== 'admin') {
         showDialogPreview(d); return;
@@ -2079,9 +2135,6 @@ function renderOwnerDialogs() {
     if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
 
-// ============================================================
-// ОТЗЫВЫ
-// ============================================================
 function renderAdminReviews() {
     const list = document.getElementById('adminReviewsList');
     if (!list) return;
@@ -2122,9 +2175,6 @@ function renderOwnerReviews() {
     });
 }
 
-// ============================================================
-// ТИКЕТЫ
-// ============================================================
 function createTicket() {
     const name = document.getElementById('ticketName').value.trim();
     const contact = document.getElementById('ticketContact').value.trim();
@@ -2202,9 +2252,6 @@ function deleteTicket(id) {
     showNotification('✖ Удалено', '✖');
 }
 
-// ============================================================
-// АНКЕТА
-// ============================================================
 const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
 const ANKETA_RADIOS = ['anketaExp','anketaLong','anketaCrisis','anketaCategory'];
 
@@ -2263,9 +2310,6 @@ function clearAnketa() {
     try { localStorage.removeItem('sakura-anketa'); } catch(e) {}
 }
 
-// ============================================================
-// ПРОЧЕЕ
-// ============================================================
 function openPhoto(src) {
     document.getElementById('photoModalImg').src = src;
     document.getElementById('photoModal').classList.add('active');
@@ -2318,9 +2362,6 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
-// ============================================================
-// НИЖНЯЯ НАВИГАЦИЯ
-// ============================================================
 document.getElementById('navHome').addEventListener('click', () => switchPanel('mainContent'));
 document.getElementById('navUser').addEventListener('click', () => switchPanel('userPanel'));
 document.getElementById('navModerator').addEventListener('click', () => openAuthModal('moderator'));
@@ -2335,7 +2376,6 @@ document.getElementById('authTag').addEventListener('keypress', e => { if (e.key
 document.getElementById('adminProfileModal').addEventListener('click', function(e) { if (e.target === this) closeAdminProfile(); });
 document.getElementById('adminSettingsModal').addEventListener('click', function(e) { if (e.target === this) closeAdminSettings(); });
 
-// Синхронизация
 window.addEventListener('storage', e => {
     try {
         if (e.key === 'sakura-real-dialogs') { realDialogs = JSON.parse(e.newValue) || []; renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderModeratorViolators(); renderAdminNorm(); }
@@ -2350,7 +2390,186 @@ window.addEventListener('storage', e => {
     } catch(err) {}
 });
 
-// Инициализация
+// ============================================================
+// ЭКСПОРТ / ИМПОРТ ДАННЫХ
+// ============================================================
+async function exportAllData() {
+    const dump = {
+        _meta: { app: 'sakura', version: 1, exportedAt: new Date().toISOString() },
+        tickets, realDialogs, adminsData, userAdminData, adminRests, restRequests,
+        reports, adminReviews, userProfile, moderatorStats, adminNorm, AUTH
+    };
+    const json = JSON.stringify(dump, null, 2);
+    const d = new Date();
+    const stamp = d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0') + '_' +
+        String(d.getHours()).padStart(2,'0') + '-' +
+        String(d.getMinutes()).padStart(2,'0');
+    const filename = 'sakura-backup-' + stamp + '.json';
+    const blob = new Blob([json], { type: 'application/json' });
+
+    // 1) Пробуем нативный share (Яндекс.Браузер Android поддерживает)
+    try {
+        const file = new File([blob], filename, { type: 'application/json' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: 'Sakura backup',
+                text: 'Бэкап данных сайта «По ту сторону»'
+            });
+            showNotification('📤 Отправлено!', '✅');
+            return;
+        }
+    } catch (err) {
+        if (err && err.name === 'AbortError') return;
+        console.warn('share failed:', err);
+    }
+
+    // 2) Fallback — открываем окно с текстом JSON и кнопкой "Копировать"
+    openExportWindow(json, filename);
+}
+
+function openExportWindow(json, filename) {
+    const w = window.open('', '_blank');
+    if (!w) {
+        showExportModal(json, filename);
+        return;
+    }
+    w.document.write(`
+        <!DOCTYPE html>
+        <html><head><meta charset="utf-8"><title>Экспорт Sakura</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:#1a1420; color:#f5e6ee; padding:16px; margin:0; }
+            h1 { font-size:1.2rem; color:#f8a5b8; }
+            p { color:#b8a3c4; font-size:0.9rem; }
+            textarea { width:100%; height:55vh; padding:12px; border-radius:12px; border:2px solid rgba(255,183,197,0.35); background:#241b2e; color:#f5e6ee; font-family:monospace; font-size:13px; box-sizing:border-box; }
+            .btn { display:inline-block; padding:14px 22px; margin:8px 4px 0 0; border-radius:50px; background:linear-gradient(135deg,#f8a5b8,#f28b9e); color:#fff; font-weight:600; text-decoration:none; border:none; font-size:1rem; cursor:pointer; }
+            .btn.green { background:linear-gradient(135deg,#4cd137,#3aa02a); }
+            .btn.blue { background:linear-gradient(135deg,#4a9eff,#2d7dd2); }
+        </style></head><body>
+        <h1>🌸 Экспорт Sakura</h1>
+        <p>Нажми «Скачать файл». Если не сработает — выдели всё, скопируй и сохрани как <strong>${filename}</strong>.</p>
+        <textarea id="dump">${json.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</textarea>
+        <div>
+            <a class="btn green" id="dl" download="${filename}">💾 Скачать файл</a>
+            <button class="btn blue" onclick="copyDump()">📋 Копировать всё</button>
+        </div>
+        <script>
+            var json = document.getElementById('dump').value;
+            var blob = new Blob([json], { type: 'application/json' });
+            document.getElementById('dl').href = URL.createObjectURL(blob);
+            function copyDump() {
+                var ta = document.getElementById('dump');
+                ta.select();
+                ta.setSelectionRange(0, 999999);
+                document.execCommand('copy');
+                alert('Скопировано!');
+            }
+        <\/script>
+        </body></html>
+    `);
+    w.document.close();
+    showNotification('📤 Открыто окно экспорта', '✅');
+}
+
+function showExportModal(json, filename) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay active';
+    overlay.style.cssText = 'z-index: 2000;';
+    overlay.innerHTML = `
+        <div class="modal-card" style="max-width:100%;">
+            <button class="close-modal" onclick="this.closest('.modal-overlay').remove()">✕</button>
+            <h3 style="color:var(--text-light);text-align:center;margin-bottom:12px;">🌸 Экспорт Sakura</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:10px;">
+                Файл не скачался автоматически. Скопируй текст и сохрани как <strong>${filename}</strong>.
+            </p>
+            <textarea id="exportDump" style="width:100%;height:45vh;padding:12px;border-radius:12px;border:2px solid var(--border-pink);background:var(--bg-card);color:var(--text-light);font-family:monospace;font-size:12px;box-sizing:border-box;">${json.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</textarea>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                <button class="btn btn-blue" style="flex:1;" onclick="copyExportText()">📋 Копировать</button>
+                <button class="btn btn-outline" style="flex:1;" onclick="this.closest('.modal-overlay').remove()">Закрыть</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function copyExportText() {
+    const ta = document.getElementById('exportDump');
+    if (!ta) return;
+    ta.select();
+    ta.setSelectionRange(0, 999999);
+    try {
+        document.execCommand('copy');
+        showNotification('📋 Скопировано', '✅');
+    } catch (e) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(ta.value).then(() => showNotification('📋 Скопировано', '✅'));
+        }
+    }
+}
+
+function importAllData(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    if (!confirm('Импорт ЗАМЕНИТ все текущие данные.\n\nПродолжить?')) {
+        event.target.value = '';
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (!data || data._meta?.app !== 'sakura') {
+                showNotification('❌ Это не файл Sakura', '❌');
+                event.target.value = '';
+                return;
+            }
+            if (Array.isArray(data.tickets)) tickets = data.tickets;
+            if (Array.isArray(data.realDialogs)) realDialogs = data.realDialogs;
+            if (Array.isArray(data.adminsData)) adminsData = data.adminsData;
+            if (Array.isArray(data.userAdminData)) userAdminData = data.userAdminData;
+            if (data.adminRests && typeof data.adminRests === 'object') adminRests = data.adminRests;
+            if (Array.isArray(data.restRequests)) restRequests = data.restRequests;
+            if (Array.isArray(data.reports)) reports = data.reports;
+            if (Array.isArray(data.adminReviews)) adminReviews = data.adminReviews;
+            if (data.userProfile && typeof data.userProfile === 'object') userProfile = data.userProfile;
+            if (data.moderatorStats && typeof data.moderatorStats === 'object') moderatorStats = data.moderatorStats;
+            if (data.adminNorm && typeof data.adminNorm === 'object') adminNorm = data.adminNorm;
+            if (data.AUTH && typeof data.AUTH === 'object') {
+                Object.keys(data.AUTH).forEach(k => { AUTH[k] = data.AUTH[k]; });
+            }
+            saveTickets(); saveDialogs(); saveAdmins(); saveUserAdmins();
+            saveRests(); saveRestReqs(); saveReports(); saveReviews();
+            saveProfile(); saveModStats(); saveNorm(); saveAuth();
+            renderTickets(); renderOwnerTickets();
+            renderAdminsList(); renderAdminsPicker();
+            renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+            renderModeratorViolators();
+            renderModeratorReports(); renderOwnerReports();
+            renderAdminReviews(); renderOwnerReviews();
+            renderOwnerRestRequests();
+            renderAdminNorm(); loadNorm();
+            updateAdminRatingMini();
+            showNotification('📥 Импорт завершён', '✅');
+        } catch (err) {
+            console.error(err);
+            showNotification('❌ Ошибка чтения файла', '❌');
+        }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+
+window.addEventListener('load', () => {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.position = 'static';
+    document.body.style.touchAction = 'pan-y';
+});
+
 window.addEventListener('DOMContentLoaded', () => {
     switchPanel('mainContent');
     renderProfile();
