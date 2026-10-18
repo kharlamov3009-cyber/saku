@@ -3,19 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#1a1420">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#120f17">
 <title>По ту сторону 🌸</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 :root {
-    --pink: #f8a5b8; --pink-dark: #f28b9e; --pink-deep: #c44569;
-    --bg-dark: #1a1420; --bg-panel: #241b2e; --bg-card: #2d2238;
-    --text-light: #f5e6ee; --text-muted: #b8a3c4;
-    --border-pink: rgba(255,183,197,0.25); --shadow-pink: rgba(255,150,180,0.15);
+    --pink: #ffb7c5; --pink-dark: #e88a9a; --pink-deep: #b83a59;
+    --bg-dark: #120f17; --bg-panel: #1e1826; --bg-card: #2a2135;
+    --text-light: #fdf0f4; --text-muted: #b0a0bd;
+    --border-pink: rgba(255,183,197,0.3); --shadow-pink: rgba(255,150,180,0.2);
     --green: #4cd137; --red: #e84118; --yellow: #fbc531; --blue: #4a9eff;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -28,38 +26,36 @@ body.light-theme {
 html { overflow-x: hidden; overflow-y: auto; height: auto; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: var(--text-light); line-height: 1.5;
-    min-height: 100vh; transition: background 0.5s, color 0.5s;
+    color: var(--text-light); line-height: 1.5; min-height: 100vh;
     font-size: 15px; padding-bottom: var(--safe-bottom);
-    position: static !important; overflow-y: auto !important; overflow-x: hidden;
-    touch-action: pan-y; -webkit-overflow-scrolling: touch;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-dark); overflow-x: hidden;
 }
 body::after {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url('bg.jpg') center center / cover no-repeat fixed;
-    opacity: 0.35;
-    z-index: -1;
-    pointer-events: none;
+    content: ''; position: fixed; inset: 0;
+    background: linear-gradient(to bottom, rgba(18,15,23,0.7), rgba(18,15,23,0.95)), url('bg.jpg') center center / cover no-repeat fixed;
+    z-index: -2; pointer-events: none;
 }
+body::before {
+    content: ''; position: fixed; top: -20%; left: -20%; width: 140%; height: 140%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,183,197,0.15), transparent 60%), radial-gradient(circle at 70% 80%, rgba(184,58,89,0.1), transparent 50%);
+    z-index: -1; pointer-events: none; animation: parkGlow 10s ease-in-out infinite alternate;
+}
+@keyframes parkGlow { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.05); opacity: 1; } }
 .petals-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; will-change: transform; }
-@keyframes fall { 0% { transform: translateY(-30px) rotate(0); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.5; } 100% { transform: translateY(100vh) rotate(540deg) translateX(60px); opacity: 0; } }
-body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 30% 40%, rgba(248,165,184,0.08), transparent 50%), radial-gradient(circle at 70% 60%, rgba(196,69,105,0.06), transparent 50%); pointer-events: none; z-index: 0; animation: glow 15s ease-in-out infinite alternate; }
-@keyframes glow { 100% { transform: translate(-20px, -20px) scale(1.05); } }
+.petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; }
+@keyframes fall { 0% { transform: translateY(-30px) rotate(0); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.6; } 100% { transform: translateY(105vh) translateX(var(--sway, 60px)) rotate(720deg); opacity: 0; } }
 .container { width: 100%; max-width: 100%; padding: 0 16px; position: relative; z-index: 1; }
-h1, h2, h3 { font-weight: 300; letter-spacing: 0.3px; }
-h1 { font-size: 1.8rem; margin-bottom: 8px; line-height: 1.2; }
+h1, h2, h3 { font-weight: 300; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
 h2 { font-size: 1.4rem; text-align: center; margin-bottom: 24px; }
 h2:after { content: '🌸'; display: block; font-size: 1.4rem; margin-top: 4px; }
 p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
-.section { padding: 32px 0; background: var(--bg-panel); border-radius: 24px; margin: 14px 0; box-shadow: 0 5px 25px var(--shadow-pink); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(248,165,184,0.4); min-height: 48px; }
-.btn:active { transform: scale(0.97); filter: brightness(1.1); }
-.btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); box-shadow: none; }
+.section, .panel-container, .modal-card { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; }
+.section { border-radius: 24px; margin: 14px 0; padding: 32px 16px; }
+.panel-container { border-radius: 24px; padding: 20px 16px; margin: 0 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; border: none; cursor: pointer; font-size: 0.95rem; min-height: 48px; transition: 0.2s; }
+.btn:active { transform: scale(0.97); }
+.btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); }
 .btn-blue { background: linear-gradient(135deg, var(--blue), #2d7dd2); }
 .btn-green { background: linear-gradient(135deg, var(--green), #3aa02a); }
 .btn-yellow { background: linear-gradient(135deg, var(--yellow), #e1b12c); color: #333; }
@@ -69,109 +65,82 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .header { background: linear-gradient(135deg, rgba(248,165,184,0.95), rgba(196,69,105,0.85)); color: #fff; padding: calc(40px + var(--safe-top)) 16px 30px; text-align: center; border-radius: 0 0 40px 40px; position: relative; overflow: hidden; }
 .header::after { content: '🌸'; font-size: 5rem; position: absolute; bottom: -20px; right: -10px; opacity: 0.15; transform: rotate(-15deg); }
 .header h1 { color: #fff; font-weight: 700; }
+.header h1.gradient-title { background: linear-gradient(135deg, #fff 0%, #ffd4e0 40%, #ffb7c5 70%, #ffd700 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .header p { color: rgba(255,255,255,0.95); font-size: 0.95rem; margin: 10px 0 16px; }
-.header .btn { margin: 4px 2px; padding: 12px 18px; font-size: 0.85rem; }
-.benefits-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.benefit-card { background: var(--bg-card); padding: 18px 16px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px var(--shadow-pink); border: 1px solid var(--border-pink); }
-.benefit-card .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
-.benefit-card h3 { font-weight: 600; margin-bottom: 6px; font-size: 1.05rem; }
-.benefit-card p { font-size: 0.85rem; margin: 0; }
-.steps { display: flex; flex-direction: column; gap: 12px; }
-.step-item { background: var(--bg-card); padding: 16px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-pink); border: 1px solid var(--border-pink); border-left: 4px solid var(--pink); }
-.step-item h4 { font-weight: 600; color: var(--pink); margin-bottom: 6px; font-size: 1rem; }
-.step-item p { font-size: 0.88rem; margin: 0; }
-.faq-item { background: var(--bg-card); padding: 16px 18px; border-radius: 16px; margin-bottom: 10px; box-shadow: 0 3px 12px var(--shadow-pink); border: 1px solid var(--border-pink); }
-.faq-item strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.95rem; }
-.faq-item p { font-size: 0.88rem; margin: 0; }
-.reviews-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.review-card { background: var(--bg-card); padding: 18px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-pink); font-style: italic; border: 1px solid var(--border-pink); font-size: 0.9rem; }
-.review-card .author { margin-top: 10px; font-weight: 600; color: var(--pink); font-style: normal; font-size: 0.88rem; }
-.contacts { text-align: center; }
-.contacts .btn { margin: 6px; }
-
 .panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; }
 .panel-section.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.panel-container { background: var(--bg-panel); border-radius: 24px; padding: 20px 16px; box-shadow: 0 10px 40px var(--shadow-pink); border: 2px solid var(--border-pink); margin: 0 12px; }
 .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
 .panel-header h3 { font-size: 1.3rem; margin: 0; font-weight: 700; }
+.panel-header .back-btn { background: transparent; border: 2px solid var(--border-pink); color: var(--pink); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+.panel-header-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+.panel-header-right { display: flex; align-items: center; gap: 8px; }
 .role-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
 .role-badge.user { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
 .role-badge.admin { background: rgba(248,165,184,0.2); color: var(--pink); border: 1px solid var(--pink); }
 .role-badge.owner { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700; }
 .role-badge.moderator { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
 .role-badge.support { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
-
+.panel-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 8px; background: rgba(18,15,23,0.5) !important; backdrop-filter: blur(10px); border-radius: 50px !important; border: 1px solid var(--border-pink) !important; margin-bottom: 16px; scrollbar-width: none; }
+.panel-tabs::-webkit-scrollbar { display: none; }
+.tab-btn { flex: 0 0 auto; padding: 9px 16px; background: transparent; border: 1px solid transparent; border-radius: 50px !important; color: var(--text-muted); font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.tab-btn.active { background: linear-gradient(135deg, var(--pink), var(--pink-deep)) !important; color: #fff; border-color: var(--pink); }
+.tab-page { display: none; }
+.tab-page.active { display: block; animation: tabFade 0.3s ease; }
+@keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+#ownerPanel .panel-container, #adminPanel .panel-container { background: linear-gradient(145deg, rgba(30,24,38,0.85), rgba(42,33,53,0.75)) !important; border: 2px solid var(--border-pink); border-radius: 20px; padding: 18px 14px 24px; }
+#ownerPanel .panel-header h3, #adminPanel .panel-header h3 { color: var(--pink); }
 .collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-pink); margin-bottom: 10px; overflow: hidden; }
 .collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; cursor: pointer; gap: 10px; min-height: 52px; }
-.collapse-header:active { background: rgba(248,165,184,0.08); }
-.collapse-header h4 { color: var(--pink); font-size: 1rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.collapse-header h4 { color: var(--pink); font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .collapse-header .chevron { color: var(--text-muted); font-size: 0.9rem; transition: transform 0.3s; }
 .collapse-block.open .chevron { transform: rotate(180deg); }
 .collapse-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border-pink); }
 .collapse-block.open .collapse-body { display: block; }
 .collapse-badge { background: var(--pink); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 4px; }
-
 .profile-card { background: var(--bg-card); border-radius: 20px; padding: 16px; border: 2px solid var(--border-pink); margin-bottom: 14px; display: flex; gap: 14px; align-items: center; }
 .profile-avatar-big { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
-.profile-info-block { flex: 1; min-width: 0; }
 .profile-info-block h3 { color: var(--text-light); font-size: 1.15rem; margin-bottom: 2px; }
 .profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.8rem; }
 .avatar-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
 .avatar-option { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border-pink); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
 .avatar-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.2); }
 .nickname-row { display: flex; gap: 8px; flex-direction: column; }
-.nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; min-height: 48px; }
+.nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; min-height: 48px; }
 .nickname-row button { width: 100%; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 48px; }
-
 .admins-picker { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; transition: all 0.2s; cursor: pointer; position: relative; }
-.admin-pick-card:active { transform: scale(0.98); }
+.admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; cursor: pointer; }
 .admin-pick-card.selected { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink); }
 .admin-pick-card.resting { opacity: 0.6; cursor: not-allowed; border-color: var(--yellow); }
-.admin-pick-card.resting::after { content: '😴'; position: absolute; top: 8px; right: 8px; background: rgba(251,197,49,0.9); color: #333; padding: 2px 8px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; }
 .admin-pick-card .pick-header { display: flex; align-items: center; gap: 10px; }
-.admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.95rem; flex-shrink: 0; }
-.admin-pick-card .pick-info { min-width: 0; flex: 1; }
+.admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
 .admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
 .admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
-
 .user-dialog-block { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--border-pink); }
 .user-dialog-block.hidden { display: none; }
 .user-dialog-title { color: var(--pink); font-size: 1rem; margin-bottom: 10px; font-weight: 700; }
 .chat-container { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-pink); }
-.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 12px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 0.9rem; }
-.chat-header-left { display: flex; align-items: center; gap: 8px; }
+.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 12px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .chat-header .status-dot { background: var(--green); width: 8px; height: 8px; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .finish-btn { background: rgba(255,255,255,0.25); color: #fff; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 0.78rem; min-height: 36px; }
-.chat-messages { height: 320px; padding: 14px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--bg-dark); display: flex; flex-direction: column; gap: 10px; }
-.message { max-width: 85%; padding: 10px 14px; border-radius: 18px; word-wrap: break-word; line-height: 1.4; font-size: 0.9rem; }
+.chat-messages { height: 320px; padding: 14px; overflow-y: auto; background: var(--bg-dark); display: flex; flex-direction: column; gap: 10px; }
+.message { max-width: 85%; padding: 10px 14px; border-radius: 18px; word-wrap: break-word; font-size: 0.9rem; }
 .message.user { align-self: flex-end; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border-bottom-right-radius: 5px; }
 .message.bot { align-self: flex-start; background: var(--bg-panel); color: var(--text-light); border-bottom-left-radius: 5px; border: 1px solid var(--border-pink); }
 .message.system { align-self: center; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.8rem; text-align: center; font-weight: 600; }
 .message.closed { align-self: center; background: rgba(232,65,24,0.15); color: var(--red); border: 1px solid var(--red); font-size: 0.85rem; text-align: center; font-weight: 600; }
 .message.waiting { align-self: center; background: rgba(74,158,255,0.12); color: var(--blue); border: 1px dashed var(--blue); font-size: 0.85rem; text-align: center; font-weight: 600; }
 .message .time { font-size: 0.6rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
-.message audio { max-width: 100%; margin-top: 6px; height: 30px; }
-.attachment-photo { display: block; margin-top: 6px; max-width: 200px; border-radius: 10px; overflow: hidden; }
-.attachment-photo img { width: 100%; display: block; }
-.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; flex-wrap: nowrap; }
-.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 14px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); font-family: inherit; min-height: 52px; min-width: 0; }
-.chat-input-area input[type="text"]:disabled { opacity: 0.4; }
-.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
-.attach-btn:active { background: var(--pink); color: #fff; border-color: var(--pink); }
-.attach-btn.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
+.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; }
+.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 14px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); min-height: 52px; min-width: 0; }
+.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; font-size: 1.25rem; flex-shrink: 0; }
 .send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1.05rem; flex-shrink: 0; }
-.send-btn:active { transform: scale(0.95); }
-.send-btn:disabled { opacity: 0.4; }
-
-.dialogs-list { max-height: 400px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.dialogs-list { max-height: 400px; overflow-y: auto; }
 .empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
 .dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
-.dialog-item:active { transform: scale(0.99); }
 .dialog-item.banned { opacity: 0.6; border-color: var(--red); }
-.dialog-item.closed { opacity: 0.6; border-color: var(--text-muted); }
+.dialog-item.closed { opacity: 0.6; }
 .dialog-item .dialog-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 .dialog-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
 .dialog-item .dialog-name { font-weight: 600; color: var(--text-light); font-size: 0.95rem; }
@@ -183,7 +152,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .dialog-item .dialog-status.banned { color: var(--red); background: rgba(232,65,24,0.15); font-weight: 700; }
 .dialog-item .dialog-status.closed { color: var(--text-muted); background: rgba(184,163,196,0.15); font-weight: 700; }
 .dialog-item .dialog-status.waiting { color: var(--blue); background: rgba(74,158,255,0.15); font-weight: 700; }
-.dialog-item .dialog-status.viewer { color: var(--text-muted); background: rgba(184,163,196,0.15); font-size: 0.7rem; padding: 2px 8px; }
 .dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
 .stat-card { background: var(--bg-card); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid var(--border-pink); }
@@ -191,230 +159,197 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .stat-card .label { font-size: 0.75rem; color: var(--text-muted); }
 .user-list { margin-top: 10px; }
 .user-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); flex-wrap: wrap; gap: 8px; }
-.user-item .user-info { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-.user-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
+.user-item .user-info { display: flex; align-items: center; gap: 10px; flex: 1; }
+.user-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
 .user-item .user-name { font-weight: 600; color: var(--text-light); font-size: 0.9rem; }
 .user-item .user-status { font-size: 0.78rem; color: var(--text-muted); }
-.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-left: 4px; }
-.user-item .user-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
-.user-item .user-actions button:active { background: var(--pink); color: #fff; border-color: var(--pink); }
+.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); }
+.user-item .user-actions { display: flex; gap: 6px; }
+.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 0.95rem; }
 .norm-block { background: var(--bg-panel); padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border-pink); }
 .norm-block h4 { color: var(--pink); margin-bottom: 12px; font-size: 1rem; }
-.norm-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-muted); gap: 8px; }
-.norm-row .norm-value { font-weight: 700; color: var(--pink); text-align: right; }
-.norm-bar { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin-top: 4px; margin-bottom: 12px; }
+.norm-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-muted); }
+.norm-row .norm-value { font-weight: 700; color: var(--pink); }
+.norm-bar { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin: 4px 0 12px; }
 .norm-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--pink-deep)); }
-.norm-clean-date { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-pink); }
-.add-admin-form { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-.add-admin-form input, .add-admin-form select { padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; font-family: inherit; width: 100%; min-height: 48px; }
-.add-admin-form .full-width { grid-column: 1 / -1; }
 .reviews-list { max-height: 400px; overflow-y: auto; }
 .review-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border-pink); }
-.review-item .review-head { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+.review-item .review-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
 .review-item .review-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
 .review-item .review-stars { color: #ffd700; font-size: 0.9rem; }
 .review-item .review-text { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
-.review-item .review-admin { font-size: 0.72rem; color: var(--pink); margin-top: 4px; }
-.admin-profile-card { text-align: center; padding: 16px 0; border-bottom: 1px dashed var(--border-pink); margin-bottom: 16px; }
-.admin-profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; color: #fff; margin: 0 auto 10px; }
-.admin-profile-name { font-size: 1.2rem; font-weight: 700; color: var(--text-light); }
-.admin-profile-tag { font-size: 0.9rem; color: var(--pink); margin-top: 4px; font-weight: 600; }
-.admin-profile-category { display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); margin-top: 6px; }
-.rest-request-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
-.rest-request-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
-.rest-request-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
-.rest-request-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
-.rest-request-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
-.rest-request-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
-.rest-request-info { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
-.rest-request-info strong { color: var(--text-light); }
-.rest-request-reason { font-size: 0.85rem; color: var(--text-light); font-style: italic; padding: 8px 12px; background: var(--bg-card); border-radius: 10px; border-left: 3px solid var(--pink); margin: 6px 0; }
-.rest-request-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.rest-request-form { background: var(--bg-panel); padding: 14px; border-radius: 12px; border: 1px solid var(--border-pink); display: flex; flex-direction: column; gap: 10px; }
-.rest-request-form input, .rest-request-form textarea { padding: 10px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; width: 100%; min-height: 44px; }
-.rest-request-form textarea { min-height: 70px; resize: vertical; }
-.rest-request-form label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 3px; }
-.rest-badge { display: inline-block; padding: 3px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
-.report-item { background: var(--bg-panel); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 8px; }
-.report-item.pending { border-color: var(--yellow); background: rgba(251,197,49,0.06); }
-.report-header { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 6px; flex-wrap: wrap; }
-.report-author { font-weight: 700; color: var(--text-light); font-size: 0.85rem; }
-.report-time { font-size: 0.7rem; color: var(--text-muted); }
-.report-text { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px; }
-.report-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .ticket-form { background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 16px; }
 .ticket-form h3 { color: var(--green); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; }
 .ticket-form label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
-.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-panel); color: var(--text-light); font-size: 0.95rem; font-family: inherit; outline: none; margin-bottom: 10px; min-height: 48px; }
+.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-panel); color: var(--text-light); font-size: 0.95rem; outline: none; margin-bottom: 10px; min-height: 48px; }
 .ticket-form textarea { min-height: 90px; resize: vertical; }
 .ticket-list { display: flex; flex-direction: column; gap: 10px; }
 .ticket-item { background: var(--bg-panel); border: 1px solid var(--border-pink); border-radius: 14px; padding: 14px 16px; }
 .ticket-item.pending { border-color: var(--yellow); }
-.ticket-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+.ticket-item-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
 .ticket-item-id { font-weight: 700; color: var(--pink); font-size: 0.8rem; }
 .ticket-item-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
 .ticket-item-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
+.ticket-item-status.answered { color: var(--green); background: rgba(76,209,55,0.15); border: 1px solid var(--green); }
 .ticket-item-title { font-weight: 700; color: var(--text-light); font-size: 0.95rem; margin-bottom: 4px; }
 .ticket-item-category { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid var(--blue); margin-bottom: 6px; }
 .ticket-item-text { color: var(--text-muted); font-size: 0.85rem; }
-.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; }
 .ticket-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.ticket-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
+.ticket-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-pink); }
 .anketa-block { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 14px; }
 .anketa-block h3 { color: var(--pink); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; border-bottom: 2px dashed var(--border-pink); padding-bottom: 8px; }
 .anketa-question { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 10px; }
 .anketa-question strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.9rem; }
-.anketa-question input, .anketa-question textarea { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; font-family: inherit; outline: none; min-height: 44px; }
+.anketa-question input, .anketa-question textarea { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; outline: none; min-height: 44px; }
 .anketa-question textarea { min-height: 80px; resize: vertical; }
 .anketa-options { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 .anketa-option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg-card); border: 2px solid var(--border-pink); border-radius: 10px; cursor: pointer; color: var(--text-light); font-size: 0.88rem; min-height: 44px; }
-.anketa-option input[type="radio"] { width: 18px; height: 18px; accent-color: var(--pink); flex-shrink: 0; }
 .anketa-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.15); }
 .anketa-situation { background: rgba(74,158,255,0.08); padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(74,158,255,0.3); margin-bottom: 10px; }
 .anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 4px; font-size: 0.88rem; }
-.anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; padding-left: 10px; border-left: 3px solid var(--blue); }
-
-.notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; box-shadow: 0 6px 25px rgba(248,165,184,0.5); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
+.anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; }
+.notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
 .modal-overlay.active { display: flex; }
-.modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 100%; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
+.modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 500px; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
 .close-modal { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; }
 .auth-modal-content { text-align: center; }
 .auth-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
 .auth-modal-content p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; }
-.auth-modal-content input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; margin-bottom: 12px; min-height: 48px; }
+.auth-modal-content input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 12px; min-height: 48px; }
 .rating-modal-content { text-align: center; }
 .rating-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
 .rating-modal-content p { color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem; }
 .rating-stars-input { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
 .rating-stars-input .star { font-size: 2.4rem; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 4px; }
 .rating-stars-input .star.active { color: #ffd700; }
-.rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; font-family: inherit; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
-
+.rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
 .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 6px 2px calc(6px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
 .nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; padding: 6px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 10px; font-weight: 600; min-height: 50px; transition: all 0.2s; }
 .nav-btn .nav-icon { font-size: 1.3rem; line-height: 1; }
 .nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
-.nav-btn:active { transform: scale(0.95); }
-
-#mainContent { padding-bottom: 80px; }
-.panel-section { padding-bottom: 80px; }
-
 .theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-.theme-float:active { transform: scale(0.9); }
-
+.profile-float { position: fixed; top: calc(10px + var(--safe-top)); right: 64px; z-index: 100; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border-pink); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.fab-container { position: fixed; bottom: calc(80px + var(--safe-bottom)); right: 16px; z-index: 150; display: flex; flex-direction: column-reverse; gap: 10px; align-items: flex-end; }
+.fab { width: 54px; height: 54px; border-radius: 50%; border: none; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.fab-main { background: linear-gradient(135deg, var(--pink), var(--pink-deep)); color: #fff; width: 60px; height: 60px; font-size: 1.5rem; z-index: 2; }
+.fab-main:active { transform: scale(0.9); }
+.fab-secondary { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--pink); opacity: 0; transform: scale(0.5) translateY(20px); pointer-events: none; transition: all 0.3s; }
+.fab-container.open .fab-secondary { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
 .settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-.settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: inherit; min-height: 48px; }
-
+.settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; min-height: 48px; }
 .footer { background: var(--bg-panel); color: var(--text-muted); padding: 24px 0 calc(24px + var(--safe-bottom)); text-align: center; font-size: 0.85rem; margin-top: 20px; border-top: 1px solid var(--border-pink); }
 .footer a { color: var(--pink); text-decoration: none; }
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
 
-@media (max-width: 480px) {
-    .panel-container { padding: 14px 12px; margin: 0 6px; border-radius: 18px; }
-    .btn { padding: 11px 18px; font-size: 0.9rem; min-height: 44px; }
-    .btn-sm { padding: 8px 13px; font-size: 0.8rem; min-height: 36px; }
-    .header { padding: calc(28px + var(--safe-top)) 14px 22px; border-radius: 0 0 28px 28px; }
-    .header h1 { font-size: 1.7rem; }
-    .header p { font-size: 0.9rem; }
-    .header .btn { padding: 10px 14px; font-size: 0.82rem; min-height: 40px; }
-    .panel-header h3 { font-size: 1.15rem; }
-    .panel-header { margin-bottom: 12px; }
-    .role-badge { padding: 4px 10px; font-size: 0.66rem; }
-    .collapse-block { border-radius: 14px; margin-bottom: 8px; }
-    .collapse-header { padding: 12px 13px; min-height: 46px; }
-    .collapse-header h4 { font-size: 0.92rem; }
-    .collapse-header .chevron { font-size: 0.95rem; }
-    .collapse-body { padding: 12px 13px 14px; }
-    input[type="text"], input[type="number"], input[type="password"], textarea, select {
-        font-size: 16px !important;
-        padding: 11px 13px !important;
-        min-height: 46px !important;
-        border-radius: 12px !important;
-    }
-    textarea { min-height: 80px !important; }
-    .user-item { padding: 14px; gap: 12px; flex-direction: column; align-items: stretch; }
-    .user-item .user-info { align-items: flex-start; gap: 12px; }
-    .user-item .avatar { width: 52px; height: 52px; font-size: 1.1rem; }
-    .user-item .user-name { font-size: 1.05rem; line-height: 1.4; word-break: break-word; }
-    .user-item .user-category { display: inline-block; margin: 4px 0 0 0; font-size: 0.78rem; padding: 4px 10px; }
-    .user-item .user-status { font-size: 0.88rem; margin-top: 4px; line-height: 1.4; word-break: break-word; }
-    .user-item .user-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-    .user-item .user-actions button { width: 100%; height: 52px; font-size: 1.3rem; border-radius: 14px; background: rgba(248,165,184,0.08); }
-    .norm-bar { height: 8px; margin-top: 8px; }
-    .dialog-item { padding: 11px 13px; }
-    .dialog-item .avatar { width: 40px; height: 40px; }
-    .dialog-item .dialog-name { font-size: 0.95rem; }
-    .dialog-item .dialog-preview { font-size: 0.82rem; max-width: 180px; }
-    .dialog-item .dialog-time { font-size: 0.72rem; }
-    .dialog-item .dialog-status { font-size: 0.72rem; padding: 3px 9px; }
-    .mobile-nav { padding: 6px 2px calc(6px + var(--safe-bottom)); }
-    .nav-btn { font-size: 0.65rem; min-height: 52px; padding: 5px 2px; }
-    .nav-btn .nav-icon { font-size: 1.4rem; }
-    .modal-card { padding: 18px 14px; border-radius: 18px; max-height: 92vh; }
-    .modal-card h3 { font-size: 1.2rem; }
-    .close-modal { width: 38px; height: 38px; font-size: 1.4rem; top: 8px; right: 8px; }
-    .auth-modal-content input { font-size: 16px !important; padding: 11px 13px !important; min-height: 46px !important; }
-    .rating-stars-input .star { font-size: 2.4rem; padding: 4px; }
-    .add-admin-form input, .add-admin-form select { font-size: 16px !important; min-height: 46px !important; padding: 11px 13px !important; }
-    .ticket-form input, .ticket-form select, .ticket-form textarea { font-size: 16px !important; min-height: 46px !important; padding: 11px 13px !important; }
-    .anketa-question input, .anketa-question textarea { font-size: 16px !important; min-height: 46px !important; padding: 11px 13px !important; }
-    .anketa-option { padding: 10px 12px; min-height: 46px; font-size: 0.94rem; }
-    .anketa-option input[type="radio"] { width: 20px; height: 20px; }
-    .rest-request-form input, .rest-request-form textarea { font-size: 16px !important; min-height: 46px !important; padding: 11px 13px !important; }
-    .profile-card { padding: 12px; border-radius: 16px; }
-    .profile-avatar-big { width: 58px; height: 58px; font-size: 1.85rem; }
-    .profile-info-block h3 { font-size: 1.05rem; }
-    .avatar-option { width: 38px; height: 38px; font-size: 1.1rem; }
-    .nickname-row input { font-size: 16px !important; min-height: 46px !important; padding: 11px 13px !important; }
-    .nickname-row button { min-height: 46px; font-size: 0.9rem; }
-    .admin-pick-card { padding: 12px; border-radius: 14px; }
-    .admin-pick-card .pick-avatar { width: 40px; height: 40px; font-size: 0.9rem; }
-    .admin-pick-card .pick-name { font-size: 0.92rem; }
-    .admin-pick-card .pick-category { font-size: 0.7rem; }
-    .stat-card { padding: 12px 8px; }
-    .stat-card .number { font-size: 1.4rem; }
-    .stat-card .label { font-size: 0.72rem; }
-    #ownerPanel .collapse-body > div[style*="display:flex"] { flex-direction: column !important; }
-    #ownerPanel .collapse-body > div[style*="display:flex"] .btn { width: 100%; }
-    .chat-messages { height: 50vh; min-height: 240px; padding: 12px; }
-    .chat-input-area { flex-wrap: wrap; gap: 6px; padding: 8px; }
-    .chat-input-area input[type="text"] { flex: 1 1 100%; order: -1; margin-bottom: 4px; padding: 11px 14px; min-height: 46px; }
-    .attach-btn, .send-btn { flex: 1 1 auto; width: auto; min-width: 46px; height: 46px; font-size: 1.05rem; }
-    .send-btn { padding: 11px 20px; font-size: 0.95rem; }
-    .message { max-width: 92%; font-size: 0.92rem; padding: 9px 12px; }
-    .section { padding: 20px 0; border-radius: 16px; margin: 10px 8px; }
-    .benefit-card { padding: 14px 12px; border-radius: 16px; }
-    .step-item { padding: 12px; border-radius: 16px; }
-    .faq-item { padding: 12px 14px; border-radius: 14px; }
-    .review-card { padding: 14px; border-radius: 16px; }
+/* === ОТДЕЛЬНОЕ ОКНО ЧАТА === */
+#fullscreenChat {
+    position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark);
+    display: none; flex-direction: column;
+    padding-top: var(--safe-top); padding-bottom: var(--safe-bottom);
 }
-
-@media (max-width: 360px) {
-    .btn { padding: 10px 14px; font-size: 0.85rem; }
-    .panel-container { padding: 12px 10px; margin: 0 5px; }
-    .header h1 { font-size: 1.5rem; }
+#fullscreenChat.active { display: flex; }
+#fullscreenChat .fs-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-pink); flex-shrink: 0;
+}
+#fullscreenChat .fs-back {
+    background: transparent; border: 2px solid var(--border-pink);
+    color: var(--pink); width: 40px; height: 40px; border-radius: 50%;
+    cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+#fullscreenChat .fs-info { flex: 1; min-width: 0; }
+#fullscreenChat .fs-name { font-weight: 700; color: var(--text-light); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fullscreenChat .fs-status { font-size: 0.78rem; color: var(--green); display: flex; align-items: center; gap: 4px; }
+#fullscreenChat .fs-actions { display: flex; gap: 6px; flex-shrink: 0; }
+#fullscreenChat .fs-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark);
+}
+#fullscreenChat .fs-input {
+    display: flex; gap: 6px; padding: 10px 12px;
+    background: var(--bg-panel); border-top: 1px solid var(--border-pink);
+    flex-shrink: 0; align-items: center;
+}
+#fullscreenChat .fs-input input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--border-pink);
+    border-radius: 50px; background: var(--bg-card); color: var(--text-light);
+    font-size: 16px; outline: none; min-height: 52px; min-width: 0;
+}
+#fullscreenChat .fs-send {
+    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+    color: #fff; border: none; padding: 12px 20px; border-radius: 50px;
+    font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1rem; flex-shrink: 0;
+}
+#fullscreenChat .fs-quick {
+    display: flex; gap: 6px; padding: 8px 12px;
+    background: var(--bg-panel); border-top: 1px solid var(--border-pink);
+    overflow-x: auto; flex-shrink: 0; scrollbar-width: none;
+}
+#fullscreenChat .fs-quick::-webkit-scrollbar { display: none; }
+#fullscreenChat .fs-quick button {
+    flex-shrink: 0; padding: 6px 12px; font-size: 0.78rem;
+    background: var(--bg-card); border: 1px solid var(--border-pink);
+    border-radius: 50px; color: var(--text-light); cursor: pointer; white-space: nowrap;
 }
 </style>
 </head>
 <body>
-
-<div class="petals-container" id="petalsContainer"></div>
+<!-- HTML part will be in part 2 -->
+    <div class="petals-container" id="petalsContainer"></div>
 <div class="notification" id="notification"><span id="notificationIcon">🌸</span><span id="notificationText">Готово!</span></div>
 
+<!-- Плавающий профиль + тема -->
+<button class="profile-float" id="profileFloat" onclick="switchPanel('userPanel')" title="Профиль">
+    <span id="profileFloatAvatar">😊</span>
+</button>
 <button class="theme-float" id="themeToggle">🌙</button>
 
-<header class="header" id="mainHeader">
-    <h1>🌸 По ту сторону</h1>
-    <p>Помощь и понимание в трудные моменты</p>
-    <div>
-        <button class="btn btn-green" onclick="switchPanel('anketaPanel')" style="margin:4px 2px;">📝 Анкета</button>
-        <button class="btn btn-blue" onclick="switchPanel('supportPanel')" style="margin:4px 2px;">🎫 Техподдержка</button>
+<!-- FAB -->
+<div class="fab-container">
+    <button class="fab fab-secondary" onclick="switchPanel('supportPanel')" title="Техподдержка">🎫</button>
+    <button class="fab fab-secondary" onclick="switchPanel('anketaPanel')" title="Анкета">📝</button>
+    <button class="fab fab-main" id="fabToggle" title="Меню">🌸</button>
+</div>
+
+<!-- ОТДЕЛЬНОЕ ОКНО ЧАТА -->
+<div id="fullscreenChat">
+    <div class="fs-header">
+        <button class="fs-back" onclick="closeFullscreenChat()">←</button>
+        <div class="fs-info">
+            <div class="fs-name" id="fsChatName">Пользователь</div>
+            <div class="fs-status"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;"></span> <span id="fsChatStatus">онлайн</span></div>
+        </div>
+        <div class="fs-actions">
+            <button class="btn btn-yellow btn-sm" onclick="fsActionWarn()" title="Варн">⚠️</button>
+            <button class="btn btn-red btn-sm" onclick="fsActionBan()" title="Бан">🚫</button>
+            <button class="btn btn-blue btn-sm" onclick="fsActionClose()" title="Завершить">✅</button>
+        </div>
     </div>
+    <div class="fs-messages" id="fsChatMessages"></div>
+    <div class="fs-quick">
+        <button onclick="fsInsertQuick('Я вас понимаю. Расскажите, что случилось?')">💚 Понимание</button>
+        <button onclick="fsInsertQuick('Давайте разберёмся вместе. Что вас беспокоит больше всего?')">🤝 Помощь</button>
+        <button onclick="fsInsertQuick('Спасибо, что поделились. Это важно.')">🙏 Благодарность</button>
+        <button onclick="fsInsertQuick('Я рядом. Вы можете рассказать мне всё.')">🌸 Поддержка</button>
+    </div>
+    <div class="fs-input">
+        <input type="text" id="fsChatInput" placeholder="Сообщение..." autocomplete="off">
+        <button class="fs-send" onclick="fsSendMessage()">➤</button>
+    </div>
+</div>
+
+<!-- Шапка -->
+<header class="header" id="mainHeader" style="position: relative; overflow: hidden;">
+    <div style="position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
+    <h1 class="gradient-title">По ту сторону</h1>
+    <p style="opacity: 0.9;">Помощь и понимание в трудные моменты</p>
+    <p style="opacity: 0.8; font-size: 0.85rem; margin-top: 8px;">🌸 Нажмите на цветок внизу справа, чтобы начать</p>
 </header>
 
 <main id="mainContent">
@@ -422,13 +357,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         <div class="container">
             <h2>Что такое бот поддержки?</h2>
             <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки, в которой каждый сможет найти утешение, тёплые слова, советы и помощь в трудные времена.</p>
-        </div>
-    </section>
-
-    <section class="section" style="margin:14px 12px;">
-        <div class="container">
-            <h2>Концепция и задачи</h2>
-            <p style="text-align:center;">Основные принципы и задачи бота поддержки — инструмента для решения личных проблем и оказания эмоциональной помощи.</p>
         </div>
     </section>
 
@@ -444,54 +372,28 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
         </div>
     </section>
 
-    <section class="section" style="margin:14px 12px;">
-        <div class="container">
-            <h2>Как работает бот?</h2>
-            <div class="steps">
-                <div class="step-item"><h4>🔍 Определение проблемы</h4><p>Администратор анализирует эмоциональные трудности пользователя.</p></div>
-                <div class="step-item"><h4>❤️ Эмоциональная поддержка</h4><p>Поддержка и понимание в непростых ситуациях.</p></div>
-                <div class="step-item"><h4>💡 Поиск решений</h4><p>Стратегии и методы для преодоления проблем.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" style="margin:14px 12px;">
-        <div class="container">
-            <h2>Частые вопросы</h2>
-            <div class="faq-item"><strong>🌸 Для чего предназначен бот?</strong><p>Для оказания помощи в решении различных вопросов и проблем. Он выявляет и анализирует эмоциональные трудности, предлагает поддержку и стратегии для преодоления.</p></div>
-            <div class="faq-item"><strong>🌸 С какими вопросами поможет?</strong><p>С разнообразными вопросами: одиночество, семейные отношения, индивидуальные трудности и другие эмоциональные проблемы.</p></div>
-            <div class="faq-item"><strong>🌸 Какими навыками обладает?</strong><p>Проявляет эмпатию, предлагает инструменты для саморефлексии, обеспечивает безопасность и этику.</p></div>
-        </div>
-    </section>
-
-    <section class="section" style="margin:14px 12px;">
-        <div class="container">
-            <h2>Отзывы</h2>
-            <div class="reviews-grid">
-                <div class="review-card"><p>«Бот поддержки стал для меня настоящим спасением в трудные моменты. Он всегда готов выслушать и поддержать.»</p><div class="author">— Пользователь</div></div>
-                <div class="review-card"><p>«Я очень рад, что нашёл этого бота. Он помог мне разобраться в сложных ситуациях и найти правильные решения.»</p><div class="author">— Пользователь</div></div>
-                <div class="review-card"><p>«Бот поддержки — это не просто программа, это настоящий друг, который всегда рядом. Спасибо за вашу работу!»</p><div class="author">— Пользователь</div></div>
-            </div>
-        </div>
-    </section>
-
     <section class="section contacts" style="margin:14px 12px;">
         <div class="container">
             <h2>Контакты</h2>
             <p>Вы можете связаться с нами по юзернейм бота или написать в тгк.</p>
-            <a href="#" class="btn" onclick="showNotification('🌸 Telegram...', '📱'); return false;">📱 Написать в Telegram</a>
-            <a href="#" class="btn btn-outline" onclick="showNotification('🌸 Скопировано!', '📋'); return false;">@support_bot</a>
+            <a href="https://t.me/ваш_бот" target="_blank" rel="noopener" class="btn">📱 Написать в Telegram</a>
+            <button class="btn btn-outline" onclick="copyToClipboard('@support_bot')">📋 Скопировать @support_bot</button>
         </div>
     </section>
 </main>
-<!-- КОНЕЦ ЧАСТИ 1 -->
+
+<!-- ПАНЕЛИ -->
+
+<!-- АНКЕТА -->
 <section class="panel-section" id="anketaPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>📝 Анкета</h3>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>📝 Анкета</h3>
+            </div>
             <span class="role-badge support">Анкета</span>
         </div>
-
         <div class="anketa-block">
             <h3>БЛОК 0. КАТЕГОРИЯ</h3>
             <div class="anketa-question">
@@ -503,7 +405,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 </div>
             </div>
         </div>
-
         <div class="anketa-block">
             <h3>БЛОК 1. ОСНОВНАЯ ИНФОРМАЦИЯ</h3>
             <div class="anketa-question"><strong>1. Имя:</strong><input type="text" id="anketaName"></div>
@@ -517,59 +418,16 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 </div>
                 <textarea id="anketaExpDetails" placeholder="Кратко" style="margin-top:8px;"></textarea>
             </div>
-            <div class="anketa-question">
-                <strong>5. Долговременно?</strong>
-                <div class="anketa-options">
-                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Да" onchange="selectRadio(this)"> Да</label>
-                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Временно" onchange="selectRadio(this)"> Временно</label>
-                    <label class="anketa-option"><input type="radio" name="anketaLong" value="Не знаю" onchange="selectRadio(this)"> Не знаю</label>
-                </div>
-            </div>
-            <div class="anketa-question"><strong>6. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
-            <div class="anketa-question"><strong>7. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
+            <div class="anketa-question"><strong>5. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
+            <div class="anketa-question"><strong>6. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
         </div>
-
         <div class="anketa-block" id="anketaPsyBlock">
             <h3>БЛОК 2. ПСИХОФИЛЬТР</h3>
             <div class="anketa-situation"><div class="anketa-situation-title">Собеседник:</div><div class="anketa-situation-text">— Я ничтожество, зачем пишу сюда.</div></div>
             <div class="anketa-question"><strong>1. Интуитивное:</strong><textarea id="anketaPsy1"></textarea></div>
             <div class="anketa-question"><strong>2. Противоположное:</strong><textarea id="anketaPsy2"></textarea></div>
             <div class="anketa-question"><strong>3. Реальное:</strong><textarea id="anketaPsy3"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Задача:</div><div class="anketa-situation-text">Мужчина 40+: «Жена наскучила, дети не радуют».</div></div>
-            <div class="anketa-question"><strong>Ответ (5-7 предложений):</strong><textarea id="anketaPsyMan" style="min-height:110px;"></textarea></div>
         </div>
-
-        <div class="anketa-block" id="anketaRelBlock">
-            <h3>БЛОК 3. НАДЁЖНОСТЬ</h3>
-            <div class="anketa-question"><strong>1. Триггер ухода:</strong><textarea id="anketaTrigger"></textarea></div>
-            <div class="anketa-question">
-                <strong>2. Если жизнь изменится:</strong>
-                <div class="anketa-options">
-                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="А" onchange="selectRadio(this)"> А) Предупредите</label>
-                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="Б" onchange="selectRadio(this)"> Б) Сократите</label>
-                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="В" onchange="selectRadio(this)"> В) Исчезнете</label>
-                </div>
-                <textarea id="anketaCrisisWhy" placeholder="Почему" style="margin-top:8px;"></textarea>
-            </div>
-            <div class="anketa-question"><strong>3. Мотивация:</strong><textarea id="anketaMotivation"></textarea></div>
-        </div>
-
-        <div class="anketa-block" id="anketaSupportBlock">
-            <h3>БЛОК 5. СИТУАЦИИ (только для «Поддержки»)</h3>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">— привет.. мне так одиноко.. я не знаю, кому ещё написать. все друзья куда-то пропали, а дома тишина такая, что становится страшно. как вообще с этим справляются?</div></div>
-            <div class="anketa-question"><textarea id="anketaSit1" style="min-height:100px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">— Привет. Я первый раз пишу... честно, не думал(а), что решусь. Просто накопилось, и вроде бы рассказать некому. Не знаю даже, с чего начать.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit2" style="min-height:100px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">— Привет! Проблема... селфхарм... я режу себя, когда становится совсем невыносимо. Это помогает на пару часов, а потом всё возвращается. Я устал(а) так жить, но бросить не получается.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit3" style="min-height:100px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">— Здравствуйте.. Травля... в школе/на работе каждый день одно и то же. Меня унижают, обзывают, иногда бьют. Я боюсь идти туда, но и рассказать родителям/кому-то страшно — вдруг станет только хуже.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit4" style="min-height:100px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">— привет. я лесбиянка... я никому не могу об этом сказать. родители точно не поймут, друзья могут отвернуться. я чувствую себя очень одиноко и не знаю, что делать дальше.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit5" style="min-height:100px;"></textarea></div>
-            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">— привет, бывший парень украл кошку... я в шоке, не знаю, что делать. Это моя кошка, она мне как ребёнок. Он не отдаёт, говорит, что оставит себе. Полиция не помогает.</div></div>
-            <div class="anketa-question"><textarea id="anketaSit6" style="min-height:100px;"></textarea></div>
-        </div>
-
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <button class="btn btn-green btn-full" onclick="saveAnketa()">💾 Сохранить</button>
             <button class="btn btn-blue btn-full" onclick="copyAnketaFilled()">📋 Скопировать</button>
@@ -578,18 +436,20 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
+<!-- ТЕХПОДДЕРЖКА -->
 <section class="panel-section" id="supportPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>🎫 Техподдержка</h3>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>🎫 Техподдержка</h3>
+            </div>
             <span class="role-badge support">Тикеты</span>
         </div>
         <div class="ticket-form">
             <h3>➕ Создать тикет</h3>
-            <label>Имя:</label>
-            <input type="text" id="ticketName">
-            <label>Контакт:</label>
-            <input type="text" id="ticketContact" placeholder="#тег">
+            <label>Имя:</label><input type="text" id="ticketName">
+            <label>Контакт:</label><input type="text" id="ticketContact" placeholder="#тег">
             <label>Категория:</label>
             <select id="ticketCategory">
                 <option value="">— Категория —</option>
@@ -600,10 +460,8 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <option value="Предложение">💡 Предложение</option>
                 <option value="Другое">📝 Другое</option>
             </select>
-            <label>Тема:</label>
-            <input type="text" id="ticketSubject">
-            <label>Описание:</label>
-            <textarea id="ticketDescription"></textarea>
+            <label>Тема:</label><input type="text" id="ticketSubject">
+            <label>Описание:</label><textarea id="ticketDescription"></textarea>
             <button class="btn btn-green btn-full" onclick="createTicket()">🎫 Отправить</button>
         </div>
         <h4 style="color:var(--green);margin:16px 0 8px;font-size:1rem;">📋 Мои тикеты</h4>
@@ -611,10 +469,14 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
+<!-- ПОЛЬЗОВАТЕЛЬ -->
 <section class="panel-section" id="userPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>💬 Чат поддержки</h3>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>💬 Чат поддержки</h3>
+            </div>
             <span class="role-badge user">Пользователь</span>
         </div>
         <div class="profile-card">
@@ -638,33 +500,21 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <div class="admins-picker" id="adminsPicker"></div>
             </div>
         </div>
-        <div class="user-dialog-block hidden" id="userDialogBlock">
-            <div class="user-dialog-title">💬 Диалог с <span id="chatWithName">—</span></div>
-            <div class="chat-container">
-                <div class="chat-header">
-                    <div class="chat-header-left">
-                        <span class="status-dot"></span> <span id="chatWithNameHeader">—</span> 🌸
-                    </div>
-                    <button class="finish-btn" onclick="finishDialog()" id="finishBtnUser">✅ Завершить</button>
-                </div>
-                <div class="chat-messages" id="chatMessages"></div>
-                <div class="chat-input-area">
-                    <button class="attach-btn" onclick="attachPhoto()">📷</button>
-                    <button class="attach-btn" onclick="attachFile()">📎</button>
-                    <button class="attach-btn" id="voiceBtnUser" onclick="toggleVoiceRecord()">🎤</button>
-                    <input type="text" id="chatInput" placeholder="Сообщение..." autocomplete="off">
-                    <button class="send-btn" id="sendBtn">➤</button>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
+<!-- МОДЕРАТОР -->
 <section class="panel-section" id="moderatorPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>🛡️ Модератор</h3>
-            <span class="role-badge moderator">Модератор</span>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>🛡️ Модератор</h3>
+            </div>
+            <div class="panel-header-right">
+                <span class="role-badge moderator">Модератор</span>
+                <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
+            </div>
         </div>
         <div class="stats">
             <div class="stat-card"><div class="number" id="modStatDialogs">0</div><div class="label">Диалогов</div></div>
@@ -678,271 +528,170 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <span class="chevron">▼</span>
             </div>
             <div class="collapse-body">
-                <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:10px;">👁️ Только просмотр</p>
-                <input type="text" id="modSearchInput" placeholder="🔍 Поиск..." oninput="searchModDialogs(this.value)" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.9rem;outline:none;margin-bottom:10px;min-height:44px;">
                 <div class="dialogs-list" id="moderatorDialogsList"></div>
             </div>
         </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>🚨 Активные жалобы <span class="collapse-badge" id="modReportsBadge">0</span></h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div id="moderatorReportsList"><div class="empty-state">🚨 Нет жалоб</div></div>
-            </div>
-        </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⚠️ Нарушители</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="user-list" id="moderatorViolatorsList"><div class="empty-state">👮 Нет нарушителей</div></div>
-            </div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>📊 Моя активность</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="norm-block">
-                    <div class="norm-row"><span>Проверено диалогов:</span><span class="norm-value" id="modChecked">0</span></div>
-                    <div class="norm-row"><span>Жалоб обработано:</span><span class="norm-value" id="modReportsHandled">0</span></div>
-                    <div class="norm-row"><span>Варнов выдано:</span><span class="norm-value" id="modWarnsIssued">0</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⚙️ Сменить мой пароль</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <label class="settings-label">Новый пароль:</label>
-                <input type="text" id="modNewPassword" placeholder="Новый пароль" class="settings-input">
-                <label class="settings-label">Повторите пароль:</label>
-                <input type="text" id="modNewPassword2" placeholder="Повторите" class="settings-input">
-                <button class="btn btn-full" onclick="changeMyPassword('moderator')">💾 Сохранить</button>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
-                    Пароль хранится в Firebase и синхронизируется.
-                </p>
-            </div>
-        </div>
     </div>
 </section>
 
+<!-- АДМИН -->
 <section class="panel-section" id="adminPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>💼 Админ</h3>
-            <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
-                <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
-                <span id="adminRatingMini" style="color:#ffd700;font-size:0.8rem;">☆☆☆☆☆</span>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>💼 Админ</h3>
+            </div>
+            <div class="panel-header-right">
+                <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
+                    <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
+                    <span id="adminRatingMini" style="color:#ffd700;font-size:0.8rem;">☆☆☆☆☆</span>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
             </div>
         </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>💬 Активные диалоги <span class="collapse-badge" id="adminDialogsCount">0</span></h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="dialogs-list" id="dialogsList"></div>
-            </div>
+        <div class="panel-tabs">
+            <button class="tab-btn active" data-admin-tab="dialogs">💬 Диалоги</button>
+            <button class="tab-btn" data-admin-tab="norm">🎯 Норма</button>
+            <button class="tab-btn" data-admin-tab="reviews">⭐ Отзывы</button>
+            <button class="tab-btn" data-admin-tab="rest">😴 Рест</button>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>💬 Отзывы обо мне</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div id="adminReviewsList" class="reviews-list"><div class="empty-state">💬 Нет отзывов</div></div>
-            </div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>🎯 Моя норма</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="norm-block">
-                    <h4>📊 Прогресс за сегодня</h4>
-                    <div class="norm-row"><span>Сообщений:</span><span class="norm-value" id="adminNormMsgText">0 / 0</span></div>
-                    <div class="norm-bar"><div class="norm-bar-fill" id="adminNormMsgBar" style="width:0%"></div></div>
-                    <div class="norm-row"><span>Пользователей:</span><span class="norm-value" id="adminNormUserText">0 / 0</span></div>
-                    <div class="norm-bar"><div class="norm-bar-fill" id="adminNormUserBar" style="width:0%"></div></div>
-                    <div class="norm-clean-date" id="adminNormCleanDate">🌸 Норма сброшена сегодня</div>
+        <div class="tab-page active" id="adminTabDialogs">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)">
+                    <h4>💬 Активные диалоги <span class="collapse-badge" id="adminDialogsCount">0</span></h4>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="collapse-body">
+                    <div class="dialogs-list" id="dialogsList"></div>
                 </div>
             </div>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>😴 Заявка на рест</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div style="display:flex;justify-content:space-between;padding:8px 0;margin-bottom:10px;">
-                    <label style="color:var(--text-muted);font-size:0.88rem;">Статус:</label>
-                    <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.88rem;">🟢 Работаю</span>
-                </div>
-                <div id="adminRestRequestFormWrap">
-                    <div class="rest-request-form">
-                        <div><label>Дата начала:</label><input type="text" id="restDateFrom" placeholder="15.01.2025"></div>
-                        <div><label>До какого:</label><input type="text" id="restDateTo" placeholder="20.01.2025"></div>
-                        <div><label>Причина:</label><textarea id="restReason" placeholder="Причина"></textarea></div>
-                        <button class="btn btn-yellow btn-full" onclick="submitRestRequest()">📩 Отправить</button>
+        <div class="tab-page" id="adminTabNorm">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎯 Моя норма</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div class="norm-block">
+                        <h4>📊 Прогресс за сегодня</h4>
+                        <div class="norm-row"><span>Сообщений:</span><span class="norm-value" id="adminNormMsgText">0 / 0</span></div>
+                        <div class="norm-bar"><div class="norm-bar-fill" id="adminNormMsgBar" style="width:0%"></div></div>
+                        <div class="norm-row"><span>Пользователей:</span><span class="norm-value" id="adminNormUserText">0 / 0</span></div>
+                        <div class="norm-bar"><div class="norm-bar-fill" id="adminNormUserBar" style="width:0%"></div></div>
                     </div>
                 </div>
-                <div id="adminRestRequestInfo" style="display:none;margin-top:10px;"></div>
+            </div>
+        </div>
+        <div class="tab-page" id="adminTabReviews">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>💬 Отзывы обо мне</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="adminReviewsList" class="reviews-list"><div class="empty-state">💬 Нет отзывов</div></div></div>
+            </div>
+        </div>
+        <div class="tab-page" id="adminTabRest">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>😴 Заявка на рест</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;margin-bottom:10px;">
+                        <label style="color:var(--text-muted);font-size:0.88rem;">Статус:</label>
+                        <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.88rem;">🟢 Работаю</span>
+                    </div>
+                    <div id="adminRestRequestFormWrap">
+                        <div class="rest-request-form">
+                            <div><label>Дата начала:</label><input type="text" id="restDateFrom" placeholder="15.01.2025"></div>
+                            <div><label>До какого:</label><input type="text" id="restDateTo" placeholder="20.01.2025"></div>
+                            <div><label>Причина:</label><textarea id="restReason" placeholder="Причина"></textarea></div>
+                            <button class="btn btn-yellow btn-full" onclick="submitRestRequest()">📩 Отправить</button>
+                        </div>
+                    </div>
+                    <div id="adminRestRequestInfo" style="display:none;margin-top:10px;"></div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- ВЛАДЕЛЕЦ -->
 <section class="panel-section" id="ownerPanel">
     <div class="panel-container">
         <div class="panel-header">
-            <h3>👑 Владелец</h3>
-            <span class="role-badge owner">Владелец</span>
-        </div>
-        <div class="stats">
-            <div class="stat-card"><div class="number" id="ownerActiveDialogs">0</div><div class="label">Диалогов</div></div>
-            <div class="stat-card"><div class="number" id="adminsCount">0</div><div class="label">Админов</div></div>
-            <div class="stat-card"><div class="number" id="ownerTicketsCount">0</div><div class="label">Тикетов</div></div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⚠️ Жалобы <span class="collapse-badge" id="ownerReportsBadge">0</span></h4>
-                <span class="chevron">▼</span>
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>👑 Владелец</h3>
             </div>
-            <div class="collapse-body">
-                <div id="ownerReportsList"><div class="empty-state">⚠️ Нет жалоб</div></div>
+            <div class="panel-header-right">
+                <span class="role-badge owner">Владелец</span>
+                <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
             </div>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>🎫 Тикеты <span class="collapse-badge" id="ownerTicketsBadge">0</span></h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="ticket-list" id="ownerTicketList"><div class="ticket-empty">🎫 Нет тикетов</div></div>
+        <div class="panel-tabs">
+            <button class="tab-btn active" data-owner-tab="stats">📊 Статистика</button>
+            <button class="tab-btn" data-owner-tab="admins">👥 Админы</button>
+            <button class="tab-btn" data-owner-tab="tickets">🎫 Тикеты</button>
+            <button class="tab-btn" data-owner-tab="dialogs">💬 Диалоги</button>
+            <button class="tab-btn" data-owner-tab="add">➕ Добавить</button>
+            <button class="tab-btn" data-owner-tab="data">📦 Данные</button>
+        </div>
+        <div class="tab-page active" id="ownerTabStats">
+            <div class="stats">
+                <div class="stat-card"><div class="number" id="ownerActiveDialogs">0</div><div class="label">Диалогов</div></div>
+                <div class="stat-card"><div class="number" id="adminsCount">0</div><div class="label">Админов</div></div>
+                <div class="stat-card"><div class="number" id="ownerTicketsCount">0</div><div class="label">Тикетов</div></div>
             </div>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>📩 Заявки на рест <span class="collapse-badge" id="ownerRestBadge">0</span></h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div id="ownerRestRequestsList"><div class="empty-state">📩 Нет заявок</div></div>
+        <div class="tab-page" id="ownerTabAdmins">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>👥 Список администраторов</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div class="user-list" id="adminsList"></div></div>
             </div>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⭐ Отзывы всех админов</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div id="ownerReviewsList" class="reviews-list"><div class="empty-state">💬 Нет отзывов</div></div>
+        <div class="tab-page" id="ownerTabTickets">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎫 Тикеты <span class="collapse-badge" id="ownerTicketsBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div class="ticket-list" id="ownerTicketList"><div class="ticket-empty">🎫 Нет тикетов</div></div></div>
             </div>
         </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>🧹 Почистить старых админов</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:10px;">
-                    Удаляет всех, кого нет в списке владельца.
-                </p>
-                <button class="btn btn-red btn-full" onclick="purgeOrphanAdmins()">🧹 Почистить</button>
+        <div class="tab-page" id="ownerTabDialogs">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>💬 Все диалоги (просмотр)</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div class="dialogs-list" id="ownerDialogsList"></div></div>
             </div>
         </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>👥 Список администраторов</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="user-list" id="adminsList"></div>
-            </div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>➕ Добавить администратора</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="add-admin-form">
-                    <input type="text" id="newAdminUsername" placeholder="Тег (без #)">
-                    <select id="newAdminCategory">
-                        <option value="">— Категория —</option>
-                        <option value="Общение">💬 Общение</option>
-                        <option value="Поддержка">🆘 Поддержка</option>
-                        <option value="Универсал">⭐ Универсал</option>
-                    </select>
-                    <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
-                    <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
+        <div class="tab-page" id="ownerTabAdd">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>➕ Добавить администратора</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div class="add-admin-form">
+                        <input type="text" id="newAdminUsername" placeholder="Тег (без #)">
+                        <select id="newAdminCategory">
+                            <option value="">— Категория —</option>
+                            <option value="Общение">💬 Общение</option>
+                            <option value="Поддержка">🆘 Поддержка</option>
+                            <option value="Универсал">⭐ Универсал</option>
+                        </select>
+                        <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
+                        <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>🎯 Норма администраторов</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <label style="color:var(--text-muted);font-size:0.85rem;">Сообщений/день:</label>
-                <input type="number" id="normMessagesInput" value="300" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:10px;min-height:44px;">
-                <label style="color:var(--text-muted);font-size:0.85rem;">Пользователей/день:</label>
-                <input type="number" id="normUsersInput" value="3" min="1" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:12px;background:var(--bg-panel);color:var(--pink);font-weight:700;outline:none;margin-bottom:12px;min-height:44px;">
-                <button class="btn btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
-            </div>
-        </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⚙️ Сменить мой пароль</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <label class="settings-label">Новый пароль владельца:</label>
-                <input type="text" id="ownerNewPassword" placeholder="Новый пароль" class="settings-input">
-                <label class="settings-label">Повторите пароль:</label>
-                <input type="text" id="ownerNewPassword2" placeholder="Повторите" class="settings-input">
-                <button class="btn btn-full" onclick="changeMyPassword('owner')">💾 Сохранить</button>
-            </div>
-        </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>📦 Экспорт / Импорт</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:10px;">
-                    Экспорт скачает JSON-файл. Импорт восстановит данные.
-                </p>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="btn btn-green" style="flex:1;min-width:150px;font-size:1rem;" onclick="exportAllData()">📤 Экспорт</button>
-                    <button class="btn btn-blue" style="flex:1;min-width:150px;font-size:1rem;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
+        <div class="tab-page" id="ownerTabData">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📦 Экспорт / Импорт</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-green" style="flex:1;min-width:150px;" onclick="exportAllData()">📤 Экспорт</button>
+                        <button class="btn btn-blue" style="flex:1;min-width:150px;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
+                    </div>
+                    <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importAllData(event)">
                 </div>
-                <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" onchange="importAllData(event)">
-            </div>
-        </div>
-        <div class="collapse-block">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>💬 Все диалоги (просмотр)</h4>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="collapse-body">
-                <div class="dialogs-list" id="ownerDialogsList"></div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- МОДАЛКИ -->
 <div class="modal-overlay" id="authModal">
-    <div class="modal-card" style="max-width:100%;">
+    <div class="modal-card">
         <button class="close-modal" onclick="closeAuthModal()">✕</button>
         <div class="auth-modal-content">
             <h3 id="authTitle">🌸 Вход</h3>
@@ -957,30 +706,11 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 </div>
 
 <div class="modal-overlay" id="adminProfileModal">
-    <div class="modal-card" style="max-width:100%;">
-        <button class="close-modal" onclick="closeAdminProfile()">✕</button>
-        <div id="adminProfileContent"></div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="adminSettingsModal">
-    <div class="modal-card" style="max-width:100%;">
-        <button class="close-modal" onclick="closeAdminSettings()">✕</button>
-        <h3 style="color:var(--text-light);text-align:center;margin-bottom:16px;font-size:1.3rem;">⚙️ Настройки входа</h3>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.85rem;">Тег и пароль для <strong id="settingsAdminName" style="color:var(--pink);">—</strong></p>
-        <label class="settings-label">Тег (без #):</label>
-        <input type="text" id="settingsTag" placeholder="admin_sakura" class="settings-input">
-        <label class="settings-label">Новый пароль:</label>
-        <input type="text" id="settingsPassword" placeholder="Оставьте пустым" class="settings-input">
-        <div style="display:flex;gap:8px;">
-            <button class="btn btn-outline" style="flex:1;" onclick="closeAdminSettings()">Отмена</button>
-            <button class="btn" style="flex:1;" onclick="saveAdminSettings()">💾 Сохранить</button>
-        </div>
-    </div>
+    <div class="modal-card"><button class="close-modal" onclick="closeAdminProfile()">✕</button><div id="adminProfileContent"></div></div>
 </div>
 
 <div class="modal-overlay" id="ratingModal">
-    <div class="modal-card" style="max-width:100%;">
+    <div class="modal-card">
         <div class="rating-modal-content">
             <h3>🌸 Оцените диалог</h3>
             <p>Оценка и отзыв обязательны</p>
@@ -1004,34 +734,49 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     <img id="photoModalImg" src="" style="max-width:95vw;max-height:95vh;border-radius:12px;">
 </div>
 
+<div class="modal-overlay" id="ticketReplyModal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeTicketReply()">✕</button>
+        <h3 style="color:var(--text-light);text-align:center;margin-bottom:8px;">🎫 Ответ на тикет</h3>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:12px;font-size:0.85rem;">Тикет: <strong id="ticketReplyId" style="color:var(--pink);">—</strong></p>
+        <div style="background:var(--bg-card);padding:12px;border-radius:12px;margin-bottom:14px;border-left:3px solid var(--blue);">
+            <div style="font-weight:700;color:var(--text-light);font-size:0.9rem;margin-bottom:4px;" id="ticketReplySubject">—</div>
+            <div style="color:var(--text-muted);font-size:0.85rem;font-style:italic;" id="ticketReplyText">—</div>
+            <div style="color:var(--text-muted);font-size:0.75rem;margin-top:6px;" id="ticketReplyFrom">—</div>
+        </div>
+        <label class="settings-label">Ваш ответ:</label>
+        <textarea id="ticketReplyAnswer" style="width:100%;padding:12px 14px;border:2px solid var(--border-pink);border-radius:14px;background:var(--bg-card);color:var(--text-light);font-size:0.95rem;outline:none;min-height:110px;margin-bottom:14px;"></textarea>
+        <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" style="flex:1;" onclick="closeTicketReply()">Отмена</button>
+            <button class="btn btn-green" style="flex:1;" onclick="submitTicketReply()">📤 Отправить</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="staffModal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeStaffModal()">✕</button>
+        <h3 style="color:var(--text-light);text-align:center;margin-bottom:16px;">🔐 Вход для персонала</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <button class="btn btn-blue btn-full" onclick="closeStaffModal(); openAuthModal('moderator')">🛡️ Модератор</button>
+            <button class="btn btn-full" onclick="closeStaffModal(); openAuthModal('admin')">💼 Админ</button>
+            <button class="btn btn-yellow btn-full" onclick="closeStaffModal(); openAuthModal('owner')">👑 Владелец</button>
+            <button class="btn btn-outline btn-full" onclick="closeStaffModal()">Отмена</button>
+        </div>
+    </div>
+</div>
+
 <nav class="mobile-nav">
-    <button class="nav-btn active-role" id="navHome">
-        <span class="nav-icon">🏠</span>
-        <span>Главная</span>
-    </button>
-    <button class="nav-btn" id="navUser">
-        <span class="nav-icon">👤</span>
-        <span>Пользователь</span>
-    </button>
-    <button class="nav-btn" id="navModerator">
-        <span class="nav-icon">🛡️</span>
-        <span>Модератор</span>
-    </button>
-    <button class="nav-btn" id="navAdmin">
-        <span class="nav-icon">💼</span>
-        <span>Админ</span>
-    </button>
-    <button class="nav-btn" id="navOwner">
-        <span class="nav-icon">👑</span>
-        <span>Владелец</span>
-    </button>
+    <button class="nav-btn active-role" id="navHome"><span class="nav-icon">🏠</span><span>Главная</span></button>
+    <button class="nav-btn" id="navUser"><span class="nav-icon">👤</span><span>Профиль</span></button>
+    <button class="nav-btn" id="navSupport"><span class="nav-icon">🎫</span><span>Тикеты</span></button>
+    <button class="nav-btn" id="navAnketa"><span class="nav-icon">📝</span><span>Анкета</span></button>
+    <button class="nav-btn" id="navStaff"><span class="nav-icon">🔐</span><span>Вход</span></button>
 </nav>
 
-<footer class="footer">
-    <p>🌸 По ту сторону — сделано с любовью 🌸</p>
-</footer>
-<!-- КОНЕЦ ЧАСТИ 2 -->
-    <script>
+<footer class="footer"><p>🌸 По ту сторону — сделано с любовью 🌸</p></footer>
+
+<script>
 // ============================================================
 // 🔥 FIREBASE
 // ============================================================
@@ -1055,14 +800,10 @@ const db = firebase.database();
 let tickets = [];
 let realDialogs = [];
 let adminsData = [
-    { name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал' },
-    { name: 'mod_hanami', username: '#mod_hanami', initials: 'MO', category: 'Общение' },
-    { name: 'psy_yuki', username: '#psy_yuki', initials: 'PS', category: 'Поддержка' }
+    { name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал' }
 ];
 let userAdminData = [
-    { id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' },
-    { id: 'mod_hanami', name: 'mod_hanami', initials: 'MO', category: 'Общение' },
-    { id: 'psy_yuki', name: 'psy_yuki', initials: 'PS', category: 'Поддержка' }
+    { id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' }
 ];
 let adminRests = {};
 let restRequests = [];
@@ -1074,13 +815,9 @@ let adminNorm = { messages: 300, users: 3 };
 
 const AUTH = {
     admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал' },
-    moderator: { tag: '#mod_hanami', password: 'mod123', category: 'Общение' },
     owner: { password: 'owner123' }
 };
 
-// ============================================================
-// ЗАГРУЗКА ИЗ FIREBASE
-// ============================================================
 let loadedFromFirebase = false;
 async function loadFromFirebase() {
     try {
@@ -1102,21 +839,9 @@ async function loadFromFirebase() {
         console.log('🌸 Загружено из Firebase');
     } catch (e) {
         console.warn('⚠️ Firebase load failed:', e);
-        try {
-            const sT = localStorage.getItem('sakura-tickets'); if (sT) tickets = JSON.parse(sT);
-            const sD = localStorage.getItem('sakura-real-dialogs'); if (sD) realDialogs = JSON.parse(sD);
-            const sA = localStorage.getItem('sakura-admins'); if (sA) adminsData = JSON.parse(sA);
-            const sUA = localStorage.getItem('sakura-user-admins'); if (sUA) userAdminData = JSON.parse(sUA);
-            const sAuth = localStorage.getItem('sakura-auth');
-            if (sAuth) Object.assign(AUTH, JSON.parse(sAuth));
-            console.log('📦 Фолбэк: localStorage');
-        } catch(e2) {}
     }
 }
 
-// ============================================================
-// СОХРАНЕНИЕ В FIREBASE
-// ============================================================
 function saveToFirebase() {
     if (!loadedFromFirebase) return;
     try {
@@ -1142,173 +867,58 @@ const saveModStats = saveToFirebase;
 const saveNorm = saveToFirebase;
 const saveAuth = saveToFirebase;
 
-function toggleCollapse(header) {
-    header.closest('.collapse-block').classList.toggle('open');
-}
+function toggleCollapse(header) { header.closest('.collapse-block').classList.toggle('open'); }
 
 // ============================================================
-// АВТО-ЧИСТКА
+// 🧹 ОЧИСТКА ФАНТОМНЫХ ДИАЛОГОВ
 // ============================================================
-function cleanOrphanAdmins() {
-    let changed = false;
-    const cleanAdmins = (Array.isArray(adminsData) ? adminsData : []).filter(a => {
-        if (!a) { changed = true; return false; }
-        if (a.username === '#support_kei') { changed = true; return false; }
+function cleanGhostDialogs() {
+    const initialCount = realDialogs.length;
+    realDialogs = realDialogs.filter(d => {
+        if (!d) return false;
+        if (!d.userNickname || d.userNickname.trim() === '') return false;
+        if (!Array.isArray(d.messages) || d.messages.length === 0) return false;
+        if (!d.id) return false;
         return true;
     });
-    if (cleanAdmins.length !== adminsData.length) { adminsData = cleanAdmins; saveAdmins(); changed = true; }
-    const validNames = new Set(adminsData.map(a => a.name));
-    const cleanUserAdmins = (Array.isArray(userAdminData) ? userAdminData : []).filter(u => {
-        if (!u) { changed = true; return false; }
-        if (u.name === 'support_kei') { changed = true; return false; }
-        if (!validNames.has(u.name)) { changed = true; return false; }
-        return true;
-    });
-    if (cleanUserAdmins.length !== userAdminData.length) { userAdminData = cleanUserAdmins; saveUserAdmins(); changed = true; }
-    Object.keys(AUTH).forEach(key => {
-        if (['admin', 'moderator', 'owner'].includes(key)) return;
-        const authName = AUTH[key]?.name;
-        if (!authName || !validNames.has(authName)) { delete AUTH[key]; changed = true; }
-    });
-    if (changed) saveAuth();
-    if (changed) { renderAdminsList(); renderAdminsPicker(); }
-    return changed;
-}
-
-function purgeOrphanAdmins() {
-    const validNames = new Set(adminsData.map(a => a.name));
-    let removedCount = 0;
-    const beforeUA = userAdminData.length;
-    userAdminData = userAdminData.filter(u => u && validNames.has(u.name) && u.name !== 'support_kei');
-    removedCount += beforeUA - userAdminData.length;
-    saveUserAdmins();
-    Object.keys(AUTH).forEach(key => {
-        if (['admin', 'moderator', 'owner'].includes(key)) return;
-        const authName = AUTH[key]?.name;
-        if (!authName || !validNames.has(authName)) { delete AUTH[key]; removedCount++; }
-    });
-    saveAuth();
-    Object.keys(adminRests).forEach(tag => {
-        const name = tag.replace('#','');
-        if (!validNames.has(name)) { delete adminRests[tag]; }
-    });
-    saveRests();
-    renderAdminsList(); renderAdminsPicker(); renderOwnerRestRequests();
-    if (removedCount > 0) showNotification(`🧹 Удалено: ${removedCount}`, '✅');
-    else showNotification('🌸 Чисто, всё как надо', '✅');
-}
-
-function changeMyPassword(role) {
-    if (role === 'owner') {
-        const p1 = document.getElementById('ownerNewPassword').value.trim();
-        const p2 = document.getElementById('ownerNewPassword2').value.trim();
-        if (!p1 || !p2) { showNotification('⚠️ Заполните оба поля', '⚠️'); return; }
-        if (p1 !== p2) { showNotification('⚠️ Пароли не совпадают', '⚠️'); return; }
-        if (p1.length < 4) { showNotification('⚠️ Минимум 4 символа', '⚠️'); return; }
-        AUTH.owner.password = p1; saveAuth();
-        document.getElementById('ownerNewPassword').value = '';
-        document.getElementById('ownerNewPassword2').value = '';
-        showNotification('✅ Пароль владельца изменён', '✅');
-    }
-    if (role === 'moderator') {
-        const p1 = document.getElementById('modNewPassword').value.trim();
-        const p2 = document.getElementById('modNewPassword2').value.trim();
-        if (!p1 || !p2) { showNotification('⚠️ Заполните оба поля', '⚠️'); return; }
-        if (p1 !== p2) { showNotification('⚠️ Пароли не совпадают', '⚠️'); return; }
-        if (p1.length < 4) { showNotification('⚠️ Минимум 4 символа', '⚠️'); return; }
-        AUTH.moderator.password = p1; saveAuth();
-        document.getElementById('modNewPassword').value = '';
-        document.getElementById('modNewPassword2').value = '';
-        showNotification('✅ Пароль модератора изменён', '✅');
+    const removed = initialCount - realDialogs.length;
+    if (removed > 0) {
+        console.log(`🧹 Удалено фантомных диалогов: ${removed}`);
+        saveDialogs();
     }
 }
 
-function saveNormSettings() {
-    const m = parseInt(document.getElementById('normMessagesInput').value) || 300;
-    const u = parseInt(document.getElementById('normUsersInput').value) || 3;
-    adminNorm = { messages: m, users: u };
-    saveNorm();
-    showNotification(`Норма: ${m}/${u}`, '✅');
-    renderAdminsList(); renderAdminNorm();
-}
-
-function loadNorm() {
-    const mi = document.getElementById('normMessagesInput');
-    const ui = document.getElementById('normUsersInput');
-    if (mi) mi.value = adminNorm.messages;
-    if (ui) ui.value = adminNorm.users;
-}
-
-function renderAdminNorm() {
-    if (!currentAuth.tag) return;
-    const myDialogs = realDialogs.filter(d => d.adminName === currentAuth.tag.replace('#',''));
-    let msgCount = 0;
-    const userSet = new Set();
-    myDialogs.forEach(d => {
-        d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; });
-        userSet.add(d.userNickname);
-    });
-    const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
-    const userPct = Math.min(100, Math.round(userSet.size / adminNorm.users * 100));
-    const mt = document.getElementById('adminNormMsgText');
-    const mb = document.getElementById('adminNormMsgBar');
-    const ut = document.getElementById('adminNormUserText');
-    const ub = document.getElementById('adminNormUserBar');
-    if (mt) mt.textContent = `${msgCount} / ${adminNorm.messages}`;
-    if (mb) mb.style.width = msgPct + '%';
-    if (ut) ut.textContent = `${userSet.size} / ${adminNorm.users}`;
-    if (ub) ub.style.width = userPct + '%';
-}
-
 // ============================================================
-// МОДЕРАЦИЯ
+// ВКЛАДКИ
 // ============================================================
-const personalInfoPatterns = [
-    /\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i,
-    /\bмне\s+\d{1,2}\b/i,
-    /\bвозраст\s*[:\-]?\s*\d{1,2}\b/i,
-    /\b(?:город|г\.)\s*[:\-]?\s*[А-ЯЁ][а-яё\-]+/i,
-    /\bживу\s+в\s+[А-ЯЁ][а-яё\-]+/i,
-    /\b\+?\d[\d\s\-\(\)]{8,}\b/,
-    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/
-];
-function containsPersonalInfo(t) { return personalInfoPatterns.some(p => p.test(t)); }
-let spamTracker = {};
-function isSpam(text, userId) {
-    if (text.length > 500) return { spam: true, reason: 'Слишком длинное' };
-    if (/(.)\1{6,}/.test(text)) return { spam: true, reason: 'Много повторов' };
-    if (text.length > 20 && text === text.toUpperCase() && /[А-ЯЁA-Z]/.test(text)) return { spam: true, reason: 'Не пишите капсом' };
-    const now = Date.now();
-    if (!spamTracker[userId]) spamTracker[userId] = [];
-    spamTracker[userId] = spamTracker[userId].filter(t => now - t.time < 10000);
-    const dup = spamTracker[userId].filter(t => t.text === text).length;
-    if (dup >= 2) return { spam: true, reason: 'Не флудите' };
-    spamTracker[userId].push({ text, time: now });
-    if (spamTracker[userId].length > 5) return { spam: true, reason: 'Слишком часто' };
-    return { spam: false };
-}
-function moderateMessage(text, userId) {
-    if (containsPersonalInfo(text)) return { blocked: true, reason: '🚫 Запрещена личная информация' };
-    const s = isSpam(text, userId);
-    if (s.spam) return { blocked: true, reason: `🚫 ${s.reason}` };
-    return { blocked: false };
-}
-function autoWarnOrBan(dialog) {
-    dialog.warns = (dialog.warns || 0) + 1;
-    if (dialog.warns >= 3) {
-        dialog.banned = true; dialog.closed = true;
-        showNotification('🚫 Забанен (3/3)', '🚫');
-        return true;
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-owner-tab], [data-admin-tab]');
+    if (!btn) return;
+    if (btn.dataset.ownerTab) {
+        const tabId = btn.dataset.ownerTab;
+        document.querySelectorAll('[data-owner-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#ownerPanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('ownerTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (target) target.classList.add('active');
     }
-    showNotification(`⚠️ Варн ${dialog.warns}/3`, '⚠️');
-    return false;
-}
+    if (btn.dataset.adminTab) {
+        const tabId = btn.dataset.adminTab;
+        document.querySelectorAll('[data-admin-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#adminPanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('adminTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (target) target.classList.add('active');
+    }
+});
 
+// ============================================================
+// АВТОРИЗАЦИЯ
+// ============================================================
 let currentAuth = { role: null, tag: null, category: null };
 let pendingAuthRole = null;
 let selectedAdminId = null;
 let currentDialogId = null;
-let dialogClosed = false;
 let currentRating = 0;
 
 function openAuthModal(role) {
@@ -1317,10 +927,6 @@ function openAuthModal(role) {
     document.getElementById('authPassword').value = '';
     if (role === 'admin') {
         document.getElementById('authTitle').textContent = '💼 Вход для админа';
-        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
-        document.getElementById('authTagField').style.display = 'block';
-    } else if (role === 'moderator') {
-        document.getElementById('authTitle').textContent = '🛡️ Вход для модератора';
         document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
         document.getElementById('authTagField').style.display = 'block';
     } else {
@@ -1334,7 +940,6 @@ function closeAuthModal() {
     document.getElementById('authModal').classList.remove('active');
     pendingAuthRole = null;
 }
-
 function submitAuth() {
     const role = pendingAuthRole;
     if (!role) return;
@@ -1365,76 +970,17 @@ function submitAuth() {
         closeAuthModal();
         document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
         switchPanel('adminPanel');
-        renderAdminRestRequest(); renderAdminReviews(); updateAdminRatingMini(); renderAdminNorm();
+        renderAdminDialogs(); renderAdminNorm();
         showNotification(`🌸 Добро пожаловать!`, '✅');
-        return;
-    }
-    if (role === 'moderator') {
-        if (tag === AUTH.moderator.tag && password === AUTH.moderator.password) {
-            currentAuth = { role: 'moderator', tag: AUTH.moderator.tag, category: AUTH.moderator.category };
-            closeAuthModal(); switchPanel('moderatorPanel');
-            showNotification(`🌸 Добро пожаловать!`, '✅');
-        } else showNotification('❌ Неверный тег или пароль', '❌');
     }
 }
-
-function openAdminProfile() { if (currentAuth.tag) showAdminReviewsByTag(currentAuth.tag); }
-function closeAdminProfile() { document.getElementById('adminProfileModal').classList.remove('active'); }
-function updateAdminRatingMini() {
-    const tag = currentAuth.tag;
-    if (!tag) return;
-    const reviews = adminReviews.filter(r => r.adminName === tag);
-    const avg = reviews.length > 0 ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
-    const el = document.getElementById('adminRatingMini');
-    if (el) el.textContent = `${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))} (${avg})`;
-}
-
-let settingsAdminIndex = -1;
-function openAdminSettings(idx) {
-    if (idx < 0 || idx >= adminsData.length) return;
-    settingsAdminIndex = idx;
-    const a = adminsData[idx];
-    document.getElementById('settingsAdminName').textContent = a.name;
-    document.getElementById('settingsTag').value = a.username.replace('#', '');
-    document.getElementById('settingsPassword').value = '';
-    document.getElementById('adminSettingsModal').classList.add('active');
-}
-function closeAdminSettings() {
-    document.getElementById('adminSettingsModal').classList.remove('active');
-    settingsAdminIndex = -1;
-}
-function saveAdminSettings() {
-    if (settingsAdminIndex < 0 || settingsAdminIndex >= adminsData.length) return;
-    const a = adminsData[settingsAdminIndex];
-    const newTag = document.getElementById('settingsTag').value.trim();
-    const newPassword = document.getElementById('settingsPassword').value.trim();
-    if (!newTag) { showNotification('⚠️ Введите тег', '⚠️'); return; }
-    const fullTag = newTag.startsWith('#') ? newTag : '#' + newTag;
-    const existing = adminsData.find((ad, i) => i !== settingsAdminIndex && ad.username === fullTag);
-    if (existing) { showNotification('⚠️ Тег занят', '⚠️'); return; }
-    const oldTag = a.username;
-    const oldKey = oldTag.replace('#','');
-    a.username = fullTag;
-    a.name = fullTag.replace('#','');
-    a.initials = a.name.slice(0,2).toUpperCase();
-    saveAdmins();
-    if (oldTag === AUTH.admin.tag) { AUTH.admin.tag = fullTag; if (newPassword) AUTH.admin.password = newPassword; }
-    if (oldTag === AUTH.moderator.tag) { AUTH.moderator.tag = fullTag; if (newPassword) AUTH.moderator.password = newPassword; }
-    if (AUTH[oldKey] && oldKey !== fullTag.replace('#','')) {
-        AUTH[fullTag.replace('#','')] = AUTH[oldKey];
-        AUTH[fullTag.replace('#','')].tag = fullTag;
-        AUTH[fullTag.replace('#','')].name = a.name;
-        if (newPassword) AUTH[fullTag.replace('#','')].password = newPassword;
-        delete AUTH[oldKey];
-    }
-    saveAuth();
-    if (currentAuth.tag === oldTag) {
-        currentAuth.tag = fullTag;
-        const el = document.getElementById('adminTagDisplay');
-        if (el) el.textContent = fullTag;
-    }
-    closeAdminSettings(); renderAdminsList();
-    showNotification(`✅ Сохранено`, '✅');
+function logout() {
+    if (!confirm('Выйти?')) return;
+    currentAuth = { role: null, tag: null, category: null };
+    selectedAdminId = null; currentDialogId = null;
+    document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+    switchPanel('mainContent');
+    showNotification('👋 Вы вышли', '✅');
 }
 
 function switchPanel(panelId) {
@@ -1455,18 +1001,21 @@ function switchPanel(panelId) {
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-role'));
     if (panelId === 'mainContent') document.getElementById('navHome').classList.add('active-role');
     if (panelId === 'userPanel') document.getElementById('navUser').classList.add('active-role');
-    if (panelId === 'moderatorPanel') document.getElementById('navModerator').classList.add('active-role');
-    if (panelId === 'adminPanel') document.getElementById('navAdmin').classList.add('active-role');
-    if (panelId === 'ownerPanel') document.getElementById('navOwner').classList.add('active-role');
+    if (panelId === 'supportPanel') document.getElementById('navSupport').classList.add('active-role');
+    if (panelId === 'anketaPanel') document.getElementById('navAnketa').classList.add('active-role');
+    if (panelId === 'moderatorPanel' || panelId === 'adminPanel' || panelId === 'ownerPanel') document.getElementById('navStaff').classList.add('active-role');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (panelId === 'supportPanel') renderTickets();
-    if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminRestRequest(); renderAdminReviews(); updateAdminRatingMini(); renderAdminNorm(); }
-    if (panelId === 'moderatorPanel') { renderModeratorDialogs(); renderModeratorViolators(); renderModeratorReports(); renderModeratorActivity(); }
-    if (panelId === 'ownerPanel') { renderOwnerReports(); renderAdminsList(); renderOwnerRestRequests(); renderOwnerDialogs(); renderOwnerTickets(); renderOwnerReviews(); loadNorm(); }
+    if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminNorm(); }
+    if (panelId === 'moderatorPanel') { renderModeratorDialogs(); }
+    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); }
     if (panelId === 'anketaPanel') loadAnketa();
     if (panelId === 'userPanel') { renderProfile(); renderAdminsPicker(); }
 }
 
+// ============================================================
+// ПРОФИЛЬ
+// ============================================================
 const AVATARS = ['😊','🌸','🌺','🌷','🌻','🦋','🐱','🐶','🦊','🐼','🦄','🐧','🐰','🐨','🌙','⭐','☀️','🍀','💎','👑'];
 function toggleAvatarPicker() {
     const p = document.getElementById('avatarPicker');
@@ -1483,9 +1032,14 @@ function toggleAvatarPicker() {
     } else p.style.display = 'none';
 }
 function renderProfile() {
-    document.getElementById('profileAvatarBig').textContent = userProfile.avatar;
-    document.getElementById('profileNicknameDisplay').textContent = userProfile.nickname || 'Аноним';
-    if (userProfile.nickname) document.getElementById('nicknameInput').value = userProfile.nickname;
+    const pa = document.getElementById('profileAvatarBig');
+    const pn = document.getElementById('profileNicknameDisplay');
+    if (pa) pa.textContent = userProfile.avatar;
+    if (pn) pn.textContent = userProfile.nickname || 'Аноним';
+    const ni = document.getElementById('nicknameInput');
+    if (ni && userProfile.nickname) ni.value = userProfile.nickname;
+    const pf = document.getElementById('profileFloatAvatar');
+    if (pf) pf.textContent = userProfile.avatar || '😊';
 }
 function saveNickname() {
     const val = document.getElementById('nicknameInput').value.trim();
@@ -1495,361 +1049,16 @@ function saveNickname() {
     showNotification(`🌸 ${val}`, '✏️');
 }
 
-function isAdminResting(tag) { return adminRests[tag] === true; }
-function submitRestRequest() {
-    const from = document.getElementById('restDateFrom').value.trim();
-    const to = document.getElementById('restDateTo').value.trim();
-    const reason = document.getElementById('restReason').value.trim();
-    if (!from || !to || !reason) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
-    const dateRegex = /^\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4}$/;
-    if (!dateRegex.test(from) || !dateRegex.test(to)) { showNotification('⚠️ Формат: ДД.ММ.ГГГГ', '⚠️'); return; }
-    if (restRequests.find(r => r.adminTag === currentAuth.tag && r.status === 'pending')) {
-        showNotification('⚠️ Уже есть заявка', '⚠️'); return;
-    }
-    const admin = adminsData.find(a => a.username === currentAuth.tag);
-    restRequests.unshift({
-        id: 'RR-' + Date.now().toString().slice(-6),
-        adminTag: currentAuth.tag,
-        adminName: admin ? admin.name : currentAuth.tag.substring(1),
-        from, to, reason,
-        status: 'pending', createdAt: Date.now()
-    });
-    saveRestReqs(); renderAdminRestRequest();
-    showNotification('📩 Отправлено!', '✅');
-}
-function cancelRestRequest() {
-    const idx = restRequests.findIndex(r => r.adminTag === currentAuth.tag && r.status === 'pending');
-    if (idx === -1) return;
-    restRequests.splice(idx, 1);
-    saveRestReqs(); renderAdminRestRequest();
-}
-function approveRestRequest(id) {
-    const r = restRequests.find(x => x.id === id);
-    if (!r) return;
-    r.status = 'approved'; adminRests[r.adminTag] = true;
-    saveRestReqs(); saveRests();
-    restRequests = restRequests.filter(x => x.id !== id);
-    saveRestReqs();
-    renderOwnerRestRequests(); renderAdminsList(); renderAdminsPicker();
-    showNotification(`✅ ${r.adminName} в ресте`, '😴');
-}
-function rejectRestRequest(id) {
-    restRequests = restRequests.filter(x => x.id !== id);
-    saveRestReqs(); renderOwnerRestRequests();
-    showNotification('✖ Отклонено', '✖');
-}
-function forceEndRest(tag) {
-    adminRests[tag] = false;
-    saveRests();
-    restRequests = restRequests.filter(r => r.adminTag !== tag);
-    saveRestReqs();
-    renderOwnerRestRequests(); renderAdminsList(); renderAdminsPicker();
-    showNotification('🟢 Вернулся', '✅');
-}
-function renderAdminRestRequest() {
-    const formWrap = document.getElementById('adminRestRequestFormWrap');
-    const infoWrap = document.getElementById('adminRestRequestInfo');
-    if (!formWrap || !infoWrap) return;
-    const pending = restRequests.find(r => r.adminTag === currentAuth.tag && r.status === 'pending');
-    const statusEl = document.getElementById('adminRestStatus');
-    if (pending) {
-        formWrap.style.display = 'none';
-        infoWrap.style.display = 'block';
-        infoWrap.innerHTML = `<div class="rest-request-item pending">
-            <div class="rest-request-header"><span class="rest-request-author">Ваша заявка</span><span class="rest-request-status pending">⏳</span></div>
-            <div class="rest-request-info">📅 С <strong>${pending.from}</strong> по <strong>${pending.to}</strong></div>
-            <div class="rest-request-reason">${pending.reason}</div>
-            <button class="btn btn-outline btn-sm" onclick="cancelRestRequest()">✖ Отменить</button>
-        </div>`;
-    } else {
-        formWrap.style.display = 'block';
-        infoWrap.style.display = 'none';
-    }
-    if (statusEl) {
-        statusEl.textContent = adminRests[currentAuth.tag] ? '😴 В ресте' : '🟢 Работаю';
-        statusEl.style.color = adminRests[currentAuth.tag] ? 'var(--yellow)' : 'var(--green)';
-    }
-}
-function renderOwnerRestRequests() {
-    const list = document.getElementById('ownerRestRequestsList');
-    if (!list) return;
-    list.innerHTML = '';
-    const pending = restRequests.filter(r => r.status === 'pending');
-    if (pending.length === 0) list.innerHTML = `<div class="empty-state">📩 Нет заявок</div>`;
-    else {
-        pending.forEach(r => {
-            const item = document.createElement('div');
-            item.className = 'rest-request-item pending';
-            item.innerHTML = `
-                <div class="rest-request-header">
-                    <span class="rest-request-author">👤 ${r.adminName}</span>
-                    <span class="rest-request-status pending">⏳</span>
-                </div>
-                <div class="rest-request-info">📅 С <strong>${r.from}</strong> по <strong>${r.to}</strong></div>
-                <div class="rest-request-reason">${r.reason}</div>
-                <div class="rest-request-actions">
-                    <button class="btn btn-green btn-sm" onclick="approveRestRequest('${r.id}')">✅ Одобрить</button>
-                    <button class="btn btn-red btn-sm" onclick="rejectRestRequest('${r.id}')">✖ Отклонить</button>
-                </div>
-            `;
-            list.appendChild(item);
-        });
-    }
-    const resting = adminsData.filter(a => adminRests[a.username] === true);
-    if (resting.length > 0) {
-        const h = document.createElement('h5');
-        h.style.cssText = 'color:var(--yellow);margin:12px 0 8px;font-size:0.9rem;';
-        h.textContent = '😴 Сейчас в ресте:';
-        list.appendChild(h);
-        resting.forEach(a => {
-            const item = document.createElement('div');
-            item.className = 'user-item';
-            item.innerHTML = `
-                <div class="user-info">
-                    <div class="avatar" style="background:linear-gradient(135deg,var(--yellow),#e1b12c);color:#333;">${a.initials}</div>
-                    <div style="min-width:0;"><div class="user-name">${a.name} <span class="rest-badge">😴</span></div></div>
-                </div>
-                <div class="user-actions"><button title="Вернуть" onclick="forceEndRest('${a.username}')">🟢</button></div>
-            `;
-            list.appendChild(item);
-        });
-    }
-    const badge = document.getElementById('ownerRestBadge');
-    if (badge) badge.textContent = pending.length;
-}
-
-function renderOwnerReports() {
-    const list = document.getElementById('ownerReportsList');
-    if (!list) return;
-    list.innerHTML = '';
-    if (reports.length === 0) list.innerHTML = `<div class="empty-state">⚠️ Нет жалоб</div>`;
-    else {
-        reports.forEach(r => {
-            const item = document.createElement('div');
-            item.className = 'report-item pending';
-            item.innerHTML = `
-                <div class="report-header">
-                    <span class="report-author">👤 ${r.fromNickname} → ${r.adminName}</span>
-                    <span class="report-time">${new Date(r.createdAt).toLocaleString('ru-RU')}</span>
-                </div>
-                <div class="report-text">${r.text}</div>
-                <div class="report-actions">
-                    <button class="btn btn-green btn-sm" onclick="resolveReport('${r.id}')">✅ Одобрить</button>
-                    <button class="btn btn-outline btn-sm" onclick="deleteReport('${r.id}')">✖ Отклонить</button>
-                </div>
-            `;
-            list.appendChild(item);
-        });
-    }
-    const badge = document.getElementById('ownerReportsBadge');
-    if (badge) badge.textContent = reports.length;
-}
-function resolveReport(id) {
-    reports = reports.filter(r => r.id !== id);
-    saveReports(); renderOwnerReports(); renderModeratorReports();
-    showNotification('🌸 Обработано', '✅');
-}
-function deleteReport(id) {
-    reports = reports.filter(r => r.id !== id);
-    saveReports(); renderOwnerReports(); renderModeratorReports();
-    showNotification('✖ Отклонено', '✖');
-}
-
-function selectAdmin(adminId) {
-    const admin = userAdminData.find(a => a.id === adminId);
-    if (!admin) return;
-    const uAdmin = adminsData.find(ad => ad.name === admin.name);
-    if (uAdmin && isAdminResting(uAdmin.username)) { showNotification(`😴 ${admin.name} на отдыхе`, '😴'); return; }
-    if (!userProfile.nickname) { showNotification('⚠️ Сначала псевдоним', '⚠️'); return; }
-    selectedAdminId = adminId;
-    dialogClosed = false;
-    let existing = realDialogs.find(d => d.adminId === adminId && !d.closed && d.userNickname === userProfile.nickname);
-    if (existing) currentDialogId = existing.id;
-    else {
-        const nd = {
-            id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-            adminId, adminName: admin.name, userNickname: userProfile.nickname,
-            status: 'waiting', closed: false, banned: false, warns: 0,
-            createdAt: Date.now(), lastActivity: Date.now(), messages: []
-        };
-        realDialogs.push(nd); saveDialogs(); currentDialogId = nd.id;
-    }
-    const d = realDialogs.find(x => x.id === currentDialogId);
-    document.getElementById('userDialogBlock').classList.remove('hidden');
-    document.getElementById('chatWithName').textContent = admin.name;
-    document.getElementById('chatWithNameHeader').textContent = admin.name;
-    renderUserDialogMessages(d);
-    document.getElementById('chatInput').disabled = false;
-    document.getElementById('sendBtn').disabled = false;
-    document.getElementById('finishBtnUser').disabled = false;
-    document.querySelectorAll('.admin-pick-card').forEach(c => c.classList.remove('selected'));
-    const card = document.querySelector(`.admin-pick-card[data-admin-id="${adminId}"]`);
-    if (card) card.classList.add('selected');
-}
-function renderUserDialogMessages(d) {
-    const cm = document.getElementById('chatMessages');
-    if (!cm) return;
-    cm.innerHTML = '';
-    if (!d.messages || d.messages.length === 0) {
-        cm.innerHTML = `<div class="message waiting">💬 Диалог создан</div>`;
-        return;
-    }
-    d.messages.forEach(m => {
-        const div = document.createElement('div');
-        div.classList.add('message', m.sender);
-        div.innerHTML = (m.text || '') + (m.attachment || '') + `<span class="time">${m.time || ''}</span>`;
-        cm.appendChild(div);
-    });
-    cm.scrollTop = cm.scrollHeight;
-}
-function sendMessage() {
-    if (dialogClosed || !selectedAdminId) return;
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
-    const d = realDialogs.find(x => x.id === currentDialogId);
-    if (!d || d.closed || d.banned) return;
-    const mod = moderateMessage(text, userProfile.nickname);
-    if (mod.blocked) {
-        const cm = document.getElementById('chatMessages');
-        const sys = document.createElement('div');
-        sys.classList.add('message', 'system');
-        sys.textContent = mod.reason;
-        cm.appendChild(sys); cm.scrollTop = cm.scrollHeight;
-        showNotification(mod.reason, '🚫');
-        const banned = autoWarnOrBan(d);
-        saveDialogs();
-        if (banned) finishDialogUI('🚫 Диалог завершён');
-        input.value = '';
-        return;
-    }
-    d.messages.push({ text, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
-    d.lastActivity = Date.now(); d.status = 'active';
-    saveDialogs(); renderUserDialogMessages(d);
-    input.value = '';
-}
-function attachPhoto() {
-    const input = document.createElement('input');
-    input.type = 'file'; input.accept = 'image/*';
-    input.onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-            const html = `<span class="attachment-photo" onclick="openPhoto('${ev.target.result}')"><img src="${ev.target.result}"></span>`;
-            const d = realDialogs.find(x => x.id === currentDialogId);
-            if (!d) return;
-            d.messages.push({ text: '📷 Фото', sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html });
-            d.lastActivity = Date.now();
-            saveDialogs(); renderUserDialogMessages(d);
-        };
-        reader.readAsDataURL(file);
-    };
-    input.click();
-}
-function attachFile() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const d = realDialogs.find(x => x.id === currentDialogId);
-        if (!d) return;
-        d.messages.push({ text: `📎 ${file.name}`, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
-        d.lastActivity = Date.now();
-        saveDialogs(); renderUserDialogMessages(d);
-    };
-    input.click();
-}
-let mediaRecorder = null;
-let audioChunks = [];
-let recordStartTime = 0;
-async function toggleVoiceRecord() {
-    const btn = document.getElementById('voiceBtnUser');
-    if (mediaRecorder && mediaRecorder.state === 'recording') { mediaRecorder.stop(); return; }
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = () => {
-            const blob = new Blob(audioChunks, { type: 'audio/webm' });
-            const url = URL.createObjectURL(blob);
-            const duration = Math.round((Date.now() - recordStartTime) / 1000);
-            const html = `<audio controls src="${url}"></audio>`;
-            const d = realDialogs.find(x => x.id === currentDialogId);
-            if (d) {
-                d.messages.push({ text: `🎤 Голосовое (${duration} сек)`, sender: 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html });
-                d.lastActivity = Date.now();
-                saveDialogs(); renderUserDialogMessages(d);
-            }
-            btn.classList.remove('recording');
-            stream.getTracks().forEach(t => t.stop());
-        };
-        mediaRecorder.start();
-        recordStartTime = Date.now();
-        btn.classList.add('recording');
-        showNotification('🎤 Запись...', '🎤');
-    } catch(e) { showNotification('❌ Нет доступа', '❌'); }
-}
-function finishDialog() {
-    if (dialogClosed || !selectedAdminId) return;
-    document.getElementById('ratingModal').classList.add('active');
-    currentRating = 0;
-    document.querySelectorAll('.rating-stars-input .star').forEach(s => s.classList.remove('active'));
-    document.getElementById('reviewText').value = '';
-}
-function setRating(val) {
-    currentRating = val;
-    document.querySelectorAll('.rating-stars-input .star').forEach((s, i) => s.classList.toggle('active', i < val));
-}
-function closeRatingModal() { document.getElementById('ratingModal').classList.remove('active'); }
-function submitRating() {
-    if (currentRating === 0) { showNotification('⚠️ Поставьте оценку', '⚠️'); return; }
-    const review = document.getElementById('reviewText').value.trim();
-    if (!review) { showNotification('⚠️ Напишите отзыв', '⚠️'); return; }
-    const d = realDialogs.find(x => x.id === currentDialogId);
-    if (d) {
-        adminReviews.unshift({ id: 'RV-' + Date.now(), adminName: d.adminName, fromNickname: d.userNickname, rating: currentRating, text: review, createdAt: Date.now() });
-        saveReviews();
-        realDialogs = realDialogs.filter(x => x.id !== d.id);
-        saveDialogs();
-    }
-    closeRatingModal();
-    finishDialogUI('🌸 Спасибо за оценку!');
-    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
-    renderOwnerReviews(); renderAdminReviews(); updateAdminRatingMini();
-}
-function finishDialogUI(reason) {
-    dialogClosed = true;
-    const cm = document.getElementById('chatMessages');
-    if (cm) {
-        const div = document.createElement('div');
-        div.classList.add('message', 'closed');
-        div.textContent = reason;
-        cm.appendChild(div); cm.scrollTop = cm.scrollHeight;
-    }
-    document.getElementById('chatInput').disabled = true;
-    document.getElementById('sendBtn').disabled = true;
-    document.getElementById('finishBtnUser').disabled = true;
-    const dlgId = currentDialogId;
-    setTimeout(() => {
-        realDialogs = realDialogs.filter(d => d.id !== dlgId);
-        saveDialogs();
-        renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderModeratorViolators();
-    }, 2000);
-    selectedAdminId = null; currentDialogId = null;
-}
+// ============================================================
+// ДИАЛОГИ (ПОЛЬЗОВАТЕЛЬ)
+// ============================================================
 function renderAdminsPicker() {
     const picker = document.getElementById('adminsPicker');
     if (!picker) return;
     picker.innerHTML = '';
     userAdminData.forEach(a => {
-        const uAdmin = adminsData.find(ad => ad.name === a.name);
-        const resting = uAdmin ? isAdminResting(uAdmin.username) : false;
         const card = document.createElement('div');
-        card.className = 'admin-pick-card' + (resting ? ' resting' : '');
-        card.dataset.adminId = a.id;
+        card.className = 'admin-pick-card';
         card.innerHTML = `
             <div class="pick-header">
                 <div class="pick-avatar">${a.initials}</div>
@@ -1858,160 +1067,173 @@ function renderAdminsPicker() {
                     <div class="pick-category">${a.category}</div>
                 </div>
             </div>`;
-        if (!resting) card.onclick = () => selectAdmin(a.id);
-        else card.onclick = e => { e.stopPropagation(); showNotification(`😴 ${a.name} на отдыхе`, '😴'); };
+        card.onclick = () => selectAdmin(a.id);
         picker.appendChild(card);
     });
 }
-function renderAdminsList() {
-    const list = document.getElementById('adminsList');
-    if (!list) return;
-    list.innerHTML = '';
-    if (adminsData.length === 0) { list.innerHTML = `<div class="empty-state">👥 Нет админов</div>`; return; }
-    adminsData.forEach((a, idx) => {
-        const resting = adminRests[a.username] === true;
-        const reviews = adminReviews.filter(r => r.adminName === a.username);
-        const avg = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
-        const myDialogs = realDialogs.filter(d => d.adminName === a.name);
-        let msgCount = 0; const userSet = new Set();
-        myDialogs.forEach(d => {
-            d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; });
-            userSet.add(d.userNickname);
-        });
-        const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
-        const item = document.createElement('div');
-        item.className = 'user-item';
-        item.innerHTML = `
-            <div class="user-info">
-                <div class="avatar">${a.initials}</div>
-                <div style="min-width:0;flex:1;">
-                    <div class="user-name">${a.name} <span class="user-category">${a.category}</span> ${resting ? '<span class="rest-badge">😴</span>' : ''}</div>
-                    <div class="user-status">${a.username} • ⭐ ${avg}</div>
-                    <div class="norm-bar" style="margin-top:6px;"><div class="norm-bar-fill" style="width:${msgPct}%"></div></div>
-                    <div class="user-status" style="font-size:0.7rem;">📩 ${msgCount}/${adminNorm.messages} • 👥 ${userSet.size}/${adminNorm.users}</div>
-                </div>
-            </div>
-            <div class="user-actions">
-                <button title="Настройки" onclick="openAdminSettings(${idx})">⚙️</button>
-                <button title="Отзывы" onclick="showAdminReviewsByTag('${a.username}')">⭐</button>
-                <button title="Удалить" onclick="removeAdmin(${idx})">🗑️</button>
-            </div>`;
-        list.appendChild(item);
-    });
-    const c = document.getElementById('adminsCount');
-    if (c) c.textContent = adminsData.length;
-}
-function showAdminReviewsByTag(tag) {
-    const reviews = adminReviews.filter(r => r.adminName === tag);
-    const avg = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : '0.0';
-    const admin = adminsData.find(a => a.username === tag);
-    const initials = admin ? admin.initials : tag.substring(1, 3).toUpperCase();
-    document.getElementById('adminProfileContent').innerHTML = `
-        <div class="admin-profile-card">
-            <div class="admin-profile-avatar">${initials}</div>
-            <div class="admin-profile-name">${tag.substring(1)}</div>
-            <div class="admin-profile-tag">${tag}</div>
-            <div class="admin-profile-category">${admin ? admin.category : '—'}</div>
-        </div>
-        <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-size:1.8rem;font-weight:700;color:var(--pink);">${avg}</div>
-            <div style="color:#ffd700;font-size:1.1rem;">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</div>
-            <div style="color:var(--text-muted);font-size:0.8rem;margin-top:4px;">${reviews.length} отзывов</div>
-        </div>
-        <h4 style="color:var(--pink);margin-bottom:10px;">💬 Отзывы</h4>
-        <div class="reviews-list">
-            ${reviews.length === 0 ? '<div class="empty-state">💬 Нет отзывов</div>' :
-                reviews.map(r => `<div class="review-item">
-                    <div class="review-head">
-                        <span class="review-author">${r.fromNickname}</span>
-                        <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
-                    </div>
-                    <div class="review-text">${r.text}</div>
-                </div>`).join('')}
-        </div>`;
-    document.getElementById('adminProfileModal').classList.add('active');
-}
-function removeAdmin(idx) {
-    if (idx < 0 || idx >= adminsData.length) return;
-    const a = adminsData[idx];
-    const targetName = a.name, targetUsername = a.username;
-    delete AUTH[targetUsername.replace('#','')];
-    delete AUTH[targetName];
-    saveAuth();
-    adminsData = adminsData.filter(x => x.name !== targetName);
-    saveAdmins();
-    userAdminData = userAdminData.filter(x => x.name !== targetName);
-    saveUserAdmins();
-    if (adminRests[targetUsername]) { delete adminRests[targetUsername]; saveRests(); }
-    renderAdminsList(); renderAdminsPicker(); renderOwnerRestRequests();
-    showNotification(`🗑️ ${targetName} удалён`, '🗑️');
-}
-function addAdmin() {
-    let username = document.getElementById('newAdminUsername').value.trim();
-    const category = document.getElementById('newAdminCategory').value;
-    const password = document.getElementById('newAdminPassword').value.trim();
-    if (!username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
-    if (!username.startsWith('#')) username = '#' + username;
-    const name = username.replace('#','');
-    if (adminsData.find(a => a.username === username)) { showNotification('⚠️ Тег уже занят', '⚠️'); return; }
-    const initials = name.slice(0, 2).toUpperCase();
-    adminsData.push({ name, username, initials, category });
-    saveAdmins();
-    userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
-    saveUserAdmins();
-    AUTH[username.replace('#','')] = { tag: username, password, category, name };
-    saveAuth();
-    renderAdminsList(); renderAdminsPicker();
-    document.getElementById('newAdminUsername').value = '';
-    document.getElementById('newAdminCategory').value = '';
-    document.getElementById('newAdminPassword').value = '';
-    showNotification(`🌸 ${name} (${category})`, '✅');
-}
-function openAdminDialogActions(d) {
-    if (currentAuth.role === 'moderator' || currentAuth.role === 'owner' || currentAuth.role !== 'admin') {
-        showDialogPreview(d); return;
+
+function selectAdmin(adminId) {
+    const admin = userAdminData.find(a => a.id === adminId);
+    if (!admin) return;
+    if (!userProfile.nickname) { showNotification('⚠️ Сначала введите псевдоним', '⚠️'); return; }
+    
+    let existing = realDialogs.find(d => d.adminId === adminId && !d.closed && !d.banned && d.userNickname === userProfile.nickname);
+    
+    if (!existing) {
+        const nd = {
+            id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            adminId, adminName: admin.name, userNickname: userProfile.nickname,
+            status: 'waiting', closed: false, banned: false, warns: 0,
+            createdAt: Date.now(), lastActivity: Date.now(), messages: []
+        };
+        realDialogs.push(nd);
+        saveDialogs();
+        existing = nd;
     }
-    if (d.banned) { showNotification('🚫 Забанен', '🚫'); return; }
-    if (d.closed) { showNotification('✓ Завершён', '✓'); return; }
-    const text = prompt(`Ответ ${d.userNickname}:`);
-    if (text === null || !text.trim()) return;
-    const mod = moderateMessage(text, currentAuth.tag || 'admin');
-    if (mod.blocked) { showNotification(mod.reason, '🚫'); return; }
-    d.messages.push({ text, sender: 'bot', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
-    d.lastActivity = Date.now(); d.status = 'active';
-    saveDialogs();
-    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
-    showNotification('📤 Отправлено', '✅');
+    
+    currentDialogId = existing.id;
+    selectedAdminId = adminId;
+    openFullscreenChat(existing, false);
+}
+
+// ============================================================
+// ПОЛНОЭКРАННЫЙ ЧАТ
+// ============================================================
+let fsCurrentDialog = null;
+let fsIsAdmin = false;
+
+function openFullscreenChat(dialog, isAdmin) {
+    fsCurrentDialog = dialog;
+    fsIsAdmin = isAdmin;
+    document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
+    document.getElementById('fsChatStatus').textContent = dialog.banned ? 'забанен' : dialog.closed ? 'завершён' : 'онлайн';
+    renderFsMessages();
+    const input = document.getElementById('fsChatInput');
+    const sendBtn = document.querySelector('#fullscreenChat .fs-send');
+    if (dialog.closed || dialog.banned) {
+        input.disabled = true; sendBtn.disabled = true;
+        input.placeholder = 'Диалог завершён';
+    } else {
+        input.disabled = false; sendBtn.disabled = false;
+        input.placeholder = 'Сообщение...';
+    }
+    document.getElementById('fullscreenChat').classList.add('active');
     setTimeout(() => {
-        const action = prompt('1 — Варн\n2 — Бан\n3 — Завершить (удалить)\n4 — Ничего');
-        if (action === '1') { autoWarnOrBan(d); saveDialogs(); }
-        else if (action === '2') { d.banned = true; d.closed = true; saveDialogs(); showNotification('🚫', '🚫'); }
-        else if (action === '3') { realDialogs = realDialogs.filter(x => x.id !== d.id); saveDialogs(); showNotification('✅ Удалён', '✅'); }
-        renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderAdminNorm();
-    }, 300);
+        const cm = document.getElementById('fsChatMessages');
+        cm.scrollTop = cm.scrollHeight;
+    }, 50);
 }
-function showDialogPreview(d) {
-    const history = d.messages.map(m => 
-        `[${m.time || ''}] ${m.sender === 'user' ? d.userNickname : (m.sender === 'system' ? 'СИС' : 'Админ')}: ${m.text || '(влож)'}`
-    ).join('\n');
-    alert(`👁️ Просмотр\n\n${d.userNickname}\nСтатус: ${d.banned ? '🚫' : d.closed ? '✓' : '●'}\nВарнов: ${d.warns || 0}/3\n\n${history.substring(0, 1500)}${history.length > 1500 ? '...' : ''}`);
+
+function closeFullscreenChat() {
+    document.getElementById('fullscreenChat').classList.remove('active');
+    fsCurrentDialog = null;
+    fsIsAdmin = false;
+    renderAdminDialogs();
+    renderModeratorDialogs();
+    renderOwnerDialogs();
 }
+
+function renderFsMessages() {
+    const cm = document.getElementById('fsChatMessages');
+    cm.innerHTML = '';
+    if (!fsCurrentDialog || !fsCurrentDialog.messages) return;
+    if (fsCurrentDialog.messages.length === 0) {
+        cm.innerHTML = `<div class="message waiting">💬 Диалог создан. Напишите первое сообщение.</div>`;
+        return;
+    }
+    fsCurrentDialog.messages.forEach(m => {
+        const div = document.createElement('div');
+        div.classList.add('message', m.sender);
+        div.innerHTML = (m.text || '') + `<span class="time">${m.time || ''}</span>`;
+        cm.appendChild(div);
+    });
+    cm.scrollTop = cm.scrollHeight;
+}
+
+async function fsSendMessage() {
+    if (!fsCurrentDialog) return;
+    const input = document.getElementById('fsChatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    if (fsCurrentDialog.closed || fsCurrentDialog.banned) return;
+    const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
+    if (!d) return;
+    if (!fsIsAdmin) {
+        const mod = moderateMessage(text, userProfile.nickname);
+        if (mod.blocked) { showNotification(mod.reason, '🚫'); return; }
+    }
+    d.messages.push({
+        text, sender: fsIsAdmin ? 'bot' : 'user',
+        time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})
+    });
+    d.lastActivity = Date.now();
+    if (d.status === 'waiting') d.status = 'active';
+    await saveDialogs();
+    fsCurrentDialog = d;
+    renderFsMessages();
+    input.value = '';
+    renderAdminDialogs();
+    renderModeratorDialogs();
+    renderOwnerDialogs();
+}
+
+function fsInsertQuick(text) {
+    document.getElementById('fsChatInput').value = text;
+    document.getElementById('fsChatInput').focus();
+}
+
+function fsActionWarn() {
+    if (!fsCurrentDialog) return;
+    const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
+    if (!d) return;
+    d.warns = (d.warns || 0) + 1;
+    if (d.warns >= 3) { d.banned = true; d.closed = true; }
+    saveDialogs();
+    fsCurrentDialog = d;
+    showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️');
+    renderFsMessages();
+    renderAdminDialogs();
+}
+
+function fsActionBan() {
+    if (!fsCurrentDialog) return;
+    if (!confirm('Забанить?')) return;
+    const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
+    if (!d) return;
+    d.banned = true; d.closed = true;
+    saveDialogs();
+    fsCurrentDialog = d;
+    closeFullscreenChat();
+    showNotification('🚫 Забанен', '🚫');
+}
+
+function fsActionClose() {
+    if (!fsCurrentDialog) return;
+    if (!confirm('Завершить и удалить диалог?')) return;
+    const id = fsCurrentDialog.id;
+    realDialogs = realDialogs.filter(x => x.id !== id);
+    saveDialogs();
+    closeFullscreenChat();
+    showNotification('✅ Диалог завершён', '✅');
+}
+
+// ============================================================
+// СПИСКИ ДИАЛОГОВ
+// ============================================================
 function renderAdminDialogs() {
     const list = document.getElementById('dialogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (realDialogs.length === 0) list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
-    else {
-        realDialogs.forEach(d => {
+    const active = realDialogs.filter(d => !d.closed && !d.banned);
+    if (active.length === 0) {
+        list.innerHTML = `<div class="empty-state">💬 Нет активных диалогов</div>`;
+    } else {
+        active.forEach(d => {
             const item = document.createElement('div');
-            item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
-            let statusHtml;
-            if (d.banned) statusHtml = '<div class="dialog-status banned">🚫</div>';
-            else if (d.closed) statusHtml = '<div class="dialog-status closed">✓</div>';
-            else if (d.status === 'waiting') statusHtml = '<div class="dialog-status waiting">⏳</div>';
-            else statusHtml = '<div class="dialog-status online">●</div>';
+            item.className = 'dialog-item';
             const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
             const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+            let statusHtml = d.status === 'waiting' ? '<div class="dialog-status waiting">⏳</div>' : '<div class="dialog-status online">●</div>';
             item.innerHTML = `
                 <div class="dialog-info">
                     <div class="avatar">${init}</div>
@@ -2024,29 +1246,31 @@ function renderAdminDialogs() {
                     <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
                     ${statusHtml}
                 </div>`;
-            item.onclick = () => openAdminDialogActions(d);
+            item.onclick = () => openFullscreenChat(d, true);
             list.appendChild(item);
         });
     }
     const c = document.getElementById('adminDialogsCount');
-    if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+    if (c) c.textContent = active.length;
 }
+
 function renderModeratorDialogs() {
     const list = document.getElementById('moderatorDialogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (realDialogs.length === 0) list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
-    else {
+    if (realDialogs.length === 0) {
+        list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
+    } else {
         realDialogs.forEach(d => {
             const item = document.createElement('div');
-            item.className = 'dialog-item' + (d.banned ? ' banned' : '') + (d.closed ? ' closed' : '');
+            item.className = 'dialog-item';
             const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
             const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
             item.innerHTML = `
                 <div class="dialog-info">
                     <div class="avatar" style="background:linear-gradient(135deg,var(--blue),#2d7dd2);">${init}</div>
                     <div style="min-width:0;">
-                        <div class="dialog-name">${d.userNickname} ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div>
+                        <div class="dialog-name">${d.userNickname}</div>
                         <div class="dialog-preview">${lastMsg}</div>
                     </div>
                 </div>
@@ -2055,116 +1279,35 @@ function renderModeratorDialogs() {
                     <div class="dialog-status viewer">👁️</div>
                 </div>`;
             item.onclick = () => {
-                moderatorStats.checked++;
-                saveModStats(); renderModeratorActivity(); showDialogPreview(d);
+                const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:'Админ'}: ${m.text||'(влож)'}`).join('\n');
+                alert(`👁️ ${d.userNickname}\nВарнов: ${d.warns||0}/3\n\n${history.substring(0,1500)}`);
             };
             list.appendChild(item);
         });
     }
     const sD = document.getElementById('modStatDialogs');
-    const sB = document.getElementById('modStatBanned');
-    const sW = document.getElementById('modStatWarns');
-    const sR = document.getElementById('modStatReports');
     if (sD) sD.textContent = realDialogs.length;
-    if (sB) sB.textContent = realDialogs.filter(d => d.banned).length;
-    if (sW) sW.textContent = realDialogs.reduce((a, d) => a + (d.warns || 0), 0);
-    if (sR) sR.textContent = reports.length;
 }
-function renderModeratorViolators() {
-    const list = document.getElementById('moderatorViolatorsList');
-    if (!list) return;
-    const violators = realDialogs.filter(d => d.banned || (d.warns || 0) > 0);
-    if (violators.length === 0) { list.innerHTML = `<div class="empty-state">👮 Нет нарушителей</div>`; return; }
-    list.innerHTML = '';
-    violators.forEach(v => {
-        const item = document.createElement('div');
-        item.className = 'user-item';
-        const init = v.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        item.innerHTML = `
-            <div class="user-info">
-                <div class="avatar" style="background:linear-gradient(135deg,var(--red),#c0392b);">${init}</div>
-                <div style="min-width:0;">
-                    <div class="user-name">${v.userNickname} ${v.banned ? '🚫' : ''}</div>
-                    <div class="user-status">Варнов: ${v.warns || 0}/3</div>
-                </div>
-            </div>`;
-        list.appendChild(item);
-    });
-}
-function renderModeratorReports() {
-    const list = document.getElementById('moderatorReportsList');
-    if (!list) return;
-    list.innerHTML = '';
-    if (reports.length === 0) {
-        list.innerHTML = `<div class="empty-state">🚨 Нет жалоб</div>`;
-        const badge = document.getElementById('modReportsBadge');
-        if (badge) badge.textContent = '0';
-        return;
-    }
-    reports.forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'report-item pending';
-        item.innerHTML = `
-            <div class="report-header">
-                <span class="report-author">👤 ${r.fromNickname} → ${r.adminName}</span>
-                <span class="report-time">${new Date(r.createdAt).toLocaleString('ru-RU')}</span>
-            </div>
-            <div class="report-text">${r.text}</div>
-            <div class="report-actions">
-                <button class="btn btn-green btn-sm" onclick="modHandleReport('${r.id}')">✅ Владельцу</button>
-                <button class="btn btn-outline btn-sm" onclick="modDismissReport('${r.id}')">✖ Отклонить</button>
-            </div>`;
-        list.appendChild(item);
-    });
-    const badge = document.getElementById('modReportsBadge');
-    if (badge) badge.textContent = reports.length;
-}
-function modHandleReport(id) {
-    moderatorStats.reportsHandled++;
-    saveModStats(); renderModeratorActivity();
-    showNotification('✅ Владельцу', '✅');
-}
-function modDismissReport(id) {
-    reports = reports.filter(r => r.id !== id);
-    saveReports();
-    moderatorStats.reportsHandled++;
-    saveModStats();
-    renderModeratorReports(); renderOwnerReports(); renderModeratorActivity();
-    showNotification('✖ Отклонено', '✖');
-}
-function renderModeratorActivity() {
-    const c = document.getElementById('modChecked');
-    const rh = document.getElementById('modReportsHandled');
-    const wi = document.getElementById('modWarnsIssued');
-    if (c) c.textContent = moderatorStats.checked;
-    if (rh) rh.textContent = moderatorStats.reportsHandled;
-    if (wi) wi.textContent = moderatorStats.warnsIssued;
-}
-function searchModDialogs(q) {
-    const query = (q || '').toLowerCase();
-    document.querySelectorAll('#moderatorDialogsList .dialog-item').forEach(item => {
-        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
-    });
-}
+
 function renderOwnerDialogs() {
     const list = document.getElementById('ownerDialogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (realDialogs.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`; return; }
+    if (realDialogs.length === 0) {
+        list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`;
+        return;
+    }
     realDialogs.forEach(d => {
         const item = document.createElement('div');
         item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
         const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        let statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' :
-                        d.closed ? '<div class="dialog-status closed">✓</div>' :
-                        d.status === 'waiting' ? '<div class="dialog-status waiting">⏳</div>' :
-                        '<div class="dialog-status online">●</div>';
+        let statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
         item.innerHTML = `
             <div class="dialog-info">
                 <div class="avatar">${init}</div>
                 <div style="min-width:0;">
-                    <div class="dialog-name">${d.userNickname} ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div>
+                    <div class="dialog-name">${d.userNickname}</div>
                     <div class="dialog-preview">${lastMsg}</div>
                 </div>
             </div>
@@ -2172,48 +1315,123 @@ function renderOwnerDialogs() {
                 <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
                 ${statusHtml}
             </div>`;
-        item.onclick = () => showDialogPreview(d);
+        item.onclick = () => {
+            const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:'Админ'}: ${m.text||'(влож)'}`).join('\n');
+            alert(`👁️ ${d.userNickname}\n\n${history.substring(0,1500)}`);
+        };
         list.appendChild(item);
     });
     const c = document.getElementById('ownerActiveDialogs');
     if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
-function renderAdminReviews() {
-    const list = document.getElementById('adminReviewsList');
+
+// ============================================================
+// МОДЕРАЦИЯ
+// ============================================================
+function containsPersonalInfo(t) {
+    const patterns = [/\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i, /\bмне\s+\d{1,2}\b/i, /\b\+?\d[\d\s\-\(\)]{8,}\b/, /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/];
+    return patterns.some(p => p.test(t));
+}
+function isSpam(text, userId) {
+    if (text.length > 500) return { spam: true, reason: 'Слишком длинное' };
+    if (/(.)\1{6,}/.test(text)) return { spam: true, reason: 'Много повторов' };
+    return { spam: false };
+}
+function moderateMessage(text, userId) {
+    if (containsPersonalInfo(text)) return { blocked: true, reason: '🚫 Запрещена личная информация' };
+    const s = isSpam(text, userId);
+    if (s.spam) return { blocked: true, reason: `🚫 ${s.reason}` };
+    return { blocked: false };
+}
+
+// ============================================================
+// НОРМА
+// ============================================================
+function renderAdminNorm() {
+    if (!currentAuth.tag) return;
+    const myDialogs = realDialogs.filter(d => d.adminName === currentAuth.tag.replace('#',''));
+    let msgCount = 0;
+    const userSet = new Set();
+    myDialogs.forEach(d => {
+        d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; });
+        userSet.add(d.userNickname);
+    });
+    const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
+    const userPct = Math.min(100, Math.round(userSet.size / adminNorm.users * 100));
+    const mt = document.getElementById('adminNormMsgText');
+    const mb = document.getElementById('adminNormMsgBar');
+    const ut = document.getElementById('adminNormUserText');
+    const ub = document.getElementById('adminNormUserBar');
+    if (mt) mt.textContent = `${msgCount} / ${adminNorm.messages}`;
+    if (mb) mb.style.width = msgPct + '%';
+    if (ut) ut.textContent = `${userSet.size} / ${adminNorm.users}`;
+    if (ub) ub.style.width = userPct + '%';
+}
+
+// ============================================================
+// АДМИНЫ
+// ============================================================
+function renderAdminsList() {
+    const list = document.getElementById('adminsList');
     if (!list) return;
-    const my = adminReviews.filter(r => r.adminName === currentAuth.tag);
-    if (my.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет отзывов</div>`; return; }
     list.innerHTML = '';
-    my.forEach(r => {
+    if (adminsData.length === 0) { list.innerHTML = `<div class="empty-state">👥 Нет админов</div>`; return; }
+    adminsData.forEach((a, idx) => {
         const item = document.createElement('div');
-        item.className = 'review-item';
+        item.className = 'user-item';
         item.innerHTML = `
-            <div class="review-head">
-                <span class="review-author">${r.fromNickname}</span>
-                <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            <div class="user-info">
+                <div class="avatar">${a.initials}</div>
+                <div style="min-width:0;flex:1;">
+                    <div class="user-name">${a.name} <span class="user-category">${a.category}</span></div>
+                    <div class="user-status">${a.username}</div>
+                </div>
             </div>
-            <div class="review-text">${r.text}</div>`;
+            <div class="user-actions">
+                <button onclick="removeAdmin(${idx})">🗑️</button>
+            </div>`;
         list.appendChild(item);
     });
+    const c = document.getElementById('adminsCount');
+    if (c) c.textContent = adminsData.length;
 }
-function renderOwnerReviews() {
-    const list = document.getElementById('ownerReviewsList');
-    if (!list) return;
-    if (adminReviews.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет отзывов</div>`; return; }
-    list.innerHTML = '';
-    adminReviews.forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'review-item';
-        item.innerHTML = `
-            <div class="review-head">
-                <span class="review-author">${r.fromNickname}</span>
-                <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
-            </div>
-            <div class="review-text">${r.text}</div>
-            <div class="review-admin">→ ${r.adminName}</div>`;
-        list.appendChild(item);
-    });
+function removeAdmin(idx) {
+    if (idx < 0 || idx >= adminsData.length) return;
+    const a = adminsData[idx];
+    delete AUTH[a.username.replace('#','')];
+    saveAuth();
+    adminsData = adminsData.filter(x => x.name !== a.name);
+    saveAdmins();
+    userAdminData = userAdminData.filter(x => x.name !== a.name);
+    saveUserAdmins();
+    renderAdminsList(); renderAdminsPicker();
+    showNotification(`🗑️ ${a.name} удалён`, '🗑️');
 }
+function addAdmin() {
+    let username = document.getElementById('newAdminUsername').value.trim();
+    const category = document.getElementById('newAdminCategory').value;
+    const password = document.getElementById('newAdminPassword').value.trim();
+    if (!username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    if (!username.startsWith('#')) username = '#' + username;
+    const name = username.replace('#','');
+    if (adminsData.find(a => a.username === username)) { showNotification('⚠️ Тег занят', '⚠️'); return; }
+    const initials = name.slice(0, 2).toUpperCase();
+    adminsData.push({ name, username, initials, category });
+    saveAdmins();
+    userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
+    saveUserAdmins();
+    AUTH[username.replace('#','')] = { tag: username, password, category, name };
+    saveAuth();
+    renderAdminsList(); renderAdminsPicker();
+    document.getElementById('newAdminUsername').value = '';
+    document.getElementById('newAdminCategory').value = '';
+    document.getElementById('newAdminPassword').value = '';
+    showNotification(`🌸 ${name}`, '✅');
+}
+
+// ============================================================
+// ТИКЕТЫ
+// ============================================================
 function createTicket() {
     const name = document.getElementById('ticketName').value.trim();
     const contact = document.getElementById('ticketContact').value.trim();
@@ -2238,23 +1456,25 @@ function renderTicketCard(t, isOwner = false) {
     let actionsHtml = '';
     if (isOwner && t.status === 'pending') {
         actionsHtml = `<div class="ticket-actions">
-            <button class="btn btn-green btn-sm" onclick="acceptTicket('${t.id}')">✅ Принять</button>
+            <button class="btn btn-blue btn-sm" onclick="openTicketReply('${t.id}')">💬 Ответить</button>
             <button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button>
         </div>`;
+    } else if (isOwner && t.status === 'answered') {
+        actionsHtml = `<div class="ticket-actions"><button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button></div>`;
     }
+    const statusIcon = t.status === 'answered' ? '✅' : '⏳';
+    const statusClass = t.status === 'answered' ? 'answered' : 'pending';
     return `
-        <div class="ticket-item pending">
+        <div class="ticket-item ${t.status === 'pending' ? 'pending' : ''}">
             <div class="ticket-item-header">
                 <span class="ticket-item-id">${t.id}</span>
-                <span class="ticket-item-status pending">⏳</span>
+                <span class="ticket-item-status ${statusClass}">${statusIcon}</span>
             </div>
             <div class="ticket-item-title">${t.subject}</div>
             <span class="ticket-item-category">${t.category}</span>
             <div class="ticket-item-text">${t.description}</div>
-            <div class="ticket-item-footer">
-                <span>👤 ${t.name}</span>
-                <span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span>
-            </div>
+            ${t.answer ? `<div style="background:rgba(76,209,55,0.1);padding:10px;border-radius:10px;border-left:3px solid var(--green);margin-top:8px;"><div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:4px;">✅ Ответ:</div><div style="color:var(--text-light);font-size:0.88rem;">${t.answer}</div></div>` : ''}
+            <div class="ticket-item-footer"><span>👤 ${t.name}</span><span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span></div>
             ${actionsHtml}
         </div>`;
 }
@@ -2271,23 +1491,49 @@ function renderOwnerTickets() {
     else list.innerHTML = tickets.map(t => renderTicketCard(t, true)).join('');
     const c = document.getElementById('ownerTicketsCount');
     if (c) c.textContent = tickets.length;
-    const badge = document.getElementById('ownerTicketsBadge');
-    if (badge) badge.textContent = tickets.filter(t => t.status === 'pending').length;
-}
-function acceptTicket(id) {
-    tickets = tickets.filter(t => t.id !== id);
-    saveTickets(); renderTickets(); renderOwnerTickets();
-    showNotification('✅ Принято', '✅');
 }
 function deleteTicket(id) {
     tickets = tickets.filter(t => t.id !== id);
     saveTickets(); renderTickets(); renderOwnerTickets();
     showNotification('✖ Удалено', '✖');
 }
+let currentReplyTicketId = null;
+function openTicketReply(ticketId) {
+    const t = tickets.find(x => x.id === ticketId);
+    if (!t) return;
+    currentReplyTicketId = ticketId;
+    document.getElementById('ticketReplyId').textContent = t.id;
+    document.getElementById('ticketReplySubject').textContent = t.subject;
+    document.getElementById('ticketReplyText').textContent = t.description;
+    document.getElementById('ticketReplyFrom').textContent = `👤 ${t.name} • ${t.category}`;
+    document.getElementById('ticketReplyAnswer').value = '';
+    document.getElementById('ticketReplyModal').classList.add('active');
+}
+function closeTicketReply() { document.getElementById('ticketReplyModal').classList.remove('active'); currentReplyTicketId = null; }
+function submitTicketReply() {
+    if (!currentReplyTicketId) return;
+    const answer = document.getElementById('ticketReplyAnswer').value.trim();
+    if (!answer) { showNotification('⚠️ Напишите ответ', '⚠️'); return; }
+    const t = tickets.find(x => x.id === currentReplyTicketId);
+    if (!t) return;
+    t.answer = answer; t.status = 'answered'; t.answeredAt = Date.now();
+    saveTickets();
+    const userDialogs = realDialogs.filter(d => d.userNickname === t.name && !d.closed && !d.banned);
+    if (userDialogs.length > 0) {
+        const d = userDialogs[0];
+        d.messages.push({ text: `📨 Ответ на тикет ${t.id}:\n${answer}`, sender: 'bot', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
+        d.lastActivity = Date.now(); d.status = 'active';
+        saveDialogs();
+    }
+    renderTickets(); renderOwnerTickets(); closeTicketReply();
+    showNotification('✅ Ответ отправлен', '✅');
+}
 
-const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
-const ANKETA_RADIOS = ['anketaExp','anketaLong','anketaCrisis','anketaCategory'];
-
+// ============================================================
+// АНКЕТА
+// ============================================================
+const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3'];
+const ANKETA_RADIOS = ['anketaExp','anketaCategory'];
 function selectRadio(input) {
     document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
         r.closest('.anketa-option').classList.toggle('selected', r.checked);
@@ -2298,13 +1544,8 @@ function onCategoryChange(input) {
     const cat = input.value;
     const showPsy = (cat === 'Поддержка' || cat === 'Универсал');
     const psy = document.getElementById('anketaPsyBlock');
-    const rel = document.getElementById('anketaRelBlock');
-    const sit = document.getElementById('anketaSupportBlock');
     if (psy) psy.style.display = showPsy ? 'block' : 'none';
-    if (rel) rel.style.display = showPsy ? 'block' : 'none';
-    if (sit) sit.style.display = showPsy ? 'block' : 'none';
-    const icons = { 'Общение': '💬', 'Поддержка': '🆘', 'Универсал': '⭐' };
-    showNotification(`${icons[cat] || '🌸'} Категория: ${cat}`, icons[cat] || '🌸');
+    showNotification(`🌸 Категория: ${cat}`, '🌸');
 }
 function saveAnketa() {
     const data = {};
@@ -2325,8 +1566,6 @@ function loadAnketa() {
                 if (r) { r.checked = true; r.closest('.anketa-option').classList.add('selected'); }
             }
         });
-        const cat = document.querySelector('input[name="anketaCategory"]:checked');
-        if (cat) onCategoryChange(cat);
     } catch(e) {}
 }
 function copyAnketaFilled() {
@@ -2340,10 +1579,10 @@ function clearAnketa() {
     ANKETA_RADIOS.forEach(n => document.querySelectorAll(`input[name="${n}"]`).forEach(r => { r.checked = false; r.closest('.anketa-option').classList.remove('selected'); }));
     try { localStorage.removeItem('sakura-anketa'); } catch(e) {}
 }
-function openPhoto(src) {
-    document.getElementById('photoModalImg').src = src;
-    document.getElementById('photoModal').classList.add('active');
-}
+
+// ============================================================
+// УТИЛИТЫ
+// ============================================================
 function showNotification(text, icon = '🌸') {
     const n = document.getElementById('notification');
     document.getElementById('notificationText').textContent = text;
@@ -2352,21 +1591,37 @@ function showNotification(text, icon = '🌸') {
     clearTimeout(window._nt);
     window._nt = setTimeout(() => n.classList.remove('show'), 2500);
 }
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => showNotification('📋 Скопировано: ' + text, '✅'));
+    } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        showNotification('📋 Скопировано: ' + text, '✅');
+    }
+}
+
+// ============================================================
+// АНИМАЦИИ И НАВИГАЦИЯ
+// ============================================================
 (function() {
     const c = document.getElementById('petalsContainer');
     const e = ['🌸','🌺','🌷','💮','🏵️'];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 25; i++) {
         const p = document.createElement('div');
         p.className = 'petal';
         p.textContent = e[Math.floor(Math.random() * e.length)];
         p.style.left = Math.random() * 100 + '%';
-        p.style.fontSize = (0.7 + Math.random() * 0.8) + 'rem';
-        p.style.animationDuration = (10 + Math.random() * 12) + 's';
-        p.style.animationDelay = (Math.random() * 18) + 's';
-        p.style.opacity = 0.3 + Math.random() * 0.4;
+        p.style.fontSize = (0.6 + Math.random() * 1) + 'rem';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = (Math.random() * 20) + 's';
+        p.style.opacity = 0.2 + Math.random() * 0.5;
+        p.style.setProperty('--sway', (Math.random() * 100 - 50) + 'px');
         c.appendChild(p);
     }
 })();
+
 const themeToggle = document.getElementById('themeToggle');
 let isDark = true;
 try {
@@ -2378,116 +1633,37 @@ try {
 } catch(e) {}
 themeToggle.addEventListener('click', () => {
     isDark = !isDark;
-    if (isDark) {
-        document.body.classList.remove('light-theme');
-        themeToggle.textContent = '🌙';
-        try { localStorage.setItem('sakura-theme', 'dark'); } catch(e) {}
-    } else {
-        document.body.classList.add('light-theme');
-        themeToggle.textContent = '☀️';
-        try { localStorage.setItem('sakura-theme', 'light'); } catch(e) {}
-    }
+    if (isDark) { document.body.classList.remove('light-theme'); themeToggle.textContent = '🌙'; try { localStorage.setItem('sakura-theme', 'dark'); } catch(e) {} }
+    else { document.body.classList.add('light-theme'); themeToggle.textContent = '☀️'; try { localStorage.setItem('sakura-theme', 'light'); } catch(e) {} }
 });
+
+document.getElementById('fabToggle').addEventListener('click', () => document.querySelector('.fab-container').classList.toggle('open'));
+document.querySelectorAll('.fab-secondary').forEach(btn => btn.addEventListener('click', () => document.querySelector('.fab-container').classList.remove('open')));
+
 document.getElementById('navHome').addEventListener('click', () => switchPanel('mainContent'));
 document.getElementById('navUser').addEventListener('click', () => switchPanel('userPanel'));
-document.getElementById('navModerator').addEventListener('click', () => openAuthModal('moderator'));
-document.getElementById('navAdmin').addEventListener('click', () => openAuthModal('admin'));
-document.getElementById('navOwner').addEventListener('click', () => openAuthModal('owner'));
-document.getElementById('sendBtn').addEventListener('click', sendMessage);
-document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+document.getElementById('navSupport').addEventListener('click', () => switchPanel('supportPanel'));
+document.getElementById('navAnketa').addEventListener('click', () => switchPanel('anketaPanel'));
+document.getElementById('navStaff').addEventListener('click', () => document.getElementById('staffModal').classList.add('active'));
+function closeStaffModal() { document.getElementById('staffModal').classList.remove('active'); }
+document.getElementById('profileFloat').addEventListener('click', () => switchPanel('userPanel'));
+
 document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeAuthModal(); });
 document.getElementById('authPassword').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
 document.getElementById('authTag').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
-document.getElementById('adminProfileModal').addEventListener('click', function(e) { if (e.target === this) closeAdminProfile(); });
-document.getElementById('adminSettingsModal').addEventListener('click', function(e) { if (e.target === this) closeAdminSettings(); });
+document.getElementById('ticketReplyModal').addEventListener('click', function(e) { if (e.target === this) closeTicketReply(); });
+document.getElementById('staffModal').addEventListener('click', function(e) { if (e.target === this) closeStaffModal(); });
+document.getElementById('fsChatInput').addEventListener('keypress', e => { if (e.key === 'Enter') fsSendMessage(); });
 
-async function exportAllData() {
-    const dump = { _meta: { app: 'sakura', version: 1, exportedAt: new Date().toISOString() }, tickets, realDialogs, adminsData, userAdminData, adminRests, restRequests, reports, adminReviews, userProfile, moderatorStats, adminNorm, AUTH };
-    const json = JSON.stringify(dump, null, 2);
-    const d = new Date();
-    const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + '_' + String(d.getHours()).padStart(2,'0') + '-' + String(d.getMinutes()).padStart(2,'0');
-    const filename = 'sakura-backup-' + stamp + '.json';
-    const blob = new Blob([json], { type: 'application/json' });
-    try {
-        const file = new File([blob], filename, { type: 'application/json' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({ files: [file], title: 'Sakura backup' });
-            showNotification('📤 Отправлено!', '✅');
-            return;
-        }
-    } catch (err) { if (err && err.name === 'AbortError') return; }
-    openExportWindow(json, filename);
-}
-function openExportWindow(json, filename) {
-    const w = window.open('', '_blank');
-    if (!w) { showExportModal(json, filename); return; }
-    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Экспорт</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:sans-serif;background:#1a1420;color:#f5e6ee;padding:16px}h1{font-size:1.2rem;color:#f8a5b8}textarea{width:100%;height:55vh;padding:12px;border-radius:12px;border:2px solid #f8a5b8;background:#241b2e;color:#f5e6ee;font-family:monospace;font-size:13px;box-sizing:border-box}.btn{display:inline-block;padding:14px 22px;margin:8px 4px 0 0;border-radius:50px;background:#f8a5b8;color:#fff;font-weight:600;border:none;font-size:1rem;cursor:pointer}.btn.green{background:#4cd137}</style></head><body><h1>🌸 Экспорт Sakura</h1><textarea id="dump">${json.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</textarea><div><a class="btn green" id="dl" download="${filename}">💾 Скачать</a><button class="btn" onclick="copyDump()">📋 Копировать</button></div><script>var json=document.getElementById('dump').value;var blob=new Blob([json],{type:'application/json'});document.getElementById('dl').href=URL.createObjectURL(blob);function copyDump(){var ta=document.getElementById('dump');ta.select();ta.setSelectionRange(0,999999);document.execCommand('copy');alert('Скопировано!');}<\/script></body></html>`);
-    w.document.close();
-    showNotification('📤 Открыто окно экспорта', '✅');
-}
-function showExportModal(json, filename) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay active';
-    overlay.style.cssText = 'z-index: 2000;';
-    overlay.innerHTML = `<div class="modal-card"><button class="close-modal" onclick="this.closest('.modal-overlay').remove()">✕</button><h3>Экспорт</h3><textarea id="exportDump" style="width:100%;height:45vh;padding:12px;border-radius:12px;border:2px solid var(--border-pink);background:var(--bg-card);color:var(--text-light);font-family:monospace;font-size:12px;box-sizing:border-box;">${json.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</textarea><div style="display:flex;gap:8px;margin-top:10px;"><button class="btn btn-blue" style="flex:1;" onclick="copyExportText()">📋 Копировать</button><button class="btn btn-outline" style="flex:1;" onclick="this.closest('.modal-overlay').remove()">Закрыть</button></div></div>`;
-    document.body.appendChild(overlay);
-}
-function copyExportText() {
-    const ta = document.getElementById('exportDump');
-    if (!ta) return;
-    ta.select(); ta.setSelectionRange(0, 999999);
-    try { document.execCommand('copy'); showNotification('📋 Скопировано', '✅'); }
-    catch (e) { if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(() => showNotification('📋 Скопировано', '✅')); }
-}
-function importAllData(event) {
-    const file = event.target.files && event.target.files[0];
-    if (!file) return;
-    if (!confirm('Импорт ЗАМЕНИТ все текущие данные. Продолжить?')) { event.target.value = ''; return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-        try {
-            const data = JSON.parse(e.target.result);
-            if (!data || data._meta?.app !== 'sakura') { showNotification('❌ Не файл Sakura', '❌'); event.target.value = ''; return; }
-            if (Array.isArray(data.tickets)) tickets = data.tickets;
-            if (Array.isArray(data.realDialogs)) realDialogs = data.realDialogs;
-            if (Array.isArray(data.adminsData)) adminsData = data.adminsData;
-            if (Array.isArray(data.userAdminData)) userAdminData = data.userAdminData;
-            if (data.adminRests) adminRests = data.adminRests;
-            if (Array.isArray(data.restRequests)) restRequests = data.restRequests;
-            if (Array.isArray(data.reports)) reports = data.reports;
-            if (Array.isArray(data.adminReviews)) adminReviews = data.adminReviews;
-            if (data.userProfile) userProfile = data.userProfile;
-            if (data.moderatorStats) moderatorStats = data.moderatorStats;
-            if (data.adminNorm) adminNorm = data.adminNorm;
-            if (data.AUTH) Object.keys(data.AUTH).forEach(k => { AUTH[k] = data.AUTH[k]; });
-            saveToFirebase();
-            renderTickets(); renderOwnerTickets();
-            renderAdminsList(); renderAdminsPicker();
-            renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
-            renderModeratorViolators(); renderModeratorReports(); renderOwnerReports();
-            renderAdminReviews(); renderOwnerReviews(); renderOwnerRestRequests();
-            renderAdminNorm(); loadNorm(); updateAdminRatingMini();
-            showNotification('📥 Импорт завершён', '✅');
-        } catch (err) { console.error(err); showNotification('❌ Ошибка', '❌'); }
-        event.target.value = '';
-    };
-    reader.readAsText(file);
-}
-
-window.addEventListener('load', () => {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-    document.body.style.position = 'static';
-    document.body.style.touchAction = 'pan-y';
-});
-
+// ============================================================
+// ИНИЦИАЛИЗАЦИЯ
+// ============================================================
 window.addEventListener('DOMContentLoaded', async () => {
     await loadFromFirebase();
-    cleanOrphanAdmins();
-    switchPanel('mainContent');
+    cleanGhostDialogs();
     renderProfile(); renderAdminsPicker(); renderTickets();
-    loadAnketa(); renderModeratorReports(); renderModeratorActivity(); loadNorm();
+    loadAnketa(); renderAdminNorm();
+    switchPanel('mainContent');
 });
 </script>
 </body>
