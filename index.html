@@ -15,13 +15,31 @@
     --text-light: #fdf0f4; --text-muted: #b0a0bd;
     --border-pink: rgba(255,183,197,0.3); --shadow-pink: rgba(255,150,180,0.2);
     --green: #4cd137; --red: #e84118; --yellow: #fbc531; --blue: #4a9eff;
-    --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
-body.light-theme { --bg-dark: #fff5f7; --bg-panel: #ffffff; --bg-card: rgba(255,255,255,0.9); --text-light: #4a3f5c; --text-muted: #7a6b8a; --border-pink: rgba(255,182,193,0.4); }
+body.light-theme {
+    --bg-dark: #fff5f7; --bg-panel: #ffffff; --bg-card: rgba(255,255,255,0.9);
+    --text-light: #4a3f5c; --text-muted: #7a6b8a;
+    --border-pink: rgba(255,182,193,0.4); --shadow-pink: rgba(255,150,180,0.2);
+}
 html { overflow-x: hidden; overflow-y: auto; height: auto; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-light); line-height: 1.5; min-height: 100vh; font-size: 15px; padding-bottom: var(--safe-bottom); background-color: var(--bg-dark); overflow-x: hidden; }
-body::after { content: ''; position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(18,15,23,0.7), rgba(18,15,23,0.95)), url('bg.jpg') center center / cover no-repeat fixed; z-index: -2; pointer-events: none; }
-body::before { content: ''; position: fixed; top: -20%; left: -20%; width: 140%; height: 140%; background: radial-gradient(circle at 30% 40%, rgba(255,183,197,0.15), transparent 60%), radial-gradient(circle at 70% 80%, rgba(184,58,89,0.1), transparent 50%); z-index: -1; pointer-events: none; animation: parkGlow 10s ease-in-out infinite alternate; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-light); line-height: 1.5; min-height: 100vh;
+    font-size: 15px; padding-bottom: var(--safe-bottom);
+    background-color: var(--bg-dark); overflow-x: hidden;
+}
+body::after {
+    content: ''; position: fixed; inset: 0;
+    background: linear-gradient(to bottom, rgba(18,15,23,0.7), rgba(18,15,23,0.95)), url('bg.jpg') center center / cover no-repeat fixed;
+    z-index: -2; pointer-events: none;
+}
+body::before {
+    content: ''; position: fixed; top: -20%; left: -20%; width: 140%; height: 140%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,183,197,0.15), transparent 60%), radial-gradient(circle at 70% 80%, rgba(184,58,89,0.1), transparent 50%);
+    z-index: -1; pointer-events: none; animation: parkGlow 10s ease-in-out infinite alternate;
+}
 @keyframes parkGlow { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.05); opacity: 1; } }
 .petals-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; }
@@ -32,9 +50,8 @@ h1 { font-size: 1.8rem; margin-bottom: 8px; }
 h2 { font-size: 1.4rem; text-align: center; margin-bottom: 24px; }
 h2:after { content: '🌸'; display: block; font-size: 1.4rem; margin-top: 4px; }
 p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
-.section, .panel-container, .modal-card { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; }
-.section { border-radius: 24px; margin: 14px 0; padding: 32px 16px; }
-.panel-container { border-radius: 24px; padding: 20px 16px; margin: 0 12px; }
+.section { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; border-radius: 24px; margin: 14px 0; padding: 32px 16px; }
+.panel-container { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; border-radius: 24px; padding: 20px 16px; margin: 0 12px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; border: none; cursor: pointer; font-size: 0.95rem; min-height: 48px; transition: 0.2s; }
 .btn:active { transform: scale(0.97); }
 .btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); }
@@ -49,7 +66,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .header h1 { color: #fff; font-weight: 700; }
 .header h1.gradient-title { background: linear-gradient(135deg, #fff 0%, #ffd4e0 40%, #ffb7c5 70%, #ffd700 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .header p { color: rgba(255,255,255,0.95); font-size: 0.95rem; margin: 10px 0 16px; }
-.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 100px; }
+.panel-section { display: none; padding: calc(40px + var(--safe-top)) 0 140px; }
 .panel-section.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
@@ -98,24 +115,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
 .admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
 .admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
-.user-dialog-block { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--border-pink); }
-.user-dialog-block.hidden { display: none; }
-.chat-container { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-pink); }
-.chat-header { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 12px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.chat-header .status-dot { background: var(--green); width: 8px; height: 8px; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-.chat-messages { height: 320px; padding: 14px; overflow-y: auto; background: var(--bg-dark); display: flex; flex-direction: column; gap: 10px; }
-.message { max-width: 85%; padding: 10px 14px; border-radius: 18px; word-wrap: break-word; font-size: 0.9rem; }
-.message.user { align-self: flex-end; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border-bottom-right-radius: 5px; }
-.message.bot { align-self: flex-start; background: var(--bg-panel); color: var(--text-light); border-bottom-left-radius: 5px; border: 1px solid var(--border-pink); }
-.message.system { align-self: center; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.8rem; text-align: center; font-weight: 600; }
-.message.closed { align-self: center; background: rgba(232,65,24,0.15); color: var(--red); border: 1px solid var(--red); font-size: 0.85rem; text-align: center; font-weight: 600; }
-.message.waiting { align-self: center; background: rgba(74,158,255,0.12); color: var(--blue); border: 1px dashed var(--blue); font-size: 0.85rem; text-align: center; font-weight: 600; }
-.message .time { font-size: 0.6rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
-.chat-input-area { display: flex; padding: 10px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); gap: 6px; align-items: center; }
-.chat-input-area input[type="text"] { flex: 1 1 auto; padding: 14px 16px; border: 2px solid var(--border-pink); border-radius: 50px; outline: none; font-size: 16px; background: var(--bg-card); color: var(--text-light); min-height: 52px; min-width: 0; }
-.attach-btn { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; font-size: 1.25rem; flex-shrink: 0; }
-.send-btn { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1.05rem; flex-shrink: 0; }
 .dialogs-list { max-height: 400px; overflow-y: auto; }
 .empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
 .dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
@@ -212,12 +211,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 .nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
 .theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .profile-float { position: fixed; top: calc(10px + var(--safe-top)); right: 64px; z-index: 100; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border-pink); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.fab-container { position: fixed; bottom: calc(80px + var(--safe-bottom)); right: 16px; z-index: 150; display: flex; flex-direction: column-reverse; gap: 10px; align-items: flex-end; }
-.fab { width: 54px; height: 54px; border-radius: 50%; border: none; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.fab-main { background: linear-gradient(135deg, var(--pink), var(--pink-deep)); color: #fff; width: 60px; height: 60px; font-size: 1.5rem; z-index: 2; }
-.fab-main:active { transform: scale(0.9); }
-.fab-secondary { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--pink); opacity: 0; transform: scale(0.5) translateY(20px); pointer-events: none; transition: all 0.3s; }
-.fab-container.open .fab-secondary { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
 .settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
 .settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; min-height: 48px; }
 .footer { background: var(--bg-panel); color: var(--text-muted); padding: 24px 0 calc(24px + var(--safe-bottom)); text-align: center; font-size: 0.85rem; margin-top: 20px; border-top: 1px solid var(--border-pink); }
@@ -227,19 +220,25 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
 #fullscreenChat { position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark); display: none; flex-direction: column; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
 #fullscreenChat.active { display: flex; }
-#fullscreenChat .fs-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-panel); border-bottom: 1px solid var(--border-pink); flex-shrink: 0; }
-#fullscreenChat .fs-back { background: transparent; border: 2px solid var(--border-pink); color: var(--pink); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#fullscreenChat .fs-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--bg-panel); border-bottom: 1px solid var(--border-pink); flex-shrink: 0; }
+#fullscreenChat .fs-back { background: transparent; border: 2px solid var(--border-pink); color: var(--pink); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 #fullscreenChat .fs-info { flex: 1; min-width: 0; }
 #fullscreenChat .fs-name { font-weight: 700; color: var(--text-light); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#fullscreenChat .fs-status { font-size: 0.78rem; color: var(--green); display: flex; align-items: center; gap: 4px; }
-#fullscreenChat .fs-actions { display: flex; gap: 6px; flex-shrink: 0; }
+#fullscreenChat .fs-actions { display: flex; gap: 8px; flex-shrink: 0; }
+#fullscreenChat .fs-actions button { min-width: 52px; height: 52px; font-size: 1.4rem; border-radius: 14px; padding: 0; display: flex; align-items: center; justify-content: center; }
 #fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark); }
 #fullscreenChat .fs-input { display: flex; gap: 6px; padding: 10px 12px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); flex-shrink: 0; align-items: center; }
 #fullscreenChat .fs-input input { flex: 1; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-card); color: var(--text-light); font-size: 16px; outline: none; min-height: 52px; min-width: 0; }
+#fullscreenChat .fs-attach { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; font-size: 1.25rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+#fullscreenChat .fs-attach.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
 #fullscreenChat .fs-send { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1rem; flex-shrink: 0; }
-#fullscreenChat .fs-quick { display: flex; gap: 6px; padding: 8px 12px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); overflow-x: auto; flex-shrink: 0; scrollbar-width: none; }
-#fullscreenChat .fs-quick::-webkit-scrollbar { display: none; }
-#fullscreenChat .fs-quick button { flex-shrink: 0; padding: 6px 12px; font-size: 0.78rem; background: var(--bg-card); border: 1px solid var(--border-pink); border-radius: 50px; color: var(--text-light); cursor: pointer; white-space: nowrap; }
+.msg-status { font-size: 0.6rem; opacity: 0.7; margin-top: 3px; display: block; text-align: right; color: rgba(255,255,255,0.7); }
+.message.bot .msg-status { color: var(--text-muted); }
+.message.bot .msg-status.read { color: var(--blue); }
+.msg-system { align-self: center; background: rgba(251,197,49,0.12); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.78rem; text-align: center; font-weight: 600; padding: 6px 12px; border-radius: 12px; max-width: 90%; }
+.attachment-photo { display: block; margin-top: 6px; max-width: 220px; border-radius: 10px; overflow: hidden; }
+.attachment-photo img { width: 100%; display: block; }
+.message audio { max-width: 100%; margin-top: 6px; height: 34px; }
 </style>
 </head>
 <body>
@@ -252,33 +251,22 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 </button>
 <button class="theme-float" id="themeToggle">🌙</button>
 
-<div class="fab-container">
-    <button class="fab fab-secondary" onclick="switchPanel('supportPanel')" title="Техподдержка">🎫</button>
-    <button class="fab fab-secondary" onclick="switchPanel('anketaPanel')" title="Анкета">📝</button>
-    <button class="fab fab-main" id="fabToggle" title="Меню">🌸</button>
-</div>
-
 <div id="fullscreenChat">
     <div class="fs-header">
         <button class="fs-back" onclick="closeFullscreenChat()">←</button>
         <div class="fs-info">
             <div class="fs-name" id="fsChatName">Пользователь</div>
-            <div class="fs-status"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;"></span> <span id="fsChatStatus">онлайн</span></div>
         </div>
-        <div class="fs-actions">
-            <button class="btn btn-yellow btn-sm" onclick="fsActionWarn()" title="Варн">⚠️</button>
-            <button class="btn btn-red btn-sm" onclick="fsActionBan()" title="Бан">🚫</button>
-            <button class="btn btn-blue btn-sm" onclick="fsActionClose()" title="Завершить">✅</button>
+        <div class="fs-actions" id="fsAdminActions" style="display:none;">
+            <button class="btn btn-yellow" onclick="fsActionWarn()" title="Варн">⚠️</button>
+            <button class="btn btn-red" onclick="fsActionBan()" title="Бан">🚫</button>
+            <button class="btn btn-blue" onclick="fsActionClose()" title="Завершить">✅</button>
         </div>
     </div>
     <div class="fs-messages" id="fsChatMessages"></div>
-    <div class="fs-quick">
-        <button onclick="fsInsertQuick('Я вас понимаю. Расскажите, что случилось?')">💚 Понимание</button>
-        <button onclick="fsInsertQuick('Давайте разберёмся вместе. Что вас беспокоит больше всего?')">🤝 Помощь</button>
-        <button onclick="fsInsertQuick('Спасибо, что поделились. Это важно.')">🙏 Благодарность</button>
-        <button onclick="fsInsertQuick('Я рядом. Вы можете рассказать мне всё.')">🌸 Поддержка</button>
-    </div>
     <div class="fs-input">
+        <button class="fs-attach" onclick="fsAttachPhoto()" title="Фото">📷</button>
+        <button class="fs-attach" id="fsVoiceBtn" onclick="fsToggleVoice()" title="Голосовое">🎤</button>
         <input type="text" id="fsChatInput" placeholder="Сообщение..." autocomplete="off">
         <button class="fs-send" onclick="fsSendMessage()">➤</button>
     </div>
@@ -288,14 +276,14 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     <div style="position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
     <h1 class="gradient-title">По ту сторону</h1>
     <p style="opacity: 0.9;">Помощь и понимание в трудные моменты</p>
-    <p style="opacity: 0.8; font-size: 0.85rem; margin-top: 8px;">🌸 Нажмите на цветок внизу справа, чтобы начать</p>
+    <p style="opacity: 0.8; font-size: 0.85rem; margin-top: 8px;">🌸 Выберите раздел в меню ниже</p>
 </header>
 
 <main id="mainContent">
     <section class="section" style="margin:14px 12px;">
         <div class="container">
             <h2>Что такое бот поддержки?</h2>
-            <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки, в которой каждый сможет найти утешение, тёплые слова, советы и помощь в трудные времена.</p>
+            <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки.</p>
         </div>
     </section>
     <section class="section" style="margin:14px 12px;">
@@ -475,7 +463,6 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="panel-header-right">
                 <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
                     <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
-                    <span id="adminRatingMini" style="color:#ffd700;font-size:0.8rem;">☆☆☆☆☆</span>
                 </div>
                 <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
             </div>
@@ -493,6 +480,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <span class="chevron">▼</span>
                 </div>
                 <div class="collapse-body">
+                    <input type="text" id="adminSearchInput" placeholder="🔍 Поиск по нику или сообщению..." oninput="searchAdminDialogs(this.value)" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.9rem;outline:none;margin-bottom:10px;min-height:44px;">
                     <div class="dialogs-list" id="dialogsList"></div>
                 </div>
             </div>
@@ -711,11 +699,18 @@ let tickets = [], realDialogs = [];
 let adminsData = [{ name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал' }];
 let userAdminData = [{ id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' }];
 let adminRests = {}, restRequests = [], reports = [], adminReviews = [];
-let userProfile = { nickname: '', avatar: '😊', since: Date.now() };
+let userProfile = { nickname: '', avatar: '😊', since: Date.now(), id: '' };
 let moderatorStats = { checked: 0, reportsHandled: 0, warnsIssued: 0 };
 let adminNorm = { messages: 300, users: 3 };
 const AUTH = { admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал' }, owner: { password: 'owner123' } };
 let loadedFromFirebase = false;
+let currentAuth = { role: null, tag: null, category: null };
+let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, currentRating = 0;
+
+if (!localStorage.getItem('sakura-uid')) {
+    localStorage.setItem('sakura-uid', 'uid_' + Date.now() + '_' + Math.random().toString(36).slice(2,8));
+}
+userProfile.id = localStorage.getItem('sakura-uid');
 
 async function loadFromFirebase() {
     try {
@@ -729,14 +724,13 @@ async function loadFromFirebase() {
         if (Array.isArray(data.restRequests)) restRequests = data.restRequests;
         if (Array.isArray(data.reports)) reports = data.reports;
         if (Array.isArray(data.adminReviews)) adminReviews = data.adminReviews;
-        if (data.userProfile) userProfile = data.userProfile;
+        if (data.userProfile) userProfile = { ...userProfile, ...data.userProfile, id: userProfile.id };
         if (data.moderatorStats) moderatorStats = data.moderatorStats;
         if (data.adminNorm) adminNorm = data.adminNorm;
         if (data.AUTH) Object.assign(AUTH, data.AUTH);
         loadedFromFirebase = true;
-    } catch (e) { console.warn('Firebase load failed:', e); }
+    } catch (e) { console.error('Firebase load:', e); }
 }
-
 function saveToFirebase() {
     if (!loadedFromFirebase) return;
     try { db.ref('sakura').set({ tickets, realDialogs, adminsData, userAdminData, adminRests, restRequests, reports, adminReviews, userProfile, moderatorStats, adminNorm, AUTH }); } catch (e) {}
@@ -750,86 +744,74 @@ function cleanGhostDialogs() {
     realDialogs = realDialogs.filter(d => d && d.userNickname && d.userNickname.trim() !== '' && Array.isArray(d.messages) && d.messages.length > 0 && d.id);
     if (initial !== realDialogs.length) saveDialogs();
 }
-
-document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-owner-tab], [data-admin-tab]');
-    if (!btn) return;
-    if (btn.dataset.ownerTab) {
-        const tabId = btn.dataset.ownerTab;
-        document.querySelectorAll('[data-owner-tab]').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('#ownerPanel .tab-page').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        const target = document.getElementById('ownerTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
-        if (target) target.classList.add('active');
-    }
-    if (btn.dataset.adminTab) {
-        const tabId = btn.dataset.adminTab;
-        document.querySelectorAll('[data-admin-tab]').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('#adminPanel .tab-page').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        const target = document.getElementById('adminTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
-        if (target) target.classList.add('active');
-    }
-});
-
-let currentAuth = { role: null, tag: null, category: null };
-let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, currentRating = 0;
-
-function openAuthModal(role) {
-    pendingAuthRole = role;
-    document.getElementById('authTag').value = '';
-    document.getElementById('authPassword').value = '';
-    if (role === 'admin') {
-        document.getElementById('authTitle').textContent = '💼 Вход для админа';
-        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
-        document.getElementById('authTagField').style.display = 'block';
-    } else {
-        document.getElementById('authTitle').textContent = '👑 Вход для владельца';
-        document.getElementById('authSubtitle').textContent = 'Введите пароль';
-        document.getElementById('authTagField').style.display = 'none';
-    }
-    document.getElementById('authModal').classList.add('active');
-}
-function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); pendingAuthRole = null; }
-function submitAuth() {
-    const role = pendingAuthRole; if (!role) return;
-    const password = document.getElementById('authPassword').value;
-    let tag = role === 'owner' ? null : document.getElementById('authTag').value.trim();
-    if (tag && !tag.startsWith('#')) tag = '#' + tag;
-    if (role === 'owner') {
-        if (password === AUTH.owner.password) {
-            currentAuth = { role: 'owner', tag: null, category: null };
-            closeAuthModal(); switchPanel('ownerPanel'); showNotification('🌸 Добро пожаловать!', '✅');
-        } else showNotification('❌ Неверный пароль', '❌');
-        return;
-    }
-    if (role === 'admin') {
-        if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
-            currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
-        } else {
-            const key = tag ? tag.replace('#','') : '';
-            const custom = AUTH[key];
-            if (custom && custom.password === password) { currentAuth = { role: 'admin', tag: custom.tag, category: custom.category, name: custom.name }; }
-            else { showNotification('❌ Неверный тег или пароль', '❌'); return; }
+function autoCloseStaleDialogs() {
+    const now = Date.now();
+    const DAY = 24 * 60 * 60 * 1000;
+    let changed = false;
+    realDialogs.forEach(d => {
+        if (!d.closed && !d.banned && (now - d.lastActivity) > DAY) {
+            d.closed = true; d.autoClosed = true;
+            d.messages.push({ text: '⏰ Диалог автоматически закрыт (не было активности 24 часа).', sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+            changed = true;
         }
-        closeAuthModal(); document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
-        switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm();
-        showNotification(`🌸 Добро пожаловать!`, '✅');
-    }
+    });
+    if (changed) { saveDialogs(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); }
 }
-function logout() {
-    if (!confirm('Выйти?')) return;
-    currentAuth = { role: null, tag: null, category: null };
-    selectedAdminId = null; currentDialogId = null;
-    document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-    switchPanel('mainContent'); showNotification('👋 Вы вышли', '✅');
+setInterval(autoCloseStaleDialogs, 5 * 60 * 1000);
+
+const WORD_NUMBERS = { 'ноль':0,'один':1,'одна':1,'два':2,'две':2,'три':3,'четыре':4,'пять':5,'шесть':6,'семь':7,'восемь':8,'девять':9,'десять':10,'одиннадцать':11,'двенадцать':12,'тринадцать':13,'четырнадцать':14,'пятнадцать':15,'шестнадцать':16,'семнадцать':17,'восемнадцать':18,'девятнадцать':19,'двадцать':20,'тридцать':30,'сорок':40,'пятьдесят':50 };
+const LAT_TO_CYR = { 'a':'а','e':'е','o':'о','p':'р','c':'с','x':'х','y':'у','k':'к','m':'м','t':'т','h':'н','b':'в' };
+const BAD_WORDS = ['хуй','пизд','бляд','ебан','ебат','сука','мразь','тварь','убью','изнасил','трахн','долбо','мудак','гандон','шлюх','проститут','насил','суицид','покончить','резать себя','селфхарм'];
+const PERSONAL_PATTERNS = [
+    /\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i,
+    /\b(?:возраст|age)\s*[:\-]?\s*\d{1,2}\b/i,
+    /\b(?:город|г\.|city)\s*[:\-]?\s*[А-ЯЁA-Z][а-яёa-z\-]+/i,
+    /\bживу\s+в\s+[А-ЯЁA-Z][а-яёa-z\-]+/i,
+    /\b\+?\d[\d\s\-\(\)]{8,}\b/,
+    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/,
+    /\b(?:ул\.|улица|street|адрес)\s*[:\-]?\s*[А-ЯЁA-Z][а-яёa-z0-9\s\-]+/i,
+    /\b(?:паспорт|снилс|инн)\s*[:\-]?\s*\d/i,
+    /\b(?:инстаграм|inst|insta|вк|vk|телеграм|telegram|tg|whatsapp|ватсап)\s*[:\-]?\s*@?[A-Za-z0-9_.]{3,}/i
+];
+function normalizeText(text) {
+    let t = text.toLowerCase();
+    t = t.replace(/[a-z]/g, c => LAT_TO_CYR[c] || c);
+    t = t.replace(/[^а-яёa-z0-9\s]/gi, ' ');
+    t = t.replace(/\s+/g, ' ').trim();
+    Object.keys(WORD_NUMBERS).forEach(w => { t = t.replace(new RegExp('\\b' + w + '\\b', 'g'), WORD_NUMBERS[w]); });
+    t = t.replace(/(\d)([а-яё])/g, '$1 $2').replace(/([а-яё])(\d)/g, '$1 $2');
+    return t;
+}
+let msgTracker = {};
+function checkFlood(userId) {
+    const now = Date.now();
+    if (!msgTracker[userId]) msgTracker[userId] = [];
+    msgTracker[userId] = msgTracker[userId].filter(t => now - t < 10000);
+    if (msgTracker[userId].length >= 5) return { blocked: true, reason: '🚫 Не флудите (5 сообщений за 10 сек)' };
+    msgTracker[userId].push(now);
+    return { blocked: false };
+}
+function moderateMessage(text, userId) {
+    if (!text || !text.trim()) return { blocked: true, reason: '🚫 Пустое сообщение' };
+    if (text.length > 1000) return { blocked: true, reason: '🚫 Слишком длинное (макс 1000)' };
+    const flood = checkFlood(userId);
+    if (flood.blocked) return flood;
+    const norm = normalizeText(text);
+    for (const bad of BAD_WORDS) { if (norm.includes(bad)) return { blocked: true, reason: '🚫 Запрещённое слово' }; }
+    for (const p of PERSONAL_PATTERNS) { if (p.test(norm) || p.test(text)) return { blocked: true, reason: '🚫 Личная информация запрещена' }; }
+    if (/[a-zа-яё]\d{2,}/.test(norm)) return { blocked: true, reason: '🚫 Подозрительный формат' };
+    return { blocked: false };
 }
 
 function switchPanel(panelId) {
     ['mainContent', 'mainHeader'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
     ['userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
-    if (panelId === 'mainContent') { document.getElementById('mainContent').style.display = 'block'; document.getElementById('mainHeader').style.display = 'block'; }
-    else document.getElementById(panelId).classList.add('active');
+    if (panelId === 'mainContent') {
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('mainHeader').style.display = 'block';
+    } else {
+        document.getElementById(panelId).classList.add('active');
+    }
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-role'));
     if (panelId === 'mainContent') document.getElementById('navHome').classList.add('active-role');
     if (panelId === 'userPanel') document.getElementById('navUser').classList.add('active-role');
@@ -887,23 +869,50 @@ function selectAdmin(adminId) {
 }
 
 let fsCurrentDialog = null, fsIsAdmin = false;
+let mediaRecorder = null, audioChunks = [], recordStartTime = 0;
+
 function openFullscreenChat(dialog, isAdmin) {
     fsCurrentDialog = dialog; fsIsAdmin = isAdmin;
     document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
-    document.getElementById('fsChatStatus').textContent = dialog.banned ? 'забанен' : dialog.closed ? 'завершён' : 'онлайн';
+    document.getElementById('fsAdminActions').style.display = isAdmin ? 'flex' : 'none';
     renderFsMessages();
-    const input = document.getElementById('fsChatInput'); const sendBtn = document.querySelector('#fullscreenChat .fs-send');
-    if (dialog.closed || dialog.banned) { input.disabled = true; sendBtn.disabled = true; input.placeholder = 'Диалог завершён'; }
-    else { input.disabled = false; sendBtn.disabled = false; input.placeholder = 'Сообщение...'; }
+    const input = document.getElementById('fsChatInput');
+    if (dialog.closed || dialog.banned) { input.disabled = true; input.placeholder = dialog.banned ? 'Диалог забанен' : 'Диалог завершён'; }
+    else { input.disabled = false; input.placeholder = 'Сообщение...'; }
     document.getElementById('fullscreenChat').classList.add('active');
-    setTimeout(() => { const cm = document.getElementById('fsChatMessages'); cm.scrollTop = cm.scrollHeight; }, 50);
+    setTimeout(() => { const cm = document.getElementById('fsChatMessages'); if (cm) cm.scrollTop = cm.scrollHeight; }, 50);
+    if (!isAdmin) markMessagesRead(dialog.id);
 }
-function closeFullscreenChat() { document.getElementById('fullscreenChat').classList.remove('active'); fsCurrentDialog = null; fsIsAdmin = false; renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); }
+function markMessagesRead(dialogId) {
+    const d = realDialogs.find(x => x.id === dialogId); if (!d) return;
+    let changed = false;
+    d.messages.forEach(m => { if (m.sender === 'bot' && m.status !== 'read') { m.status = 'read'; changed = true; } });
+    if (changed) saveDialogs();
+}
+function closeFullscreenChat() {
+    document.getElementById('fullscreenChat').classList.remove('active');
+    fsCurrentDialog = null; fsIsAdmin = false;
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+}
 function renderFsMessages() {
-    const cm = document.getElementById('fsChatMessages'); cm.innerHTML = '';
+    const cm = document.getElementById('fsChatMessages'); if (!cm) return; cm.innerHTML = '';
     if (!fsCurrentDialog || !fsCurrentDialog.messages) return;
     if (fsCurrentDialog.messages.length === 0) { cm.innerHTML = `<div class="message waiting">💬 Диалог создан. Напишите первое сообщение.</div>`; return; }
-    fsCurrentDialog.messages.forEach(m => { const div = document.createElement('div'); div.classList.add('message', m.sender); div.innerHTML = (m.text || '') + `<span class="time">${m.time || ''}</span>`; cm.appendChild(div); });
+    fsCurrentDialog.messages.forEach(m => {
+        if (m.sender === 'system') {
+            const sys = document.createElement('div'); sys.className = 'msg-system'; sys.textContent = m.text; cm.appendChild(sys); return;
+        }
+        const div = document.createElement('div');
+        div.classList.add('message', m.sender);
+        let statusIcon = '';
+        if (m.sender === 'bot') {
+            if (m.status === 'read') statusIcon = '<span class="msg-status read">✓✓ прочитано</span>';
+            else if (m.status === 'delivered') statusIcon = '<span class="msg-status">✓✓ доставлено</span>';
+            else statusIcon = '<span class="msg-status">⏱ отправлено</span>';
+        }
+        div.innerHTML = (m.text || '') + (m.attachment || '') + statusIcon + `<span class="time">${m.time || ''}</span>`;
+        cm.appendChild(div);
+    });
     cm.scrollTop = cm.scrollHeight;
 }
 async function fsSendMessage() {
@@ -913,18 +922,66 @@ async function fsSendMessage() {
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
     if (!d) { showNotification('❌ Диалог не найден', '❌'); return; }
     if (!fsIsAdmin) { const mod = moderateMessage(text, userProfile.nickname); if (mod.blocked) { showNotification(mod.reason, '🚫'); return; } }
-    d.messages.push({ text, sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) });
+    d.messages.push({ text, sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: fsIsAdmin ? 'sent' : 'received' });
     d.lastActivity = Date.now(); if (d.status === 'waiting') d.status = 'active';
     await saveDialogs();
     fsCurrentDialog = d; renderFsMessages(); input.value = '';
     renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
     if (fsIsAdmin) renderAdminNorm();
 }
-function fsInsertQuick(text) { document.getElementById('fsChatInput').value = text; document.getElementById('fsChatInput').focus(); }
+function fsAttachPhoto() {
+    if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
+    const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+    input.onchange = e => {
+        const file = e.target.files[0]; if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { showNotification('❌ Фото больше 5 МБ', '❌'); return; }
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const html = `<span class="attachment-photo" onclick="openPhoto('${ev.target.result}')"><img src="${ev.target.result}"></span>`;
+            const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return;
+            d.messages.push({ text: '📷 Фото', sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html, status: fsIsAdmin ? 'sent' : 'received' });
+            d.lastActivity = Date.now(); saveDialogs();
+            fsCurrentDialog = d; renderFsMessages(); renderAdminDialogs();
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+async function fsToggleVoice() {
+    if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
+    const btn = document.getElementById('fsVoiceBtn');
+    if (mediaRecorder && mediaRecorder.state === 'recording') { mediaRecorder.stop(); return; }
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream); audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            const dur = Math.round((Date.now() - recordStartTime) / 1000);
+            const html = `<audio controls src="${url}"></audio>`;
+            const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
+            if (d) {
+                d.messages.push({ text: `🎤 Голосовое (${dur} сек)`, sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html, status: fsIsAdmin ? 'sent' : 'received' });
+                d.lastActivity = Date.now(); saveDialogs();
+                fsCurrentDialog = d; renderFsMessages(); renderAdminDialogs();
+            }
+            btn.classList.remove('recording'); stream.getTracks().forEach(t => t.stop());
+        };
+        mediaRecorder.start(); recordStartTime = Date.now();
+        btn.classList.add('recording'); showNotification('🎤 Запись...', '🎤');
+    } catch(e) { showNotification('❌ Нет доступа к микрофону', '❌'); }
+}
 function fsActionWarn() { if (!fsCurrentDialog) return; const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return; d.warns = (d.warns || 0) + 1; if (d.warns >= 3) { d.banned = true; d.closed = true; } saveDialogs(); fsCurrentDialog = d; showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️'); renderFsMessages(); renderAdminDialogs(); }
 function fsActionBan() { if (!fsCurrentDialog) return; if (!confirm('Забанить?')) return; const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return; d.banned = true; d.closed = true; saveDialogs(); fsCurrentDialog = d; closeFullscreenChat(); showNotification('🚫 Забанен', '🚫'); }
 function fsActionClose() { if (!fsCurrentDialog) return; if (!confirm('Завершить и удалить диалог?')) return; const id = fsCurrentDialog.id; realDialogs = realDialogs.filter(x => x.id !== id); saveDialogs(); closeFullscreenChat(); showNotification('✅ Диалог завершён', '✅'); }
 
+function searchAdminDialogs(q) {
+    const query = (q || '').toLowerCase().trim();
+    document.querySelectorAll('#dialogsList .dialog-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+}
 function renderAdminDialogs() {
     const list = document.getElementById('dialogsList'); if (!list) return; list.innerHTML = '';
     const active = realDialogs.filter(d => !d.closed && !d.banned);
@@ -947,7 +1004,7 @@ function renderModeratorDialogs() {
         const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
         item.innerHTML = `<div class="dialog-info"><div class="avatar" style="background:linear-gradient(135deg,var(--blue),#2d7dd2);">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div><div class="dialog-status viewer">👁️</div></div>`;
-        item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:'Админ'}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}\nВарнов: ${d.warns||0}/3\n\n${history.substring(0,1500)}`); };
+        item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:(m.sender==='system'?'СИС':'Админ')}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}\nВарнов: ${d.warns||0}/3\n\n${history.substring(0,1500)}`); };
         list.appendChild(item);
     });
     const sD = document.getElementById('modStatDialogs'); if (sD) sD.textContent = realDialogs.length;
@@ -960,17 +1017,12 @@ function renderOwnerDialogs() {
         const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
         let statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
-        item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:'Админ'}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}\n\n${history.substring(0,1500)}`); };
+        item.innerHTML = `<div class="dialog-info"><div class="avatar">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}${d.autoClosed ? ' ⏰' : ''}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
+        item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:(m.sender==='system'?'СИС':'Админ')}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}${d.autoClosed ? '\n⏰ Автоматически закрыто' : ''}\n\n${history.substring(0,1500)}`); };
         list.appendChild(item);
     });
     const c = document.getElementById('ownerActiveDialogs'); if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
-
-function containsPersonalInfo(t) { const p = [/\b(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)\b/i, /\bмне\s+\d{1,2}\b/i, /\b\+?\d[\d\s\-\(\)]{8,}\b/, /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/]; return p.some(r => r.test(t)); }
-function isSpam(text, userId) { if (text.length > 500) return { spam: true, reason: 'Слишком длинное' }; if (/(.)\1{6,}/.test(text)) return { spam: true, reason: 'Много повторов' }; return { spam: false }; }
-function moderateMessage(text, userId) { if (containsPersonalInfo(text)) return { blocked: true, reason: '🚫 Запрещена личная информация' }; const s = isSpam(text, userId); if (s.spam) return { blocked: true, reason: `🚫 ${s.reason}` }; return { blocked: false }; }
-
 function renderAdminNorm() {
     if (!currentAuth.tag) return;
     const myDialogs = realDialogs.filter(d => d.adminName === currentAuth.tag.replace('#',''));
@@ -1044,7 +1096,12 @@ function submitTicketReply() {
     if (!currentReplyTicketId) return; const answer = document.getElementById('ticketReplyAnswer').value.trim(); if (!answer) { showNotification('⚠️ Напишите ответ', '⚠️'); return; }
     const t = tickets.find(x => x.id === currentReplyTicketId); if (!t) return; t.answer = answer; t.status = 'answered'; t.answeredAt = Date.now(); saveTickets();
     const userDialogs = realDialogs.filter(d => d.userNickname === t.name && !d.closed && !d.banned);
-    if (userDialogs.length > 0) { const d = userDialogs[0]; d.messages.push({ text: `📨 Ответ на тикет ${t.id}:\n${answer}`, sender: 'bot', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}) }); d.lastActivity = Date.now(); d.status = 'active'; saveDialogs(); }
+    if (userDialogs.length > 0) {
+        const d = userDialogs[0];
+        d.messages.push({ text: `🎫 Ответ на тикет ${t.id}: ${answer}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+        d.lastActivity = Date.now(); saveDialogs();
+        if (fsCurrentDialog && fsCurrentDialog.id === d.id) { fsCurrentDialog = d; renderFsMessages(); }
+    }
     renderTickets(); renderOwnerTickets(); closeTicketReply(); showNotification('✅ Ответ отправлен', '✅');
 }
 
@@ -1057,17 +1114,79 @@ function loadAnketa() { try { const saved = localStorage.getItem('sakura-anketa'
 function copyAnketaFilled() { const data = {}; ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; }); navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => showNotification('📋 Скопировано', '✅')); }
 function clearAnketa() { if (!confirm('Очистить?')) return; ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); ANKETA_RADIOS.forEach(n => document.querySelectorAll(`input[name="${n}"]`).forEach(r => { r.checked = false; r.closest('.anketa-option').classList.remove('selected'); })); try { localStorage.removeItem('sakura-anketa'); } catch(e) {} }
 
-function showNotification(text, icon = '🌸') { const n = document.getElementById('notification'); document.getElementById('notificationText').textContent = text; document.getElementById('notificationIcon').textContent = icon; n.classList.add('show'); clearTimeout(window._nt); window._nt = setTimeout(() => n.classList.remove('show'), 2500); }
-function copyToClipboard(text) { if (navigator.clipboard) { navigator.clipboard.writeText(text).then(() => showNotification('📋 Скопировано: ' + text, '✅')); } else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showNotification('📋 Скопировано: ' + text, '✅'); } }
+function openAuthModal(role) {
+    pendingAuthRole = role;
+    document.getElementById('authTag').value = '';
+    document.getElementById('authPassword').value = '';
+    if (role === 'admin') {
+        document.getElementById('authTitle').textContent = '💼 Вход для админа';
+        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
+        document.getElementById('authTagField').style.display = 'block';
+    } else {
+        document.getElementById('authTitle').textContent = '👑 Вход для владельца';
+        document.getElementById('authSubtitle').textContent = 'Введите пароль';
+        document.getElementById('authTagField').style.display = 'none';
+    }
+    document.getElementById('authModal').classList.add('active');
+}
+function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); pendingAuthRole = null; }
+function submitAuth() {
+    const role = pendingAuthRole; if (!role) return;
+    const password = document.getElementById('authPassword').value;
+    let tag = role === 'owner' ? null : document.getElementById('authTag').value.trim();
+    if (tag && !tag.startsWith('#')) tag = '#' + tag;
+    if (role === 'owner') {
+        if (password === AUTH.owner.password) {
+            currentAuth = { role: 'owner', tag: null, category: null };
+            closeAuthModal(); switchPanel('ownerPanel'); showNotification('🌸 Добро пожаловать!', '✅');
+        } else showNotification('❌ Неверный пароль', '❌');
+        return;
+    }
+    if (role === 'admin') {
+        if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
+            currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
+        } else {
+            const key = tag ? tag.replace('#','') : '';
+            const custom = AUTH[key];
+            if (custom && custom.password === password) { currentAuth = { role: 'admin', tag: custom.tag, category: custom.category, name: custom.name }; }
+            else { showNotification('❌ Неверный тег или пароль', '❌'); return; }
+        }
+        closeAuthModal(); document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
+        switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm();
+        showNotification(`🌸 Добро пожаловать!`, '✅');
+    }
+}
+function logout() {
+    if (!confirm('Выйти?')) return;
+    currentAuth = { role: null, tag: null, category: null };
+    selectedAdminId = null; currentDialogId = null;
+    document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+    switchPanel('mainContent'); showNotification('👋 Вы вышли', '✅');
+}
+
+let currentTheme = 'dark';
+async function loadUserTheme() {
+    if (!userProfile.id) return;
+    try {
+        const snap = await db.ref('sakura/themes/' + userProfile.id).get();
+        const theme = snap.val();
+        if (theme === 'light') { document.body.classList.add('light-theme'); document.getElementById('themeToggle').textContent = '☀️'; currentTheme = 'light'; }
+        else { document.body.classList.remove('light-theme'); document.getElementById('themeToggle').textContent = '🌙'; currentTheme = 'dark'; }
+    } catch(e) {}
+}
+function saveUserTheme(theme) {
+    if (!userProfile.id) return;
+    try { db.ref('sakura/themes/' + userProfile.id).set(theme); } catch(e) {}
+}
 
 (function() { const c = document.getElementById('petalsContainer'); const e = ['🌸','🌺','🌷','💮','🏵️']; for (let i = 0; i < 25; i++) { const p = document.createElement('div'); p.className = 'petal'; p.textContent = e[Math.floor(Math.random() * e.length)]; p.style.left = Math.random() * 100 + '%'; p.style.fontSize = (0.6 + Math.random() * 1) + 'rem'; p.style.animationDuration = (8 + Math.random() * 15) + 's'; p.style.animationDelay = (Math.random() * 20) + 's'; p.style.opacity = 0.2 + Math.random() * 0.5; p.style.setProperty('--sway', (Math.random() * 100 - 50) + 'px'); c.appendChild(p); } })();
 
-const themeToggle = document.getElementById('themeToggle'); let isDark = true;
-try { if (localStorage.getItem('sakura-theme') === 'light') { isDark = false; document.body.classList.add('light-theme'); themeToggle.textContent = '☀️'; } } catch(e) {}
-themeToggle.addEventListener('click', () => { isDark = !isDark; if (isDark) { document.body.classList.remove('light-theme'); themeToggle.textContent = '🌙'; try { localStorage.setItem('sakura-theme', 'dark'); } catch(e) {} } else { document.body.classList.add('light-theme'); themeToggle.textContent = '☀️'; try { localStorage.setItem('sakura-theme', 'light'); } catch(e) {} } });
-
-document.getElementById('fabToggle').addEventListener('click', () => document.querySelector('.fab-container').classList.toggle('open'));
-document.querySelectorAll('.fab-secondary').forEach(btn => btn.addEventListener('click', () => document.querySelector('.fab-container').classList.remove('open')));
+document.getElementById('themeToggle').addEventListener('click', () => {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    if (currentTheme === 'light') { document.body.classList.add('light-theme'); document.getElementById('themeToggle').textContent = '☀️'; }
+    else { document.body.classList.remove('light-theme'); document.getElementById('themeToggle').textContent = '🌙'; }
+    saveUserTheme(currentTheme);
+});
 
 document.getElementById('navHome').addEventListener('click', () => switchPanel('mainContent'));
 document.getElementById('navUser').addEventListener('click', () => switchPanel('userPanel'));
@@ -1084,25 +1203,52 @@ document.getElementById('ticketReplyModal').addEventListener('click', function(e
 document.getElementById('staffModal').addEventListener('click', function(e) { if (e.target === this) closeStaffModal(); });
 document.getElementById('fsChatInput').addEventListener('keypress', e => { if (e.key === 'Enter') fsSendMessage(); });
 
-window.addEventListener('DOMContentLoaded', async () => {
-    await loadFromFirebase();
-    cleanGhostDialogs();
-    renderProfile(); renderAdminsPicker(); renderTickets();
-    loadAnketa(); renderAdminNorm();
-    switchPanel('mainContent');
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-owner-tab], [data-admin-tab]');
+    if (!btn) return;
+    if (btn.dataset.ownerTab) {
+        const tabId = btn.dataset.ownerTab;
+        document.querySelectorAll('[data-owner-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#ownerPanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('ownerTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (target) target.classList.add('active');
+    }
+    if (btn.dataset.adminTab) {
+        const tabId = btn.dataset.adminTab;
+        document.querySelectorAll('[data-admin-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#adminPanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('adminTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (target) target.classList.add('active');
+    }
+});
 
-    db.ref('sakura/realDialogs').on('value', (snap) => {
-        const data = snap.val();
-        if (!Array.isArray(data)) return;
-        realDialogs = data;
-        if (fsCurrentDialog) {
-            const updated = realDialogs.find(x => x.id === fsCurrentDialog.id);
-            if (updated) { fsCurrentDialog = updated; renderFsMessages(); }
-        }
-        renderAdminDialogs();
-        renderModeratorDialogs();
-        renderOwnerDialogs();
-    });
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadFromFirebase();
+        cleanGhostDialogs();
+        await loadUserTheme();
+        renderProfile(); renderAdminsPicker(); renderTickets();
+        loadAnketa(); renderAdminNorm();
+        switchPanel('mainContent');
+        autoCloseStaleDialogs();
+        console.log('🌸 Инициализация завершена');
+
+        db.ref('sakura/realDialogs').on('value', (snap) => {
+            const data = snap.val();
+            if (!Array.isArray(data)) return;
+            realDialogs = data;
+            if (fsCurrentDialog) {
+                const updated = realDialogs.find(x => x.id === fsCurrentDialog.id);
+                if (updated) { fsCurrentDialog = updated; renderFsMessages(); }
+            }
+            if (fsCurrentDialog && !fsIsAdmin) markMessagesRead(fsCurrentDialog.id);
+            renderAdminDialogs();
+            renderModeratorDialogs();
+            renderOwnerDialogs();
+        });
+    } catch (e) { console.error('❌ Ошибка инициализации:', e); }
 });
 </script>
 </body>
