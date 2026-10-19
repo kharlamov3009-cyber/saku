@@ -3,260 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#120f17">
+<meta name="theme-color" content="#ffc0cb">
 <title>По ту сторону 🌸</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* === МЯГКАЯ РОЗОВАЯ ТЕМА + ШРИФТЫ === */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 :root {
-    --pink: #ffb7c5; --pink-dark: #e88a9a; --pink-deep: #b83a59;
-    --bg-dark: #120f17; --bg-panel: #1e1826; --bg-card: #2a2135;
-    --text-light: #fdf0f4; --text-muted: #b0a0bd;
-    --border-pink: rgba(255,183,197,0.3); --shadow-pink: rgba(255,150,180,0.2);
-    --green: #4cd137; --red: #e84118; --yellow: #fbc531; --blue: #4a9eff;
+    --bg-gradient: linear-gradient(135deg, #ffc0cb 0%, #f1b3be 100%);
+    --bg-panel: rgba(255, 255, 255, 0.85);
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --text-main: #4a2c35;
+    --text-muted: #8a6b75;
+    --accent-pink-dark: #c2185b;
+    --accent-pink-light: #f8bbd0;
+    --border-light: rgba(194, 24, 91, 0.15);
+    --shadow-soft: 0 10px 40px rgba(194, 24, 91, 0.1);
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
-body.light-theme {
-    --bg-dark: #fff5f7; --bg-panel: #ffffff; --bg-card: rgba(255,255,255,0.9);
-    --text-light: #4a3f5c; --text-muted: #7a6b8a;
-    --border-pink: rgba(255,182,193,0.4); --shadow-pink: rgba(255,150,180,0.2);
+body.dark-theme {
+    --bg-gradient: linear-gradient(135deg, #1a1418 0%, #2a1e24 100%);
+    --bg-panel: rgba(30, 20, 25, 0.85);
+    --bg-card: rgba(40, 28, 35, 0.95);
+    --text-main: #f5e6ea;
+    --text-muted: #b09aa3;
+    --border-light: rgba(255, 183, 197, 0.2);
+    --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
-html { overflow-x: hidden; overflow-y: auto; height: auto; }
+html { scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; height: auto; }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: var(--text-light); line-height: 1.5; min-height: 100vh;
-    font-size: 15px; padding-bottom: var(--safe-bottom);
-    background-color: var(--bg-dark); overflow-x: hidden;
+    font-family: var(--font-sans);
+    color: var(--text-main); line-height: 1.6; min-height: 100vh;
+    font-size: 16px; padding-bottom: var(--safe-bottom);
+    background: var(--bg-gradient); background-attachment: fixed;
+    overflow-x: hidden;
+    transition: background 0.5s, color 0.3s;
 }
-body::after {
-    content: ''; position: fixed; inset: 0;
-    background: linear-gradient(to bottom, rgba(18,15,23,0.7), rgba(18,15,23,0.95)), url('bg.jpg') center center / cover no-repeat fixed;
-    z-index: -2; pointer-events: none;
+
+/* Типографика */
+h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.5px; }
+h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; color: var(--text-main); }
+h2 { font-size: 2rem; text-align: center; margin-bottom: 24px; color: var(--text-main); }
+h3 { font-size: 1.4rem; margin-bottom: 8px; }
+p { margin-bottom: 16px; color: var(--text-muted); font-size: 1rem; }
+
+/* Контейнер */
+.container { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+/* Секции */
+.section { padding: 60px 0; }
+.section-light { background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+
+/* Шапка (Hero) */
+.hero {
+    padding: calc(100px + var(--safe-top)) 20px 80px;
+    text-align: center;
+    background: var(--bg-panel); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
 }
-body::before {
-    content: ''; position: fixed; top: -20%; left: -20%; width: 140%; height: 140%;
-    background: radial-gradient(circle at 30% 40%, rgba(255,183,197,0.15), transparent 60%), radial-gradient(circle at 70% 80%, rgba(184,58,89,0.1), transparent 50%);
-    z-index: -1; pointer-events: none; animation: parkGlow 10s ease-in-out infinite alternate;
+.hero h1 { color: var(--text-main); }
+.hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 32px; }
+.hero .btn { margin: 0 8px; }
+
+/* Статистика (24/7, ∞) */
+.stats-hero { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+.stat-hero-item { text-align: center; }
+.stat-hero-item .num { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--accent-pink-dark); line-height: 1; }
+.stat-hero-item .label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Кнопки */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--accent-pink-dark); color: #fff;
+    padding: 16px 32px; border-radius: 50px; font-weight: 600;
+    border: none; cursor: pointer; font-size: 1rem;
+    transition: all 0.3s ease; text-decoration: none;
+    box-shadow: 0 4px 15px rgba(194, 24, 91, 0.2);
+    font-family: var(--font-sans);
 }
-@keyframes parkGlow { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.05); opacity: 1; } }
-.petals-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.petal { position: absolute; top: -30px; font-size: 1rem; animation: fall linear infinite; opacity: 0.6; }
-@keyframes fall { 0% { transform: translateY(-30px) rotate(0); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.6; } 100% { transform: translateY(105vh) translateX(var(--sway, 60px)) rotate(720deg); opacity: 0; } }
-.container { width: 100%; max-width: 100%; padding: 0 16px; position: relative; z-index: 1; }
-h1, h2, h3 { font-weight: 300; }
-h1 { font-size: 1.8rem; margin-bottom: 8px; }
-h2 { font-size: 1.4rem; text-align: center; margin-bottom: 24px; }
-h2:after { content: '🌸'; display: block; font-size: 1.4rem; margin-top: 4px; }
-p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
-.section { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; border-radius: 24px; margin: 14px 0; padding: 32px 16px; }
-.panel-container { background: rgba(30,24,38,0.75) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,183,197,0.2) !important; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important; border-radius: 24px; padding: 20px 16px; margin: 0 12px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 14px 24px; border-radius: 50px; font-weight: 600; border: none; cursor: pointer; font-size: 0.95rem; min-height: 48px; transition: 0.2s; }
-.btn:active { transform: scale(0.97); }
-.btn-outline { background: transparent; color: var(--pink); border: 2px solid var(--pink); }
-.btn-blue { background: linear-gradient(135deg, var(--blue), #2d7dd2); }
-.btn-green { background: linear-gradient(135deg, var(--green), #3aa02a); }
-.btn-yellow { background: linear-gradient(135deg, var(--yellow), #e1b12c); color: #333; }
-.btn-red { background: linear-gradient(135deg, var(--red), #c0392b); }
-.btn-sm { padding: 8px 14px; font-size: 0.8rem; min-height: 36px; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(194, 24, 91, 0.3); }
+.btn:active { transform: scale(0.98); }
+.btn-outline { background: transparent; color: var(--text-main); border: 2px solid var(--border-light); }
+.btn-outline:hover { border-color: var(--accent-pink-dark); color: var(--accent-pink-dark); }
+.btn-sm { padding: 10px 20px; font-size: 0.9rem; }
 .btn-full { width: 100%; }
-.header { background: linear-gradient(135deg, rgba(248,165,184,0.95), rgba(196,69,105,0.85)); color: #fff; padding: calc(40px + var(--safe-top)) 16px 30px; text-align: center; border-radius: 0 0 40px 40px; position: relative; overflow: hidden; }
-.header::after { content: '🌸'; font-size: 5rem; position: absolute; bottom: -20px; right: -10px; opacity: 0.15; transform: rotate(-15deg); }
-.header h1 { color: #fff; font-weight: 700; }
-.header h1.gradient-title { background: linear-gradient(135deg, #fff 0%, #ffd4e0 40%, #ffb7c5 70%, #ffd700 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.header p { color: rgba(255,255,255,0.95); font-size: 0.95rem; margin: 10px 0 16px; }
-.panel-section { display: none; padding: calc(40px + var(--safe-top)) 0 140px; }
+.btn-blue { background: linear-gradient(135deg, #4a9eff, #2d7dd2); }
+.btn-green { background: linear-gradient(135deg, #4cd137, #3aa02a); }
+.btn-yellow { background: linear-gradient(135deg, #fbc531, #e1b12c); color: #333; }
+.btn-red { background: linear-gradient(135deg, #e84118, #c0392b); }
+
+/* Сетка карточек */
+.grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* Карточки (Возможности) */
+.card {
+    background: var(--bg-card); padding: 32px 24px; border-radius: 20px;
+    text-align: center; transition: 0.3s;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: var(--accent-pink-light); }
+.card .icon { font-size: 2.5rem; display: block; margin-bottom: 16px; }
+.card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.card p { font-size: 0.95rem; margin: 0; }
+
+/* Шаги (Как работает) */
+.steps { display: flex; flex-direction: column; gap: 20px; }
+.step-item {
+    background: var(--bg-card); padding: 24px; border-radius: 16px;
+    border-left: 4px solid var(--accent-pink-dark); text-align: left;
+    box-shadow: var(--shadow-soft); border-top: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
+}
+.step-item .step-num { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--accent-pink-dark); line-height: 1; margin-bottom: 8px; }
+.step-item h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.step-item p { font-size: 0.95rem; margin: 0; }
+
+/* Отзывы */
+.review-card {
+    background: var(--bg-card); padding: 32px 24px; border-radius: 20px;
+    font-style: italic; text-align: center; box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-light);
+}
+.review-card p { font-size: 1.05rem; color: var(--text-main); margin-bottom: 16px; }
+.review-card .stars { color: #ffd700; font-size: 1.2rem; margin-bottom: 8px; }
+.review-card .author { font-weight: 700; font-size: 0.9rem; color: var(--accent-pink-dark); font-style: normal; }
+.review-card .role { font-size: 0.8rem; color: var(--text-muted); font-style: normal; }
+
+/* Подвал */
+.footer { background: var(--bg-panel); padding: 40px 0; text-align: center; border-top: 1px solid var(--border-light); color: var(--text-muted); font-size: 0.9rem; }
+
+/* Плавающие кнопки */
+.theme-float {
+    position: fixed; top: calc(16px + var(--safe-top)); right: 16px; z-index: 100;
+    background: var(--bg-card); color: var(--text-main);
+    border: 1px solid var(--border-light); width: 44px; height: 44px;
+    border-radius: 50%; font-size: 1.2rem; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+}
+.theme-float:hover { transform: scale(1.05); }
+.profile-float {
+    position: fixed; top: calc(16px + var(--safe-top)); right: 72px; z-index: 100;
+    width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card);
+    border: 1px solid var(--border-light); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* === ПАНЕЛИ === */
+.panel-section { display: none; padding: calc(80px + var(--safe-top)) 0 120px; background: transparent; }
 .panel-section.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
-.panel-header h3 { font-size: 1.3rem; margin: 0; font-weight: 700; }
-.panel-header .back-btn { background: transparent; border: 2px solid var(--border-pink); color: var(--pink); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
-.panel-header-left { display: flex; align-items: center; gap: 10px; flex: 1; }
-.panel-header-right { display: flex; align-items: center; gap: 8px; }
-.role-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-.role-badge.user { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
-.role-badge.admin { background: rgba(248,165,184,0.2); color: var(--pink); border: 1px solid var(--pink); }
-.role-badge.owner { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700; }
-.role-badge.moderator { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
-.role-badge.support { background: rgba(76,209,55,0.2); color: var(--green); border: 1px solid var(--green); }
-.panel-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 8px; background: rgba(18,15,23,0.5) !important; backdrop-filter: blur(10px); border-radius: 50px !important; border: 1px solid var(--border-pink) !important; margin-bottom: 16px; scrollbar-width: none; }
+.panel-container { background: var(--bg-panel); backdrop-filter: blur(15px); padding: 24px; border-radius: 20px; margin: 0 16px; border: 1px solid var(--border-light); box-shadow: var(--shadow-soft); max-width: 800px; margin-left: auto; margin-right: auto; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.panel-header h3 { font-size: 1.5rem; margin: 0; color: var(--text-main); font-family: var(--font-serif); }
+.panel-header-left { display: flex; align-items: center; gap: 12px; }
+.panel-header .back-btn {
+    background: transparent; border: 1px solid var(--border-light);
+    color: var(--text-main); width: 40px; height: 40px; border-radius: 50%;
+    cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+}
+.panel-header .back-btn:hover { border-color: var(--accent-pink-dark); }
+
+/* Бейджи */
+.role-badge { display: inline-block; padding: 6px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.role-badge.user { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.role-badge.admin { background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
+.role-badge.owner { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+.role-badge.moderator { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+.role-badge.support { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+
+/* Вкладки */
+.panel-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 6px; background: var(--bg-card); border-radius: 50px; border: 1px solid var(--border-light); margin-bottom: 24px; scrollbar-width: none; }
 .panel-tabs::-webkit-scrollbar { display: none; }
-.tab-btn { flex: 0 0 auto; padding: 9px 16px; background: transparent; border: 1px solid transparent; border-radius: 50px !important; color: var(--text-muted); font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
-.tab-btn.active { background: linear-gradient(135deg, var(--pink), var(--pink-deep)) !important; color: #fff; border-color: var(--pink); }
+.tab-btn { flex: 0 0 auto; padding: 10px 20px; background: transparent; border: none; border-radius: 50px; color: var(--text-muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; font-family: var(--font-sans); }
+.tab-btn.active { background: #fff; color: var(--text-main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .tab-page { display: none; }
 .tab-page.active { display: block; animation: tabFade 0.3s ease; }
 @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-#ownerPanel .panel-container, #adminPanel .panel-container { background: linear-gradient(145deg, rgba(30,24,38,0.85), rgba(42,33,53,0.75)) !important; border: 2px solid var(--border-pink); border-radius: 20px; padding: 18px 14px 24px; }
-#ownerPanel .panel-header h3, #adminPanel .panel-header h3 { color: var(--pink); }
-.collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-pink); margin-bottom: 10px; overflow: hidden; }
-.collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; cursor: pointer; gap: 10px; min-height: 52px; }
-.collapse-header h4 { color: var(--pink); font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.collapse-header .chevron { color: var(--text-muted); font-size: 0.9rem; transition: transform 0.3s; }
+
+/* Сворачиваемые блоки */
+.collapse-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); margin-bottom: 12px; overflow: hidden; }
+.collapse-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; cursor: pointer; gap: 12px; min-height: 60px; }
+.collapse-header h4 { color: var(--text-main); font-size: 1.05rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--font-sans); }
+.collapse-header .chevron { color: var(--text-muted); font-size: 1rem; transition: transform 0.3s; }
 .collapse-block.open .chevron { transform: rotate(180deg); }
-.collapse-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border-pink); }
+.collapse-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border-light); }
 .collapse-block.open .collapse-body { display: block; }
-.collapse-badge { background: var(--pink); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 4px; }
-.profile-card { background: var(--bg-card); border-radius: 20px; padding: 16px; border: 2px solid var(--border-pink); margin-bottom: 14px; display: flex; gap: 14px; align-items: center; }
-.profile-avatar-big { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
-.profile-info-block h3 { color: var(--text-light); font-size: 1.15rem; margin-bottom: 2px; }
-.profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.8rem; }
-.avatar-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-.avatar-option { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border-pink); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
-.avatar-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.2); }
-.nickname-row { display: flex; gap: 8px; flex-direction: column; }
-.nickname-row input { width: 100%; padding: 12px 16px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-panel); color: var(--text-light); font-size: 1rem; outline: none; min-height: 48px; }
-.nickname-row button { width: 100%; padding: 12px 18px; border-radius: 50px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; min-height: 48px; }
-.admins-picker { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.admin-pick-card { background: var(--bg-panel); border-radius: 16px; border: 2px solid var(--border-pink); padding: 12px; cursor: pointer; }
-.admin-pick-card.selected { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink); }
-.admin-pick-card.resting { opacity: 0.6; cursor: not-allowed; border-color: var(--yellow); }
-.admin-pick-card .pick-header { display: flex; align-items: center; gap: 10px; }
-.admin-pick-card .pick-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-deep)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
-.admin-pick-card .pick-name { font-weight: 700; color: var(--text-light); font-size: 0.95rem; }
-.admin-pick-card .pick-category { font-size: 0.72rem; color: var(--pink); }
-.dialogs-list { max-height: 400px; overflow-y: auto; }
-.empty-state { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-pink); font-size: 0.88rem; }
-.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); cursor: pointer; gap: 8px; }
-.dialog-item.banned { opacity: 0.6; border-color: var(--red); }
-.dialog-item.closed { opacity: 0.6; }
-.dialog-item .dialog-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-.dialog-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
-.dialog-item .dialog-name { font-weight: 600; color: var(--text-light); font-size: 0.95rem; }
-.dialog-item .dialog-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-.dialog-item .dialog-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
-.dialog-item .dialog-time { font-size: 0.7rem; color: var(--text-muted); }
-.dialog-item .dialog-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 50px; }
-.dialog-item .dialog-status.online { color: var(--green); background: rgba(76,209,55,0.15); }
-.dialog-item .dialog-status.banned { color: var(--red); background: rgba(232,65,24,0.15); font-weight: 700; }
-.dialog-item .dialog-status.closed { color: var(--text-muted); background: rgba(184,163,196,0.15); font-weight: 700; }
-.dialog-item .dialog-status.waiting { color: var(--blue); background: rgba(74,158,255,0.15); font-weight: 700; }
-.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; background: rgba(251,197,49,0.15); color: var(--yellow); border: 1px solid var(--yellow); margin-left: 4px; }
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-.stat-card { background: var(--bg-card); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid var(--border-pink); }
-.stat-card .number { font-size: 1.5rem; font-weight: 700; color: var(--pink); }
-.stat-card .label { font-size: 0.75rem; color: var(--text-muted); }
-.user-list { margin-top: 10px; }
-.user-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-panel); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border-pink); flex-wrap: wrap; gap: 8px; }
-.user-item .user-info { display: flex; align-items: center; gap: 10px; flex: 1; }
-.user-item .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
-.user-item .user-name { font-weight: 600; color: var(--text-light); font-size: 0.9rem; }
-.user-item .user-status { font-size: 0.78rem; color: var(--text-muted); }
-.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.68rem; font-weight: 600; background: rgba(248,165,184,0.15); color: var(--pink); border: 1px solid var(--border-pink); }
-.user-item .user-actions { display: flex; gap: 6px; }
-.user-item .user-actions button { background: transparent; border: 2px solid var(--border-pink); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 0.95rem; }
-.norm-block { background: var(--bg-panel); padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border-pink); }
-.norm-block h4 { color: var(--pink); margin-bottom: 12px; font-size: 1rem; }
-.norm-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-muted); }
-.norm-row .norm-value { font-weight: 700; color: var(--pink); }
-.norm-bar { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 50px; overflow: hidden; border: 1px solid var(--border-pink); margin: 4px 0 12px; }
-.norm-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--pink-deep)); }
-.reviews-list { max-height: 400px; overflow-y: auto; }
-.review-item { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border-pink); }
-.review-item .review-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
-.review-item .review-author { font-weight: 700; color: var(--text-light); font-size: 0.9rem; }
-.review-item .review-stars { color: #ffd700; font-size: 0.9rem; }
-.review-item .review-text { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
-.ticket-form { background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 16px; }
-.ticket-form h3 { color: var(--green); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; }
-.ticket-form label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
-.ticket-form input, .ticket-form select, .ticket-form textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-pink); border-radius: 12px; background: var(--bg-panel); color: var(--text-light); font-size: 0.95rem; outline: none; margin-bottom: 10px; min-height: 48px; }
-.ticket-form textarea { min-height: 90px; resize: vertical; }
-.ticket-list { display: flex; flex-direction: column; gap: 10px; }
-.ticket-item { background: var(--bg-panel); border: 1px solid var(--border-pink); border-radius: 14px; padding: 14px 16px; }
-.ticket-item.pending { border-color: var(--yellow); }
-.ticket-item-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-.ticket-item-id { font-weight: 700; color: var(--pink); font-size: 0.8rem; }
-.ticket-item-status { padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
-.ticket-item-status.pending { color: var(--yellow); background: rgba(251,197,49,0.15); border: 1px solid var(--yellow); }
-.ticket-item-status.answered { color: var(--green); background: rgba(76,209,55,0.15); border: 1px solid var(--green); }
-.ticket-item-title { font-weight: 700; color: var(--text-light); font-size: 0.95rem; margin-bottom: 4px; }
-.ticket-item-category { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid var(--blue); margin-bottom: 6px; }
-.ticket-item-text { color: var(--text-muted); font-size: 0.85rem; }
-.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; }
-.ticket-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.ticket-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-pink); }
-.anketa-block { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-pink); padding: 16px; margin-bottom: 14px; }
-.anketa-block h3 { color: var(--pink); font-size: 1.05rem; margin-bottom: 12px; font-weight: 700; border-bottom: 2px dashed var(--border-pink); padding-bottom: 8px; }
-.anketa-question { background: var(--bg-panel); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-pink); margin-bottom: 10px; }
-.anketa-question strong { color: var(--text-light); display: block; margin-bottom: 6px; font-size: 0.9rem; }
-.anketa-question input, .anketa-question textarea { width: 100%; padding: 10px 12px; border: 2px solid var(--border-pink); border-radius: 10px; background: var(--bg-card); color: var(--text-light); font-size: 0.9rem; outline: none; min-height: 44px; }
-.anketa-question textarea { min-height: 80px; resize: vertical; }
-.anketa-options { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-.anketa-option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg-card); border: 2px solid var(--border-pink); border-radius: 10px; cursor: pointer; color: var(--text-light); font-size: 0.88rem; min-height: 44px; }
-.anketa-option.selected { border-color: var(--pink); background: rgba(248,165,184,0.15); }
-.anketa-situation { background: rgba(74,158,255,0.08); padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(74,158,255,0.3); margin-bottom: 10px; }
-.anketa-situation-title { color: var(--blue); font-weight: 700; margin-bottom: 4px; font-size: 0.88rem; }
-.anketa-situation-text { color: var(--text-light); font-size: 0.85rem; font-style: italic; }
-.notification { position: fixed; top: calc(70px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px; max-width: 90%; }
-.notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
-.modal-overlay.active { display: flex; }
-.modal-card { background: var(--bg-panel); border-radius: 24px; padding: 24px 20px; width: 100%; max-width: 500px; border: 2px solid var(--border-pink); position: relative; max-height: 90vh; overflow-y: auto; }
-.close-modal { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; }
-.auth-modal-content { text-align: center; }
-.auth-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
-.auth-modal-content p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; }
-.auth-modal-content input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 12px; min-height: 48px; }
-.rating-modal-content { text-align: center; }
-.rating-modal-content h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: 8px; }
-.rating-modal-content p { color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem; }
-.rating-stars-input { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
-.rating-stars-input .star { font-size: 2.4rem; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 4px; }
-.rating-stars-input .star.active { color: #ffd700; }
-.rating-modal-content textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; min-height: 90px; margin-bottom: 16px; resize: vertical; }
-.mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border-pink); display: flex; justify-content: space-around; padding: 6px 2px calc(6px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px var(--shadow-pink); }
-.nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; padding: 6px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 10px; font-weight: 600; min-height: 50px; transition: all 0.2s; }
-.nav-btn .nav-icon { font-size: 1.3rem; line-height: 1; }
-.nav-btn.active-role { color: var(--pink); background: rgba(248,165,184,0.12); }
-.theme-float { position: fixed; top: calc(10px + var(--safe-top)); right: 12px; z-index: 100; background: rgba(248,165,184,0.95); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(248,165,184,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-.profile-float { position: fixed; top: calc(10px + var(--safe-top)); right: 64px; z-index: 100; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border-pink); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.settings-label { display: block; color: var(--text-light); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-.settings-input { width: 100%; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 14px; background: var(--bg-card); color: var(--text-light); font-size: 1rem; outline: none; margin-bottom: 16px; min-height: 48px; }
-.footer { background: var(--bg-panel); color: var(--text-muted); padding: 24px 0 calc(24px + var(--safe-bottom)); text-align: center; font-size: 0.85rem; margin-top: 20px; border-top: 1px solid var(--border-pink); }
-.footer a { color: var(--pink); text-decoration: none; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
-#fullscreenChat { position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark); display: none; flex-direction: column; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
+.collapse-badge { background: var(--accent-pink-dark); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 6px; }
+
+/* Анкета */
+.anketa-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 16px; }
+.anketa-block h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; border-bottom: 2px dashed var(--border-light); padding-bottom: 10px; font-family: var(--font-sans); }
+.anketa-question { background: var(--bg-panel); padding: 16px; border-radius: 12px; border: 1px solid var(--border-light); margin-bottom: 12px; }
+.anketa-question strong { color: var(--text-main); display: block; margin-bottom: 8px; font-size: 0.95rem; }
+.anketa-question input, .anketa-question textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-light); border-radius: 10px; background: var(--bg-card); color: var(--text-main); font-size: 0.95rem; outline: none; font-family: var(--font-sans); transition: 0.2s; }
+.anketa-question input:focus, .anketa-question textarea:focus { border-color: var(--accent-pink-dark); box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1); }
+.anketa-question textarea { min-height: 100px; resize: vertical; }
+.anketa-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.anketa-option { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer; color: var(--text-main); font-size: 0.95rem; transition: 0.2s; }
+.anketa-option.selected { border-color: var(--accent-pink-dark); background: #fce4ec; }
+body.dark-theme .anketa-option.selected { background: rgba(233, 30, 99, 0.15); }
+.anketa-option input[type="radio"] { width: 18px; height: 18px; accent-color: var(--accent-pink-dark); flex-shrink: 0; }
+.anketa-situation { background: #e3f2fd; padding: 16px; border-radius: 12px; border: 1px solid #90caf9; margin-bottom: 12px; }
+body.dark-theme .anketa-situation { background: rgba(74, 158, 255, 0.1); }
+.anketa-situation-title { color: #1565c0; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
+.anketa-situation-text { color: var(--text-main); font-size: 0.9rem; font-style: italic; }
+
+/* Чат */
+#fullscreenChat { position: fixed; inset: 0; z-index: 2000; background: var(--bg-gradient); background-attachment: fixed; display: none; flex-direction: column; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
 #fullscreenChat.active { display: flex; }
-#fullscreenChat .fs-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--bg-panel); border-bottom: 1px solid var(--border-pink); flex-shrink: 0; }
-#fullscreenChat .fs-back { background: transparent; border: 2px solid var(--border-pink); color: var(--pink); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#fullscreenChat .fs-header { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-panel); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
+#fullscreenChat .fs-back { background: transparent; border: 1px solid var(--border-light); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 #fullscreenChat .fs-info { flex: 1; min-width: 0; }
-#fullscreenChat .fs-name { font-weight: 700; color: var(--text-light); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fullscreenChat .fs-name { font-weight: 700; color: var(--text-main); font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-sans); }
 #fullscreenChat .fs-actions { display: flex; gap: 8px; flex-shrink: 0; }
-#fullscreenChat .fs-actions button { min-width: 52px; height: 52px; font-size: 1.4rem; border-radius: 14px; padding: 0; display: flex; align-items: center; justify-content: center; }
-#fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark); }
-#fullscreenChat .fs-input { display: flex; gap: 6px; padding: 10px 12px; background: var(--bg-panel); border-top: 1px solid var(--border-pink); flex-shrink: 0; align-items: center; }
-#fullscreenChat .fs-input input { flex: 1; padding: 14px 18px; border: 2px solid var(--border-pink); border-radius: 50px; background: var(--bg-card); color: var(--text-light); font-size: 16px; outline: none; min-height: 52px; min-width: 0; }
-#fullscreenChat .fs-attach { background: var(--bg-card); border: 2px solid var(--border-pink); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; font-size: 1.25rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-#fullscreenChat .fs-attach.recording { background: var(--red); color: #fff; border-color: var(--red); animation: pulse 1s infinite; }
-#fullscreenChat .fs-send { background: linear-gradient(135deg, var(--pink), var(--pink-dark)); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1rem; flex-shrink: 0; }
-.msg-status { font-size: 0.6rem; opacity: 0.7; margin-top: 3px; display: block; text-align: right; color: rgba(255,255,255,0.7); }
-.message.bot .msg-status { color: var(--text-muted); }
-.message.bot .msg-status.read { color: var(--blue); }
-.msg-system { align-self: center; background: rgba(251,197,49,0.12); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.78rem; text-align: center; font-weight: 600; padding: 6px 12px; border-radius: 12px; max-width: 90%; }
-.attachment-photo { display: block; margin-top: 6px; max-width: 220px; border-radius: 10px; overflow: hidden; }
+#fullscreenChat .fs-actions button { min-width: 48px; height: 48px; font-size: 1.3rem; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center; }
+#fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; background: transparent; }
+#fullscreenChat .fs-input { display: flex; gap: 8px; padding: 12px; background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); flex-shrink: 0; align-items: center; }
+#fullscreenChat .fs-input input { flex: 1; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: 50px; background: #fff; color: var(--text-main); font-size: 16px; outline: none; min-height: 52px; min-width: 0; font-family: var(--font-sans); }
+body.dark-theme #fullscreenChat .fs-input input { background: var(--bg-card); }
+#fullscreenChat .fs-attach { background: #fff; border: 1px solid var(--border-light); color: var(--text-muted); width: 52px; height: 52px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+body.dark-theme #fullscreenChat .fs-attach { background: var(--bg-card); }
+#fullscreenChat .fs-send { background: var(--accent-pink-dark); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 52px; font-size: 1rem; flex-shrink: 0; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.2); }
+
+/* Сообщения */
+.message { max-width: 85%; padding: 12px 16px; border-radius: 18px; word-wrap: break-word; font-size: 0.95rem; line-height: 1.5; }
+.message.user { align-self: flex-end; background: var(--accent-pink-dark); color: #fff; border-bottom-right-radius: 4px; }
+.message.bot { align-self: flex-start; background: #fff; color: var(--text-main); border-bottom-left-radius: 4px; border: 1px solid var(--border-light); }
+body.dark-theme .message.bot { background: var(--bg-card); }
+.message.system { align-self: center; background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; font-size: 0.85rem; text-align: center; font-weight: 600; }
+body.dark-theme .message.system { background: rgba(251, 197, 49, 0.15); }
+.message.closed { align-self: center; background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; font-size: 0.85rem; text-align: center; }
+body.dark-theme .message.closed { background: rgba(232, 65, 24, 0.15); }
+.message.waiting { align-self: center; background: #e3f2fd; color: #1565c0; border: 1px dashed #90caf9; font-size: 0.85rem; text-align: center; }
+body.dark-theme .message.waiting { background: rgba(74, 158, 255, 0.15); }
+.message .time { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
+.msg-status { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
+.message.bot .msg-status.read { color: var(--accent-pink-dark); }
+.attachment-photo { display: block; margin-top: 8px; max-width: 240px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-light); }
 .attachment-photo img { width: 100%; display: block; }
-.message audio { max-width: 100%; margin-top: 6px; height: 34px; }
+.message audio { max-width: 100%; margin-top: 8px; height: 34px; }
+
+/* Списки */
+.dialogs-list { max-height: 400px; overflow-y: auto; }
+.empty-state { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-light); font-size: 0.95rem; }
+.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; gap: 12px; transition: 0.2s; }
+.dialog-item:hover { background: #fff; }
+body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
+.dialog-item.banned { opacity: 0.6; border-color: #ef9a9a; }
+.dialog-item.closed { opacity: 0.6; }
+.dialog-item .dialog-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.dialog-item .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1rem; flex-shrink: 0; }
+.dialog-item .dialog-name { font-weight: 600; color: var(--text-main); font-size: 1rem; }
+.dialog-item .dialog-preview { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.dialog-item .dialog-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.dialog-item .dialog-time { font-size: 0.75rem; color: var(--text-muted); }
+.dialog-item .dialog-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 50px; }
+.dialog-item .dialog-status.online { color: #2e7d32; background: #e8f5e9; }
+.dialog-item .dialog-status.banned { color: #c62828; background: #ffebee; font-weight: 700; }
+.dialog-item .dialog-status.closed { color: var(--text-muted); background: var(--bg-panel); font-weight: 700; }
+.dialog-item .dialog-status.waiting { color: #1565c0; background: #e3f2fd; font-weight: 700; }
+.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; margin-left: 6px; }
+
+/* Статистика */
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+.stat-card { background: var(--bg-card); padding: 16px 12px; border-radius: 16px; text-align: center; border: 1px solid var(--border-light); }
+.stat-card .number { font-size: 1.6rem; font-weight: 700; color: var(--accent-pink-dark); font-family: var(--font-serif); }
+.stat-card .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+/* Пользователи */
+.user-list { margin-top: 10px; }
+.user-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-light); flex-wrap: wrap; gap: 10px; }
+.user-item .user-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+.user-item .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+.user-item .user-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
+.user-item .user-status { font-size: 0.82rem; color: var(--text-muted); }
+.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
+.user-item .user-actions { display: flex; gap: 6px; }
+.user-item .user-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+.user-item .user-actions button:hover { border-color: #ef9a9a; color: #c62828; }
+
+/* Формы */
+.ticket-form, .add-admin-form, .rest-request-form { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 20px; }
+.ticket-form h3, .add-admin-form h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; font-family: var(--font-sans); }
+.ticket-form label, .rest-request-form label { display: block; color: var(--text-main); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+.ticket-form input, .ticket-form select, .ticket-form textarea, .add-admin-form input, .add-admin-form select, .rest-request-form input, .rest-request-form textarea {
+    width: 100%; padding: 14px; border: 1px solid var(--border-light);
+    border-radius: 12px; background: var(--bg-panel); color: var(--text-main);
+    font-size: 0.95rem; outline: none; margin-bottom: 12px;
+    font-family: var(--font-sans); transition: 0.2s;
+}
+.ticket-form input:focus, .ticket-form textarea:focus, .add-admin-form input:focus { border-color: var(--accent-pink-dark); }
+.ticket-form textarea, .rest-request-form textarea { min-height: 100px; resize: vertical; }
+
+/* Тикеты */
+.ticket-list { display: flex; flex-direction: column; gap: 12px; }
+.ticket-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; padding: 16px; }
+.ticket-item.pending { border-color: #ffe082; }
+.ticket-item-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.ticket-item-id { font-weight: 700; color: var(--accent-pink-dark); font-size: 0.85rem; }
+.ticket-item-status { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
+.ticket-item-status.pending { color: #f57f17; background: #fff8e1; border: 1px solid #ffe082; }
+.ticket-item-status.answered { color: #2e7d32; background: #e8f5e9; border: 1px solid #a5d6a7; }
+.ticket-item-title { font-weight: 700; color: var(--text-main); font-size: 1rem; margin-bottom: 6px; }
+.ticket-item-category { display: inline-block; padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; margin-bottom: 8px; }
+.ticket-item-text { color: var(--text-muted); font-size: 0.9rem; }
+.ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; }
+.ticket-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.ticket-empty { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-light); }
+
+/* Уведомления */
+.notification { position: fixed; top: calc(20px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: var(--text-main); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; z-index: 1000; opacity: 0; transition: all 0.4s; pointer-events: none; display: flex; align-items: center; gap: 8px; max-width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Модалки */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 240, 245, 0.8); backdrop-filter: blur(8px); z-index: 1100; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
+body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
+.modal-overlay.active { display: flex; }
+.modal-card { background: var(--bg-card); border-radius: 24px; padding: 32px 24px; width: 100%; max-width: 480px; border: 1px solid var(--border-light); position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+.close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px; }
+.auth-modal-content { text-align: center; }
+.auth-modal-content h3 { color: var(--text-main); font-size: 1.5rem; margin-bottom: 12px; }
+.auth-modal-content p { color: var(--text-muted); margin-bottom: 24px; }
+.auth-modal-content input { width: 100%; padding: 16px; border: 1px solid var(--border-light); border-radius: 14px; background: var(--bg-panel); color: var(--text-main); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: var(--font-sans); }
+
+/* Нижняя навигация */
+.mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); display: flex; justify-content: space-around; padding: 8px 2px calc(8px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); }
+.nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.7rem; padding: 8px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 10px; font-weight: 600; transition: all 0.2s; font-family: var(--font-sans); }
+.nav-btn .nav-icon { font-size: 1.4rem; line-height: 1; }
+.nav-btn.active-role { color: var(--accent-pink-dark); }
+
+/* Профиль */
+.profile-card { background: var(--bg-card); border-radius: 20px; padding: 20px; border: 1px solid var(--border-light); margin-bottom: 20px; display: flex; gap: 16px; align-items: center; }
+.profile-avatar-big { width: 70px; height: 70px; border-radius: 50%; background: var(--accent-pink); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
+.profile-info-block h3 { color: var(--text-main); font-size: 1.2rem; margin-bottom: 4px; font-family: var(--font-sans); }
+.profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.85rem; }
+.nickname-row { display: flex; gap: 10px; flex-direction: column; }
+.nickname-row input { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 50px; background: var(--bg-card); color: var(--text-main); font-size: 1rem; outline: none; font-family: var(--font-sans); }
+.nickname-row button { padding: 14px; border-radius: 50px; font-weight: 600; cursor: pointer; background: var(--accent-pink-dark); color: #fff; border: none; font-family: var(--font-sans); }
+
+/* Выбор админа */
+.admins-picker { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.admin-pick-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 16px; cursor: pointer; transition: 0.2s; }
+.admin-pick-card:hover { border-color: var(--accent-pink); }
+.admin-pick-card.selected { border-color: var(--accent-pink-dark); box-shadow: 0 0 0 2px var(--accent-pink-dark); }
+.admin-pick-card .pick-header { display: flex; align-items: center; gap: 12px; }
+.admin-pick-card .pick-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+.admin-pick-card .pick-name { font-weight: 700; color: var(--text-main); font-size: 1rem; font-family: var(--font-sans); }
+.admin-pick-card .pick-category { font-size: 0.8rem; color: var(--accent-pink-dark); }
+
+/* Логи, ЧС, Жалобы */
+.log-item { display: flex; gap: 12px; padding: 12px 16px; background: var(--bg-card); border-radius: 12px; margin-bottom: 8px; border-left: 3px solid var(--accent-pink-dark); font-size: 0.88rem; border-top: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+.log-item .log-time { color: var(--text-muted); font-size: 0.78rem; flex-shrink: 0; min-width: 90px; }
+.log-item .log-text { color: var(--text-main); flex: 1; }
+.log-item .log-text strong { color: var(--accent-pink-dark); }
+
+.blacklist-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid #ef9a9a; flex-wrap: wrap; gap: 10px; }
+.blacklist-item .bl-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+.blacklist-item .bl-avatar { width: 44px; height: 44px; border-radius: 50%; background: #ef9a9a; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+.blacklist-item .bl-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
+.blacklist-item .bl-reason { font-size: 0.82rem; color: var(--text-muted); }
+.blacklist-item .bl-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+
+.report-card { background: var(--bg-card); border: 1px solid #ffe082; border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+.report-card .rc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.report-card .rc-from { font-weight: 700; color: var(--accent-pink-dark); font-size: 0.95rem; }
+.report-card .rc-admin { font-weight: 700; color: #c62828; font-size: 0.9rem; }
+.report-card .rc-reason { color: var(--text-main); font-size: 0.9rem; font-style: italic; padding: 10px 14px; background: var(--bg-panel); border-radius: 12px; margin-bottom: 10px; border-left: 3px solid #ffe082; }
+.report-card .rc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-complain { background: transparent; color: #c62828; border: 1px solid #ef9a9a; padding: 10px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; text-transform: uppercase; margin-right: 8px; }
+
+/* Настройки */
+.settings-label { display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
+.settings-input { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 14px; background: var(--bg-card); color: var(--text-main); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: var(--font-sans); }
+
+/* Скроллбар */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent-pink-light); border-radius: 10px; }
 </style>
 </head>
 <body>
 
-<div class="petals-container" id="petalsContainer"></div>
-<div class="notification" id="notification"><span id="notificationIcon">🌸</span><span id="notificationText">Готово!</span></div>
-
-<button class="profile-float" id="profileFloat" onclick="switchPanel('userPanel')" title="Профиль">
-    <span id="profileFloatAvatar">😊</span>
-</button>
+<button class="profile-float" id="profileFloat" onclick="switchPanel('userPanel')" title="Профиль">👤</button>
 <button class="theme-float" id="themeToggle">🌙</button>
 
 <div id="fullscreenChat">
     <div class="fs-header">
         <button class="fs-back" onclick="closeFullscreenChat()">←</button>
-        <div class="fs-info">
-            <div class="fs-name" id="fsChatName">Пользователь</div>
-        </div>
+        <div class="fs-info"><div class="fs-name" id="fsChatName">Пользователь</div></div>
         <div class="fs-actions" id="fsAdminActions" style="display:none;">
             <button class="btn btn-yellow" onclick="fsActionWarn()" title="Варн">⚠️</button>
             <button class="btn btn-red" onclick="fsActionBan()" title="Бан">🚫</button>
@@ -272,41 +419,68 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </div>
 
-<header class="header" id="mainHeader" style="position: relative; overflow: hidden;">
-    <div style="position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
-    <h1 class="gradient-title">По ту сторону</h1>
-    <p style="opacity: 0.9;">Помощь и понимание в трудные моменты</p>
-    <p style="opacity: 0.8; font-size: 0.85rem; margin-top: 8px;">🌸 Выберите раздел в меню ниже</p>
-</header>
-
 <main id="mainContent">
-    <section class="section" style="margin:14px 12px;">
+    <section class="hero" id="mainHeader">
         <div class="container">
-            <h2>Что такое бот поддержки?</h2>
-            <p style="text-align:center;">Бот поддержки — это ваш надёжный помощник в трудные моменты. Он создан для того, чтобы вы могли получить эмоциональную поддержку, решение личных проблем и общение. Наша цель — создать атмосферу понимания и поддержки.</p>
-        </div>
-    </section>
-    <section class="section" style="margin:14px 12px;">
-        <div class="container">
-            <h2>Преимущества</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card"><span class="icon">🕒</span><h3>Доступность</h3><p>Обратитесь за поддержкой в любое время.</p></div>
-                <div class="benefit-card"><span class="icon">🔒</span><h3>Конфиденциальность</h3><p>Ваши данные под защитой.</p></div>
-                <div class="benefit-card"><span class="icon">👨‍⚕️</span><h3>Профессионализм</h3><p>Квалифицированная помощь.</p></div>
-                <div class="benefit-card"><span class="icon">🎯</span><h3>Индивидуально</h3><p>Под ваши потребности.</p></div>
+            <h1>По ту сторону</h1>
+            <p>слушает бережно, отвечает мягко и помогает вернуть внутреннее равновесие без давления и осуждения</p>
+            <a href="#features" class="btn">Узнать больше</a>
+            <a href="https://t.me/ваш_бот" target="_blank" class="btn btn-outline">🤍 Открыть в Telegram</a>
+            <div class="stats-hero">
+                <div class="stat-hero-item"><div class="num">24/7</div><div class="label">Всегда онлайн</div></div>
+                <div class="stat-hero-item"><div class="num">∞</div><div class="label">Тепла и заботы</div></div>
             </div>
         </div>
     </section>
-    <section class="section contacts" style="margin:14px 12px;">
+
+    <section class="section section-light" id="features">
         <div class="container">
-            <h2>Контакты</h2>
-            <p>Вы можете связаться с нами по юзернейм бота или написать в тгк.</p>
-            <a href="https://t.me/ваш_бот" target="_blank" rel="noopener" class="btn">📱 Написать в Telegram</a>
-            <button class="btn btn-outline" onclick="copyToClipboard('@support_bot')">📋 Скопировать @support_bot</button>
+            <h2>Пространство, где можно побыть собой</h2>
+            <p style="text-align:center; max-width:600px; margin:0 auto 40px;">Тёплые ответы, спокойная атмосфера и чувство, что тебя правда слышат — в одном диалоге Telegram</p>
+            <div class="grid">
+                <div class="card"><span class="icon">🤍</span><h3>Бережный отклик</h3><p>Бот отвечает мягко и спокойно, чтобы рядом с ним можно было почувствовать себя в безопасности.</p></div>
+                <div class="card"><span class="icon">🌙</span><h3>Тишина для мыслей</h3><p>Когда внутри шумно, бот помогает замедлиться, выдохнуть и вернуться к более ровному состоянию.</p></div>
+                <div class="card"><span class="icon">✨</span><h3>Слова, после которых легче</h3><p>Каждый диалог строится так, чтобы внутри становилось тише, мягче и спокойнее.</p></div>
+                <div class="card"><span class="icon">🕯️</span><h3>Мягкая атмосфера</h3><p>Тон общения остаётся тёплым, деликатным и спокойным — даже в самые уязвимые моменты.</p></div>
+                <div class="card"><span class="icon">💌</span><h3>Личное пространство</h3><p>Можно писать тогда, когда удобно, и бережно проживать свои чувства в приватном формате Telegram.</p></div>
+                <div class="card"><span class="icon">🌸</span><h3>Поддержка без осуждения</h3><p>Здесь можно говорить честно о чувствах и мыслях — в атмосфере принятия, а не давления.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Три шага к внутренней тишине</h2>
+            <p style="text-align:center; max-width:600px; margin:0 auto 40px;">Без сложных слов — просто, мягко и по-настоящему рядом</p>
+            <div class="steps">
+                <div class="step-item"><div class="step-num">1</div><h3>Открой бота</h3><p>Перейди в Telegram и начни диалог тогда, когда особенно нужен мягкий отклик.</p></div>
+                <div class="step-item"><div class="step-num">2</div><h3>Напиши как чувствуешь</h3><p>Поделись тревогой, усталостью или просто тем, что хочется выговорить — без необходимости подбирать идеальные слова.</p></div>
+                <div class="step-item"><div class="step-num">3</div><h3>Почувствуй спокойствие</h3><p>Получи бережный ответ, немного тепла и ощущение, что внутри стало тише и легче.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-light">
+        <div class="container">
+            <h2>Что чувствуют рядом с ботом</h2>
+            <p style="text-align:center; max-width:600px; margin:0 auto 40px;">Несколько тёплых слов о спокойствии, принятии и поддержке</p>
+            <div class="grid">
+                <div class="review-card"><p>«#Лапк, прекрасная девушка и владелец. Очень качественно делает свою работу, очень многие боты восхищаются и пытаются достичь такого же уровня»</p><div class="stars">★★★★★</div><div class="author">Пользователь</div><div class="role">ищет спокойствие</div></div>
+                <div class="review-card"><p>«#Кайон — очень хороший админ. Он умеет находить подход к ситуации и давать качественную поддержку, с ним очень комфортно общаться.»</p><div class="stars">★★★★★</div><div class="author">Пользователь</div><div class="role">ценит мягкую поддержку</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="text-align:center;">
+        <div class="container">
+            <h2>Готов почувствовать спокойствие?</h2>
+            <p style="max-width:600px; margin:0 auto 32px;">Открой бота и позволь себе немного тишины, поддержки и мягкого тепла прямо сейчас.</p>
+            <a href="https://t.me/ваш_бот" target="_blank" class="btn">🤍 Открыть в Telegram</a>
         </div>
     </section>
 </main>
 
+<!-- ПАНЕЛИ -->
 <section class="panel-section" id="anketaPanel">
     <div class="panel-container">
         <div class="panel-header">
@@ -317,38 +491,48 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <span class="role-badge support">Анкета</span>
         </div>
         <div class="anketa-block">
-            <h3>БЛОК 0. КАТЕГОРИЯ</h3>
-            <div class="anketa-question">
-                <strong>Выберите категорию:</strong>
-                <div class="anketa-options">
-                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Общение" onchange="onCategoryChange(this)"> 💬 Общение</label>
-                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Поддержка" onchange="onCategoryChange(this)"> 🆘 Поддержка</label>
-                    <label class="anketa-option"><input type="radio" name="anketaCategory" value="Универсал" onchange="onCategoryChange(this)"> ⭐ Универсал</label>
-                </div>
-            </div>
+            <h3>БЛОК 1. ОСНОВНАЯ ИНФОРМАЦИЯ</h3>
+            <div class="anketa-question"><strong>1. Будние дни: (указать время/часы)</strong><input type="text" id="anketaWeekdays"></div>
+            <div class="anketa-question"><strong>2. Выходные дни: (указать время/часы)</strong><input type="text" id="anketaWeekends"></div>
+            <div class="anketa-question"><strong>7. Как вы обычно реагируете на критику в свой адрес? (В жизни — от близких, коллег, преподавателей.)</strong><textarea id="anketaCritic"></textarea></div>
         </div>
         <div class="anketa-block">
-            <h3>БЛОК 1. ОСНОВНАЯ ИНФОРМАЦИЯ</h3>
-            <div class="anketa-question"><strong>1. Имя:</strong><input type="text" id="anketaName"></div>
-            <div class="anketa-question"><strong>2. Ваш тег:</strong><input type="text" id="anketaTag" placeholder="ваш_тег"></div>
-            <div class="anketa-question"><strong>3. Возраст:</strong><input type="number" id="anketaAge"></div>
-            <div class="anketa-question">
-                <strong>4. Опыт работы?</strong>
-                <div class="anketa-options">
-                    <label class="anketa-option"><input type="radio" name="anketaExp" value="Нет" onchange="selectRadio(this)"> Нет</label>
-                    <label class="anketa-option"><input type="radio" name="anketaExp" value="Да" onchange="selectRadio(this)"> Да</label>
-                </div>
-                <textarea id="anketaExpDetails" placeholder="Кратко" style="margin-top:8px;"></textarea>
-            </div>
-            <div class="anketa-question"><strong>5. График:</strong><input type="text" id="anketaScheduleWeek" placeholder="Будни" style="margin-bottom:8px;"><input type="text" id="anketaScheduleWeekend" placeholder="Выходные"></div>
-            <div class="anketa-question"><strong>6. Реакция на критику:</strong><textarea id="anketaCritic"></textarea></div>
+            <h3>БЛОК 2. ПСИХОЛОГИЧЕСКИЙ ФИЛЬТР</h3>
+            <div class="anketa-question"><strong>1. Собеседник пишет: —Я ничтожество, зачем я вообще пишу сюда.</strong><textarea id="anketaPsy1" placeholder="Первое — интуитивное. То, что первое пришло на ум."></textarea></div>
+            <div class="anketa-question"><textarea id="anketaPsy2" placeholder="Второе — противоположное первому. То, над чем пришлось долго размышлять."></textarea></div>
+            <div class="anketa-question"><textarea id="anketaPsy3" placeholder="Третье — то, что действительно отправили бы в этом боте, если бы вы были администратором."></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">СИТУАЦИОННАЯ ЗАДАЧА:</div><div class="anketa-situation-text">2. Мужчина 40+: —Жена наскучила, дети не радуют, жизнь прошла зря.</div></div>
+            <div class="anketa-question"><strong>Ответьте без слов: смысл, психолог, хобби, «всё наладится», «вы не один», «попробуйте».</strong><textarea id="anketaPsyMan" style="min-height:120px;" placeholder="Ваш вариант ответа (от 5-7 предложений)"></textarea></div>
         </div>
-        <div class="anketa-block" id="anketaPsyBlock">
-            <h3>БЛОК 2. ПСИХОФИЛЬТР</h3>
-            <div class="anketa-situation"><div class="anketa-situation-title">Собеседник:</div><div class="anketa-situation-text">— Я ничтожество, зачем пишу сюда.</div></div>
-            <div class="anketa-question"><strong>1. Интуитивное:</strong><textarea id="anketaPsy1"></textarea></div>
-            <div class="anketa-question"><strong>2. Противоположное:</strong><textarea id="anketaPsy2"></textarea></div>
-            <div class="anketa-question"><strong>3. Реальное:</strong><textarea id="anketaPsy3"></textarea></div>
+        <div class="anketa-block">
+            <h3>БЛОК 3. НАДЁЖНОСТЬ И СТРЕМЛЕНИЕ РАБОТАТЬ</h3>
+            <div class="anketa-question"><strong>1. Что для вас является первым признаком того, что пора уходить из проекта?</strong><textarea id="anketaTrigger"></textarea></div>
+            <div class="anketa-question">
+                <strong>2. Если ваша жизнь резко изменится в худшую сторону (болезнь, семейные проблемы, выгорание), вы:</strong>
+                <div class="anketa-options">
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="А" onchange="selectRadio(this)"> А) Предупредите заранее и уйдёте аккуратно, передав дела.</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="Б" onchange="selectRadio(this)"> Б) Сократите часы, но попробуете остаться, возьмёте рест/полурест.</label>
+                    <label class="anketa-option"><input type="radio" name="anketaCrisis" value="В" onchange="selectRadio(this)"> В) Исчезнете без объяснений, потому что будет не до этого.</label>
+                </div>
+                <textarea id="anketaCrisisWhy" placeholder="Объясните почему именно он (кратко)" style="margin-top:8px;"></textarea>
+            </div>
+            <div class="anketa-question"><strong>3. Что должно происходить в боте, коллективе, чтобы вы захотели заходить в чат ЧАЩЕ, чем того требует смена?</strong><textarea id="anketaMotivation"></textarea></div>
+        </div>
+        <div class="anketa-block">
+            <h3>БЛОК 5. СИТУАЦИИ ДЛЯ ПОДДЕРЖКИ</h3>
+            <p style="font-size:0.9rem; margin-bottom:12px;">Нужно ответить на 3 и более любых ситуации. Представьте, что пользователь написал вам с такой ситуацией. Нужно расписать полную поддержку с советами. От 20 предложений.</p>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 1</div><div class="anketa-situation-text">привет.. мне так одиноко.. у меня совсем не осталось друзей, а родители перестали обращать на меня внимание. единственное, что меня сейчас спасает-это мой кот. я хочу общаться с людьми и не чувствовать себя психом.. что мне можно сделать?</div></div>
+            <div class="anketa-question"><textarea id="anketaSit1" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 2</div><div class="anketa-situation-text">– Привет. Я первый раз пишу подобным ботами... У меня есть молодой человек... из-за расстояния между нами я очень волнуюсь... он начал вести себя дико холодно... Что посоветуешь?</div></div>
+            <div class="anketa-question"><textarea id="anketaSit2" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 3</div><div class="anketa-situation-text">– Привет! У меня проблема... Я занимаюсь селфхармом... Я выгорел... Что мне делать?</div></div>
+            <div class="anketa-question"><textarea id="anketaSit3" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 4</div><div class="anketa-situation-text">– Здравствуйте.. Мне было очень трудно о этом вспоминать... Это было начало 3 класса... вся травля была подкупной ею я просто сломалась попалам... Что мне нужно сделать, что бы не наступить на это сново?</div></div>
+            <div class="anketa-question"><textarea id="anketaSit4" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 5</div><div class="anketa-situation-text">- привет. мне очень сложно понять этот мир... я лесбиянка, учусь в 9 классе... меня хотят отчислить... что с этим можно сделать?</div></div>
+            <div class="anketa-question"><textarea id="anketaSit5" style="min-height:120px;"></textarea></div>
+            <div class="anketa-situation"><div class="anketa-situation-title">Ситуация 6</div><div class="anketa-situation-text">– привет, пишу это и у меня трясутся руки. бывший парень украл мою кошку и угрожает расправой с ней, если расскажу кому-то. требует интимки. что мне делать, мне очень страшно…</div></div>
+            <div class="anketa-question"><textarea id="anketaSit6" style="min-height:120px;"></textarea></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <button class="btn btn-green btn-full" onclick="saveAnketa()">💾 Сохранить</button>
@@ -385,7 +569,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <label>Описание:</label><textarea id="ticketDescription"></textarea>
             <button class="btn btn-green btn-full" onclick="createTicket()">🎫 Отправить</button>
         </div>
-        <h4 style="color:var(--green);margin:16px 0 8px;font-size:1rem;">📋 Мои тикеты</h4>
+        <h4 style="color:var(--text-main);margin:20px 0 12px;font-size:1.1rem;">📋 Мои тикеты</h4>
         <div class="ticket-list" id="ticketList"><div class="ticket-empty">🎫 Нет тикетов</div></div>
     </div>
 </section>
@@ -407,7 +591,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <div class="avatar-picker" id="avatarPicker" style="display:none;"></div>
             </div>
         </div>
-        <div class="nickname-row" style="margin-bottom:14px;">
+        <div class="nickname-row" style="margin-bottom:20px;">
             <input type="text" id="nicknameInput" placeholder="Ваш псевдоним..." maxlength="30">
             <button onclick="saveNickname()">💾 Сохранить</button>
         </div>
@@ -461,8 +645,8 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <h3>💼 Админ</h3>
             </div>
             <div class="panel-header-right">
-                <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-pink);display:flex;align-items:center;gap:8px;">
-                    <span id="adminTagDisplay" style="font-weight:700;color:var(--pink);font-size:0.85rem;">#admin_sakura</span>
+                <div onclick="openAdminProfile()" style="cursor:pointer;padding:6px 12px;background:var(--bg-card);border-radius:50px;border:1px solid var(--border-light);display:flex;align-items:center;gap:8px;">
+                    <span id="adminTagDisplay" style="font-weight:700;color:var(--accent-pink-dark);font-size:0.85rem;">#admin_sakura</span>
                 </div>
                 <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
             </div>
@@ -480,7 +664,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                     <span class="chevron">▼</span>
                 </div>
                 <div class="collapse-body">
-                    <input type="text" id="adminSearchInput" placeholder="🔍 Поиск по нику или сообщению..." oninput="searchAdminDialogs(this.value)" style="width:100%;padding:10px 14px;border:2px solid var(--border-pink);border-radius:50px;background:var(--bg-panel);color:var(--text-light);font-size:0.9rem;outline:none;margin-bottom:10px;min-height:44px;">
+                    <input type="text" id="adminSearchInput" placeholder="🔍 Поиск по нику или сообщению..." oninput="searchAdminDialogs(this.value)" style="width:100%;padding:12px 16px;border:1px solid var(--border-light);border-radius:50px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;outline:none;margin-bottom:12px;font-family:var(--font-sans);">
                     <div class="dialogs-list" id="dialogsList"></div>
                 </div>
             </div>
@@ -509,9 +693,9 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>😴 Заявка на рест</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body">
-                    <div style="display:flex;justify-content:space-between;padding:8px 0;margin-bottom:10px;">
-                        <label style="color:var(--text-muted);font-size:0.88rem;">Статус:</label>
-                        <span id="adminRestStatus" style="font-weight:600;color:var(--green);font-size:0.88rem;">🟢 Работаю</span>
+                    <div style="display:flex;justify-content:space-between;padding:10px 0;margin-bottom:12px;">
+                        <label style="color:var(--text-muted);font-size:0.9rem;">Статус:</label>
+                        <span id="adminRestStatus" style="font-weight:600;color:#2e7d32;font-size:0.9rem;">🟢 Работаю</span>
                     </div>
                     <div id="adminRestRequestFormWrap">
                         <div class="rest-request-form">
@@ -521,7 +705,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                             <button class="btn btn-yellow btn-full" onclick="submitRestRequest()">📩 Отправить</button>
                         </div>
                     </div>
-                    <div id="adminRestRequestInfo" style="display:none;margin-top:10px;"></div>
+                    <div id="adminRestRequestInfo" style="display:none;margin-top:12px;"></div>
                 </div>
             </div>
         </div>
@@ -545,6 +729,10 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <button class="tab-btn" data-owner-tab="admins">👥 Админы</button>
             <button class="tab-btn" data-owner-tab="tickets">🎫 Тикеты</button>
             <button class="tab-btn" data-owner-tab="dialogs">💬 Диалоги</button>
+            <button class="tab-btn" data-owner-tab="blacklist">🚫 ЧС</button>
+            <button class="tab-btn" data-owner-tab="reports">⚠️ Жалобы</button>
+            <button class="tab-btn" data-owner-tab="broadcast">📢 Рассылка</button>
+            <button class="tab-btn" data-owner-tab="logs">📜 Логи</button>
             <button class="tab-btn" data-owner-tab="add">➕ Добавить</button>
             <button class="tab-btn" data-owner-tab="data">📦 Данные</button>
         </div>
@@ -573,6 +761,37 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                 <div class="collapse-body"><div class="dialogs-list" id="ownerDialogsList"></div></div>
             </div>
         </div>
+        <div class="tab-page" id="ownerTabBlacklist">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🚫 Чёрный список <span class="collapse-badge" id="ownerBlacklistBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="ownerBlacklistList"><div class="empty-state">🚫 Чёрный список пуст</div></div></div>
+            </div>
+        </div>
+        <div class="tab-page" id="ownerTabReports">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⚠️ Жалобы на админов <span class="collapse-badge" id="ownerReportsBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="ownerReportsList"><div class="empty-state">⚠️ Нет жалоб</div></div></div>
+            </div>
+        </div>
+        <div class="tab-page" id="ownerTabBroadcast">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📢 Рассылка</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Сообщение придёт во все активные чаты пользователей от имени Владельца.</p>
+                    <textarea id="broadcastText" placeholder="Текст рассылки..." style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:12px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:12px;resize:vertical;"></textarea>
+                    <button class="btn btn-green btn-full" onclick="sendBroadcast()">📢 Отправить всем</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-page" id="ownerTabLogs">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📜 Логи действий <span class="collapse-badge" id="ownerLogsBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <input type="text" id="logSearch" placeholder="🔍 Поиск по логам..." oninput="searchLogs(this.value)" style="width:100%;padding:12px 16px;border:1px solid var(--border-light);border-radius:50px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;outline:none;margin-bottom:12px;font-family:var(--font-sans);">
+                    <div id="ownerLogsList" style="max-height:500px;overflow-y:auto;"><div class="empty-state">📜 Логов пока нет</div></div>
+                </div>
+            </div>
+        </div>
         <div class="tab-page" id="ownerTabAdd">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>➕ Добавить администратора</h4><span class="chevron">▼</span></div>
@@ -585,8 +804,13 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
                             <option value="Поддержка">🆘 Поддержка</option>
                             <option value="Универсал">⭐ Универсал</option>
                         </select>
+                        <select id="newAdminRole">
+                            <option value="moderator">🛡️ Модератор (только просмотр)</option>
+                            <option value="admin" selected>💼 Админ (полные права)</option>
+                            <option value="senior">⭐ Старший (управление)</option>
+                        </select>
                         <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
-                        <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:6px;">🌸 Добавить</button>
+                        <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:8px;">🌸 Добавить</button>
                     </div>
                 </div>
             </div>
@@ -595,7 +819,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📦 Экспорт / Импорт</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body">
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
                         <button class="btn btn-green" style="flex:1;min-width:150px;" onclick="exportAllData()">📤 Экспорт</button>
                         <button class="btn btn-blue" style="flex:1;min-width:150px;" onclick="document.getElementById('importFileInput').click()">📥 Импорт</button>
                     </div>
@@ -606,6 +830,7 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     </div>
 </section>
 
+<!-- МОДАЛКИ -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeAuthModal()">✕</button>
@@ -625,18 +850,18 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 
 <div class="modal-overlay" id="ratingModal">
     <div class="modal-card">
-        <div class="rating-modal-content">
-            <h3>🌸 Оцените диалог</h3>
-            <p>Оценка и отзыв обязательны</p>
-            <div class="rating-stars-input" id="ratingStarsInput">
-                <button class="star" data-value="1" onclick="setRating(1)">★</button>
-                <button class="star" data-value="2" onclick="setRating(2)">★</button>
-                <button class="star" data-value="3" onclick="setRating(3)">★</button>
-                <button class="star" data-value="4" onclick="setRating(4)">★</button>
-                <button class="star" data-value="5" onclick="setRating(5)">★</button>
+        <div class="rating-modal-content" style="text-align:center;">
+            <h3 style="color:var(--text-main); margin-bottom:8px;">🌸 Оцените диалог</h3>
+            <p style="color:var(--text-muted); margin-bottom:20px;">Оценка и отзыв обязательны</p>
+            <div class="rating-stars-input" id="ratingStarsInput" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">
+                <button class="star" data-value="1" onclick="setRating(1)" style="font-size:2.5rem; color:#ccc; cursor:pointer; background:none; border:none; padding:4px;">★</button>
+                <button class="star" data-value="2" onclick="setRating(2)" style="font-size:2.5rem; color:#ccc; cursor:pointer; background:none; border:none; padding:4px;">★</button>
+                <button class="star" data-value="3" onclick="setRating(3)" style="font-size:2.5rem; color:#ccc; cursor:pointer; background:none; border:none; padding:4px;">★</button>
+                <button class="star" data-value="4" onclick="setRating(4)" style="font-size:2.5rem; color:#ccc; cursor:pointer; background:none; border:none; padding:4px;">★</button>
+                <button class="star" data-value="5" onclick="setRating(5)" style="font-size:2.5rem; color:#ccc; cursor:pointer; background:none; border:none; padding:4px;">★</button>
             </div>
-            <textarea id="reviewText" placeholder="Напишите отзыв..."></textarea>
-            <div style="display:flex; gap:8px;">
+            <textarea id="reviewText" placeholder="Напишите отзыв..." style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:100px;margin-bottom:16px;resize:vertical;"></textarea>
+            <div style="display:flex; gap:10px;">
                 <button class="btn btn-outline" style="flex:1;" onclick="closeRatingModal()">Отмена</button>
                 <button class="btn" style="flex:1;" onclick="submitRating()">Отправить</button>
             </div>
@@ -651,16 +876,16 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 <div class="modal-overlay" id="ticketReplyModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeTicketReply()">✕</button>
-        <h3 style="color:var(--text-light);text-align:center;margin-bottom:8px;">🎫 Ответ на тикет</h3>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:12px;font-size:0.85rem;">Тикет: <strong id="ticketReplyId" style="color:var(--pink);">—</strong></p>
-        <div style="background:var(--bg-card);padding:12px;border-radius:12px;margin-bottom:14px;border-left:3px solid var(--blue);">
-            <div style="font-weight:700;color:var(--text-light);font-size:0.9rem;margin-bottom:4px;" id="ticketReplySubject">—</div>
-            <div style="color:var(--text-muted);font-size:0.85rem;font-style:italic;" id="ticketReplyText">—</div>
-            <div style="color:var(--text-muted);font-size:0.75rem;margin-top:6px;" id="ticketReplyFrom">—</div>
+        <h3 style="color:var(--text-main);text-align:center;margin-bottom:8px;">🎫 Ответ на тикет</h3>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:12px;font-size:0.9rem;">Тикет: <strong id="ticketReplyId" style="color:var(--accent-pink-dark);">—</strong></p>
+        <div style="background:var(--bg-panel);padding:14px;border-radius:12px;margin-bottom:16px;border-left:3px solid #90caf9;">
+            <div style="font-weight:700;color:var(--text-main);font-size:0.95rem;margin-bottom:4px;" id="ticketReplySubject">—</div>
+            <div style="color:var(--text-muted);font-size:0.9rem;font-style:italic;" id="ticketReplyText">—</div>
+            <div style="color:var(--text-muted);font-size:0.8rem;margin-top:8px;" id="ticketReplyFrom">—</div>
         </div>
         <label class="settings-label">Ваш ответ:</label>
-        <textarea id="ticketReplyAnswer" style="width:100%;padding:12px 14px;border:2px solid var(--border-pink);border-radius:14px;background:var(--bg-card);color:var(--text-light);font-size:0.95rem;outline:none;min-height:110px;margin-bottom:14px;"></textarea>
-        <div style="display:flex;gap:8px;">
+        <textarea id="ticketReplyAnswer" style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:16px;resize:vertical;"></textarea>
+        <div style="display:flex;gap:10px;">
             <button class="btn btn-outline" style="flex:1;" onclick="closeTicketReply()">Отмена</button>
             <button class="btn btn-green" style="flex:1;" onclick="submitTicketReply()">📤 Отправить</button>
         </div>
@@ -670,12 +895,25 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
 <div class="modal-overlay" id="staffModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeStaffModal()">✕</button>
-        <h3 style="color:var(--text-light);text-align:center;margin-bottom:16px;">🔐 Вход для персонала</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;">
+        <h3 style="color:var(--text-main);text-align:center;margin-bottom:20px;">🔐 Вход для персонала</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
             <button class="btn btn-blue btn-full" onclick="closeStaffModal(); openAuthModal('moderator')">🛡️ Модератор</button>
             <button class="btn btn-full" onclick="closeStaffModal(); openAuthModal('admin')">💼 Админ</button>
             <button class="btn btn-yellow btn-full" onclick="closeStaffModal(); openAuthModal('owner')">👑 Владелец</button>
             <button class="btn btn-outline btn-full" onclick="closeStaffModal()">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="complaintModal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeComplaintModal()">✕</button>
+        <h3 style="color:#c62828;text-align:center;margin-bottom:8px;">⚠️ Пожаловаться на админа</h3>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.9rem;">Опишите причину жалобы. Владелец увидит историю диалога.</p>
+        <textarea id="complaintReason" placeholder="Что не так с администратором?" style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:16px;"></textarea>
+        <div style="display:flex;gap:10px;">
+            <button class="btn btn-outline" style="flex:1;" onclick="closeComplaintModal()">Отмена</button>
+            <button class="btn btn-red" style="flex:1;" onclick="submitComplaint()">⚠️ Отправить</button>
         </div>
     </div>
 </div>
@@ -688,29 +926,38 @@ p { margin-bottom: 12px; color: var(--text-muted); font-size: 0.95rem; }
     <button class="nav-btn" id="navStaff"><span class="nav-icon">🔐</span><span>Вход</span></button>
 </nav>
 
-<footer class="footer"><p>🌸 По ту сторону — сделано с любовью 🌸</p></footer>
+<footer class="footer">
+    <p>🌸 По ту сторону — сделано с любовью 🌸</p>
+</footer>
 
 <script>
 const firebaseConfig = { apiKey: "AIzaSyCsRo-IAR6UgXX4NDoIDR9viJtoTCRVikc", authDomain: "poty-storony.firebaseapp.com", databaseURL: "https://poty-storony-default-rtdb.europe-west1.firebasedatabase.app", projectId: "poty-storony", storageBucket: "poty-storony.firebasestorage.app", messagingSenderId: "522808917706", appId: "1:522808917706:web:859f785b26f863729dfe33" };
 if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.database();
 
-let tickets = [], realDialogs = [];
-let adminsData = [{ name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал' }];
+let tickets = [], realDialogs = [], blacklist = [], logs = [], adminReports = [];
+let adminsData = [{ name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал', role: 'admin' }];
 let userAdminData = [{ id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' }];
 let adminRests = {}, restRequests = [], reports = [], adminReviews = [];
 let userProfile = { nickname: '', avatar: '😊', since: Date.now(), id: '' };
 let moderatorStats = { checked: 0, reportsHandled: 0, warnsIssued: 0 };
 let adminNorm = { messages: 300, users: 3 };
-const AUTH = { admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал' }, owner: { password: 'owner123' } };
+const AUTH = { admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал', role: 'admin' }, owner: { password: 'owner123' } };
 let loadedFromFirebase = false;
-let currentAuth = { role: null, tag: null, category: null };
+let currentAuth = { role: null, tag: null, category: null, dbRole: null };
 let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, currentRating = 0;
 
 if (!localStorage.getItem('sakura-uid')) {
     localStorage.setItem('sakura-uid', 'uid_' + Date.now() + '_' + Math.random().toString(36).slice(2,8));
 }
 userProfile.id = localStorage.getItem('sakura-uid');
+
+function addLog(text, icon = '📜') {
+    if (!loadedFromFirebase) return;
+    logs.unshift({ text, time: Date.now(), by: currentAuth.tag || currentAuth.role || 'Система' });
+    if (logs.length > 200) logs = logs.slice(0, 200);
+    db.ref('sakura/logs').set(logs);
+}
 
 async function loadFromFirebase() {
     try {
@@ -720,6 +967,9 @@ async function loadFromFirebase() {
         if (Array.isArray(data.realDialogs)) realDialogs = data.realDialogs;
         if (Array.isArray(data.adminsData)) adminsData = data.adminsData;
         if (Array.isArray(data.userAdminData)) userAdminData = data.userAdminData;
+        if (Array.isArray(data.blacklist)) blacklist = data.blacklist;
+        if (Array.isArray(data.logs)) logs = data.logs;
+        if (Array.isArray(data.adminReports)) adminReports = data.adminReports;
         if (data.adminRests) adminRests = data.adminRests;
         if (Array.isArray(data.restRequests)) restRequests = data.restRequests;
         if (Array.isArray(data.reports)) reports = data.reports;
@@ -733,9 +983,9 @@ async function loadFromFirebase() {
 }
 function saveToFirebase() {
     if (!loadedFromFirebase) return;
-    try { db.ref('sakura').set({ tickets, realDialogs, adminsData, userAdminData, adminRests, restRequests, reports, adminReviews, userProfile, moderatorStats, adminNorm, AUTH }); } catch (e) {}
+    try { db.ref('sakura').set({ tickets, realDialogs, adminsData, userAdminData, blacklist, logs, adminReports, adminRests, restRequests, reports, adminReviews, userProfile, moderatorStats, adminNorm, AUTH }); } catch (e) {}
 }
-const saveTickets = saveToFirebase, saveDialogs = saveToFirebase, saveAdmins = saveToFirebase, saveUserAdmins = saveToFirebase, saveRests = saveToFirebase, saveRestReqs = saveToFirebase, saveReports = saveToFirebase, saveReviews = saveToFirebase, saveProfile = saveToFirebase, saveModStats = saveToFirebase, saveNorm = saveToFirebase, saveAuth = saveToFirebase;
+const saveTickets = saveToFirebase, saveDialogs = saveToFirebase, saveAdmins = saveToFirebase, saveUserAdmins = saveToFirebase, saveRests = saveToFirebase, saveRestReqs = saveToFirebase, saveReports = saveToFirebase, saveReviews = saveToFirebase, saveProfile = saveToFirebase, saveModStats = saveToFirebase, saveNorm = saveToFirebase, saveAuth = saveToFirebase, saveBlacklist = saveToFirebase, saveLogs = saveToFirebase, saveAdminReports = saveToFirebase;
 
 function toggleCollapse(header) { header.closest('.collapse-block').classList.toggle('open'); }
 
@@ -822,7 +1072,7 @@ function switchPanel(panelId) {
     if (panelId === 'supportPanel') renderTickets();
     if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminNorm(); }
     if (panelId === 'moderatorPanel') renderModeratorDialogs();
-    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); }
+    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); }
     if (panelId === 'anketaPanel') loadAnketa();
     if (panelId === 'userPanel') { renderProfile(); renderAdminsPicker(); }
 }
@@ -859,6 +1109,8 @@ function renderAdminsPicker() {
 function selectAdmin(adminId) {
     const admin = userAdminData.find(a => a.id === adminId); if (!admin) return;
     if (!userProfile.nickname) { showNotification('⚠️ Сначала введите псевдоним', '⚠️'); return; }
+    const bl = blacklist.find(b => b.nickname === userProfile.nickname);
+    if (bl) { alert(`🚫 Вы заблокированы.\nПричина: ${bl.reason || 'Нарушение правил'}`); return; }
     let existing = realDialogs.find(d => d.adminId === adminId && !d.closed && !d.banned && d.userNickname === userProfile.nickname);
     if (!existing) {
         const nd = { id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8), adminId, adminName: admin.name, userNickname: userProfile.nickname, status: 'waiting', closed: false, banned: false, warns: 0, createdAt: Date.now(), lastActivity: Date.now(), messages: [] };
@@ -874,7 +1126,28 @@ let mediaRecorder = null, audioChunks = [], recordStartTime = 0;
 function openFullscreenChat(dialog, isAdmin) {
     fsCurrentDialog = dialog; fsIsAdmin = isAdmin;
     document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
-    document.getElementById('fsAdminActions').style.display = isAdmin ? 'flex' : 'none';
+    
+    const canModerate = isAdmin && (currentAuth.dbRole === 'admin' || currentAuth.dbRole === 'senior' || currentAuth.role === 'owner');
+    document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
+
+    if (!isAdmin) {
+        let complaintBtn = document.getElementById('fsComplaintBtn');
+        if (!complaintBtn) {
+            complaintBtn = document.createElement('button');
+            complaintBtn.id = 'fsComplaintBtn';
+            complaintBtn.className = 'btn-complain';
+            complaintBtn.textContent = '⚠️ Пожаловаться';
+            complaintBtn.style.marginRight = '8px';
+            complaintBtn.onclick = () => openComplaintModal();
+            const fsActions = document.getElementById('fsAdminActions');
+            if (fsActions) fsActions.parentNode.insertBefore(complaintBtn, fsActions.nextSibling);
+        }
+        complaintBtn.style.display = 'inline-flex';
+    } else {
+        const cb = document.getElementById('fsComplaintBtn');
+        if (cb) cb.style.display = 'none';
+    }
+
     renderFsMessages();
     const input = document.getElementById('fsChatInput');
     if (dialog.closed || dialog.banned) { input.disabled = true; input.placeholder = dialog.banned ? 'Диалог забанен' : 'Диалог завершён'; }
@@ -972,9 +1245,45 @@ async function fsToggleVoice() {
         btn.classList.add('recording'); showNotification('🎤 Запись...', '🎤');
     } catch(e) { showNotification('❌ Нет доступа к микрофону', '❌'); }
 }
-function fsActionWarn() { if (!fsCurrentDialog) return; const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return; d.warns = (d.warns || 0) + 1; if (d.warns >= 3) { d.banned = true; d.closed = true; } saveDialogs(); fsCurrentDialog = d; showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️'); renderFsMessages(); renderAdminDialogs(); }
-function fsActionBan() { if (!fsCurrentDialog) return; if (!confirm('Забанить?')) return; const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return; d.banned = true; d.closed = true; saveDialogs(); fsCurrentDialog = d; closeFullscreenChat(); showNotification('🚫 Забанен', '🚫'); }
-function fsActionClose() { if (!fsCurrentDialog) return; if (!confirm('Завершить и удалить диалог?')) return; const id = fsCurrentDialog.id; realDialogs = realDialogs.filter(x => x.id !== id); saveDialogs(); closeFullscreenChat(); showNotification('✅ Диалог завершён', '✅'); }
+function fsActionWarn() {
+    if (!fsCurrentDialog) return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
+    const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return;
+    d.warns = (d.warns || 0) + 1;
+    if (d.warns >= 3) {
+        d.banned = true; d.closed = true;
+        if (!blacklist.find(b => b.nickname === d.userNickname)) {
+            blacklist.push({ nickname: d.userNickname, reason: '3 предупреждения', date: Date.now(), admin: currentAuth.tag });
+            saveBlacklist();
+        }
+        addLog(`Выдан бан (3/3) пользователю ${d.userNickname}`, '🚫');
+    }
+    saveDialogs(); fsCurrentDialog = d;
+    showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️');
+    renderFsMessages(); renderAdminDialogs();
+}
+function fsActionBan() {
+    if (!fsCurrentDialog) return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
+    if (!confirm('Забанить и добавить в чёрный список?')) return;
+    const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return;
+    d.banned = true; d.closed = true;
+    if (!blacklist.find(b => b.nickname === d.userNickname)) {
+        blacklist.push({ nickname: d.userNickname, reason: 'Забанен администратором', date: Date.now(), admin: currentAuth.tag });
+        saveBlacklist();
+    }
+    addLog(`Забанен пользователь ${d.userNickname}`, '🚫');
+    saveDialogs(); fsCurrentDialog = d;
+    closeFullscreenChat(); showNotification('🚫 Забанен и добавлен в ЧС', '🚫');
+}
+function fsActionClose() {
+    if (!fsCurrentDialog) return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
+    if (!confirm('Завершить и удалить диалог?')) return;
+    const id = fsCurrentDialog.id;
+    realDialogs = realDialogs.filter(x => x.id !== id);
+    saveDialogs(); closeFullscreenChat(); showNotification('✅ Диалог завершён', '✅');
+}
 
 function searchAdminDialogs(q) {
     const query = (q || '').toLowerCase().trim();
@@ -1003,7 +1312,7 @@ function renderModeratorDialogs() {
         const item = document.createElement('div'); item.className = 'dialog-item';
         const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar" style="background:linear-gradient(135deg,var(--blue),#2d7dd2);">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div><div class="dialog-status viewer">👁️</div></div>`;
+        item.innerHTML = `<div class="dialog-info"><div class="avatar" style="background:linear-gradient(135deg,#90caf9,#42a5f5);">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div><div class="dialog-status viewer">👁️</div></div>`;
         item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:(m.sender==='system'?'СИС':'Админ')}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}\nВарнов: ${d.warns||0}/3\n\n${history.substring(0,1500)}`); };
         list.appendChild(item);
     });
@@ -1041,33 +1350,173 @@ function renderAdminsList() {
     if (adminsData.length === 0) { list.innerHTML = `<div class="empty-state">👥 Нет админов</div>`; return; }
     adminsData.forEach((a, idx) => {
         const item = document.createElement('div'); item.className = 'user-item';
-        item.innerHTML = `<div class="user-info"><div class="avatar">${a.initials}</div><div style="min-width:0;flex:1;"><div class="user-name">${a.name} <span class="user-category">${a.category}</span></div><div class="user-status">${a.username}</div></div></div><div class="user-actions"><button onclick="removeAdmin(${idx})">🗑️</button></div>`;
+        item.innerHTML = `<div class="user-info"><div class="avatar">${a.initials}</div><div style="min-width:0;flex:1;"><div class="user-name">${a.name} <span class="user-category">${a.category}</span></div><div class="user-status">${a.username} • ${a.role === 'senior' ? '⭐ Старший' : a.role === 'admin' ? '💼 Админ' : '🛡 Модератор'}</div></div></div><div class="user-actions"><button onclick="removeAdmin(${idx})">🗑️</button></div>`;
         list.appendChild(item);
     });
     const c = document.getElementById('adminsCount'); if (c) c.textContent = adminsData.length;
 }
+function renderBlacklist() {
+    const list = document.getElementById('ownerBlacklistList'); if (!list) return; list.innerHTML = '';
+    const badge = document.getElementById('ownerBlacklistBadge'); if (badge) badge.textContent = blacklist.length;
+    
+    if (blacklist.length === 0) { list.innerHTML = `<div class="empty-state">🚫 Чёрный список пуст</div>`; return; }
+    blacklist.forEach((b, idx) => {
+        const item = document.createElement('div'); item.className = 'blacklist-item';
+        item.innerHTML = `<div class="bl-info"><div class="bl-avatar">${b.nickname.slice(0,2).toUpperCase()}</div><div style="min-width:0;"><div class="bl-name">${b.nickname}</div><div class="bl-reason">${b.reason} • ${new Date(b.date).toLocaleDateString('ru-RU')}</div></div></div><div class="bl-actions"><button onclick="removeFromBlacklist(${idx})">🗑️</button></div>`;
+        list.appendChild(item);
+    });
+}
+function removeFromBlacklist(idx) {
+    if (idx < 0 || idx >= blacklist.length) return;
+    if (!confirm(`Разбанить ${blacklist[idx].nickname}?`)) return;
+    const nick = blacklist[idx].nickname;
+    blacklist.splice(idx, 1);
+    saveBlacklist(); renderBlacklist();
+    addLog(`Разбанен ${nick}`, '✅');
+    showNotification(`✅ ${nick} разбанен`, '✅');
+}
+
+function renderReports() {
+    const list = document.getElementById('ownerReportsList'); if (!list) return; list.innerHTML = '';
+    const badge = document.getElementById('ownerReportsBadge'); if (badge) badge.textContent = adminReports.length;
+    if (adminReports.length === 0) { list.innerHTML = `<div class="empty-state">⚠️ Нет жалоб</div>`; return; }
+    adminReports.forEach((r, idx) => {
+        const item = document.createElement('div'); item.className = 'report-card';
+        item.innerHTML = `
+            <div class="rc-header">
+                <div class="rc-from">👤 ${r.fromNickname}</div>
+                <div class="rc-admin">→ ${r.adminName}</div>
+            </div>
+            <div class="rc-reason">${r.reason}</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:10px;">${new Date(r.date).toLocaleString('ru-RU')}</div>
+            <div class="rc-actions">
+                <button class="btn btn-blue btn-sm" onclick="viewReportHistory(${idx})">👁️ История</button>
+                <button class="btn btn-yellow btn-sm" onclick="warnAdminByReport(${idx})">⚠️ Предупредить</button>
+                <button class="btn btn-red btn-sm" onclick="fireAdminByReport(${idx})">🗑️ Снять</button>
+                <button class="btn btn-outline btn-sm" onclick="dismissReport(${idx})">✖ Отклонить</button>
+            </div>`;
+        list.appendChild(item);
+    });
+}
+function viewReportHistory(idx) {
+    const r = adminReports[idx]; if (!r) return;
+    const d = realDialogs.find(x => x.adminName === r.adminName && x.userNickname === r.fromNickname);
+    if (!d) { alert('Диалог уже завершён или удалён.'); return; }
+    const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:(m.sender==='system'?'СИС':'Админ')}: ${m.text||'(влож)'}`).join('\n');
+    alert(`👁️ История диалога:\n\n${history.substring(0, 2000)}`);
+}
+function warnAdminByReport(idx) {
+    const r = adminReports[idx]; if (!r) return;
+    addLog(`Предупреждение админу ${r.adminName} по жалобе от ${r.fromNickname}`, '⚠️');
+    adminReports.splice(idx, 1); saveAdminReports();
+    renderReports(); showNotification(`⚠️ ${r.adminName} предупреждён`, '⚠️');
+}
+function fireAdminByReport(idx) {
+    const r = adminReports[idx]; if (!r) return;
+    if (!confirm(`Снять ${r.adminName} с должности?`)) return;
+    const a = adminsData.find(x => x.name === r.adminName);
+    if (a) {
+        delete AUTH[a.username.replace('#','')];
+        adminsData = adminsData.filter(x => x.name !== a.name);
+        userAdminData = userAdminData.filter(x => x.name !== a.name);
+        saveAdmins(); saveUserAdmins(); saveAuth();
+        addLog(`Снят админ ${r.adminName} (жалоба от ${r.fromNickname})`, '🗑️');
+    }
+    adminReports.splice(idx, 1); saveAdminReports();
+    renderReports(); renderAdminsList();
+    showNotification(`🗑️ ${r.adminName} снят`, '🗑️');
+}
+function dismissReport(idx) {
+    adminReports.splice(idx, 1); saveAdminReports();
+    renderReports(); showNotification('✖ Жалоба отклонена', '✖');
+}
+
+function renderLogs() {
+    const list = document.getElementById('ownerLogsList'); if (!list) return; list.innerHTML = '';
+    const badge = document.getElementById('ownerLogsBadge'); if (badge) badge.textContent = logs.length;
+    if (logs.length === 0) { list.innerHTML = `<div class="empty-state">📜 Логов пока нет</div>`; return; }
+    logs.slice(0, 100).forEach(l => {
+        const div = document.createElement('div'); div.className = 'log-item';
+        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div><div class="log-text"><strong>${l.by}</strong>: ${l.text}</div>`;
+        list.appendChild(div);
+    });
+}
+function searchLogs(q) {
+    const query = (q || '').toLowerCase().trim();
+    document.querySelectorAll('#ownerLogsList .log-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+}
+
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
     const a = adminsData[idx]; delete AUTH[a.username.replace('#','')]; saveAuth();
     adminsData = adminsData.filter(x => x.name !== a.name); saveAdmins();
     userAdminData = userAdminData.filter(x => x.name !== a.name); saveUserAdmins();
+    addLog(`Удалён админ ${a.name}`, '🗑️');
     renderAdminsList(); renderAdminsPicker(); showNotification(`🗑️ ${a.name} удалён`, '🗑️');
 }
 function addAdmin() {
     let username = document.getElementById('newAdminUsername').value.trim();
     const category = document.getElementById('newAdminCategory').value;
+    const role = document.getElementById('newAdminRole').value;
     const password = document.getElementById('newAdminPassword').value.trim();
     if (!username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
     const name = username.replace('#','');
     if (adminsData.find(a => a.username === username)) { showNotification('⚠️ Тег занят', '⚠️'); return; }
     const initials = name.slice(0, 2).toUpperCase();
-    adminsData.push({ name, username, initials, category }); saveAdmins();
+    adminsData.push({ name, username, initials, category, role }); saveAdmins();
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category }); saveUserAdmins();
-    AUTH[username.replace('#','')] = { tag: username, password, category, name }; saveAuth();
+    AUTH[username.replace('#','')] = { tag: username, password, category, name, role }; saveAuth();
+    addLog(`Добавлен админ ${name} (${role})`, '🌸');
     renderAdminsList(); renderAdminsPicker();
-    document.getElementById('newAdminUsername').value = ''; document.getElementById('newAdminCategory').value = ''; document.getElementById('newAdminPassword').value = '';
-    showNotification(`🌸 ${name}`, '✅');
+    document.getElementById('newAdminUsername').value = ''; document.getElementById('newAdminCategory').value = ''; document.getElementById('newAdminPassword').value = ''; document.getElementById('newAdminRole').value = 'admin';
+    showNotification(`🌸 ${name} (${role})`, '✅');
+}
+
+function sendBroadcast() {
+    const text = document.getElementById('broadcastText').value.trim();
+    if (!text) { showNotification('⚠️ Введите текст', '⚠️'); return; }
+    if (!confirm('Отправить сообщение всем пользователям в активных чатах?')) return;
+    let count = 0;
+    realDialogs.forEach(d => {
+        if (!d.closed && !d.banned) {
+            d.messages.push({ text: `📢 Объявление от Владельца: ${text}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+            d.lastActivity = Date.now();
+            count++;
+        }
+    });
+    saveDialogs();
+    addLog(`Рассылка на ${count} чатов: "${text.substring(0, 50)}..."`, '📢');
+    document.getElementById('broadcastText').value = '';
+    showNotification(`📢 Отправлено ${count} пользователям`, '✅');
+}
+
+function openComplaintModal() {
+    if (!fsCurrentDialog) return;
+    document.getElementById('complaintReason').value = '';
+    document.getElementById('complaintModal').classList.add('active');
+}
+function closeComplaintModal() {
+    document.getElementById('complaintModal').classList.remove('active');
+}
+function submitComplaint() {
+    const reason = document.getElementById('complaintReason').value.trim();
+    if (!reason) { showNotification('⚠️ Введите причину', '⚠️'); return; }
+    if (!fsCurrentDialog) return;
+    adminReports.push({
+        id: 'RPT-' + Date.now(),
+        fromNickname: fsCurrentDialog.userNickname,
+        adminName: fsCurrentDialog.adminName,
+        reason,
+        date: Date.now(),
+        dialogId: fsCurrentDialog.id
+    });
+    saveAdminReports();
+    addLog(`Жалоба от ${fsCurrentDialog.userNickname} на ${fsCurrentDialog.adminName}`, '⚠️');
+    closeComplaintModal();
+    showNotification('⚠️ Жалоба отправлена Владельцу', '✅');
 }
 
 function createTicket() {
@@ -1084,7 +1533,7 @@ function renderTicketCard(t, isOwner = false) {
     if (isOwner && t.status === 'pending') actionsHtml = `<div class="ticket-actions"><button class="btn btn-blue btn-sm" onclick="openTicketReply('${t.id}')">💬 Ответить</button><button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button></div>`;
     else if (isOwner && t.status === 'answered') actionsHtml = `<div class="ticket-actions"><button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button></div>`;
     const statusIcon = t.status === 'answered' ? '✅' : '⏳'; const statusClass = t.status === 'answered' ? 'answered' : 'pending';
-    return `<div class="ticket-item ${t.status === 'pending' ? 'pending' : ''}"><div class="ticket-item-header"><span class="ticket-item-id">${t.id}</span><span class="ticket-item-status ${statusClass}">${statusIcon}</span></div><div class="ticket-item-title">${t.subject}</div><span class="ticket-item-category">${t.category}</span><div class="ticket-item-text">${t.description}</div>${t.answer ? `<div style="background:rgba(76,209,55,0.1);padding:10px;border-radius:10px;border-left:3px solid var(--green);margin-top:8px;"><div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:4px;">✅ Ответ:</div><div style="color:var(--text-light);font-size:0.88rem;">${t.answer}</div></div>` : ''}<div class="ticket-item-footer"><span>👤 ${t.name}</span><span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span></div>${actionsHtml}</div>`;
+    return `<div class="ticket-item ${t.status === 'pending' ? 'pending' : ''}"><div class="ticket-item-header"><span class="ticket-item-id">${t.id}</span><span class="ticket-item-status ${statusClass}">${statusIcon}</span></div><div class="ticket-item-title">${t.subject}</div><span class="ticket-item-category">${t.category}</span><div class="ticket-item-text">${t.description}</div>${t.answer ? `<div style="background:#e8f5e9;padding:12px;border-radius:12px;border-left:3px solid #a5d6a7;margin-top:10px;"><div style="font-size:0.8rem;color:#2e7d32;font-weight:700;margin-bottom:4px;">✅ Ответ:</div><div style="color:var(--text-main);font-size:0.9rem;">${t.answer}</div></div>` : ''}<div class="ticket-item-footer"><span>👤 ${t.name}</span><span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span></div>${actionsHtml}</div>`;
 }
 function renderTickets() { const list = document.getElementById('ticketList'); if (!list) return; if (tickets.length === 0) { list.innerHTML = `<div class="ticket-empty">🎫 Нет тикетов</div>`; return; } list.innerHTML = tickets.map(t => renderTicketCard(t)).join(''); }
 function renderOwnerTickets() { const list = document.getElementById('ownerTicketList'); if (!list) return; if (tickets.length === 0) list.innerHTML = `<div class="ticket-empty">🎫 Нет тикетов</div>`; else list.innerHTML = tickets.map(t => renderTicketCard(t, true)).join(''); const c = document.getElementById('ownerTicketsCount'); if (c) c.textContent = tickets.length; }
@@ -1105,10 +1554,10 @@ function submitTicketReply() {
     renderTickets(); renderOwnerTickets(); closeTicketReply(); showNotification('✅ Ответ отправлен', '✅');
 }
 
-const ANKETA_FIELDS = ['anketaName','anketaTag','anketaAge','anketaExpDetails','anketaScheduleWeek','anketaScheduleWeekend','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3'];
-const ANKETA_RADIOS = ['anketaExp','anketaCategory'];
+const ANKETA_FIELDS = ['anketaWeekdays','anketaWeekends','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
+const ANKETA_RADIOS = ['anketaCrisis'];
 function selectRadio(input) { document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => { r.closest('.anketa-option').classList.toggle('selected', r.checked); }); }
-function onCategoryChange(input) { selectRadio(input); const cat = input.value; const showPsy = (cat === 'Поддержка' || cat === 'Универсал'); const psy = document.getElementById('anketaPsyBlock'); if (psy) psy.style.display = showPsy ? 'block' : 'none'; showNotification(`🌸 Категория: ${cat}`, '🌸'); }
+function onCategoryChange(input) { selectRadio(input); }
 function saveAnketa() { const data = {}; ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; }); ANKETA_RADIOS.forEach(n => { const c = document.querySelector(`input[name="${n}"]:checked`); if (c) data[n] = c.value; }); try { localStorage.setItem('sakura-anketa', JSON.stringify(data)); } catch(e) {} showNotification('💾 Сохранено', '✅'); }
 function loadAnketa() { try { const saved = localStorage.getItem('sakura-anketa'); if (!saved) return; const data = JSON.parse(saved); ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el && data[id] !== undefined) el.value = data[id]; }); ANKETA_RADIOS.forEach(n => { if (data[n]) { const r = document.querySelector(`input[name="${n}"][value="${data[n]}"]`); if (r) { r.checked = true; r.closest('.anketa-option').classList.add('selected'); } } }); } catch(e) {} }
 function copyAnketaFilled() { const data = {}; ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; }); navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => showNotification('📋 Скопировано', '✅')); }
@@ -1118,8 +1567,8 @@ function openAuthModal(role) {
     pendingAuthRole = role;
     document.getElementById('authTag').value = '';
     document.getElementById('authPassword').value = '';
-    if (role === 'admin') {
-        document.getElementById('authTitle').textContent = '💼 Вход для админа';
+    if (role === 'admin' || role === 'moderator') {
+        document.getElementById('authTitle').textContent = '💼 Вход для персонала';
         document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
         document.getElementById('authTagField').style.display = 'block';
     } else {
@@ -1137,41 +1586,43 @@ function submitAuth() {
     if (tag && !tag.startsWith('#')) tag = '#' + tag;
     if (role === 'owner') {
         if (password === AUTH.owner.password) {
-            currentAuth = { role: 'owner', tag: null, category: null };
+            currentAuth = { role: 'owner', tag: null, category: null, dbRole: 'owner' };
             closeAuthModal(); switchPanel('ownerPanel'); showNotification('🌸 Добро пожаловать!', '✅');
         } else showNotification('❌ Неверный пароль', '❌');
         return;
     }
-    if (role === 'admin') {
-        if (tag === AUTH.admin.tag && password === AUTH.admin.password) {
-            currentAuth = { role: 'admin', tag: AUTH.admin.tag, category: AUTH.admin.category };
+    const key = tag ? tag.replace('#','') : '';
+    const custom = AUTH[key];
+    if (custom && custom.password === password) {
+        currentAuth = { role: custom.role === 'moderator' ? 'moderator' : 'admin', tag: custom.tag, category: custom.category, dbRole: custom.role };
+        closeAuthModal();
+        if (custom.role === 'moderator') {
+            switchPanel('moderatorPanel');
         } else {
-            const key = tag ? tag.replace('#','') : '';
-            const custom = AUTH[key];
-            if (custom && custom.password === password) { currentAuth = { role: 'admin', tag: custom.tag, category: custom.category, name: custom.name }; }
-            else { showNotification('❌ Неверный тег или пароль', '❌'); return; }
+            document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
+            switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm();
         }
-        closeAuthModal(); document.getElementById('adminTagDisplay').textContent = currentAuth.tag;
-        switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm();
         showNotification(`🌸 Добро пожаловать!`, '✅');
+    } else {
+        showNotification('❌ Неверный тег или пароль', '❌');
     }
 }
 function logout() {
     if (!confirm('Выйти?')) return;
-    currentAuth = { role: null, tag: null, category: null };
+    currentAuth = { role: null, tag: null, category: null, dbRole: null };
     selectedAdminId = null; currentDialogId = null;
     document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
     switchPanel('mainContent'); showNotification('👋 Вы вышли', '✅');
 }
 
-let currentTheme = 'dark';
+let currentTheme = 'light';
 async function loadUserTheme() {
     if (!userProfile.id) return;
     try {
         const snap = await db.ref('sakura/themes/' + userProfile.id).get();
         const theme = snap.val();
-        if (theme === 'light') { document.body.classList.add('light-theme'); document.getElementById('themeToggle').textContent = '☀️'; currentTheme = 'light'; }
-        else { document.body.classList.remove('light-theme'); document.getElementById('themeToggle').textContent = '🌙'; currentTheme = 'dark'; }
+        if (theme === 'dark') { document.body.classList.add('dark-theme'); document.getElementById('themeToggle').textContent = '☀️'; currentTheme = 'dark'; }
+        else { document.body.classList.remove('dark-theme'); document.getElementById('themeToggle').textContent = '🌙'; currentTheme = 'light'; }
     } catch(e) {}
 }
 function saveUserTheme(theme) {
@@ -1179,12 +1630,10 @@ function saveUserTheme(theme) {
     try { db.ref('sakura/themes/' + userProfile.id).set(theme); } catch(e) {}
 }
 
-(function() { const c = document.getElementById('petalsContainer'); const e = ['🌸','🌺','🌷','💮','🏵️']; for (let i = 0; i < 25; i++) { const p = document.createElement('div'); p.className = 'petal'; p.textContent = e[Math.floor(Math.random() * e.length)]; p.style.left = Math.random() * 100 + '%'; p.style.fontSize = (0.6 + Math.random() * 1) + 'rem'; p.style.animationDuration = (8 + Math.random() * 15) + 's'; p.style.animationDelay = (Math.random() * 20) + 's'; p.style.opacity = 0.2 + Math.random() * 0.5; p.style.setProperty('--sway', (Math.random() * 100 - 50) + 'px'); c.appendChild(p); } })();
-
 document.getElementById('themeToggle').addEventListener('click', () => {
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    if (currentTheme === 'light') { document.body.classList.add('light-theme'); document.getElementById('themeToggle').textContent = '☀️'; }
-    else { document.body.classList.remove('light-theme'); document.getElementById('themeToggle').textContent = '🌙'; }
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    if (currentTheme === 'dark') { document.body.classList.add('dark-theme'); document.getElementById('themeToggle').textContent = '☀️'; }
+    else { document.body.classList.remove('dark-theme'); document.getElementById('themeToggle').textContent = '🌙'; }
     saveUserTheme(currentTheme);
 });
 
@@ -1201,6 +1650,7 @@ document.getElementById('authPassword').addEventListener('keypress', e => { if (
 document.getElementById('authTag').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
 document.getElementById('ticketReplyModal').addEventListener('click', function(e) { if (e.target === this) closeTicketReply(); });
 document.getElementById('staffModal').addEventListener('click', function(e) { if (e.target === this) closeStaffModal(); });
+document.getElementById('complaintModal').addEventListener('click', function(e) { if (e.target === this) closeComplaintModal(); });
 document.getElementById('fsChatInput').addEventListener('keypress', e => { if (e.key === 'Enter') fsSendMessage(); });
 
 document.addEventListener('click', (e) => {
@@ -1230,7 +1680,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         cleanGhostDialogs();
         await loadUserTheme();
         renderProfile(); renderAdminsPicker(); renderTickets();
-        loadAnketa(); renderAdminNorm();
+        loadAnketa(); renderAdminNorm(); renderBlacklist(); renderReports(); renderLogs();
         switchPanel('mainContent');
         autoCloseStaleDialogs();
         console.log('🌸 Инициализация завершена');
