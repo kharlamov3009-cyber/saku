@@ -182,6 +182,7 @@ p { margin-bottom: 16px; color: var(--text-muted); font-size: 1rem; }
 .role-badge.owner { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
 .role-badge.moderator { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
 .role-badge.support { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.role-badge.dev { background: #f3e5f5; color: #7b1fa2; border: 1px solid #ce93d8; }
 
 /* Вкладки */
 .panel-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 6px; background: var(--bg-card); border-radius: 50px; border: 1px solid var(--border-light); margin-bottom: 24px; scrollbar-width: none; }
@@ -830,6 +831,82 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
     </div>
 </section>
 
+<section class="panel-section" id="devPanel">
+    <div class="panel-container">
+        <div class="panel-header">
+            <div class="panel-header-left">
+                <button class="back-btn" onclick="switchPanel('mainContent')">←</button>
+                <h3>🛠️ Разработчик</h3>
+            </div>
+            <div class="panel-header-right">
+                <span class="role-badge dev">DEV</span>
+                <button class="btn btn-sm btn-outline" onclick="logout()">🚪</button>
+            </div>
+        </div>
+        <div class="panel-tabs">
+            <button class="tab-btn active" data-dev-tab="stats">📊 Статистика</button>
+            <button class="tab-btn" data-dev-tab="dialogs">💬 Диалоги</button>
+            <button class="tab-btn" data-dev-tab="logs">📜 Логи</button>
+            <button class="tab-btn" data-dev-tab="broadcast">📢 Рассылка</button>
+            <button class="tab-btn" data-dev-tab="clean">🧹 Очистка</button>
+            <button class="tab-btn" data-dev-tab="data">📦 Данные</button>
+        </div>
+        <div class="tab-page active" id="devTabStats">
+            <div class="stats">
+                <div class="stat-card"><div class="number" id="devActiveDialogs">0</div><div class="label">Диалогов</div></div>
+                <div class="stat-card"><div class="number" id="devAdminsCount">0</div><div class="label">Админов</div></div>
+                <div class="stat-card"><div class="number" id="devTicketsCount">0</div><div class="label">Тикетов</div></div>
+                <div class="stat-card"><div class="number" id="devBlacklistCount">0</div><div class="label">В ЧС</div></div>
+            </div>
+            <button class="btn btn-yellow btn-full" onclick="cleanGhostDialogs(); showNotification('Фантомы удалены', '✅')">🧹 Очистить фантомные диалоги</button>
+        </div>
+        <div class="tab-page" id="devTabDialogs">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>💬 Все диалоги</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div class="dialogs-list" id="devDialogsList"></div></div>
+            </div>
+        </div>
+        <div class="tab-page" id="devTabLogs">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📜 Все логи</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="devLogsList" style="max-height:500px;overflow-y:auto;"></div></div>
+            </div>
+        </div>
+        <div class="tab-page" id="devTabBroadcast">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📢 Рассылка от разработчика</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <textarea id="devBroadcastText" placeholder="Текст..." style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:12px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:12px;resize:vertical;"></textarea>
+                    <button class="btn btn-green btn-full" onclick="devSendBroadcast()">📢 Отправить всем</button>
+                </div>
+            </div>
+        </div>
+        <!-- ИСПРАВЛЕННЫЙ БЛОК ОЧИСТКИ -->
+        <div class="tab-page" id="devTabClean">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🧹 Очистка базы</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Удалить ВСЕ диалоги безвозвратно?')) { realDialogs = []; saveToFirebase(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs(); showNotification('Все диалоги удалены', '✅'); }">🗑️ Удалить все диалоги</button>
+                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Очистить чёрный список?')) { blacklist = []; saveToFirebase(); renderBlacklist(); showNotification('ЧС очищен', '✅'); }">🗑️ Очистить ЧС</button>
+                    <button class="btn btn-red btn-full" onclick="if(confirm('Удалить все логи?')) { logs = []; saveToFirebase(); renderLogs(); renderDevLogs(); showNotification('Логи удалены', '✅'); }">🗑️ Удалить логи</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-page" id="devTabData">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📦 Экспорт / Импорт</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <button class="btn btn-green" style="flex:1;min-width:150px;" onclick="exportAllData()">📤 Экспорт</button>
+                        <button class="btn btn-blue" style="flex:1;min-width:150px;" onclick="document.getElementById('devImportFileInput').click()">📥 Импорт</button>
+                    </div>
+                    <input type="file" id="devImportFileInput" accept=".json" style="display:none;" onchange="importAllData(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- МОДАЛКИ -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card">
@@ -900,6 +977,7 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
             <button class="btn btn-blue btn-full" onclick="closeStaffModal(); openAuthModal('moderator')">🛡️ Модератор</button>
             <button class="btn btn-full" onclick="closeStaffModal(); openAuthModal('admin')">💼 Админ</button>
             <button class="btn btn-yellow btn-full" onclick="closeStaffModal(); openAuthModal('owner')">👑 Владелец</button>
+            <button class="btn btn-red btn-full" onclick="closeStaffModal(); openAuthModal('dev')">🛠️ Разработчик</button>
             <button class="btn btn-outline btn-full" onclick="closeStaffModal()">Отмена</button>
         </div>
     </div>
@@ -942,7 +1020,7 @@ let adminRests = {}, restRequests = [], reports = [], adminReviews = [];
 let userProfile = { nickname: '', avatar: '😊', since: Date.now(), id: '' };
 let moderatorStats = { checked: 0, reportsHandled: 0, warnsIssued: 0 };
 let adminNorm = { messages: 300, users: 3 };
-const AUTH = { admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал', role: 'admin' }, owner: { password: 'owner123' } };
+const AUTH = { admin: { tag: '#admin_sakura', password: 'admin123', category: 'Универсал', role: 'admin' }, owner: { password: 'owner123' }, dev: { password: 'dev123' } };
 let loadedFromFirebase = false;
 let currentAuth = { role: null, tag: null, category: null, dbRole: null };
 let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, currentRating = 0;
@@ -993,6 +1071,7 @@ function cleanGhostDialogs() {
     const initial = realDialogs.length;
     realDialogs = realDialogs.filter(d => d && d.userNickname && d.userNickname.trim() !== '' && Array.isArray(d.messages) && d.messages.length > 0 && d.id);
     if (initial !== realDialogs.length) saveDialogs();
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
 }
 function autoCloseStaleDialogs() {
     const now = Date.now();
@@ -1005,7 +1084,7 @@ function autoCloseStaleDialogs() {
             changed = true;
         }
     });
-    if (changed) { saveDialogs(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); }
+    if (changed) { saveDialogs(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs(); }
 }
 setInterval(autoCloseStaleDialogs, 5 * 60 * 1000);
 
@@ -1055,7 +1134,7 @@ function moderateMessage(text, userId) {
 
 function switchPanel(panelId) {
     ['mainContent', 'mainHeader'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
-    ['userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
+    ['userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel', 'devPanel'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
     if (panelId === 'mainContent') {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('mainHeader').style.display = 'block';
@@ -1067,12 +1146,13 @@ function switchPanel(panelId) {
     if (panelId === 'userPanel') document.getElementById('navUser').classList.add('active-role');
     if (panelId === 'supportPanel') document.getElementById('navSupport').classList.add('active-role');
     if (panelId === 'anketaPanel') document.getElementById('navAnketa').classList.add('active-role');
-    if (panelId === 'moderatorPanel' || panelId === 'adminPanel' || panelId === 'ownerPanel') document.getElementById('navStaff').classList.add('active-role');
+    if (panelId === 'moderatorPanel' || panelId === 'adminPanel' || panelId === 'ownerPanel' || panelId === 'devPanel') document.getElementById('navStaff').classList.add('active-role');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (panelId === 'supportPanel') renderTickets();
     if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminNorm(); }
     if (panelId === 'moderatorPanel') renderModeratorDialogs();
     if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); }
+    if (panelId === 'devPanel') { renderDevDialogs(); renderDevLogs(); renderDevStats(); }
     if (panelId === 'anketaPanel') loadAnketa();
     if (panelId === 'userPanel') { renderProfile(); renderAdminsPicker(); }
 }
@@ -1127,7 +1207,7 @@ function openFullscreenChat(dialog, isAdmin) {
     fsCurrentDialog = dialog; fsIsAdmin = isAdmin;
     document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
     
-    const canModerate = isAdmin && (currentAuth.dbRole === 'admin' || currentAuth.dbRole === 'senior' || currentAuth.role === 'owner');
+    const canModerate = isAdmin && (currentAuth.dbRole === 'admin' || currentAuth.dbRole === 'senior' || currentAuth.role === 'owner' || currentAuth.role === 'dev');
     document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
 
     if (!isAdmin) {
@@ -1165,7 +1245,7 @@ function markMessagesRead(dialogId) {
 function closeFullscreenChat() {
     document.getElementById('fullscreenChat').classList.remove('active');
     fsCurrentDialog = null; fsIsAdmin = false;
-    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
 }
 function renderFsMessages() {
     const cm = document.getElementById('fsChatMessages'); if (!cm) return; cm.innerHTML = '';
@@ -1199,7 +1279,7 @@ async function fsSendMessage() {
     d.lastActivity = Date.now(); if (d.status === 'waiting') d.status = 'active';
     await saveDialogs();
     fsCurrentDialog = d; renderFsMessages(); input.value = '';
-    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
+    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
     if (fsIsAdmin) renderAdminNorm();
 }
 function fsAttachPhoto() {
@@ -1247,7 +1327,7 @@ async function fsToggleVoice() {
 }
 function fsActionWarn() {
     if (!fsCurrentDialog) return;
-    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner' && currentAuth.role !== 'dev') return;
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return;
     d.warns = (d.warns || 0) + 1;
     if (d.warns >= 3) {
@@ -1264,7 +1344,7 @@ function fsActionWarn() {
 }
 function fsActionBan() {
     if (!fsCurrentDialog) return;
-    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner' && currentAuth.role !== 'dev') return;
     if (!confirm('Забанить и добавить в чёрный список?')) return;
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id); if (!d) return;
     d.banned = true; d.closed = true;
@@ -1278,11 +1358,13 @@ function fsActionBan() {
 }
 function fsActionClose() {
     if (!fsCurrentDialog) return;
-    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner') return;
-    if (!confirm('Завершить и удалить диалог?')) return;
+    if (currentAuth.dbRole !== 'admin' && currentAuth.dbRole !== 'senior' && currentAuth.role !== 'owner' && currentAuth.role !== 'dev') return;
+    if (!confirm('Завершить и удалить диалог безвозвратно?')) return;
     const id = fsCurrentDialog.id;
     realDialogs = realDialogs.filter(x => x.id !== id);
-    saveDialogs(); closeFullscreenChat(); showNotification('✅ Диалог завершён', '✅');
+    saveDialogs(); 
+    addLog(`Завершён и удалён диалог ${id}`, '✅');
+    closeFullscreenChat(); showNotification('✅ Диалог завершён и удалён', '✅');
 }
 
 function searchAdminDialogs(q) {
@@ -1331,6 +1413,35 @@ function renderOwnerDialogs() {
         list.appendChild(item);
     });
     const c = document.getElementById('ownerActiveDialogs'); if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+}
+function renderDevDialogs() {
+    const list = document.getElementById('devDialogsList'); if (!list) return; list.innerHTML = '';
+    if (realDialogs.length === 0) { list.innerHTML = `<div class="empty-state">💬 Нет диалогов</div>`; return; }
+    realDialogs.forEach(d => {
+        const item = document.createElement('div'); item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
+        const lastMsg = d.messages.length > 0 ? (d.messages[d.messages.length-1].text || '📎') : '—';
+        const init = d.userNickname.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
+        let statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
+        item.innerHTML = `<div class="dialog-info"><div class="avatar">${init}</div><div style="min-width:0;"><div class="dialog-name">${d.userNickname}${d.autoClosed ? ' ⏰' : ''}</div><div class="dialog-preview">${lastMsg}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
+        item.onclick = () => { const history = d.messages.map(m => `[${m.time||''}] ${m.sender==='user'?d.userNickname:(m.sender==='system'?'СИС':'Админ')}: ${m.text||'(влож)'}`).join('\n'); alert(`👁️ ${d.userNickname}${d.autoClosed ? '\n⏰ Автоматически закрыто' : ''}\n\n${history.substring(0,1500)}`); };
+        list.appendChild(item);
+    });
+    const c = document.getElementById('devActiveDialogs'); if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+}
+function renderDevLogs() {
+    const list = document.getElementById('devLogsList'); if (!list) return; list.innerHTML = '';
+    if (logs.length === 0) { list.innerHTML = `<div class="empty-state">📜 Логов пока нет</div>`; return; }
+    logs.slice(0, 200).forEach(l => {
+        const div = document.createElement('div'); div.className = 'log-item';
+        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div><div class="log-text"><strong>${l.by}</strong>: ${l.text}</div>`;
+        list.appendChild(div);
+    });
+}
+function renderDevStats() {
+    const c1 = document.getElementById('devAdminsCount'); if (c1) c1.textContent = adminsData.length;
+    const c2 = document.getElementById('devTicketsCount'); if (c2) c2.textContent = tickets.length;
+    const c3 = document.getElementById('devBlacklistCount'); if (c3) c3.textContent = blacklist.length;
+    const c4 = document.getElementById('devActiveDialogs'); if (c4) c4.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
 function renderAdminNorm() {
     if (!currentAuth.tag) return;
@@ -1448,14 +1559,40 @@ function searchLogs(q) {
     });
 }
 
+// ИСПРАВЛЕННАЯ ФУНКЦИЯ УДАЛЕНИЯ АДМИНА
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
-    const a = adminsData[idx]; delete AUTH[a.username.replace('#','')]; saveAuth();
+    const a = adminsData[idx];
+    
+    if (!confirm(`Удалить администратора ${a.name} и ВСЕ его диалоги?`)) return;
+
+    // 1. Удаляем авторизацию
+    delete AUTH[a.username.replace('#','')]; saveAuth();
+    
+    // 2. Удаляем из списков
     adminsData = adminsData.filter(x => x.name !== a.name); saveAdmins();
     userAdminData = userAdminData.filter(x => x.name !== a.name); saveUserAdmins();
-    addLog(`Удалён админ ${a.name}`, '🗑️');
-    renderAdminsList(); renderAdminsPicker(); showNotification(`🗑️ ${a.name} удалён`, '🗑️');
+    
+    // 3. Каскадное удаление диалогов, привязанных к этому админу
+    const initialCount = realDialogs.length;
+    realDialogs = realDialogs.filter(d => d.adminName !== a.name);
+    if (realDialogs.length !== initialCount) {
+        saveDialogs(); 
+    }
+
+    addLog(`Удалён админ ${a.name} и все его диалоги`, '🗑️');
+    
+    // Обновляем все панели
+    renderAdminsList(); 
+    renderAdminsPicker(); 
+    renderAdminDialogs();
+    renderModeratorDialogs();
+    renderOwnerDialogs();
+    renderDevDialogs();
+    
+    showNotification(`🗑️ ${a.name} и его диалоги удалены`, '🗑️');
 }
+
 function addAdmin() {
     let username = document.getElementById('newAdminUsername').value.trim();
     const category = document.getElementById('newAdminCategory').value;
@@ -1491,6 +1628,24 @@ function sendBroadcast() {
     addLog(`Рассылка на ${count} чатов: "${text.substring(0, 50)}..."`, '📢');
     document.getElementById('broadcastText').value = '';
     showNotification(`📢 Отправлено ${count} пользователям`, '✅');
+}
+
+function devSendBroadcast() {
+    const text = document.getElementById('devBroadcastText').value.trim();
+    if (!text) { showNotification('⚠️ Введите текст', '⚠️'); return; }
+    if (!confirm('Отправить сообщение всем пользователям в активных чатах?')) return;
+    let count = 0;
+    realDialogs.forEach(d => {
+        if (!d.closed && !d.banned) {
+            d.messages.push({ text: `🛠️ Объявление от Разработчика: ${text}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+            d.lastActivity = Date.now();
+            count++;
+        }
+    });
+    saveDialogs();
+    addLog(`Рассылка (DEV) на ${count} чатов: "${text.substring(0, 50)}..."`, '🛠️');
+    document.getElementById('devBroadcastText').value = '';
+    showNotification(`🛠️ Отправлено ${count} пользователям`, '✅');
 }
 
 function openComplaintModal() {
@@ -1571,6 +1726,10 @@ function openAuthModal(role) {
         document.getElementById('authTitle').textContent = '💼 Вход для персонала';
         document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
         document.getElementById('authTagField').style.display = 'block';
+    } else if (role === 'dev') {
+        document.getElementById('authTitle').textContent = '🛠️ Вход для разработчика';
+        document.getElementById('authSubtitle').textContent = 'Введите пароль';
+        document.getElementById('authTagField').style.display = 'none';
     } else {
         document.getElementById('authTitle').textContent = '👑 Вход для владельца';
         document.getElementById('authSubtitle').textContent = 'Введите пароль';
@@ -1582,12 +1741,19 @@ function closeAuthModal() { document.getElementById('authModal').classList.remov
 function submitAuth() {
     const role = pendingAuthRole; if (!role) return;
     const password = document.getElementById('authPassword').value;
-    let tag = role === 'owner' ? null : document.getElementById('authTag').value.trim();
+    let tag = (role === 'owner' || role === 'dev') ? null : document.getElementById('authTag').value.trim();
     if (tag && !tag.startsWith('#')) tag = '#' + tag;
     if (role === 'owner') {
         if (password === AUTH.owner.password) {
             currentAuth = { role: 'owner', tag: null, category: null, dbRole: 'owner' };
             closeAuthModal(); switchPanel('ownerPanel'); showNotification('🌸 Добро пожаловать!', '✅');
+        } else showNotification('❌ Неверный пароль', '❌');
+        return;
+    }
+    if (role === 'dev') {
+        if (password === AUTH.dev.password) {
+            currentAuth = { role: 'dev', tag: null, category: null, dbRole: 'dev' };
+            closeAuthModal(); switchPanel('devPanel'); showNotification('🛠️ Добро пожаловать, Разработчик!', '✅');
         } else showNotification('❌ Неверный пароль', '❌');
         return;
     }
@@ -1654,7 +1820,7 @@ document.getElementById('complaintModal').addEventListener('click', function(e) 
 document.getElementById('fsChatInput').addEventListener('keypress', e => { if (e.key === 'Enter') fsSendMessage(); });
 
 document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-owner-tab], [data-admin-tab]');
+    const btn = e.target.closest('[data-owner-tab], [data-admin-tab], [data-dev-tab]');
     if (!btn) return;
     if (btn.dataset.ownerTab) {
         const tabId = btn.dataset.ownerTab;
@@ -1672,6 +1838,14 @@ document.addEventListener('click', (e) => {
         const target = document.getElementById('adminTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
         if (target) target.classList.add('active');
     }
+    if (btn.dataset.devTab) {
+        const tabId = btn.dataset.devTab;
+        document.querySelectorAll('[data-dev-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#devPanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('devTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (target) target.classList.add('active');
+    }
 });
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -1680,7 +1854,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         cleanGhostDialogs();
         await loadUserTheme();
         renderProfile(); renderAdminsPicker(); renderTickets();
-        loadAnketa(); renderAdminNorm(); renderBlacklist(); renderReports(); renderLogs();
+        loadAnketa(); renderAdminNorm(); renderBlacklist(); renderReports(); renderLogs(); renderDevStats(); renderDevLogs();
         switchPanel('mainContent');
         autoCloseStaleDialogs();
         console.log('🌸 Инициализация завершена');
@@ -1697,6 +1871,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             renderAdminDialogs();
             renderModeratorDialogs();
             renderOwnerDialogs();
+            renderDevDialogs();
         });
     } catch (e) { console.error('❌ Ошибка инициализации:', e); }
 });
