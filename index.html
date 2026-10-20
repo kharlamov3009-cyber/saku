@@ -204,6 +204,99 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .collapse-block.open .collapse-body { display: block; }
 .collapse-badge { background: var(--accent-pink-dark); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-left: 6px; }
 
+/* ОБНОВЛЕННЫЙ БЛОК НОРМЫ */
+.norm-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 0;
+}
+.norm-card {
+    background: var(--bg-panel);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
+}
+.norm-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, #ffc0cb, #c2185b);
+}
+.norm-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.norm-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.05rem;
+}
+.norm-card-icon {
+    width: 36px; height: 36px;
+    background: #fce4ec;
+    color: #c2185b;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+}
+body.dark-theme .norm-card-icon { background: rgba(194,24,91,0.2); }
+
+.norm-card-value {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-pink-dark);
+}
+.norm-card-value span {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.norm-progress-bg {
+    width: 100%;
+    height: 14px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+body.dark-theme .norm-progress-bg { background: rgba(255,255,255,0.1); }
+
+.norm-progress-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #f8bbd0, #c2185b);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+.norm-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+.norm-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
 /* Анкета */
 .anketa-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 16px; }
 .anketa-block h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; border-bottom: 2px dashed var(--border-light); padding-bottom: 10px; font-family: var(--font-sans); }
@@ -293,8 +386,10 @@ body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
 .user-item .user-status { font-size: 0.82rem; color: var(--text-muted); }
 .user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
 .user-item .user-actions { display: flex; gap: 6px; }
-.user-item .user-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
-.user-item .user-actions button:hover { border-color: #ef9a9a; color: #c62828; }
+.user-item .user-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.user-item .user-actions button:hover { border-color: #ef9a9a; color: #c62828; background: #ffebee; }
+.user-item .user-actions button.btn-warn { color: #f57f17; }
+.user-item .user-actions button.btn-warn:hover { border-color: #ffe082; background: #fff8e1; color: #f57f17; }
 
 /* Формы */
 .ticket-form, .add-admin-form, .rest-request-form { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 20px; }
@@ -670,20 +765,55 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
                 </div>
             </div>
         </div>
+        
+        <!-- ОБНОВЛЕННАЯ ВКЛАДКА НОРМЫ -->
         <div class="tab-page" id="adminTabNorm">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎯 Моя норма</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body">
-                    <div class="norm-block">
-                        <h4>📊 Прогресс за сегодня</h4>
-                        <div class="norm-row"><span>Сообщений:</span><span class="norm-value" id="adminNormMsgText">0 / 0</span></div>
-                        <div class="norm-bar"><div class="norm-bar-fill" id="adminNormMsgBar" style="width:0%"></div></div>
-                        <div class="norm-row"><span>Пользователей:</span><span class="norm-value" id="adminNormUserText">0 / 0</span></div>
-                        <div class="norm-bar"><div class="norm-bar-fill" id="adminNormUserBar" style="width:0%"></div></div>
+                    <div class="norm-dashboard">
+                        
+                        <!-- Карточка сообщений -->
+                        <div class="norm-card">
+                            <div class="norm-card-header">
+                                <div class="norm-card-title">
+                                    <div class="norm-card-icon">💬</div>
+                                    Сообщения
+                                </div>
+                                <div class="norm-card-value" id="adminNormMsgText">0 <span>/ 300</span></div>
+                            </div>
+                            <div class="norm-progress-bg">
+                                <div class="norm-progress-fill" id="adminNormMsgBar" style="width:0%"></div>
+                            </div>
+                            <div class="norm-footer">
+                                <span>Прогресс</span>
+                                <span id="adminNormMsgPct">0%</span>
+                            </div>
+                        </div>
+
+                        <!-- Карточка пользователей -->
+                        <div class="norm-card">
+                            <div class="norm-card-header">
+                                <div class="norm-card-title">
+                                    <div class="norm-card-icon">👥</div>
+                                    Пользователи
+                                </div>
+                                <div class="norm-card-value" id="adminNormUserText">0 <span>/ 3</span></div>
+                            </div>
+                            <div class="norm-progress-bg">
+                                <div class="norm-progress-fill" id="adminNormUserBar" style="width:0%"></div>
+                            </div>
+                            <div class="norm-footer">
+                                <span>Прогресс</span>
+                                <span id="adminNormUserPct">0%</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="tab-page" id="adminTabReviews">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>💬 Отзывы обо мне</h4><span class="chevron">▼</span></div>
@@ -728,6 +858,7 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
         <div class="panel-tabs">
             <button class="tab-btn active" data-owner-tab="stats">📊 Статистика</button>
             <button class="tab-btn" data-owner-tab="admins">👥 Админы</button>
+            <button class="tab-btn" data-owner-tab="banid">🚫 Бан по ID</button>
             <button class="tab-btn" data-owner-tab="tickets">🎫 Тикеты</button>
             <button class="tab-btn" data-owner-tab="dialogs">💬 Диалоги</button>
             <button class="tab-btn" data-owner-tab="blacklist">🚫 ЧС</button>
@@ -750,6 +881,24 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
                 <div class="collapse-body"><div class="user-list" id="adminsList"></div></div>
             </div>
         </div>
+        
+        <!-- НОВАЯ ВКЛАДКА: БАН ПО ID -->
+        <div class="tab-page" id="ownerTabBanid">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🚫 Бан по ID</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body">
+                    <div class="ticket-form">
+                        <h3>Заблокировать пользователя</h3>
+                        <label>ID пользователя (псевдоним):</label>
+                        <input type="text" id="banUserId" placeholder="Введите ник или ID...">
+                        <label>Причина бана:</label>
+                        <textarea id="banUserReason" placeholder="Например: нарушение правил, спам..." style="min-height:80px;"></textarea>
+                        <button class="btn btn-red btn-full" onclick="banUserById()">🚫 Забанить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="tab-page" id="ownerTabTickets">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎫 Тикеты <span class="collapse-badge" id="ownerTicketsBadge">0</span></h4><span class="chevron">▼</span></div>
@@ -799,18 +948,28 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
                 <div class="collapse-body">
                     <div class="add-admin-form">
                         <input type="text" id="newAdminUsername" placeholder="Тег (без #)">
+                        
+                        <label class="settings-label" style="margin-top:8px;">Должность:</label>
+                        <select id="newAdminRole">
+                            <option value="ml_admin">👶 МЛ Админ (Младший)</option>
+                            <option value="st_admin">💼 СТ Админ (Старший)</option>
+                            <option value="admin" selected>⭐ Админ (Обычный)</option>
+                            <option value="co_owner">💎 СОВЛАД (Совладелец)</option>
+                            <option value="dep_owner">👑 ЗАМ ВЛД (Заместитель владельца)</option>
+                            <option value="moderator">🛡️ Модератор (только просмотр)</option>
+                        </select>
+
+                        <label class="settings-label" style="margin-top:8px;">Категория:</label>
                         <select id="newAdminCategory">
                             <option value="">— Категория —</option>
                             <option value="Общение">💬 Общение</option>
                             <option value="Поддержка">🆘 Поддержка</option>
                             <option value="Универсал">⭐ Универсал</option>
                         </select>
-                        <select id="newAdminRole">
-                            <option value="moderator">🛡️ Модератор (только просмотр)</option>
-                            <option value="admin" selected>💼 Админ (полные права)</option>
-                            <option value="senior">⭐ Старший (управление)</option>
-                        </select>
+
+                        <label class="settings-label" style="margin-top:8px;">Пароль для входа:</label>
                         <input type="password" id="newAdminPassword" placeholder="Пароль" class="full-width">
+                        
                         <button type="button" onclick="addAdmin()" class="btn btn-full" style="margin-top:8px;">🌸 Добавить</button>
                     </div>
                 </div>
@@ -881,7 +1040,6 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
                 </div>
             </div>
         </div>
-        <!-- ИСПРАВЛЕННЫЙ БЛОК ОЧИСТКИ -->
         <div class="tab-page" id="devTabClean">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🧹 Очистка базы</h4><span class="chevron">▼</span></div>
@@ -1207,7 +1365,7 @@ function openFullscreenChat(dialog, isAdmin) {
     fsCurrentDialog = dialog; fsIsAdmin = isAdmin;
     document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
     
-    const canModerate = isAdmin && (currentAuth.dbRole === 'admin' || currentAuth.dbRole === 'senior' || currentAuth.role === 'owner' || currentAuth.role === 'dev');
+    const canModerate = isAdmin && (currentAuth.dbRole === 'admin' || currentAuth.dbRole === 'senior' || currentAuth.role === 'owner' || currentAuth.role === 'dev' || currentAuth.dbRole === 'st_admin' || currentAuth.dbRole === 'co_owner' || currentAuth.dbRole === 'dep_owner');
     document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
 
     if (!isAdmin) {
@@ -1443,29 +1601,123 @@ function renderDevStats() {
     const c3 = document.getElementById('devBlacklistCount'); if (c3) c3.textContent = blacklist.length;
     const c4 = document.getElementById('devActiveDialogs'); if (c4) c4.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
+
 function renderAdminNorm() {
     if (!currentAuth.tag) return;
     const myDialogs = realDialogs.filter(d => d.adminName === currentAuth.tag.replace('#',''));
     let msgCount = 0; const userSet = new Set();
     myDialogs.forEach(d => { d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; }); userSet.add(d.userNickname); });
+    
     const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
     const userPct = Math.min(100, Math.round(userSet.size / adminNorm.users * 100));
-    const mt = document.getElementById('adminNormMsgText'); const mb = document.getElementById('adminNormMsgBar');
-    const ut = document.getElementById('adminNormUserText'); const ub = document.getElementById('adminNormUserBar');
-    if (mt) mt.textContent = `${msgCount} / ${adminNorm.messages}`; if (mb) mb.style.width = msgPct + '%';
-    if (ut) ut.textContent = `${userSet.size} / ${adminNorm.users}`; if (ub) ub.style.width = userPct + '%';
+    
+    const mt = document.getElementById('adminNormMsgText'); 
+    const mb = document.getElementById('adminNormMsgBar');
+    const mp = document.getElementById('adminNormMsgPct');
+    
+    const ut = document.getElementById('adminNormUserText'); 
+    const ub = document.getElementById('adminNormUserBar');
+    const up = document.getElementById('adminNormUserPct');
+
+    if (mt) mt.innerHTML = `${msgCount} <span>/ ${adminNorm.messages}</span>`; 
+    if (mb) mb.style.width = msgPct + '%';
+    if (mp) mp.textContent = msgPct + '%';
+    
+    if (ut) ut.innerHTML = `${userSet.size} <span>/ ${adminNorm.users}</span>`; 
+    if (ub) ub.style.width = userPct + '%';
+    if (up) up.textContent = userPct + '%';
 }
 
+// ОБНОВЛЕННАЯ ФУНКЦИЯ СПИСКА АДМИНОВ (с кнопками и нормой)
 function renderAdminsList() {
     const list = document.getElementById('adminsList'); if (!list) return; list.innerHTML = '';
     if (adminsData.length === 0) { list.innerHTML = `<div class="empty-state">👥 Нет админов</div>`; return; }
+    
     adminsData.forEach((a, idx) => {
+        // Считаем норму для этого админа
+        const myDialogs = realDialogs.filter(d => d.adminName === a.name);
+        let msgCount = 0; const userSet = new Set();
+        myDialogs.forEach(d => { d.messages.forEach(m => { if (m.sender === 'bot') msgCount++; }); userSet.add(d.userNickname); });
+        const normText = `💬 ${msgCount} | 👥 ${userSet.size}`;
+
+        let roleName = '💼 Админ';
+        if (a.role === 'senior' || a.role === 'st_admin') roleName = '💼 СТ Админ';
+        if (a.role === 'ml_admin') roleName = '👶 МЛ Админ';
+        if (a.role === 'co_owner') roleName = '💎 СОВЛАД';
+        if (a.role === 'dep_owner') roleName = '👑 ЗАМ ВЛД';
+        if (a.role === 'moderator') roleName = '🛡️ Модератор';
+
         const item = document.createElement('div'); item.className = 'user-item';
-        item.innerHTML = `<div class="user-info"><div class="avatar">${a.initials}</div><div style="min-width:0;flex:1;"><div class="user-name">${a.name} <span class="user-category">${a.category}</span></div><div class="user-status">${a.username} • ${a.role === 'senior' ? '⭐ Старший' : a.role === 'admin' ? '💼 Админ' : '🛡 Модератор'}</div></div></div><div class="user-actions"><button onclick="removeAdmin(${idx})">🗑️</button></div>`;
+        item.innerHTML = `
+            <div class="user-info">
+                <div class="avatar">${a.initials}</div>
+                <div style="min-width:0;flex:1;">
+                    <div class="user-name">${a.name} <span class="user-category">${a.category}</span></div>
+                    <div class="user-status">${a.username} • ${roleName}</div>
+                    <div class="user-status" style="color:var(--accent-pink-dark); font-weight:700; margin-top:2px;">${normText}</div>
+                </div>
+            </div>
+            <div class="user-actions">
+                <button class="btn-warn" onclick="warnAdminFromList('${a.username}')" title="Дать варн">⚠️</button>
+                <button onclick="removeAdmin(${idx})" title="Снять и удалить">🗑️</button>
+            </div>`;
         list.appendChild(item);
     });
     const c = document.getElementById('adminsCount'); if (c) c.textContent = adminsData.length;
 }
+
+// НОВАЯ ФУНКЦИЯ: ВАРН АДМИНУ ИЗ СПИСКА
+function warnAdminFromList(username) {
+    const admin = adminsData.find(a => a.username === username);
+    if (!admin) return;
+    if (!confirm(`Выдать предупреждение администратору ${admin.name}?`)) return;
+    addLog(`Выдан варн админу ${admin.name}`, '⚠️');
+    showNotification(`⚠️ ${admin.name} получил варн`, '⚠️');
+    // Тут можно добавить логику сохранения варнов для админов, если нужно
+}
+
+// НОВАЯ ФУНКЦИЯ: БАН ПО ID
+function banUserById() {
+    const id = document.getElementById('banUserId').value.trim();
+    const reason = document.getElementById('banUserReason').value.trim();
+    if (!id || !reason) { showNotification('⚠️ Заполните ID и причину', '⚠️'); return; }
+    
+    // Проверяем, нет ли уже в ЧС
+    if (blacklist.find(b => b.nickname === id)) {
+        showNotification('⚠️ Этот пользователь уже в ЧС', '⚠️');
+        return;
+    }
+    
+    // Добавляем в ЧС
+    blacklist.push({ nickname: id, reason: reason, date: Date.now(), admin: currentAuth.tag || 'Владелец' });
+    saveBlacklist();
+    
+    // Закрываем все активные диалоги этого пользователя
+    let closedCount = 0;
+    realDialogs.forEach(d => {
+        if (d.userNickname === id && !d.closed && !d.banned) {
+            d.banned = true; d.closed = true;
+            d.messages.push({ text: `🚫 Вы были забанены Владельцем. Причина: ${reason}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+            closedCount++;
+        }
+    });
+    if (closedCount > 0) saveDialogs();
+    
+    addLog(`Забанен по ID: ${id}. Причина: ${reason}`, '🚫');
+    
+    // Очищаем поля
+    document.getElementById('banUserId').value = '';
+    document.getElementById('banUserReason').value = '';
+    
+    renderBlacklist();
+    renderAdminDialogs();
+    renderModeratorDialogs();
+    renderOwnerDialogs();
+    renderDevDialogs();
+    
+    showNotification(`🚫 ${id} забанен`, '✅');
+}
+
 function renderBlacklist() {
     const list = document.getElementById('ownerBlacklistList'); if (!list) return; list.innerHTML = '';
     const badge = document.getElementById('ownerBlacklistBadge'); if (badge) badge.textContent = blacklist.length;
@@ -1559,21 +1811,16 @@ function searchLogs(q) {
     });
 }
 
-// ИСПРАВЛЕННАЯ ФУНКЦИЯ УДАЛЕНИЯ АДМИНА
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
     const a = adminsData[idx];
     
     if (!confirm(`Удалить администратора ${a.name} и ВСЕ его диалоги?`)) return;
 
-    // 1. Удаляем авторизацию
     delete AUTH[a.username.replace('#','')]; saveAuth();
-    
-    // 2. Удаляем из списков
     adminsData = adminsData.filter(x => x.name !== a.name); saveAdmins();
     userAdminData = userAdminData.filter(x => x.name !== a.name); saveUserAdmins();
     
-    // 3. Каскадное удаление диалогов, привязанных к этому админу
     const initialCount = realDialogs.length;
     realDialogs = realDialogs.filter(d => d.adminName !== a.name);
     if (realDialogs.length !== initialCount) {
@@ -1582,7 +1829,6 @@ function removeAdmin(idx) {
 
     addLog(`Удалён админ ${a.name} и все его диалоги`, '🗑️');
     
-    // Обновляем все панели
     renderAdminsList(); 
     renderAdminsPicker(); 
     renderAdminDialogs();
@@ -1598,18 +1844,28 @@ function addAdmin() {
     const category = document.getElementById('newAdminCategory').value;
     const role = document.getElementById('newAdminRole').value;
     const password = document.getElementById('newAdminPassword').value.trim();
-    if (!username || !category || !password) { showNotification('⚠️ Заполните поля', '⚠️'); return; }
+    
+    if (!username || !category || !password) { showNotification('⚠️ Заполните все поля', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
+    
     const name = username.replace('#','');
     if (adminsData.find(a => a.username === username)) { showNotification('⚠️ Тег занят', '⚠️'); return; }
+    
     const initials = name.slice(0, 2).toUpperCase();
+    
     adminsData.push({ name, username, initials, category, role }); saveAdmins();
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category }); saveUserAdmins();
     AUTH[username.replace('#','')] = { tag: username, password, category, name, role }; saveAuth();
-    addLog(`Добавлен админ ${name} (${role})`, '🌸');
+    
+    addLog(`Добавлен админ ${name} (Должность: ${role}, Категория: ${category})`, '🌸');
+    
     renderAdminsList(); renderAdminsPicker();
-    document.getElementById('newAdminUsername').value = ''; document.getElementById('newAdminCategory').value = ''; document.getElementById('newAdminPassword').value = ''; document.getElementById('newAdminRole').value = 'admin';
-    showNotification(`🌸 ${name} (${role})`, '✅');
+    document.getElementById('newAdminUsername').value = ''; 
+    document.getElementById('newAdminCategory').value = ''; 
+    document.getElementById('newAdminPassword').value = ''; 
+    document.getElementById('newAdminRole').value = 'admin';
+    
+    showNotification(`🌸 ${name} успешно добавлен!`, '✅');
 }
 
 function sendBroadcast() {
