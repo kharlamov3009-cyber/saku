@@ -7,6 +7,8 @@
 <title>По ту сторону 🌸</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -125,21 +127,8 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .norm-progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, #f8bbd0, #c2185b); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
 .norm-footer { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
 
-/* === PREMIUM ОТЗЫВЫ === */
-.review-premium-card {
-    background: var(--bg-panel);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border-light);
-    box-shadow: var(--shadow-soft);
-    position: relative;
-    overflow: hidden;
-}
-.review-premium-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-    background: linear-gradient(90deg, #f8bbd0, #c2185b);
-}
+.review-premium-card { background: var(--bg-panel); border-radius: 20px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border-light); box-shadow: var(--shadow-soft); position: relative; overflow: hidden; }
+.review-premium-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #f8bbd0, #c2185b); }
 .rpc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
 .rpc-admin-info { display: flex; align-items: center; gap: 12px; }
 .rpc-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
@@ -153,6 +142,8 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .rpc-avg-block { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
 .rpc-avg-score { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--accent-pink-dark); line-height: 1; }
 .rpc-avg-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+.chart-container { background: var(--bg-panel); padding: 16px; border-radius: 16px; border: 1px solid var(--border-light); margin-bottom: 16px; position: relative; height: 250px; width: 100%; }
 
 .anketa-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 16px; }
 .anketa-block h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; border-bottom: 2px dashed var(--border-light); padding-bottom: 10px; font-family: var(--font-sans); }
@@ -168,7 +159,6 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .anketa-situation-title { color: #1565c0; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
 .anketa-situation-text { color: var(--text-main); font-size: 0.9rem; font-style: italic; }
 
-/* === CHAT === */
 #fullscreenChat { position: fixed; inset: 0; z-index: 2000; background: var(--bg-gradient); background-attachment: fixed; display: none; flex-direction: column; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
 #fullscreenChat.active { display: flex; }
 #fullscreenChat .fs-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-panel); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
@@ -210,7 +200,6 @@ body.dark-theme .message.system { background: rgba(251, 197, 49, 0.15); }
 .rp-btn { flex: 0 0 auto; padding: 8px 14px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 50px; cursor: pointer; font-size: 0.85rem; font-family: var(--font-sans); color: var(--text-main); white-space: nowrap; }
 .rp-btn:hover { border-color: var(--accent-pink-dark); color: var(--accent-pink-dark); }
 
-/* === ЧИСТЫЕ ДИАЛОГИ === */
 .dialogs-list { max-height: 400px; overflow-y: auto; }
 .empty-state { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-light); font-size: 0.95rem; }
 .dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; gap: 12px; transition: 0.2s; }
@@ -362,12 +351,10 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             <div class="fs-name" id="fsChatName">Пользователь</div>
             <div class="fs-sub" id="fsChatSub">—</div>
         </div>
-        <!-- Кнопки для пользователя (Завершить, Жалоба) -->
         <div class="fs-actions" id="fsUserActions" style="display:none;">
             <button class="btn-icon btn-orange" onclick="openComplaintModal()" title="Пожаловаться">⚠️</button>
             <button class="btn-icon btn-green" onclick="fsActionFinish()" title="Завершить">✅</button>
         </div>
-        <!-- Кнопки для админа (Варн, Бан) -->
         <div class="fs-actions" id="fsAdminActions" style="display:none;">
             <button class="btn btn-yellow" onclick="fsActionWarn()" title="Варн">⚠️</button>
             <button class="btn btn-red" onclick="fsActionBan()" title="Бан">🚫</button>
@@ -708,6 +695,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="panel-tabs">
             <button class="tab-btn active" data-owner-tab="stats">📊 Статистика</button>
+            <button class="tab-btn" data-owner-tab="norm">⚙️ Норма</button>
             <button class="tab-btn" data-owner-tab="users">👥 Пользователи</button>
             <button class="tab-btn" data-owner-tab="admins">💼 Админы</button>
             <button class="tab-btn" data-owner-tab="tickets">🎫 Тикеты</button>
@@ -729,7 +717,29 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
                 <div class="stat-card"><div class="number" id="ownerReviewsCount">0</div><div class="label">Отзывов</div></div>
                 <div class="stat-card"><div class="number" id="ownerBlacklistCount2">0</div><div class="label">В ЧС</div></div>
             </div>
+            <h4 style="color:var(--text-main);margin:20px 0 12px;font-size:1.1rem;">📈 Диалоги за неделю</h4>
+            <div class="chart-container"><canvas id="chartDialogs"></canvas></div>
+            
+            <h4 style="color:var(--text-main);margin:20px 0 12px;font-size:1.1rem;">⭐ Средний рейтинг админов</h4>
+            <div class="chart-container"><canvas id="chartRatings"></canvas></div>
         </div>
+        
+        <div class="tab-page" id="ownerTabNorm">
+            <div class="ticket-form">
+                <h3>⚙️ Настройки нормы</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
+                    Изменения мгновенно отразятся на прогрессе всех администраторов.
+                </p>
+                <label>Норма сообщений (в месяц):</label>
+                <input type="number" id="normMessagesInput" min="1" placeholder="Например: 300">
+                
+                <label>Норма пользователей (в месяц):</label>
+                <input type="number" id="normUsersInput" min="1" placeholder="Например: 3">
+                
+                <button class="btn btn-green btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
+            </div>
+        </div>
+
         <div class="tab-page" id="ownerTabUsers">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>👥 Все пользователи</h4><span class="chevron">▼</span></div>
@@ -1049,10 +1059,11 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 <script>
 /* ==================== FIREBASE ==================== */
 const firebaseConfig = { apiKey: "AIzaSyCsRo-IAR6UgXX4NDoIDR9viJtoTCRVikc", authDomain: "poty-storony.firebaseapp.com", databaseURL: "https://poty-storony-default-rtdb.europe-west1.firebasedatabase.app", projectId: "poty-storony", storageBucket: "poty-storony.firebasestorage.app", messagingSenderId: "522808917706", appId: "1:522808917706:web:859f785b26f863729dfe33" };
-let db = null;
+let db = null, storage = null;
 try {
     if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
     db = firebase.database();
+    storage = firebase.storage();
 } catch(e) { console.error('Firebase init error:', e); }
 
 /* ==================== STATE ==================== */
@@ -1070,6 +1081,7 @@ let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, curr
 let fsCurrentDialog = null, fsIsAdmin = false;
 let mediaRecorder = null, audioChunks = [], recordStartTime = 0;
 let currentAdminFilter = 'all';
+let chartDialogsObj = null, chartRatingsObj = null;
 
 (function initLocalId() {
     let localId = localStorage.getItem('sakura-uid');
@@ -1081,6 +1093,38 @@ let currentAdminFilter = 'all';
     }
     userProfile.id = localId;
 })();
+
+/* ==================== PWA MANIFEST & SERVICE WORKER ==================== */
+const manifestStr = JSON.stringify({
+    "name": "По ту сторону",
+    "short_name": "Поддержка",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffc0cb",
+    "theme_color": "#ffc0cb",
+    "icons": [{
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+        "sizes": "192x192",
+        "type": "image/png"
+    }]
+});
+const manifestBlob = new Blob([manifestStr], {type: 'application/json'});
+const manifestUrl = URL.createObjectURL(manifestBlob);
+const link = document.createElement('link');
+link.rel = 'manifest';
+link.href = manifestUrl;
+document.head.appendChild(link);
+
+const swCode = `
+const CACHE_NAME = 'sakura-cache-v1';
+self.addEventListener('install', (e) => { self.skipWaiting(); });
+self.addEventListener('fetch', (e) => {});
+`;
+const swBlob = new Blob([swCode], {type: 'application/javascript'});
+const swUrl = URL.createObjectURL(swBlob);
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(swUrl).catch(err => console.log('SW error:', err));
+}
 
 /* ==================== CUSTOM MODALS ==================== */
 function showConfirm(title, text, onConfirm) {
@@ -1130,6 +1174,19 @@ function viewDialogHistory(dialogId) {
             const div = document.createElement('div');
             div.className = `history-msg ${m.sender}`;
             div.innerHTML = `<strong>${m.sender === 'user' ? d.userNickname : (m.sender === 'system' ? 'Система' : d.adminName)}:</strong> ${escapeHtml(m.text || '(вложение)')}`;
+            if (m.attachment && m.attachment.includes('<img')) {
+                const srcMatch = m.attachment.match(/src="([^"]+)"/);
+                if (srcMatch) {
+                    const img = document.createElement('img');
+                    img.src = srcMatch[1];
+                    img.style.maxWidth = '100%';
+                    img.style.borderRadius = '8px';
+                    img.style.marginTop = '8px';
+                    img.style.cursor = 'pointer';
+                    img.onclick = () => openPhoto(srcMatch[1]);
+                    div.appendChild(img);
+                }
+            }
             container.appendChild(div);
         });
     }
@@ -1405,7 +1462,7 @@ function switchPanel(panelId) {
     if (panelId === 'supportPanel') renderTickets();
     if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminNorm(); renderAdminReviews(); }
     if (panelId === 'moderatorPanel') renderModeratorDialogs();
-    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); renderOwnerReviews(); renderOwnerRests(); renderOwnerUsers(); renderOwnerStats(); }
+    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); renderOwnerReviews(); renderOwnerRests(); renderOwnerUsers(); renderOwnerStats(); renderCharts(); renderOwnerNormSettings(); }
     if (panelId === 'devPanel') { renderDevDialogs(); renderDevLogs(); renderDevStats(); renderDevErrors(); }
     if (panelId === 'anketaPanel') loadAnketa();
     if (panelId === 'userPanel') renderAdminsPicker();
@@ -1594,7 +1651,6 @@ function openFullscreenChat(dialog, isAdmin) {
     const canModerate = isAdmin && (['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev');
     document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
     
-    // Показываем кнопки пользователя прямо в шапке
     const showUserActions = !isAdmin && !dialog.closed && !dialog.banned;
     document.getElementById('fsUserActions').style.display = showUserActions ? 'flex' : 'none';
 
@@ -1730,6 +1786,26 @@ function autoDemoteAdmin(tag, reason) {
     closeFullscreenChat();
     renderAdminsList(); renderAdminsPicker();
 }
+
+/* ==================== FIREBASE STORAGE UPLOAD ==================== */
+function uploadToStorage(file, path, callback) {
+    if (!storage) { showNotification('Storage не подключен', '❌'); return; }
+    const uploadTask = storage.ref(path).put(file);
+    uploadTask.on('state_changed', 
+        (snapshot) => {},
+        (error) => {
+            console.error("Upload error:", error);
+            showNotification('Ошибка загрузки (проверьте правила Storage)', '❌');
+            logError("Storage upload: " + error.message);
+        }, 
+        () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                callback(downloadURL);
+            });
+        }
+    );
+}
+
 function fsAttachPhoto() {
     if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
     const input = document.createElement('input');
@@ -1738,14 +1814,16 @@ function fsAttachPhoto() {
     input.onchange = e => {
         const file = e.target.files[0];
         if (!file) return;
-        if (file.size > 5 * 1024 * 1024) { showNotification('Файл > 5 МБ', '❌'); return; }
+        if (file.size > 10 * 1024 * 1024) { showNotification('Файл > 10 МБ', '❌'); return; }
+        
+        showNotification('Загрузка медиа...', '⏳');
         const isVideo = file.type.startsWith('video/');
-        const reader = new FileReader();
-        reader.onload = ev => {
-            const src = ev.target.result;
+        const path = `media/${fsCurrentDialog.id}/${Date.now()}_${file.name}`;
+        
+        uploadToStorage(file, path, (url) => {
             const html = isVideo
-                ? `<div class="attachment-video"><video controls src="${src}"></video></div>`
-                : `<span class="attachment-photo"><img src="${src}"></span>`;
+                ? `<div class="attachment-video"><video controls src="${url}"></video></div>`
+                : `<span class="attachment-photo"><img src="${url}"></span>`;
             const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
             if (!d) return;
             if (!Array.isArray(d.messages)) d.messages = [];
@@ -1761,11 +1839,11 @@ function fsAttachPhoto() {
             fsCurrentDialog = d;
             renderFsMessages();
             renderAdminDialogs();
-        };
-        reader.readAsDataURL(file);
+        });
     };
     input.click();
 }
+
 async function fsToggleVoice() {
     if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
     const btn = document.getElementById('fsVoiceBtn');
@@ -1777,25 +1855,30 @@ async function fsToggleVoice() {
         mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
         mediaRecorder.onstop = () => {
             const blob = new Blob(audioChunks, { type: 'audio/webm' });
-            const url = URL.createObjectURL(blob);
             const dur = Math.round((Date.now() - recordStartTime) / 1000);
-            const html = `<audio controls src="${url}"></audio>`;
-            const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
-            if (d) {
-                if (!Array.isArray(d.messages)) d.messages = [];
-                d.messages.push({
-                    text: `🎤 Голосовое (${dur} сек)`,
-                    sender: fsIsAdmin ? 'bot' : 'user',
-                    time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
-                    attachment: html,
-                    status: fsIsAdmin ? 'sent' : 'received'
-                });
-                d.lastActivity = Date.now();
-                saveToFirebase();
-                fsCurrentDialog = d;
-                renderFsMessages();
-                renderAdminDialogs();
-            }
+            
+            showNotification('Загрузка голосового...', '⏳');
+            const path = `voice/${fsCurrentDialog.id}/${Date.now()}.webm`;
+            
+            uploadToStorage(blob, path, (url) => {
+                const html = `<audio controls src="${url}"></audio>`;
+                const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
+                if (d) {
+                    if (!Array.isArray(d.messages)) d.messages = [];
+                    d.messages.push({
+                        text: `🎤 Голосовое (${dur} сек)`,
+                        sender: fsIsAdmin ? 'bot' : 'user',
+                        time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
+                        attachment: html,
+                        status: fsIsAdmin ? 'sent' : 'received'
+                    });
+                    d.lastActivity = Date.now();
+                    saveToFirebase();
+                    fsCurrentDialog = d;
+                    renderFsMessages();
+                    renderAdminDialogs();
+                }
+            });
             btn.classList.remove('recording');
             stream.getTracks().forEach(t => t.stop());
         };
@@ -1805,6 +1888,7 @@ async function fsToggleVoice() {
         showNotification('🎤 Запись...', '🎤');
     } catch(e) { showNotification('Нет доступа к микрофону', '❌'); }
 }
+
 function fsActionWarn() {
     if (!fsCurrentDialog) return;
     if (!(['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev')) return;
@@ -2163,6 +2247,37 @@ function unbanByUid(uid) {
         showNotification('Разбанен', '✅');
     });
 }
+
+/* ==================== ВРЕМЯ ОТВЕТА ==================== */
+function calcAdminResponseTime(adminName) {
+    let totalMs = 0, repliesCount = 0;
+    const dialogs = realDialogs.filter(d => d.adminName === adminName);
+    dialogs.forEach(d => {
+        if (!d.messages) return;
+        for (let i = 0; i < d.messages.length - 1; i++) {
+            const m1 = d.messages[i];
+            const m2 = d.messages[i+1];
+            if (m1.sender === 'user' && m2.sender === 'bot') {
+                if (m1.time && m2.time) {
+                    try {
+                        const t1 = m1.time.split(':');
+                        const t2 = m2.time.split(':');
+                        let minDiff = (parseInt(t2[0])*60 + parseInt(t2[1])) - (parseInt(t1[0])*60 + parseInt(t1[1]));
+                        if (minDiff < 0) minDiff += 24*60;
+                        if (minDiff < 60 * 6) {
+                            totalMs += minDiff * 60000;
+                            repliesCount++;
+                        }
+                    } catch(e){}
+                }
+            }
+        }
+    });
+    if (repliesCount === 0) return '—';
+    const avgMins = Math.round(totalMs / repliesCount / 60000);
+    return `${avgMins} мин`;
+}
+
 function renderAdminsList() {
     const list = document.getElementById('adminsList');
     if (!list) return;
@@ -2179,6 +2294,8 @@ function renderAdminsList() {
         const myWarns = adminWarns[a.name] || [];
         const roleNames = { 'admin': '💼 Админ', 'st_admin': '💼 СТ Админ', 'ml_admin': '👶 МЛ Админ', 'co_owner': '💎 СОВЛАД', 'dep_owner': '👑 ЗАМ ВЛД', 'moderator': '🛡️ Модератор' };
         const roleDisplay = roleNames[a.role] || '💼 Админ'; 
+        const avgResp = calcAdminResponseTime(a.name);
+        
         const item = document.createElement('div');
         item.className = 'user-item';
         item.innerHTML = `
@@ -2188,7 +2305,7 @@ function renderAdminsList() {
                     <div class="user-name">${escapeHtml(a.name)} <span class="user-category">${escapeHtml(a.category)}</span></div>
                     <div class="user-status">${escapeHtml(a.username)} • ${roleDisplay}</div>
                     <div class="user-status" style="color:var(--accent-pink-dark);font-weight:700;margin-top:2px;cursor:pointer;" onclick="openWarnsManager('${escapeHtml(a.name)}')">
-                        Норма: 💬 ${msgCount}/${adminNorm.messages} | 👥 ${userSet.size}/${adminNorm.users}
+                        Норма: 💬 ${msgCount}/${adminNorm.messages} | 👥 ${userSet.size}/${adminNorm.users} | ⏱️ ${avgResp}
                         ${myWarns.length > 0 ? ` | ⚠️ ${myWarns.length} (нажмите)` : ''}
                     </div>
                 </div>
@@ -2224,7 +2341,6 @@ function renderOwnerReviews() {
     if (badge) badge.textContent = adminReviews.length;
     if (adminReviews.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет отзывов</div>'; return; }
     
-    // Считаем средний балл по всем
     const totalAvg = adminReviews.reduce((acc, r) => acc + (r.rating || 0), 0) / adminReviews.length;
     
     let html = `
@@ -2513,6 +2629,118 @@ function submitRestRequest() {
     showNotification('Заявка отправлена', '✅');
     const info = document.getElementById('adminRestRequestInfo');
     if (info) { info.style.display = 'block'; info.innerHTML = '<div class="empty-state">⏳ Заявка на рассмотрении</div>'; }
+}
+
+/* ==================== НАСТРОЙКИ НОРМЫ (ВЛАДЕЛЕЦ) ==================== */
+function renderOwnerNormSettings() {
+    const m = document.getElementById('normMessagesInput');
+    const u = document.getElementById('normUsersInput');
+    if (m) m.value = adminNorm.messages;
+    if (u) u.value = adminNorm.users;
+}
+
+function saveNormSettings() {
+    const m = parseInt(document.getElementById('normMessagesInput').value);
+    const u = parseInt(document.getElementById('normUsersInput').value);
+    
+    if (!m || !u || m < 1 || u < 1) { 
+        showNotification('Введите числа больше 0', '⚠️'); 
+        return; 
+    }
+    
+    adminNorm.messages = m;
+    adminNorm.users = u;
+    
+    saveToFirebase();
+    addLog(`Изменена норма: ${m} сообщений / ${u} юзеров`, '⚙️');
+    
+    // Мгновенно обновляем интерфейс везде, где отображается норма
+    renderAdminsList();
+    renderAdminNorm();
+    
+    showNotification('Норма обновлена', '✅');
+}
+
+/* ==================== CHART.JS ГРАФИКИ ==================== */
+function renderCharts() {
+    const ctx1 = document.getElementById('chartDialogs');
+    if (!ctx1) return;
+    
+    const last7Days = [];
+    const counts = [];
+    const today = new Date();
+    
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        const dateStr = d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit'});
+        last7Days.push(dateStr);
+        
+        const startOfDay = new Date(d.setHours(0,0,0,0)).getTime();
+        const endOfDay = new Date(d.setHours(23,59,59,999)).getTime();
+        const count = realDialogs.filter(dlg => dlg.createdAt >= startOfDay && dlg.createdAt <= endOfDay).length;
+        counts.push(count);
+    }
+    
+    if (chartDialogsObj) chartDialogsObj.destroy();
+    chartDialogsObj = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: last7Days,
+            datasets: [{
+                label: 'Новые диалоги',
+                data: counts,
+                borderColor: '#c2185b',
+                backgroundColor: 'rgba(194, 24, 91, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+
+    const ctx2 = document.getElementById('chartRatings');
+    if (!ctx2) return;
+    
+    const adminNames = [];
+    const adminRatings = [];
+    
+    adminsData.forEach(a => {
+        const reviews = adminReviews.filter(r => r.adminName === a.name);
+        if (reviews.length > 0) {
+            const avg = reviews.reduce((acc, r) => acc + (r.rating || 0), 0) / reviews.length;
+            adminNames.push(a.name);
+            adminRatings.push(avg.toFixed(1));
+        }
+    });
+    
+    if (chartRatingsObj) chartRatingsObj.destroy();
+    chartRatingsObj = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: adminNames,
+            datasets: [{
+                label: 'Средний балл',
+                data: adminRatings,
+                backgroundColor: 'rgba(194, 24, 91, 0.7)',
+                borderColor: '#c2185b',
+                borderWidth: 1,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 5 } }
+        }
+    });
 }
 
 /* ==================== TICKETS ==================== */
@@ -2917,6 +3145,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         renderOwnerReviews();
         renderOwnerRests();
         renderOwnerStats();
+        renderCharts();
+        renderOwnerNormSettings();
         switchPanel('mainContent');
         autoCloseStaleDialogs();
         trackVisit();
@@ -2941,6 +3171,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                 if (fsCurrentDialog && !fsIsAdmin) markMessagesRead(fsCurrentDialog.id);
                 renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
                 renderOwnerStats();
+                if (document.getElementById('ownerPanel').classList.contains('active')) renderCharts();
             });
             db.ref('sakura/userVisits').on('value', (snap) => {
                 userVisits = snap.val() || {};
@@ -2996,6 +3227,8 @@ document.addEventListener('click', (e) => {
         if (tabId === 'dialogs') renderOwnerDialogs();
         if (tabId === 'reports') renderReports();
         if (tabId === 'logs') renderLogs();
+        if (tabId === 'stats') renderCharts();
+        if (tabId === 'norm') renderOwnerNormSettings();
     }
     if (btn.dataset.adminTab) {
         const tabId = btn.dataset.adminTab;
