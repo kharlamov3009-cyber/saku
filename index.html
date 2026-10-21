@@ -124,6 +124,36 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .norm-progress-bg { width: 100%; height: 14px; background: rgba(0,0,0,0.05); border-radius: 20px; overflow: hidden; position: relative; }
 .norm-progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, #f8bbd0, #c2185b); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
 .norm-footer { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+
+/* === PREMIUM ОТЗЫВЫ === */
+.review-premium-card {
+    background: var(--bg-panel);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+}
+.review-premium-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, #f8bbd0, #c2185b);
+}
+.rpc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.rpc-admin-info { display: flex; align-items: center; gap: 12px; }
+.rpc-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
+.rpc-admin-name { font-weight: 700; color: var(--text-main); font-size: 1.05rem; }
+.rpc-from { font-size: 0.8rem; color: var(--text-muted); }
+.rpc-rating { text-align: right; }
+.rpc-stars { color: #ffd700; font-size: 1.1rem; letter-spacing: 2px; }
+.rpc-score { font-size: 0.85rem; color: var(--accent-pink-dark); font-weight: 700; margin-top: 2px; }
+.rpc-text { background: var(--bg-card); padding: 14px; border-radius: 12px; border-left: 3px solid var(--accent-pink-dark); font-style: italic; color: var(--text-main); font-size: 0.95rem; margin-bottom: 12px; }
+.rpc-date { font-size: 0.75rem; color: var(--text-muted); text-align: right; }
+.rpc-avg-block { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+.rpc-avg-score { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--accent-pink-dark); line-height: 1; }
+.rpc-avg-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
 .anketa-block { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 16px; }
 .anketa-block h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; border-bottom: 2px dashed var(--border-light); padding-bottom: 10px; font-family: var(--font-sans); }
 .anketa-question { background: var(--bg-panel); padding: 16px; border-radius: 12px; border: 1px solid var(--border-light); margin-bottom: 12px; }
@@ -141,25 +171,19 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 /* === CHAT === */
 #fullscreenChat { position: fixed; inset: 0; z-index: 2000; background: var(--bg-gradient); background-attachment: fixed; display: none; flex-direction: column; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
 #fullscreenChat.active { display: flex; }
-#fullscreenChat .fs-header { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-panel); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
+#fullscreenChat .fs-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-panel); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
 #fullscreenChat .fs-back { background: transparent; border: 1px solid var(--border-light); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 #fullscreenChat .fs-info { flex: 1; min-width: 0; }
 #fullscreenChat .fs-name { font-weight: 700; color: var(--text-main); font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-sans); }
 #fullscreenChat .fs-sub { font-size: 0.75rem; color: var(--text-muted); }
-#fullscreenChat .fs-actions { display: flex; gap: 8px; flex-shrink: 0; }
-#fullscreenChat .fs-actions button { min-width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center; }
+#fullscreenChat .fs-actions { display: flex; gap: 6px; flex-shrink: 0; }
+#fullscreenChat .fs-actions button { min-width: 40px; height: 40px; font-size: 1.1rem; border-radius: 10px; padding: 0 10px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-light); }
+.btn-icon { background: var(--bg-card); color: var(--text-main); cursor: pointer; transition: 0.2s; }
+.btn-icon:hover { background: var(--accent-pink-light); }
+.btn-icon.btn-green { background: linear-gradient(135deg, #4cd137, #3aa02a); color: #fff; border: none; }
+.btn-icon.btn-orange { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; border: none; }
 
-/* Уменьшенные кнопки действий пользователя */
-.fs-user-action-bar { display: flex; gap: 10px; padding: 8px 16px; background: var(--bg-panel); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); flex-shrink: 0; justify-content: center; }
-.fs-action-big { padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer; font-family: var(--font-sans); display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s; }
-.fs-action-big:active { transform: scale(0.97); }
-.fs-action-big .fs-icon { font-size: 1.1rem; }
-.fs-action-complain { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; box-shadow: 0 2px 8px rgba(255,152,0,0.35); }
-.fs-action-complain:hover { box-shadow: 0 4px 12px rgba(255,152,0,0.45); }
-.fs-action-finish { background: linear-gradient(135deg, #4cd137, #3aa02a); color: #fff; box-shadow: 0 2px 8px rgba(76,209,55,0.35); }
-.fs-action-finish:hover { box-shadow: 0 4px 12px rgba(76,209,55,0.45); }
-
-#fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+#fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 #fullscreenChat .fs-input { display: flex; gap: 8px; padding: 12px; background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); flex-shrink: 0; align-items: center; }
 #fullscreenChat .fs-input input { flex: 1; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: 50px; background: #fff; color: var(--text-main); font-size: 16px; outline: none; min-height: 52px; min-width: 0; font-family: var(--font-sans); }
 body.dark-theme #fullscreenChat .fs-input input { background: var(--bg-card); }
@@ -185,47 +209,55 @@ body.dark-theme .message.system { background: rgba(251, 197, 49, 0.15); }
 .rp-palette::-webkit-scrollbar { display: none; }
 .rp-btn { flex: 0 0 auto; padding: 8px 14px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 50px; cursor: pointer; font-size: 0.85rem; font-family: var(--font-sans); color: var(--text-main); white-space: nowrap; }
 .rp-btn:hover { border-color: var(--accent-pink-dark); color: var(--accent-pink-dark); }
+
+/* === ЧИСТЫЕ ДИАЛОГИ === */
 .dialogs-list { max-height: 400px; overflow-y: auto; }
 .empty-state { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-light); font-size: 0.95rem; }
-.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; gap: 12px; transition: 0.2s; }
-.dialog-item:hover { background: #fff; }
+.dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; gap: 12px; transition: 0.2s; }
+.dialog-item:hover { background: #fff; transform: translateY(-1px); box-shadow: var(--shadow-soft); }
 body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
 .dialog-item.banned { opacity: 0.6; border-color: #ef9a9a; }
 .dialog-item.closed { opacity: 0.6; }
 .dialog-item .dialog-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-.dialog-item .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1rem; flex-shrink: 0; }
-.dialog-item .dialog-name { font-weight: 600; color: var(--text-main); font-size: 1rem; }
-.dialog-item .dialog-preview { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.dialog-item .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 2px 8px rgba(194,24,91,0.2); }
+.dialog-item .dialog-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.dialog-item .dialog-name { font-weight: 700; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; gap: 6px; }
+.dialog-item .dialog-preview { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dialog-item .dialog-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
-.dialog-item .dialog-time { font-size: 0.75rem; color: var(--text-muted); }
-.dialog-item .dialog-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 50px; }
+.dialog-item .dialog-time { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+.dialog-item .dialog-status { font-size: 0.7rem; padding: 4px 8px; border-radius: 50px; font-weight: 700; }
 .dialog-item .dialog-status.online { color: #2e7d32; background: #e8f5e9; }
-.dialog-item .dialog-status.banned { color: #c62828; background: #ffebee; font-weight: 700; }
-.dialog-item .dialog-status.closed { color: var(--text-muted); background: var(--bg-panel); font-weight: 700; }
-.dialog-item .dialog-status.waiting { color: #1565c0; background: #e3f2fd; font-weight: 700; }
-.dialog-item .warns-badge { display: inline-block; padding: 2px 6px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; margin-left: 6px; }
+.dialog-item .dialog-status.banned { color: #c62828; background: #ffebee; }
+.dialog-item .dialog-status.closed { color: var(--text-muted); background: var(--bg-panel); }
+.dialog-item .dialog-status.waiting { color: #1565c0; background: #e3f2fd; }
+.dialog-item .warns-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-.stat-card { background: var(--bg-card); padding: 16px 12px; border-radius: 16px; text-align: center; border: 1px solid var(--border-light); }
-.stat-card .number { font-size: 1.6rem; font-weight: 700; color: var(--accent-pink-dark); font-family: var(--font-serif); }
-.stat-card .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+@media (min-width: 600px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+.stat-card { background: var(--bg-card); padding: 16px 12px; border-radius: 16px; text-align: center; border: 1px solid var(--border-light); box-shadow: var(--shadow-soft); }
+.stat-card .number { font-size: 1.8rem; font-weight: 700; color: var(--accent-pink-dark); font-family: var(--font-serif); }
+.stat-card .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; font-weight: 600; }
+
 .user-list { margin-top: 10px; }
-.user-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-light); flex-wrap: wrap; gap: 10px; }
-.user-item .user-info { display: flex; align-items: center; gap: 12px; flex: 1; }
-.user-item .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
-.user-item .user-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
+.user-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); flex-wrap: wrap; gap: 10px; box-shadow: var(--shadow-soft); }
+.user-item .user-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.user-item .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+.user-item .user-name { font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
 .user-item .user-status { font-size: 0.82rem; color: var(--text-muted); }
-.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
+.user-item .user-category { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
 .user-item .user-actions { display: flex; gap: 6px; }
-.user-item .user-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.user-item .user-actions button { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
 .user-item .user-actions button:hover { border-color: #ef9a9a; color: #c62828; background: #ffebee; }
 .user-item .user-actions button.btn-warn { color: #f57f17; }
+
 .ticket-form, .add-admin-form, .rest-request-form { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 20px; margin-bottom: 20px; }
 .ticket-form h3, .add-admin-form h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; font-family: var(--font-sans); }
 .ticket-form label, .rest-request-form label { display: block; color: var(--text-main); font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
 .ticket-form input, .ticket-form select, .ticket-form textarea, .add-admin-form input, .add-admin-form select, .rest-request-form input, .rest-request-form textarea { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 12px; background: var(--bg-panel); color: var(--text-main); font-size: 0.95rem; outline: none; margin-bottom: 12px; font-family: var(--font-sans); }
 .ticket-form textarea, .rest-request-form textarea { min-height: 100px; resize: vertical; }
+
 .ticket-list { display: flex; flex-direction: column; gap: 12px; }
-.ticket-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; padding: 16px; }
+.ticket-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-soft); }
 .ticket-item.pending { border-color: #ffe082; }
 .ticket-item-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
 .ticket-item-id { font-weight: 700; color: var(--accent-pink-dark); font-size: 0.85rem; }
@@ -238,22 +270,25 @@ body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
 .ticket-item-footer { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; }
 .ticket-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .ticket-empty { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-light); }
+
 .notification { position: fixed; top: calc(20px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: var(--text-main); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; z-index: 5000; opacity: 0; transition: all 0.4s; pointer-events: none; display: flex; align-items: center; gap: 8px; max-width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 240, 245, 0.8); backdrop-filter: blur(8px); z-index: 4000; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
 body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
 .modal-overlay.active { display: flex; }
-.modal-card { background: var(--bg-card); border-radius: 24px; padding: 32px 24px; width: 100%; max-width: 480px; border: 1px solid var(--border-light); position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+.modal-card { background: var(--bg-card); border-radius: 24px; padding: 28px 20px; width: 100%; max-width: 480px; border: 1px solid var(--border-light); position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 .close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px; }
 .auth-modal-content { text-align: center; }
 .auth-modal-content h3 { color: var(--text-main); font-size: 1.5rem; margin-bottom: 12px; }
 .auth-modal-content p { color: var(--text-muted); margin-bottom: 24px; }
 .auth-modal-content input { width: 100%; padding: 16px; border: 1px solid var(--border-light); border-radius: 14px; background: var(--bg-panel); color: var(--text-main); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: var(--font-sans); }
+
 .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); display: flex; justify-content: space-around; padding: 8px 2px calc(8px + var(--safe-bottom)); z-index: 200; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); }
 .nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.7rem; padding: 8px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 10px; font-weight: 600; transition: all 0.2s; font-family: var(--font-sans); }
-.nav-btn .nav-icon { font-size: 1.4rem; line-height: 1; }
+.nav-btn .nav-icon { font-size: 1.5rem; line-height: 1; }
 .nav-btn.active-role { color: var(--accent-pink-dark); }
-.profile-card { background: var(--bg-card); border-radius: 20px; padding: 20px; border: 1px solid var(--border-light); margin-bottom: 20px; display: flex; gap: 16px; align-items: center; }
+
+.profile-card { background: var(--bg-card); border-radius: 20px; padding: 20px; border: 1px solid var(--border-light); margin-bottom: 20px; display: flex; gap: 16px; align-items: center; box-shadow: var(--shadow-soft); }
 .profile-avatar-big { width: 70px; height: 70px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
 .profile-info-block h3 { color: var(--text-main); font-size: 1.2rem; margin-bottom: 4px; font-family: var(--font-sans); }
 .profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.85rem; }
@@ -262,10 +297,11 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 .nickname-row { display: flex; gap: 10px; flex-direction: column; }
 .nickname-row input { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 50px; background: var(--bg-card); color: var(--text-main); font-size: 1rem; outline: none; font-family: var(--font-sans); }
 .nickname-row button { padding: 14px; border-radius: 50px; font-weight: 600; cursor: pointer; background: var(--accent-pink-dark); color: #fff; border: none; font-family: var(--font-sans); }
+
 .admins-picker { display: grid; grid-template-columns: 1fr; gap: 12px; }
 @media (min-width: 500px) { .admins-picker { grid-template-columns: repeat(2, 1fr); } }
-.admin-pick-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 16px; cursor: pointer; transition: 0.2s; display: flex; gap: 12px; align-items: center; }
-.admin-pick-card:hover { border-color: var(--accent-pink-dark); transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+.admin-pick-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); padding: 16px; cursor: pointer; transition: 0.2s; display: flex; gap: 12px; align-items: center; box-shadow: var(--shadow-soft); }
+.admin-pick-card:hover { border-color: var(--accent-pink-dark); transform: translateY(-2px); }
 .admin-pick-card .pick-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--accent-pink-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
 .admin-pick-card .pick-info { flex: 1; min-width: 0; }
 .admin-pick-card .pick-name { font-weight: 700; color: var(--text-main); font-size: 1rem; font-family: var(--font-sans); }
@@ -274,6 +310,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 .admin-category-tabs::-webkit-scrollbar { display: none; }
 .admin-cat-btn { flex: 0 0 auto; padding: 10px 16px; background: transparent; border: none; border-radius: 50px; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
 .admin-cat-btn.active { background: var(--accent-pink-dark); color: #fff; }
+
 .log-item { display: flex; gap: 12px; padding: 12px 16px; background: var(--bg-card); border-radius: 12px; margin-bottom: 8px; border-left: 3px solid var(--accent-pink-dark); font-size: 0.88rem; border-top: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
 .log-item .log-time { color: var(--text-muted); font-size: 0.78rem; flex-shrink: 0; min-width: 90px; }
 .log-item .log-text { color: var(--text-main); flex: 1; }
@@ -291,20 +328,13 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 .report-card .rc-admin { font-weight: 700; color: #c62828; font-size: 0.9rem; }
 .report-card .rc-reason { color: var(--text-main); font-size: 0.9rem; font-style: italic; padding: 10px 14px; background: var(--bg-panel); border-radius: 12px; margin-bottom: 10px; border-left: 3px solid #ffe082; }
 .report-card .rc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.review-list-item { background: var(--bg-card); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border-light); }
-.review-list-item .rl-header { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-.review-list-item .rl-stars { color: #ffd700; font-size: 1rem; }
-.review-list-item .rl-admin { color: var(--accent-pink-dark); font-weight: 700; font-size: 0.9rem; }
-.review-list-item .rl-user { color: var(--text-muted); font-size: 0.82rem; }
-.review-list-item .rl-text { color: var(--text-main); font-size: 0.92rem; font-style: italic; margin: 6px 0; }
-.review-list-item .rl-date { font-size: 0.75rem; color: var(--text-muted); }
+
 .warn-item { background: var(--bg-card); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; border-left: 3px solid #f57f17; }
 .warn-item .warn-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
 .warn-item .warn-by { font-weight: 700; color: #f57f17; font-size: 0.9rem; }
 .warn-item .warn-date { color: var(--text-muted); font-size: 0.78rem; }
 .warn-item .warn-reason { color: var(--text-main); font-size: 0.88rem; }
 
-/* === НОВЫЕ СТИЛИ ДЛЯ МОДАЛОК === */
 .custom-modal-input { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 12px; background: var(--bg-panel); color: var(--text-main); font-size: 1rem; outline: none; margin-bottom: 16px; font-family: var(--font-sans); }
 .history-msg { padding: 8px 12px; border-radius: 12px; margin-bottom: 6px; font-size: 0.9rem; max-width: 90%; word-wrap: break-word; }
 .history-msg.user { background: var(--accent-pink-light); align-self: flex-end; margin-left: auto; }
@@ -332,18 +362,16 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             <div class="fs-name" id="fsChatName">Пользователь</div>
             <div class="fs-sub" id="fsChatSub">—</div>
         </div>
+        <!-- Кнопки для пользователя (Завершить, Жалоба) -->
+        <div class="fs-actions" id="fsUserActions" style="display:none;">
+            <button class="btn-icon btn-orange" onclick="openComplaintModal()" title="Пожаловаться">⚠️</button>
+            <button class="btn-icon btn-green" onclick="fsActionFinish()" title="Завершить">✅</button>
+        </div>
+        <!-- Кнопки для админа (Варн, Бан) -->
         <div class="fs-actions" id="fsAdminActions" style="display:none;">
             <button class="btn btn-yellow" onclick="fsActionWarn()" title="Варн">⚠️</button>
             <button class="btn btn-red" onclick="fsActionBan()" title="Бан">🚫</button>
         </div>
-    </div>
-    <div class="fs-user-action-bar" id="fsUserActionBar" style="display:none;">
-        <button class="fs-action-big fs-action-complain" onclick="openComplaintModal()">
-            <span class="fs-icon">⚠️</span><span>Пожаловаться</span>
-        </button>
-        <button class="fs-action-big fs-action-finish" onclick="fsActionFinish()">
-            <span class="fs-icon">✅</span><span>Завершить</span>
-        </button>
     </div>
     <div class="fs-messages" id="fsChatMessages"></div>
     <div class="rp-palette" id="rpPalette"></div>
@@ -639,7 +667,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         <div class="tab-page" id="adminTabReviews">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⭐ Отзывы обо мне</h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="adminReviewsList"><div class="empty-state">💬 Нет отзывов</div></div></div>
+                <div class="collapse-body"><div id="adminReviewsList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="adminTabRest">
@@ -744,25 +772,25 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         <div class="tab-page" id="ownerTabReviews">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⭐ Все отзывы <span class="collapse-badge" id="ownerReviewsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="ownerReviewsList"><div class="empty-state">💬 Нет отзывов</div></div></div>
+                <div class="collapse-body"><div id="ownerReviewsList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabRests">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>😴 Заявки на рест <span class="collapse-badge" id="ownerRestsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="ownerRestsList"><div class="empty-state">😴 Нет заявок</div></div></div>
+                <div class="collapse-body"><div id="ownerRestsList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabBlacklist">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🚫 Чёрный список <span class="collapse-badge" id="ownerBlacklistBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="ownerBlacklistList"><div class="empty-state">🚫 Чёрный список пуст</div></div></div>
+                <div class="collapse-body"><div id="ownerBlacklistList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabReports">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⚠️ Жалобы на админов <span class="collapse-badge" id="ownerReportsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="ownerReportsList"><div class="empty-state">⚠️ Нет жалоб</div></div></div>
+                <div class="collapse-body"><div id="ownerReportsList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabBroadcast">
@@ -779,7 +807,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📜 Логи действий <span class="collapse-badge" id="ownerLogsBadge">0</span></h4><span class="chevron">▼</span></div>
                 <div class="collapse-body">
                     <input type="text" id="logSearch" placeholder="🔍 Поиск..." oninput="searchLogs(this.value)" style="width:100%;padding:12px 16px;border:1px solid var(--border-light);border-radius:50px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;outline:none;margin-bottom:12px;font-family:var(--font-sans);">
-                    <div id="ownerLogsList" style="max-height:500px;overflow-y:auto;"><div class="empty-state">📜 Логов пока нет</div></div>
+                    <div id="ownerLogsList" style="max-height:500px;overflow-y:auto;"></div>
                 </div>
             </div>
         </div>
@@ -844,7 +872,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         <div class="tab-page" id="devTabErrors">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🔴 Ошибки и взломы <span class="collapse-badge" id="devErrorsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="devErrorsList" style="max-height:500px;overflow-y:auto;"><div class="empty-state">🔴 Ошибок нет</div></div></div>
+                <div class="collapse-body"><div id="devErrorsList" style="max-height:500px;overflow-y:auto;"></div></div>
             </div>
         </div>
         <div class="tab-page" id="devTabBroadcast">
@@ -1339,7 +1367,6 @@ function moderateMessage(text, userId, isAdminMsg = false) {
     const norm = normalizeText(text);
     for (const bad of BAD_WORDS) { if (norm.includes(bad)) return { blocked: true, reason: '🚫 Запрещённое слово' }; }
     
-    // ФИЛЬТР ЛИЧНОЙ ИНФОРМАЦИИ ТОЛЬКО ДЛЯ АДМИНА
     if (isAdminMsg) {
         for (const p of PERSONAL_PATTERNS) { 
             if (p.test(norm) || p.test(text)) { 
@@ -1566,9 +1593,10 @@ function openFullscreenChat(dialog, isAdmin) {
     }
     const canModerate = isAdmin && (['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev');
     document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
-    const userBar = document.getElementById('fsUserActionBar');
-    const showUserBar = !isAdmin && !dialog.closed && !dialog.banned;
-    if (userBar) userBar.style.display = showUserBar ? 'flex' : 'none';
+    
+    // Показываем кнопки пользователя прямо в шапке
+    const showUserActions = !isAdmin && !dialog.closed && !dialog.banned;
+    document.getElementById('fsUserActions').style.display = showUserActions ? 'flex' : 'none';
 
     renderFsMessages();
     renderRpPalette();
@@ -1624,7 +1652,6 @@ function renderFsMessages() {
         }
         div.innerHTML = escapeHtml(m.text || '') + (m.attachment || '') + statusIcon + `<span class="time">${escapeHtml(m.time || '')}</span>`;
         
-        // Обработка клика на фото
         const img = div.querySelector('.attachment-photo img');
         if (img) {
             img.addEventListener('click', () => openPhoto(img.src));
@@ -1919,7 +1946,18 @@ function renderAdminDialogs() {
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
         const statusHtml = d.status === 'waiting' ? '<div class="dialog-status waiting">⏳</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar">${escapeHtml(init)}</div><div style="min-width:0;"><div class="dialog-name">${escapeHtml(d.userNickname)} <span style="font-size:0.75rem;color:var(--text-muted);">#${escapeHtml(d.userId || '—')}</span> ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : ''}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
+        item.innerHTML = `
+            <div class="dialog-info">
+                <div class="avatar">${escapeHtml(init)}</div>
+                <div class="dialog-content">
+                    <div class="dialog-name">${escapeHtml(d.userNickname)} <span style="font-size:0.75rem;color:var(--text-muted);">#${escapeHtml(d.userId || '—')}</span></div>
+                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
+                </div>
+            </div>
+            <div class="dialog-meta">
+                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : statusHtml}
+            </div>`;
         item.onclick = () => openFullscreenChat(d, true);
         list.appendChild(item);
     });
@@ -1936,7 +1974,18 @@ function renderModeratorDialogs() {
         item.className = 'dialog-item';
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar" style="background:linear-gradient(135deg,#90caf9,#42a5f5);">${escapeHtml(init)}</div><div style="min-width:0;"><div class="dialog-name">${escapeHtml(d.userNickname)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div><div class="dialog-status viewer">👁️</div></div>`;
+        item.innerHTML = `
+            <div class="dialog-info">
+                <div class="avatar" style="background:linear-gradient(135deg,#90caf9,#42a5f5);">${escapeHtml(init)}</div>
+                <div class="dialog-content">
+                    <div class="dialog-name">${escapeHtml(d.userNickname)}</div>
+                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
+                </div>
+            </div>
+            <div class="dialog-meta">
+                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                <div class="dialog-status waiting">👁️</div>
+            </div>`;
         item.onclick = () => viewDialogHistory(d.id);
         list.appendChild(item);
     });
@@ -1954,7 +2003,18 @@ function renderOwnerDialogs() {
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
         const statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar">${escapeHtml(init)}</div><div style="min-width:0;"><div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
+        item.innerHTML = `
+            <div class="dialog-info">
+                <div class="avatar">${escapeHtml(init)}</div>
+                <div class="dialog-content">
+                    <div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div>
+                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
+                </div>
+            </div>
+            <div class="dialog-meta">
+                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                ${statusHtml}
+            </div>`;
         item.onclick = () => viewDialogHistory(d.id);
         list.appendChild(item);
     });
@@ -1972,7 +2032,18 @@ function renderDevDialogs() {
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
         const statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `<div class="dialog-info"><div class="avatar">${escapeHtml(init)}</div><div style="min-width:0;"><div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>${statusHtml}</div>`;
+        item.innerHTML = `
+            <div class="dialog-info">
+                <div class="avatar">${escapeHtml(init)}</div>
+                <div class="dialog-content">
+                    <div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div>
+                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
+                </div>
+            </div>
+            <div class="dialog-meta">
+                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
+                ${statusHtml}
+            </div>`;
         item.onclick = () => viewDialogHistory(d.id);
         list.appendChild(item);
     });
@@ -2143,6 +2214,8 @@ function warnAdminFromList(username) {
         showNotification(`Варн выдан ${admin.name}`, '⚠️');
     });
 }
+
+/* ==================== ПРЕМИУМ ОТЗЫВЫ ==================== */
 function renderOwnerReviews() {
     const list = document.getElementById('ownerReviewsList');
     if (!list) return;
@@ -2150,19 +2223,48 @@ function renderOwnerReviews() {
     const badge = document.getElementById('ownerReviewsBadge');
     if (badge) badge.textContent = adminReviews.length;
     if (adminReviews.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет отзывов</div>'; return; }
+    
+    // Считаем средний балл по всем
+    const totalAvg = adminReviews.reduce((acc, r) => acc + (r.rating || 0), 0) / adminReviews.length;
+    
+    let html = `
+    <div class="rpc-avg-block">
+        <div>
+            <div class="rpc-avg-label">Средний балл всех админов</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">На основе ${adminReviews.length} отзывов</div>
+        </div>
+        <div style="text-align:right;">
+            <div class="rpc-avg-score">${totalAvg.toFixed(1)}</div>
+            <div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div>
+        </div>
+    </div>
+    `;
+
     adminReviews.slice().reverse().forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'review-list-item';
-        item.innerHTML = `
-            <div class="rl-header">
-                <span class="rl-admin">${escapeHtml(r.adminName)}</span>
-                <span class="rl-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</span>
+        const admin = adminsData.find(a => a.name === r.adminName);
+        const initials = admin ? admin.initials : (r.adminName || '??').slice(0,2).toUpperCase();
+        
+        html += `
+        <div class="review-premium-card">
+            <div class="rpc-header">
+                <div class="rpc-admin-info">
+                    <div class="rpc-avatar">${escapeHtml(initials)}</div>
+                    <div>
+                        <div class="rpc-admin-name">${escapeHtml(r.adminName)}</div>
+                        <div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div>
+                    </div>
+                </div>
+                <div class="rpc-rating">
+                    <div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div>
+                    <div class="rpc-score">${r.rating || 0} / 5</div>
+                </div>
             </div>
-            <div class="rl-user">от ${escapeHtml(r.fromNickname)}</div>
-            <div class="rl-text">«${escapeHtml(r.text)}»</div>
-            <div class="rl-date">${new Date(r.date).toLocaleString('ru-RU')}</div>`;
-        list.appendChild(item);
+            <div class="rpc-text">«${escapeHtml(r.text)}»</div>
+            <div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div>
+        </div>
+        `;
     });
+    list.innerHTML = html;
 }
 function renderAdminReviews() {
     const list = document.getElementById('adminReviewsList');
@@ -2171,20 +2273,49 @@ function renderAdminReviews() {
     const me = myAdminName();
     const mine = adminReviews.filter(r => r.adminName === me);
     if (mine.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет отзывов</div>'; return; }
+
+    const totalAvg = mine.reduce((acc, r) => acc + (r.rating || 0), 0) / mine.length;
+    
+    let html = `
+    <div class="rpc-avg-block">
+        <div>
+            <div class="rpc-avg-label">Мой средний балл</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">На основе ${mine.length} отзывов</div>
+        </div>
+        <div style="text-align:right;">
+            <div class="rpc-avg-score">${totalAvg.toFixed(1)}</div>
+            <div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div>
+        </div>
+    </div>
+    `;
+
     mine.slice().reverse().forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'review-list-item';
-        item.innerHTML = `
-            <div class="rl-header">
-                <span class="rl-admin">${escapeHtml(r.adminName)}</span>
-                <span class="rl-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</span>
+        const admin = adminsData.find(a => a.name === r.adminName);
+        const initials = admin ? admin.initials : (r.adminName || '??').slice(0,2).toUpperCase();
+
+        html += `
+        <div class="review-premium-card">
+            <div class="rpc-header">
+                <div class="rpc-admin-info">
+                    <div class="rpc-avatar">${escapeHtml(initials)}</div>
+                    <div>
+                        <div class="rpc-admin-name">${escapeHtml(r.adminName)}</div>
+                        <div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div>
+                    </div>
+                </div>
+                <div class="rpc-rating">
+                    <div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div>
+                    <div class="rpc-score">${r.rating || 0} / 5</div>
+                </div>
             </div>
-            <div class="rl-user">от ${escapeHtml(r.fromNickname)}</div>
-            <div class="rl-text">«${escapeHtml(r.text)}»</div>
-            <div class="rl-date">${new Date(r.date).toLocaleString('ru-RU')}</div>`;
-        list.appendChild(item);
+            <div class="rpc-text">«${escapeHtml(r.text)}»</div>
+            <div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div>
+        </div>
+        `;
     });
+    list.innerHTML = html;
 }
+
 function renderAdminNorm() {
     if (!currentAuth.tag && currentAuth.role !== 'owner' && currentAuth.role !== 'dev') return;
     const me = myAdminName();
