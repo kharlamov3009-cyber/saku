@@ -36,6 +36,161 @@ body.dark-theme {
     --border-light: rgba(255, 183, 197, 0.2);
     --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
+/* === ХЭЛЛОУИН ТЕМА === */
+body.halloween-theme {
+    --bg-gradient: linear-gradient(135deg, #0a0010 0%, #1a0a20 50%, #100018 100%);
+    --bg-panel: rgba(20, 10, 30, 0.9);
+    --bg-card: rgba(30, 15, 40, 0.95);
+    --text-main: #ffb347;
+    --text-muted: #a890b8;
+    --accent-pink-dark: #ff6600;
+    --accent-pink-light: #ff8c00;
+    --border-light: rgba(255, 102, 0, 0.3);
+    --shadow-soft: 0 10px 40px rgba(255, 102, 0, 0.3);
+}
+body.halloween-theme .hero h1 { text-shadow: 0 0 20px #ff6600, 0 0 40px #ff6600; }
+body.halloween-theme .btn { background: linear-gradient(135deg, #ff6600, #cc3300); box-shadow: 0 4px 15px rgba(255, 102, 0, 0.4); }
+body.halloween-theme .btn-blue { background: linear-gradient(135deg, #8b00ff, #5a00a8); }
+body.halloween-theme .btn-green { background: linear-gradient(135deg, #00a800, #007700); }
+body.halloween-theme .btn-yellow { background: linear-gradient(135deg, #ffaa00, #ff8800); }
+body.halloween-theme .btn-red { background: linear-gradient(135deg, #cc0000, #8b0000); }
+body.halloween-theme .btn-outline { border-color: #ff6600; color: #ff6600; }
+body.halloween-theme .stat-card { box-shadow: 0 0 20px rgba(255, 102, 0, 0.2); }
+body.halloween-theme .stat-card .number { text-shadow: 0 0 15px #ff6600; }
+body.halloween-theme .hero::before { content: '🎃'; position: absolute; top: 20px; left: 20px; font-size: 3rem; opacity: 0.3; animation: float 3s ease-in-out infinite; }
+body.halloween-theme .hero::after { content: '👻'; position: absolute; top: 20px; right: 20px; font-size: 3rem; opacity: 0.3; animation: float 3s ease-in-out infinite reverse; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+body.halloween-theme .mobile-nav { border-top: 2px solid #ff6600; box-shadow: 0 -5px 25px rgba(255, 102, 0, 0.3); }
+body.halloween-theme .nav-btn.active-role { text-shadow: 0 0 10px #ff6600; }
+
+/* === ХЭЛЛОУИН ЗАДАНИЯ === */
+.task-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.task-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 4px; height: 100%;
+    background: linear-gradient(180deg, #ff6600, #cc3300);
+}
+.task-card.completed {
+    background: linear-gradient(135deg, rgba(76, 209, 55, 0.1), rgba(58, 160, 42, 0.05));
+    border-color: rgba(76, 209, 55, 0.5);
+}
+.task-card.completed::before { background: #4cd137; }
+.task-icon { font-size: 1.8rem; flex-shrink: 0; width: 44px; text-align: center; }
+.task-info { flex: 1; min-width: 0; }
+.task-name { font-weight: 700; color: var(--text-main); font-size: 0.95rem; margin-bottom: 2px; }
+.task-reward { font-size: 0.82rem; color: var(--accent-pink-dark); font-weight: 700; }
+.task-progress { font-size: 0.75rem; color: var(--text-muted); }
+.task-check { font-size: 1.5rem; color: #4cd137; flex-shrink: 0; }
+
+/* Баланс конфет */
+.candy-balance {
+    background: linear-gradient(135deg, #ff6600, #cc3300);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
+}
+.candy-balance .cb-icon { font-size: 2rem; }
+.candy-balance .cb-value { font-size: 1.8rem; font-weight: 700; font-family: var(--font-serif); line-height: 1; }
+.candy-balance .cb-label { font-size: 0.8rem; opacity: 0.9; }
+
+/* Streak */
+.streak-block {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.streak-block .streak-value { font-size: 2rem; font-weight: 700; color: var(--accent-pink-dark); font-family: var(--font-serif); }
+
+/* Магазин */
+.shop-item {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.shop-icon { font-size: 2rem; flex-shrink: 0; width: 50px; text-align: center; }
+.shop-info { flex: 1; min-width: 0; }
+.shop-name { font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
+.shop-price { font-size: 0.85rem; color: var(--accent-pink-dark); font-weight: 700; }
+.shop-buy-btn {
+    background: linear-gradient(135deg, #ff6600, #cc3300);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+.shop-buy-btn:hover { transform: scale(1.05); }
+.shop-buy-btn:disabled { background: #666; cursor: not-allowed; opacity: 0.5; }
+.shop-buy-btn.owned { background: linear-gradient(135deg, #4cd137, #3aa02a); }
+
+/* Достижения */
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-panel);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 2px solid var(--border-light);
+    opacity: 0.4;
+    transition: 0.3s;
+}
+.achievement.unlocked {
+    opacity: 1;
+    border-color: var(--accent-pink-dark);
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+}
+.achievement .ach-icon { font-size: 2rem; }
+.achievement .ach-info { flex: 1; }
+.achievement .ach-name { font-weight: 700; color: var(--text-main); font-size: 0.9rem; }
+.achievement .ach-desc { font-size: 0.75rem; color: var(--text-muted); }
+
+/* Конфетные анимации */
+.candy-pop {
+    position: fixed;
+    top: 50%; left: 50%;
+    font-size: 3rem;
+    pointer-events: none;
+    z-index: 9999;
+    animation: candyPop 1s ease-out forwards;
+}
+@keyframes candyPop {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { transform: translate(-50%, -100%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -200%) scale(1); opacity: 0; }
+}
+.halloween-toggle { position: fixed; top: calc(16px + var(--safe-top)); right: 128px; z-index: 100; background: var(--bg-card); border: 1px solid var(--border-light); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+
 html { scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; height: auto; }
 body { font-family: var(--font-sans); color: var(--text-main); line-height: 1.6; min-height: 100vh; font-size: 16px; padding-bottom: var(--safe-bottom); background: var(--bg-gradient); background-attachment: fixed; overflow-x: hidden; transition: background 0.5s, color 0.3s; }
 h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.5px; }
@@ -103,7 +258,7 @@ p { margin-bottom: 16px; color: var(--text-muted); font-size: 1rem; }
 .panel-tabs::-webkit-scrollbar { display: none; }
 .tab-btn { flex: 0 0 auto; padding: 10px 20px; background: transparent; border: none; border-radius: 50px; color: var(--text-muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; font-family: var(--font-sans); }
 .tab-btn.active { background: #fff; color: var(--text-main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-body.dark-theme .tab-btn.active { background: var(--bg-panel); }
+body.dark-theme .tab-btn.active, body.halloween-theme .tab-btn.active { background: var(--bg-panel); }
 .tab-page { display: none; }
 .tab-page.active { display: block; animation: tabFade 0.3s ease; }
 @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -124,6 +279,7 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 .norm-card-value { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 700; color: var(--accent-pink-dark); }
 .norm-card-value span { font-family: var(--font-sans); font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
 .norm-progress-bg { width: 100%; height: 14px; background: rgba(0,0,0,0.05); border-radius: 20px; overflow: hidden; position: relative; }
+body.halloween-theme .norm-progress-bg { background: rgba(255, 102, 0, 0.15); }
 .norm-progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, #f8bbd0, #c2185b); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
 .norm-footer { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
 
@@ -176,16 +332,16 @@ body.dark-theme .tab-btn.active { background: var(--bg-panel); }
 #fullscreenChat .fs-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 #fullscreenChat .fs-input { display: flex; gap: 8px; padding: 12px; background: var(--bg-panel); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); flex-shrink: 0; align-items: center; }
 #fullscreenChat .fs-input input { flex: 1; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: 50px; background: #fff; color: var(--text-main); font-size: 16px; outline: none; min-height: 52px; min-width: 0; font-family: var(--font-sans); }
-body.dark-theme #fullscreenChat .fs-input input { background: var(--bg-card); }
+body.dark-theme #fullscreenChat .fs-input input, body.halloween-theme #fullscreenChat .fs-input input { background: var(--bg-card); }
 #fullscreenChat .fs-attach { background: #fff; border: 1px solid var(--border-light); color: var(--text-muted); width: 48px; height: 48px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-body.dark-theme #fullscreenChat .fs-attach { background: var(--bg-card); }
+body.dark-theme #fullscreenChat .fs-attach, body.halloween-theme #fullscreenChat .fs-attach { background: var(--bg-card); }
 #fullscreenChat .fs-send { background: var(--accent-pink-dark); color: #fff; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; min-height: 48px; font-size: 1rem; flex-shrink: 0; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.2); }
 .message { max-width: 85%; padding: 12px 16px; border-radius: 18px; word-wrap: break-word; font-size: 0.95rem; line-height: 1.5; }
 .message.user { align-self: flex-end; background: var(--accent-pink-dark); color: #fff; border-bottom-right-radius: 4px; }
 .message.bot { align-self: flex-start; background: #fff; color: var(--text-main); border-bottom-left-radius: 4px; border: 1px solid var(--border-light); }
-body.dark-theme .message.bot { background: var(--bg-card); }
+body.dark-theme .message.bot, body.halloween-theme .message.bot { background: var(--bg-card); }
 .message.system { align-self: center; background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; font-size: 0.85rem; text-align: center; font-weight: 600; }
-body.dark-theme .message.system { background: rgba(251, 197, 49, 0.15); }
+body.dark-theme .message.system, body.halloween-theme .message.system { background: rgba(251, 197, 49, 0.15); }
 .message.closed { align-self: center; background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; font-size: 0.85rem; text-align: center; }
 .message .time { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
 .msg-status { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
@@ -204,7 +360,7 @@ body.dark-theme .message.system { background: rgba(251, 197, 49, 0.15); }
 .empty-state { text-align: center; padding: 30px 16px; color: var(--text-muted); font-style: italic; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border-light); font-size: 0.95rem; }
 .dialog-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-card); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; gap: 12px; transition: 0.2s; }
 .dialog-item:hover { background: #fff; transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
+body.dark-theme .dialog-item:hover, body.halloween-theme .dialog-item:hover { background: var(--bg-panel); }
 .dialog-item.banned { opacity: 0.6; border-color: #ef9a9a; }
 .dialog-item.closed { opacity: 0.6; }
 .dialog-item .dialog-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
@@ -262,8 +418,10 @@ body.dark-theme .dialog-item:hover { background: var(--bg-panel); }
 
 .notification { position: fixed; top: calc(20px + var(--safe-top)); left: 50%; transform: translateX(-50%) translateY(-80px); background: var(--text-main); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; z-index: 5000; opacity: 0; transition: all 0.4s; pointer-events: none; display: flex; align-items: center; gap: 8px; max-width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+body.halloween-theme .notification { background: linear-gradient(135deg, #ff6600, #cc3300); box-shadow: 0 10px 40px rgba(255, 102, 0, 0.5); }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 240, 245, 0.8); backdrop-filter: blur(8px); z-index: 4000; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
 body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
+body.halloween-theme .modal-overlay { background: rgba(10, 0, 16, 0.9); }
 .modal-overlay.active { display: flex; }
 .modal-card { background: var(--bg-card); border-radius: 24px; padding: 28px 20px; width: 100%; max-width: 480px; border: 1px solid var(--border-light); position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 .close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px; }
@@ -283,6 +441,7 @@ body.dark-theme .modal-overlay { background: rgba(0,0,0,0.85); }
 .profile-info-block .profile-username-line { color: var(--text-muted); font-size: 0.85rem; }
 .profile-hint { background: #fff8e1; border: 1px solid #ffe082; color: #7a5c00; font-size: 0.85rem; padding: 12px 14px; border-radius: 12px; margin-bottom: 16px; line-height: 1.5; }
 body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe082; }
+body.halloween-theme .profile-hint { background: rgba(255, 102, 0, 0.15); color: #ffb347; border-color: rgba(255, 102, 0, 0.4); }
 .nickname-row { display: flex; gap: 10px; flex-direction: column; }
 .nickname-row input { width: 100%; padding: 14px; border: 1px solid var(--border-light); border-radius: 50px; background: var(--bg-card); color: var(--text-main); font-size: 1rem; outline: none; font-family: var(--font-sans); }
 .nickname-row button { padding: 14px; border-radius: 50px; font-weight: 600; cursor: pointer; background: var(--accent-pink-dark); color: #fff; border: none; font-family: var(--font-sans); }
@@ -341,6 +500,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 </head>
 <body>
 
+<button class="halloween-toggle" id="halloweenToggle" onclick="toggleHalloween()" title="Хэллоуин">🎃</button>
 <button class="profile-float" id="profileFloat" onclick="switchPanel('profilePanel')" title="Профиль">👤</button>
 <button class="theme-float" id="themeToggle">🌙</button>
 
@@ -373,8 +533,8 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 <main id="mainContent">
     <section class="hero" id="mainHeader">
         <div class="container">
-            <h1>По ту сторону</h1>
-            <p>слушает бережно, отвечает мягко и помогает вернуть внутреннее равновесие без давления и осуждения</p>
+            <h1 id="mainTitle">По ту сторону</h1>
+            <p id="mainSubtitle">слушает бережно, отвечает мягко и помогает вернуть внутреннее равновесие без давления и осуждения</p>
             <a href="#features" class="btn">Узнать больше</a>
             <a href="https://t.me/ваш_бот" target="_blank" class="btn btn-outline">🤍 Открыть в Telegram</a>
             <div class="stats-hero">
@@ -441,8 +601,21 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             </div>
             <span class="role-badge user">Пользователь</span>
         </div>
+        <div class="candy-balance" id="candyBalance">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span class="cb-icon">🍬</span>
+                <div>
+                    <div class="cb-value" id="candyValue">0</div>
+                    <div class="cb-label">конфет</div>
+                </div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:1.5rem;">🎃</div>
+                <div class="cb-label">Хэллоуин</div>
+            </div>
+        </div>
         <div class="profile-hint">
-            💡 Это ваш профиль. Открыть его можно через кнопку <b>👤</b> в правом верхнем углу или через вкладку <b>«Профиль»</b> в нижнем меню.
+            💡 Это ваш профиль. Открыть его можно через кнопку <b>👤</b> в правом верхнем углу.
         </div>
         <div class="profile-card">
             <div class="profile-avatar-big" id="profileAvatarBig" onclick="toggleAvatarPicker()">😊</div>
@@ -456,12 +629,37 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             <input type="text" id="nicknameInput" placeholder="Ваш псевдоним..." maxlength="30">
             <button onclick="saveNickname()">💾 Сохранить</button>
         </div>
-        <div class="collapse-block open">
-            <div class="collapse-header" onclick="toggleCollapse(this)">
-                <h4>⚠️ Предупреждения (<span id="profileWarnsCount">0</span>)</h4>
-                <span class="chevron">▼</span>
+        <div class="panel-tabs">
+            <button class="tab-btn active" data-profile-tab="warns">⚠️ Варны</button>
+            <button class="tab-btn" data-profile-tab="tasks">🎃 Задания</button>
+            <button class="tab-btn" data-profile-tab="shop">🏪 Магазин</button>
+            <button class="tab-btn" data-profile-tab="achievements">🏆 Достижения</button>
+        </div>
+        <div class="tab-page active" id="profileTabWarns">
+            <div class="collapse-block open">
+                <div class="collapse-header" onclick="toggleCollapse(this)">
+                    <h4>⚠️ Предупреждения (<span id="profileWarnsCount">0</span>)</h4>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="collapse-body"><div id="profileWarnsList"><div class="empty-state">Предупреждений нет 🌸</div></div></div>
             </div>
-            <div class="collapse-body"><div id="profileWarnsList"><div class="empty-state">Предупреждений нет 🌸</div></div></div>
+        </div>
+        <div class="tab-page" id="profileTabTasks">
+            <div class="streak-block">
+                <div class="streak-value" id="streakValue">🔥 0</div>
+                <div style="font-size:0.85rem;color:var(--text-muted);">дней подряд</div>
+            </div>
+            <div id="tasksList"></div>
+        </div>
+        <div class="tab-page" id="profileTabShop">
+            <div style="text-align:center;margin-bottom:16px;padding:12px;background:var(--bg-panel);border-radius:16px;">
+                <div style="font-size:1.5rem;font-weight:700;color:var(--accent-pink-dark);">🍬 <span id="shopCandyValue">0</span></div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Ваш баланс</div>
+            </div>
+            <div id="shopList"></div>
+        </div>
+        <div class="tab-page" id="profileTabAchievements">
+            <div id="achievementsList"></div>
         </div>
         <button class="btn btn-outline btn-full" style="margin-top:12px;" onclick="switchPanel('anketaPanel')">📝 Анкета для персонала</button>
     </div>
@@ -507,7 +705,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             <div class="anketa-question"><strong>1. Собеседник пишет: —Я ничтожество, зачем я вообще пишу сюда.</strong><textarea id="anketaPsy1"></textarea></div>
             <div class="anketa-question"><textarea id="anketaPsy2" placeholder="Второе — противоположное первому"></textarea></div>
             <div class="anketa-question"><textarea id="anketaPsy3" placeholder="Третье — что отправили бы сами"></textarea></div>
-            <div class="anketa-question"><strong>Ответьте без слов: смысл, психолог, хобби, «всё наладится», «вы не один», «попробуйте».</strong><textarea id="anketaPsyMan" style="min-height:120px;"></textarea></div>
+            <div class="anketa-question"><strong>Ответьте без слов: смысл, психолог, хобби.</strong><textarea id="anketaPsyMan" style="min-height:120px;"></textarea></div>
         </div>
         <div class="anketa-block">
             <h3>БЛОК 3. НАДЁЖНОСТЬ</h3>
@@ -695,13 +893,13 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="panel-tabs">
             <button class="tab-btn active" data-owner-tab="stats">📊 Статистика</button>
+            <button class="tab-btn" data-owner-tab="halloween">🎃 Хэллоуин</button>
             <button class="tab-btn" data-owner-tab="norm">⚙️ Норма</button>
             <button class="tab-btn" data-owner-tab="users">👥 Пользователи</button>
             <button class="tab-btn" data-owner-tab="admins">💼 Админы</button>
             <button class="tab-btn" data-owner-tab="tickets">🎫 Тикеты</button>
             <button class="tab-btn" data-owner-tab="dialogs">💬 Диалоги</button>
             <button class="tab-btn" data-owner-tab="reviews">⭐ Отзывы</button>
-            <button class="tab-btn" data-owner-tab="rests">😴 Ресты</button>
             <button class="tab-btn" data-owner-tab="blacklist">🚫 ЧС</button>
             <button class="tab-btn" data-owner-tab="reports">⚠️ Жалобы</button>
             <button class="tab-btn" data-owner-tab="broadcast">📢 Рассылка</button>
@@ -719,27 +917,31 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
             </div>
             <h4 style="color:var(--text-main);margin:20px 0 12px;font-size:1.1rem;">📈 Диалоги за неделю</h4>
             <div class="chart-container"><canvas id="chartDialogs"></canvas></div>
-            
-            <h4 style="color:var(--text-main);margin:20px 0 12px;font-size:1.1rem;">⭐ Средний рейтинг админов</h4>
-            <div class="chart-container"><canvas id="chartRatings"></canvas></div>
         </div>
-        
+        <div class="tab-page" id="ownerTabHalloween">
+            <div class="ticket-form">
+                <h3>🎃 Управление Хэллоуином</h3>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:16px;">Всего конфет у пользователей: <b id="totalCandies">0</b></p>
+                <label>Начислить конфеты пользователю:</label>
+                <input type="text" id="candyUsername" placeholder="Ник пользователя">
+                <input type="number" id="candyAmount" placeholder="Сколько конфет" min="1">
+                <button class="btn btn-green btn-full" onclick="ownerAddCandies()">🍬 Начислить</button>
+                <hr style="margin:20px 0;border:none;border-top:1px solid var(--border-light);">
+                <h3>🏆 Топ по конфетам</h3>
+                <div id="topCandiesList"></div>
+            </div>
+        </div>
         <div class="tab-page" id="ownerTabNorm">
             <div class="ticket-form">
                 <h3>⚙️ Настройки нормы</h3>
-                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
-                    Изменения мгновенно отразятся на прогрессе всех администраторов.
-                </p>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">Изменения мгновенно отразятся на прогрессе всех администраторов.</p>
                 <label>Норма сообщений (в месяц):</label>
-                <input type="number" id="normMessagesInput" min="1" placeholder="Например: 300">
-                
+                <input type="number" id="normMessagesInput" min="1">
                 <label>Норма пользователей (в месяц):</label>
-                <input type="number" id="normUsersInput" min="1" placeholder="Например: 3">
-                
+                <input type="number" id="normUsersInput" min="1">
                 <button class="btn btn-green btn-full" onclick="saveNormSettings()">💾 Сохранить</button>
             </div>
         </div>
-
         <div class="tab-page" id="ownerTabUsers">
             <div class="collapse-block open">
                 <div class="collapse-header" onclick="toggleCollapse(this)"><h4>👥 Все пользователи</h4><span class="chevron">▼</span></div>
@@ -753,7 +955,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
                 <input type="text" id="inlineAdminUsername" placeholder="Тег (без #)">
                 <label>Должность:</label>
                 <select id="inlineAdminCategory">
-                    <option value="">— Выберите должность —</option>
+                    <option value="">— Выберите —</option>
                     <option value="Общение">💬 Общение</option>
                     <option value="Поддержка">🆘 Поддержка</option>
                     <option value="Универсал">⭐ Универсал</option>
@@ -769,8 +971,8 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="tab-page" id="ownerTabTickets">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎫 Тикеты <span class="collapse-badge" id="ownerTicketsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div class="ticket-list" id="ownerTicketList"><div class="ticket-empty">🎫 Нет тикетов</div></div></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🎫 Тикеты</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div class="ticket-list" id="ownerTicketList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabDialogs">
@@ -781,25 +983,19 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="tab-page" id="ownerTabReviews">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⭐ Все отзывы <span class="collapse-badge" id="ownerReviewsBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⭐ Все отзывы</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body"><div id="ownerReviewsList"></div></div>
-            </div>
-        </div>
-        <div class="tab-page" id="ownerTabRests">
-            <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>😴 Заявки на рест <span class="collapse-badge" id="ownerRestsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="ownerRestsList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabBlacklist">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🚫 Чёрный список <span class="collapse-badge" id="ownerBlacklistBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🚫 Чёрный список</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body"><div id="ownerBlacklistList"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabReports">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⚠️ Жалобы на админов <span class="collapse-badge" id="ownerReportsBadge">0</span></h4><span class="chevron">▼</span></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>⚠️ Жалобы</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body"><div id="ownerReportsList"></div></div>
             </div>
         </div>
@@ -814,11 +1010,8 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="tab-page" id="ownerTabLogs">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📜 Логи действий <span class="collapse-badge" id="ownerLogsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body">
-                    <input type="text" id="logSearch" placeholder="🔍 Поиск..." oninput="searchLogs(this.value)" style="width:100%;padding:12px 16px;border:1px solid var(--border-light);border-radius:50px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;outline:none;margin-bottom:12px;font-family:var(--font-sans);">
-                    <div id="ownerLogsList" style="max-height:500px;overflow-y:auto;"></div>
-                </div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📜 Логи</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="ownerLogsList" style="max-height:500px;overflow-y:auto;"></div></div>
             </div>
         </div>
         <div class="tab-page" id="ownerTabData">
@@ -851,12 +1044,9 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         </div>
         <div class="panel-tabs">
             <button class="tab-btn active" data-dev-tab="stats">📊 Статистика</button>
-            <button class="tab-btn" data-dev-tab="dialogs">💬 Диалоги</button>
-            <button class="tab-btn" data-dev-tab="logs">📜 Логи</button>
             <button class="tab-btn" data-dev-tab="errors">🔴 Ошибки</button>
-            <button class="tab-btn" data-dev-tab="broadcast">📢 Рассылка</button>
+            <button class="tab-btn" data-dev-tab="logs">📜 Логи</button>
             <button class="tab-btn" data-dev-tab="clean">🧹 Очистка</button>
-            <button class="tab-btn" data-dev-tab="data">📦 Данные</button>
         </div>
         <div class="tab-page active" id="devTabStats">
             <div class="stats">
@@ -865,12 +1055,11 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
                 <div class="stat-card"><div class="number" id="devTicketsCount">0</div><div class="label">Тикетов</div></div>
                 <div class="stat-card"><div class="number" id="devBlacklistCount">0</div><div class="label">В ЧС</div></div>
             </div>
-            <button class="btn btn-yellow btn-full" onclick="cleanGhostDialogs(); showNotification('Фантомы удалены', '✅')">🧹 Очистить фантомные диалоги</button>
         </div>
-        <div class="tab-page" id="devTabDialogs">
+        <div class="tab-page" id="devTabErrors">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>💬 Все диалоги</h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div class="dialogs-list" id="devDialogsList"></div></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🔴 Ошибки</h4><span class="chevron">▼</span></div>
+                <div class="collapse-body"><div id="devErrorsList" style="max-height:500px;overflow-y:auto;"></div></div>
             </div>
         </div>
         <div class="tab-page" id="devTabLogs">
@@ -879,41 +1068,12 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
                 <div class="collapse-body"><div id="devLogsList" style="max-height:500px;overflow-y:auto;"></div></div>
             </div>
         </div>
-        <div class="tab-page" id="devTabErrors">
-            <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🔴 Ошибки и взломы <span class="collapse-badge" id="devErrorsBadge">0</span></h4><span class="chevron">▼</span></div>
-                <div class="collapse-body"><div id="devErrorsList" style="max-height:500px;overflow-y:auto;"></div></div>
-            </div>
-        </div>
-        <div class="tab-page" id="devTabBroadcast">
-            <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📢 Рассылка от разработчика</h4><span class="chevron">▼</span></div>
-                <div class="collapse-body">
-                    <textarea id="devBroadcastText" placeholder="Текст..." style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:12px;background:var(--bg-card);color:var(--text-main);font-size:0.95rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:12px;resize:vertical;"></textarea>
-                    <button class="btn btn-green btn-full" onclick="devSendBroadcast()">📢 Отправить всем</button>
-                </div>
-            </div>
-        </div>
         <div class="tab-page" id="devTabClean">
             <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🧹 Очистка базы</h4><span class="chevron">▼</span></div>
+                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>🧹 Очистка</h4><span class="chevron">▼</span></div>
                 <div class="collapse-body">
-                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Удалить ВСЕ диалоги?')) { realDialogs = []; saveToFirebase(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs(); showNotification('Все диалоги удалены', '✅'); }">🗑️ Удалить все диалоги</button>
-                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Очистить ЧС?')) { blacklist = []; saveToFirebase(); renderBlacklist(); showNotification('ЧС очищен', '✅'); }">🗑️ Очистить ЧС</button>
-                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Удалить все логи?')) { logs = []; saveToFirebase(); renderLogs(); renderDevLogs(); showNotification('Логи удалены', '✅'); }">🗑️ Удалить логи</button>
-                    <button class="btn btn-red btn-full" onclick="if(confirm('Удалить все ошибки?')) { errors = []; saveToFirebase(); renderDevErrors(); showNotification('Ошибки удалены', '✅'); }">🗑️ Удалить ошибки</button>
-                </div>
-            </div>
-        </div>
-        <div class="tab-page" id="devTabData">
-            <div class="collapse-block open">
-                <div class="collapse-header" onclick="toggleCollapse(this)"><h4>📦 Экспорт / Импорт</h4><span class="chevron">▼</span></div>
-                <div class="collapse-body">
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                        <button class="btn btn-green" style="flex:1;min-width:150px;" onclick="exportAllData()">📤 Экспорт</button>
-                        <button class="btn btn-blue" style="flex:1;min-width:150px;" onclick="document.getElementById('devImportFileInput').click()">📥 Импорт</button>
-                    </div>
-                    <input type="file" id="devImportFileInput" accept=".json" style="display:none;" onchange="importAllData(event)">
+                    <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="if(confirm('Удалить ВСЕ диалоги?')) { realDialogs = []; saveToFirebase(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs(); showNotification('Все диалоги удалены', '✅'); }">🗑️ Удалить диалоги</button>
+                    <button class="btn btn-red btn-full" onclick="if(confirm('Удалить все логи?')) { logs = []; saveToFirebase(); renderLogs(); renderDevLogs(); showNotification('Логи удалены', '✅'); }">🗑️ Удалить логи</button>
                 </div>
             </div>
         </div>
@@ -927,7 +1087,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
         <div class="auth-modal-content">
             <h3 id="authTitle">🌸 Вход</h3>
             <p id="authSubtitle">Введите данные</p>
-            <div id="authTagField" style="display:none;"><input type="text" id="authTag" placeholder="Тег (например: admin_sakura)"></div>
+            <div id="authTagField" style="display:none;"><input type="text" id="authTag" placeholder="Тег"></div>
             <input type="password" id="authPassword" placeholder="Пароль">
             <button class="btn btn-full" onclick="submitAuth()">Войти</button>
         </div>
@@ -959,25 +1119,6 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
     <img id="photoModalImg" src="" style="max-width:95vw;max-height:95vh;border-radius:12px;">
 </div>
 
-<div class="modal-overlay" id="ticketReplyModal">
-    <div class="modal-card">
-        <button class="close-modal" onclick="closeTicketReply()">✕</button>
-        <h3 style="color:var(--text-main);text-align:center;margin-bottom:8px;">🎫 Ответ на тикет</h3>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:12px;font-size:0.9rem;">Тикет: <strong id="ticketReplyId" style="color:var(--accent-pink-dark);">—</strong></p>
-        <div style="background:var(--bg-panel);padding:14px;border-radius:12px;margin-bottom:16px;border-left:3px solid #90caf9;">
-            <div style="font-weight:700;color:var(--text-main);font-size:0.95rem;margin-bottom:4px;" id="ticketReplySubject">—</div>
-            <div style="color:var(--text-muted);font-size:0.9rem;font-style:italic;" id="ticketReplyText">—</div>
-            <div style="color:var(--text-muted);font-size:0.8rem;margin-top:8px;" id="ticketReplyFrom">—</div>
-        </div>
-        <label class="settings-label">Ваш ответ:</label>
-        <textarea id="ticketReplyAnswer" style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:16px;resize:vertical;"></textarea>
-        <div style="display:flex;gap:10px;">
-            <button class="btn btn-outline" style="flex:1;" onclick="closeTicketReply()">Отмена</button>
-            <button class="btn btn-green" style="flex:1;" onclick="submitTicketReply()">📤 Отправить</button>
-        </div>
-    </div>
-</div>
-
 <div class="modal-overlay" id="staffModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeStaffModal()">✕</button>
@@ -995,9 +1136,8 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 <div class="modal-overlay" id="complaintModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeComplaintModal()">✕</button>
-        <h3 style="color:#c62828;text-align:center;margin-bottom:8px;">⚠️ Пожаловаться на админа</h3>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.9rem;">Опишите причину. Владелец увидит историю диалога.</p>
-        <textarea id="complaintReason" placeholder="Что не так с администратором?" style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:16px;"></textarea>
+        <h3 style="color:#c62828;text-align:center;margin-bottom:8px;">⚠️ Пожаловаться</h3>
+        <textarea id="complaintReason" placeholder="Что не так?" style="width:100%;padding:14px;border:1px solid var(--border-light);border-radius:14px;background:var(--bg-card);color:var(--text-main);font-size:1rem;font-family:inherit;outline:none;min-height:120px;margin-bottom:16px;"></textarea>
         <div style="display:flex;gap:10px;">
             <button class="btn btn-outline" style="flex:1;" onclick="closeComplaintModal()">Отмена</button>
             <button class="btn btn-red" style="flex:1;" onclick="submitComplaint()">⚠️ Отправить</button>
@@ -1005,13 +1145,12 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
     </div>
 </div>
 
-<!-- КАСТОМНЫЕ МОДАЛКИ -->
 <div class="modal-overlay" id="customModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeCustomModal()">✕</button>
         <h3 id="customModalTitle" style="color:var(--text-main);text-align:center;margin-bottom:8px;">Заголовок</h3>
-        <p id="customModalText" style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.9rem;">Текст</p>
-        <input type="text" id="customModalInput" class="custom-modal-input" placeholder="Введите текст..." style="display:none;">
+        <p id="customModalText" style="text-align:center;color:var(--text-muted);margin-bottom:16px;font-size:0.9rem;"></p>
+        <input type="text" id="customModalInput" class="custom-modal-input" style="display:none;">
         <div style="display:flex;gap:10px;margin-top:16px;">
             <button class="btn btn-outline" style="flex:1;" onclick="closeCustomModal()">Отмена</button>
             <button class="btn" style="flex:1;" id="customModalConfirmBtn">Подтвердить</button>
@@ -1022,7 +1161,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 <div class="modal-overlay" id="historyModal">
     <div class="modal-card" style="max-width:600px;">
         <button class="close-modal" onclick="document.getElementById('historyModal').classList.remove('active')">✕</button>
-        <h3 style="color:var(--text-main);margin-bottom:8px;" id="historyTitle">История диалога</h3>
+        <h3 style="color:var(--text-main);margin-bottom:8px;" id="historyTitle">История</h3>
         <div id="historySubtitle" style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px;"></div>
         <div id="historyMessages" style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow-y:auto;padding:10px;background:var(--bg-panel);border-radius:12px;"></div>
     </div>
@@ -1031,7 +1170,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 <div class="modal-overlay" id="warnsModal">
     <div class="modal-card">
         <button class="close-modal" onclick="document.getElementById('warnsModal').classList.remove('active')">✕</button>
-        <h3 style="color:var(--text-main);margin-bottom:16px;" id="warnsModalTitle">Варны админа</h3>
+        <h3 style="color:var(--text-main);margin-bottom:16px;" id="warnsModalTitle">Варны</h3>
         <div id="warnsListContainer" style="max-height:50vh;overflow-y:auto;"></div>
     </div>
 </div>
@@ -1046,7 +1185,7 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 
 <nav class="mobile-nav">
     <button class="nav-btn active-role" id="navHome"><span class="nav-icon">🏠</span><span>Главная</span></button>
-    <button class="nav-btn" id="navProfile"><span class="nav-icon">👤</span><span>Профиль</span></button>
+    <button class="nav-btn" id="navProfile"><span class="nav-icon">🎃</span><span>Профиль</span></button>
     <button class="nav-btn" id="navUser"><span class="nav-icon">👥</span><span>Админы</span></button>
     <button class="nav-btn" id="navSupport"><span class="nav-icon">🎫</span><span>Тикеты</span></button>
     <button class="nav-btn" id="navStaff"><span class="nav-icon">🔐</span><span>Вход</span></button>
@@ -1057,7 +1196,6 @@ body.dark-theme .profile-hint { background: rgba(251,197,49,0.12); color: #ffe08
 </footer>
 
 <script>
-/* ==================== FIREBASE ==================== */
 const firebaseConfig = { apiKey: "AIzaSyCsRo-IAR6UgXX4NDoIDR9viJtoTCRVikc", authDomain: "poty-storony.firebaseapp.com", databaseURL: "https://poty-storony-default-rtdb.europe-west1.firebasedatabase.app", projectId: "poty-storony", storageBucket: "poty-storony.firebasestorage.app", messagingSenderId: "522808917706", appId: "1:522808917706:web:859f785b26f863729dfe33" };
 let db = null, storage = null;
 try {
@@ -1066,12 +1204,62 @@ try {
     storage = firebase.storage();
 } catch(e) { console.error('Firebase init error:', e); }
 
+/* ==================== ХЭЛЛОУИН ДАННЫЕ ==================== */
+const HALLOWEEN_TASKS = [
+    { id: 'login', icon: '🎃', name: 'Зайти на сайт', reward: 3, daily: true },
+    { id: 'message', icon: '💬', name: 'Написать сообщение', reward: 5, daily: true },
+    { id: 'review', icon: '⭐', name: 'Оставить отзыв', reward: 10, daily: true, max: 3 },
+    { id: 'long_message', icon: '👻', name: 'Длинное сообщение (>100)', reward: 10, daily: true, max: 2 },
+    { id: 'rp', icon: '🔮', name: 'Использовать 3 RP-команды', reward: 10, daily: true },
+    { id: 'midnight', icon: '🌙', name: 'Написать после полуночи', reward: 20, daily: true },
+    { id: 'streak7', icon: '🕸️', name: 'Streak 7 дней', reward: 100, daily: false },
+    { id: 'streak31', icon: '🌕', name: 'Streak 31 день', reward: 500, daily: false },
+    { id: 'profile', icon: '💀', name: 'Заполнить профиль', reward: 50, daily: false },
+    { id: 'all_admins', icon: '🧙', name: 'Поговорить с 3 разными админами', reward: 100, daily: false }
+];
+
+const HALLOWEEN_SHOP = [
+    { id: 'pumpkin_frame', icon: '🎃', name: 'Рамка-тыква', price: 100, type: 'frame' },
+    { id: 'ghost', icon: '👻', name: 'Призрак у ника', price: 150, type: 'badge' },
+    { id: 'bat', icon: '🦇', name: 'Летучая мышь', price: 120, type: 'badge' },
+    { id: 'skull', icon: '💀', name: 'Череп', price: 200, type: 'badge' },
+    { id: 'witch_theme', icon: '🧙', name: 'Ведьма-тема', price: 300, type: 'theme' },
+    { id: 'night_chat', icon: '🌙', name: 'Ночной режим чата', price: 150, type: 'chat' },
+    { id: 'candies_gift', icon: '🍬', name: '100 🍬 другу', price: 200, type: 'gift' }
+];
+
+const HALLOWEEN_ACHIEVEMENTS = [
+    { id: 'first_candy', icon: '🍬', name: 'Сладкоежка', desc: 'Заработать первую конфету' },
+    { id: 'midnight_owl', icon: '👻', name: 'Полуночник', desc: 'Написать после полуночи' },
+    { id: 'dark_night', icon: '🦇', name: 'Тёмная ночь', desc: '10 заданий выполнено' },
+    { id: 'halloween_spirit', icon: '🎃', name: 'Хэллоуин-дух', desc: 'Зайти в октябре' },
+    { id: 'spider_web', icon: '🕸️', name: 'Паутина', desc: '7 дней подряд' },
+    { id: 'vampire', icon: '🧛', name: 'Вампир', desc: '100 сообщений' },
+    { id: 'sweet_tooth', icon: '🍬', name: 'Конфетный магнат', desc: '500 конфет' },
+    { id: 'full_moon', icon: '🌕', name: 'Полная луна', desc: '31 день подряд' }
+];
+
+const HALLOWEEN_EVENT = { active: new Date().getMonth() === 9 };
+
 /* ==================== STATE ==================== */
 let tickets = [], realDialogs = [], blacklist = [], logs = [], adminReports = [], errors = [];
 let adminsData = [{ name: 'admin_sakura', username: '#admin_sakura', initials: 'AD', category: 'Универсал', role: 'admin' }];
 let userAdminData = [{ id: 'admin_sakura', name: 'admin_sakura', initials: 'AD', category: 'Универсал' }];
 let adminRests = {}, restRequests = [], adminReviews = [], userVisits = {};
-let userProfile = { nickname: '', avatar: '😊', since: Date.now(), id: '', warns: [], hintShown: false };
+let userProfile = {
+    nickname: '', avatar: '😊', since: Date.now(), id: '', warns: [], hintShown: false,
+    candies: 0,
+    halloweenTasks: {},
+    halloweenPurchases: [],
+    achievements: [],
+    streak: 0,
+    lastVisit: null,
+    lastDailyReset: null,
+    messagesSent: 0,
+    rpUsed: 0,
+    distinctAdmins: [],
+    halloweenThemeOn: false
+};
 let adminWarns = {};
 let currentAuth = { role: null, tag: null, category: null, dbRole: null };
 let adminNorm = { messages: 300, users: 3 };
@@ -1081,7 +1269,8 @@ let pendingAuthRole = null, selectedAdminId = null, currentDialogId = null, curr
 let fsCurrentDialog = null, fsIsAdmin = false;
 let mediaRecorder = null, audioChunks = [], recordStartTime = 0;
 let currentAdminFilter = 'all';
-let chartDialogsObj = null, chartRatingsObj = null;
+let chartDialogsObj = null;
+let currentRpCountToday = 0;
 
 (function initLocalId() {
     let localId = localStorage.getItem('sakura-uid');
@@ -1094,57 +1283,218 @@ let chartDialogsObj = null, chartRatingsObj = null;
     userProfile.id = localId;
 })();
 
-/* ==================== PWA MANIFEST & SERVICE WORKER ==================== */
-const manifestStr = JSON.stringify({
-    "name": "По ту сторону",
-    "short_name": "Поддержка",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#ffc0cb",
-    "theme_color": "#ffc0cb",
-    "icons": [{
-        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
-        "sizes": "192x192",
-        "type": "image/png"
-    }]
-});
+/* ==================== PWA ==================== */
+const manifestStr = JSON.stringify({ name: "По ту сторону", short_name: "Поддержка", start_url: ".", display: "standalone", background_color: "#0a0010", theme_color: "#ff6600", icons: [{ src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", sizes: "192x192", type: "image/png" }] });
 const manifestBlob = new Blob([manifestStr], {type: 'application/json'});
 const manifestUrl = URL.createObjectURL(manifestBlob);
 const link = document.createElement('link');
-link.rel = 'manifest';
-link.href = manifestUrl;
+link.rel = 'manifest'; link.href = manifestUrl;
 document.head.appendChild(link);
-
-const swCode = `
-const CACHE_NAME = 'sakura-cache-v1';
-self.addEventListener('install', (e) => { self.skipWaiting(); });
-self.addEventListener('fetch', (e) => {});
-`;
+const swCode = `self.addEventListener('install',()=>{self.skipWaiting()});self.addEventListener('fetch',()=>{});`;
 const swBlob = new Blob([swCode], {type: 'application/javascript'});
-const swUrl = URL.createObjectURL(swBlob);
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(swUrl).catch(err => console.log('SW error:', err));
+if ('serviceWorker' in navigator) navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
+
+/* ==================== ХЭЛЛОУИН ЛОГИКА ==================== */
+function toggleHalloween() {
+    const isOn = document.body.classList.toggle('halloween-theme');
+    userProfile.halloweenThemeOn = isOn;
+    saveProfile();
+    updateHalloweenIcons();
+    showNotification(isOn ? '🎃 Хэллоуин включён!' : '🌸 Обычная тема', isOn ? '🎃' : '🌸');
+    if (isOn) addLog('Включил хэллоуинскую тему', '🎃');
+}
+function updateHalloweenIcons() {
+    const isOn = document.body.classList.contains('halloween-theme');
+    document.getElementById('mainTitle').textContent = isOn ? '🎃 По ту сторону 🎃' : 'По ту сторону';
+    document.getElementById('mainSubtitle').textContent = isOn 
+        ? 'тёмная атмосфера, тёплые ответы и конфеты за активность. Твоя поддержка — здесь.'
+        : 'слушает бережно, отвечает мягко и помогает вернуть внутреннее равновесие без давления и осуждения';
+}
+function checkMidnight() {
+    const hour = new Date().getHours();
+    return hour >= 0 && hour < 3;
+}
+function todayKey() {
+    return new Date().toISOString().slice(0, 10);
+}
+function checkDailyReset() {
+    const today = todayKey();
+    if (userProfile.lastDailyReset !== today) {
+        userProfile.lastDailyReset = today;
+        userProfile.halloweenTasks = userProfile.halloweenTasks || {};
+        HALLOWEEN_TASKS.filter(t => t.daily).forEach(t => {
+            delete userProfile.halloweenTasks[t.id];
+        });
+        currentRpCountToday = 0;
+    }
+}
+function checkStreak() {
+    const today = todayKey();
+    if (userProfile.lastVisit === today) return;
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    if (userProfile.lastVisit === yesterday) {
+        userProfile.streak = (userProfile.streak || 0) + 1;
+    } else if (userProfile.lastVisit !== today) {
+        userProfile.streak = 1;
+    }
+    userProfile.lastVisit = today;
+    saveProfile();
+    if (userProfile.streak === 7 && !userProfile.achievements?.includes('spider_web')) {
+        unlockAchievement('spider_web');
+    }
+    if (userProfile.streak === 31 && !userProfile.achievements?.includes('full_moon')) {
+        unlockAchievement('full_moon');
+    }
+    if (userProfile.streak === 7) completeTask('streak7');
+    if (userProfile.streak === 31) completeTask('streak31');
+}
+function completeTask(taskId) {
+    checkDailyReset();
+    const task = HALLOWEEN_TASKS.find(t => t.id === taskId);
+    if (!task) return;
+    userProfile.halloweenTasks = userProfile.halloweenTasks || {};
+    const current = userProfile.halloweenTasks[taskId] || 0;
+    if (task.daily && current >= (task.max || 1)) return;
+    if (!task.daily && current >= 1) return;
+    userProfile.halloweenTasks[taskId] = current + 1;
+    if (userProfile.halloweenTasks[taskId] >= (task.max || 1)) {
+        userProfile.candies = (userProfile.candies || 0) + task.reward;
+        showCandyPopup(`+${task.reward} 🍬`);
+        showNotification(`Задание: ${task.name} +${task.reward} 🍬`, '🎃');
+        if (!userProfile.achievements) userProfile.achievements = [];
+        if (!userProfile.achievements.includes('first_candy')) unlockAchievement('first_candy');
+        if (userProfile.candies >= 500 && !userProfile.achievements.includes('sweet_tooth')) unlockAchievement('sweet_tooth');
+        const totalDone = Object.keys(userProfile.halloweenTasks).length;
+        if (totalDone >= 10 && !userProfile.achievements.includes('dark_night')) unlockAchievement('dark_night');
+    }
+    saveProfile();
+    renderTasks();
+    renderCandyBalance();
+}
+function unlockAchievement(achId) {
+    if (!userProfile.achievements) userProfile.achievements = [];
+    if (userProfile.achievements.includes(achId)) return;
+    const ach = HALLOWEEN_ACHIEVEMENTS.find(a => a.id === achId);
+    if (!ach) return;
+    userProfile.achievements.push(achId);
+    saveProfile();
+    showNotification(`🏆 Достижение: ${ach.name}`, '🏆');
+    addLog(`Разблокировано достижение: ${ach.name}`, '🏆');
+}
+function showCandyPopup(text) {
+    const el = document.createElement('div');
+    el.className = 'candy-pop';
+    el.textContent = text;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+}
+
+/* ==================== РЕНДЕР ХЭЛЛОУИНА ==================== */
+function renderCandyBalance() {
+    const v = document.getElementById('candyValue');
+    if (v) v.textContent = userProfile.candies || 0;
+    const sv = document.getElementById('shopCandyValue');
+    if (sv) sv.textContent = userProfile.candies || 0;
+}
+function renderTasks() {
+    const list = document.getElementById('tasksList');
+    if (!list) return;
+    checkDailyReset();
+    let html = '';
+    HALLOWEEN_TASKS.forEach(task => {
+        const done = (userProfile.halloweenTasks?.[task.id] || 0) >= (task.max || 1);
+        const prog = userProfile.halloweenTasks?.[task.id] || 0;
+        const max = task.max || 1;
+        const progText = max > 1 ? `${prog}/${max}` : (done ? 'Выполнено' : 'Не выполнено');
+        html += `
+            <div class="task-card ${done ? 'completed' : ''}">
+                <div class="task-icon">${task.icon}</div>
+                <div class="task-info">
+                    <div class="task-name">${task.name}</div>
+                    <div class="task-reward">+${task.reward} 🍬</div>
+                    <div class="task-progress">${progText}</div>
+                </div>
+                ${done ? '<div class="task-check">✓</div>' : ''}
+            </div>
+        `;
+    });
+    list.innerHTML = html;
+    const sv = document.getElementById('streakValue');
+    if (sv) sv.textContent = `🔥 ${userProfile.streak || 0}`;
+}
+function renderShop() {
+    const list = document.getElementById('shopList');
+    if (!list) return;
+    let html = '';
+    HALLOWEEN_SHOP.forEach(item => {
+        const owned = (userProfile.halloweenPurchases || []).includes(item.id);
+        const canBuy = (userProfile.candies || 0) >= item.price && !owned;
+        html += `
+            <div class="shop-item">
+                <div class="shop-icon">${item.icon}</div>
+                <div class="shop-info">
+                    <div class="shop-name">${item.name}</div>
+                    <div class="shop-price">${item.price} 🍬</div>
+                </div>
+                <button class="shop-buy-btn ${owned ? 'owned' : ''}" ${owned || !canBuy ? 'disabled' : ''} onclick="buyItem('${item.id}')">
+                    ${owned ? '✓ Куплено' : 'Купить'}
+                </button>
+            </div>
+        `;
+    });
+    list.innerHTML = html;
+}
+function renderAchievements() {
+    const list = document.getElementById('achievementsList');
+    if (!list) return;
+    let html = '';
+    HALLOWEEN_ACHIEVEMENTS.forEach(ach => {
+        const unlocked = (userProfile.achievements || []).includes(ach.id);
+        html += `
+            <div class="achievement ${unlocked ? 'unlocked' : ''}">
+                <div class="ach-icon">${ach.icon}</div>
+                <div class="ach-info">
+                    <div class="ach-name">${ach.name}</div>
+                    <div class="ach-desc">${ach.desc}</div>
+                </div>
+                ${unlocked ? '<div style="color:#ffd700;font-size:1.5rem;">⭐</div>' : ''}
+            </div>
+        `;
+    });
+    list.innerHTML = html;
+}
+function buyItem(itemId) {
+    const item = HALLOWEEN_SHOP.find(i => i.id === itemId);
+    if (!item) return;
+    if ((userProfile.candies || 0) < item.price) { showNotification('Недостаточно 🍬', '⚠️'); return; }
+    if ((userProfile.halloweenPurchases || []).includes(itemId)) return;
+    userProfile.candies -= item.price;
+    if (!userProfile.halloweenPurchases) userProfile.halloweenPurchases = [];
+    userProfile.halloweenPurchases.push(itemId);
+    saveProfile();
+    renderShop();
+    renderCandyBalance();
+    showNotification(`Куплено: ${item.name}`, '🎉');
+    addLog(`Куплено: ${item.name} (-${item.price} 🍬)`, '🛍️');
+    if (userProfile.halloweenPurchases.length >= 5 && !userProfile.achievements.includes('witch')) {
+        unlockAchievement('witch');
+    }
 }
 
 /* ==================== CUSTOM MODALS ==================== */
 function showConfirm(title, text, onConfirm) {
-    const modal = document.getElementById('customModal');
     document.getElementById('customModalTitle').textContent = title;
     document.getElementById('customModalText').textContent = text;
     document.getElementById('customModalInput').style.display = 'none';
     const btn = document.getElementById('customModalConfirmBtn');
     btn.onclick = () => { closeCustomModal(); if (onConfirm) onConfirm(); };
-    modal.classList.add('active');
+    document.getElementById('customModal').classList.add('active');
 }
-
 function showPrompt(title, text, placeholder, onConfirm) {
-    const modal = document.getElementById('customModal');
     document.getElementById('customModalTitle').textContent = title;
     document.getElementById('customModalText').textContent = text;
     const inp = document.getElementById('customModalInput');
-    inp.style.display = 'block';
-    inp.value = '';
-    inp.placeholder = placeholder || 'Введите текст...';
+    inp.style.display = 'block'; inp.value = ''; inp.placeholder = placeholder || 'Введите текст...';
     const btn = document.getElementById('customModalConfirmBtn');
     btn.onclick = () => {
         const val = inp.value.trim();
@@ -1152,99 +1502,68 @@ function showPrompt(title, text, placeholder, onConfirm) {
         closeCustomModal();
         if (onConfirm) onConfirm(val);
     };
-    modal.classList.add('active');
+    document.getElementById('customModal').classList.add('active');
     setTimeout(() => inp.focus(), 100);
 }
-
-function closeCustomModal() {
-    document.getElementById('customModal').classList.remove('active');
-}
+function closeCustomModal() { document.getElementById('customModal').classList.remove('active'); }
 
 function viewDialogHistory(dialogId) {
     const d = realDialogs.find(x => x.id === dialogId);
     if (!d) return;
     document.getElementById('historyTitle').textContent = `История: ${d.userNickname} → ${d.adminName}`;
-    document.getElementById('historySubtitle').innerHTML = `ID: ${d.userId || '—'} | Варнов: ${d.warns || 0}/3 | Статус: ${d.closed ? 'Закрыт' : d.banned ? 'Забанен' : 'Активен'}`;
+    document.getElementById('historySubtitle').innerHTML = `ID: ${d.userId || '—'} | Варнов: ${d.warns || 0}/3 | ${d.closed ? 'Закрыт' : d.banned ? 'Забанен' : 'Активен'}`;
     const container = document.getElementById('historyMessages');
     container.innerHTML = '';
-    if (!d.messages || d.messages.length === 0) {
-        container.innerHTML = '<div class="empty-state">Сообщений нет</div>';
-    } else {
+    if (!d.messages || d.messages.length === 0) { container.innerHTML = '<div class="empty-state">Сообщений нет</div>'; }
+    else {
         d.messages.forEach(m => {
             const div = document.createElement('div');
             div.className = `history-msg ${m.sender}`;
-            div.innerHTML = `<strong>${m.sender === 'user' ? d.userNickname : (m.sender === 'system' ? 'Система' : d.adminName)}:</strong> ${escapeHtml(m.text || '(вложение)')}`;
-            if (m.attachment && m.attachment.includes('<img')) {
-                const srcMatch = m.attachment.match(/src="([^"]+)"/);
-                if (srcMatch) {
-                    const img = document.createElement('img');
-                    img.src = srcMatch[1];
-                    img.style.maxWidth = '100%';
-                    img.style.borderRadius = '8px';
-                    img.style.marginTop = '8px';
-                    img.style.cursor = 'pointer';
-                    img.onclick = () => openPhoto(srcMatch[1]);
-                    div.appendChild(img);
-                }
-            }
+            div.innerHTML = `<strong>${m.sender === 'user' ? d.userNickname : (m.sender === 'system' ? 'С' : d.adminName)}:</strong> ${escapeHtml(m.text || '(вложение)')}`;
             container.appendChild(div);
         });
     }
     document.getElementById('historyModal').classList.add('active');
 }
-
 function openWarnsManager(adminName) {
     const warns = adminWarns[adminName] || [];
     document.getElementById('warnsModalTitle').textContent = `Варны: ${adminName} (${warns.length})`;
-    const container = document.getElementById('warnsListContainer');
-    container.innerHTML = '';
-    if (warns.length === 0) {
-        container.innerHTML = '<div class="empty-state">Варнов нет</div>';
-    } else {
-        warns.forEach((w, idx) => {
-            const div = document.createElement('div');
-            div.className = 'warn-list-item';
-            div.innerHTML = `
-                <div>
-                    <div class="warn-text">${escapeHtml(w.reason)}</div>
-                    <div class="warn-meta">Выдал: ${escapeHtml(w.by)} • ${new Date(w.date).toLocaleString('ru-RU')}</div>
-                </div>
-                <button onclick="removeWarnFromAdmin('${adminName}', ${idx})" title="Снять варн">✖</button>
-            `;
-            container.appendChild(div);
-        });
-    }
+    const c = document.getElementById('warnsListContainer');
+    c.innerHTML = '';
+    if (warns.length === 0) c.innerHTML = '<div class="empty-state">Варнов нет</div>';
+    else warns.forEach((w, idx) => {
+        const div = document.createElement('div');
+        div.className = 'warn-list-item';
+        div.innerHTML = `<div><div class="warn-text">${escapeHtml(w.reason)}</div><div class="warn-meta">${escapeHtml(w.by)} • ${new Date(w.date).toLocaleString('ru-RU')}</div></div><button onclick="removeWarnFromAdmin('${adminName}', ${idx})">✖</button>`;
+        c.appendChild(div);
+    });
     document.getElementById('warnsModal').classList.add('active');
 }
-
 function removeWarnFromAdmin(adminName, idx) {
     if (!adminWarns[adminName] || idx < 0 || idx >= adminWarns[adminName].length) return;
-    showConfirm('Снять варн?', `Вы уверены, что хотите снять этот варн с ${adminName}?`, () => {
+    showConfirm('Снять варн?', `Снять с ${adminName}?`, () => {
         adminWarns[adminName].splice(idx, 1);
         if (adminWarns[adminName].length === 0) delete adminWarns[adminName];
         saveToFirebase();
         renderAdminsList();
-        openWarnsManager(adminName); 
+        openWarnsManager(adminName);
         showNotification('Варн снят', '✅');
     });
 }
-
 function openSelfProfile() {
     const me = myAdminName();
     const admin = adminsData.find(a => a.name === me);
     if (!admin) return;
-    const roleNames = { 'admin': '💼 Админ', 'st_admin': '💼 СТ Админ', 'ml_admin': '👶 МЛ Админ', 'co_owner': '💎 СОВЛАД', 'dep_owner': '👑 ЗАМ ВЛД', 'moderator': '🛡️ Модератор' };
-    const roleDisplay = roleNames[admin.role] || '💼 Админ';
+    const roles = { admin: '💼 Админ', st_admin: '💼 СТ Админ', ml_admin: '👶 МЛ Админ', co_owner: '💎 СОВЛАД', dep_owner: '👑 ЗАМ ВЛД', moderator: '🛡️ Модератор' };
     document.getElementById('adminSelfProfileTitle').textContent = 'Мой профиль';
     document.getElementById('adminSelfProfileContent').innerHTML = `
         <div style="background:var(--bg-panel);padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid var(--border-light);">
             <div style="font-size:1.2rem;font-weight:700;color:var(--accent-pink-dark);margin-bottom:8px;">${escapeHtml(admin.name)}</div>
             <div style="font-size:0.9rem;color:var(--text-main);margin-bottom:4px;">Тег: <strong>${escapeHtml(admin.username)}</strong></div>
-            <div style="font-size:0.9rem;color:var(--text-main);margin-bottom:4px;">Роль: ${roleDisplay}</div>
+            <div style="font-size:0.9rem;color:var(--text-main);margin-bottom:4px;">Роль: ${roles[admin.role] || admin.role}</div>
             <div style="font-size:0.9rem;color:var(--text-main);">Категория: ${escapeHtml(admin.category)}</div>
         </div>
-        <button class="btn btn-full" onclick="document.getElementById('adminSelfProfileModal').classList.remove('active')">Закрыть</button>
-    `;
+        <button class="btn btn-full" onclick="document.getElementById('adminSelfProfileModal').classList.remove('active')">Закрыть</button>`;
     document.getElementById('adminSelfProfileModal').classList.add('active');
 }
 
@@ -1263,13 +1582,10 @@ function showNotification(text, icon = '🌸') {
     el._timer = setTimeout(() => el.classList.remove('show'), 2500);
 }
 function openPhoto(src) {
-    const m = document.getElementById('photoModal');
     document.getElementById('photoModalImg').src = src;
-    m.classList.add('active');
+    document.getElementById('photoModal').classList.add('active');
 }
-function escapeHtml(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-}
+function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 function toggleCollapse(header) { header.closest('.collapse-block').classList.toggle('open'); }
 function normalizeArray(v) {
     if (!v) return [];
@@ -1278,7 +1594,7 @@ function normalizeArray(v) {
     return [];
 }
 
-/* ==================== ERROR LOGGING ==================== */
+/* ==================== ERROR LOG ==================== */
 function logError(message, source = 'js', stack = '') {
     const err = { message: String(message).slice(0, 500), source, stack: String(stack).slice(0, 1000), time: Date.now(), by: currentAuth.tag || userProfile.nickname || 'guest' };
     errors.unshift(err);
@@ -1289,7 +1605,7 @@ function logError(message, source = 'js', stack = '') {
 window.addEventListener('error', (e) => { logError(e.message, e.filename || 'unknown', e.error?.stack || ''); });
 window.addEventListener('unhandledrejection', (e) => { logError(e.reason?.message || String(e.reason), 'promise', e.reason?.stack || ''); });
 
-/* ==================== FIREBASE LOAD / SAVE ==================== */
+/* ==================== FIREBASE ==================== */
 async function loadFromFirebase() {
     if (!db) { loadedFromFirebase = true; return; }
     try {
@@ -1310,7 +1626,6 @@ async function loadFromFirebase() {
         if (data.adminWarns) adminWarns = data.adminWarns;
         if (data.adminNorm) adminNorm = data.adminNorm;
         if (data.AUTH) AUTH = { ...AUTH, ...data.AUTH };
-        if (data.anketas) window.__anketasCache = data.anketas;
         if (data.userProfile && data.userProfile[userProfile.id]) {
             userProfile = { ...userProfile, ...data.userProfile[userProfile.id], id: userProfile.id };
         }
@@ -1323,133 +1638,68 @@ async function loadFromFirebase() {
 function saveToFirebase() {
     if (!loadedFromFirebase || !db) return;
     try {
-        const payload = {
-            tickets, realDialogs, adminsData, userAdminData, blacklist, logs, adminReports, errors,
-            adminRests, restRequests, adminReviews, userVisits, adminWarns, adminNorm, AUTH
-        };
+        const payload = { tickets, realDialogs, adminsData, userAdminData, blacklist, logs, adminReports, errors, adminRests, restRequests, adminReviews, userVisits, adminWarns, adminNorm, AUTH };
         if (userProfile.id) db.ref('sakura/userProfile/' + userProfile.id).set(userProfile);
         db.ref('sakura').update(payload);
     } catch(e) { console.error('saveToFirebase:', e); }
 }
 function saveProfile() { saveToFirebase(); }
 
-/* ==================== NUMERIC ID ASSIGNMENT ==================== */
+/* ==================== ID / VISITS ==================== */
 async function assignNumericId() {
     if (/^\d+$/.test(userProfile.id || '')) return;
-    if (!db) {
-        const fallback = String(Math.floor(Math.random() * 9000) + 1000);
-        userProfile.id = fallback;
-        localStorage.setItem('sakura-uid', fallback);
-        return;
-    }
+    if (!db) { const f = String(Math.floor(Math.random() * 9000) + 1000); userProfile.id = f; localStorage.setItem('sakura-uid', f); return; }
     try {
         const ref = db.ref('sakura/userCounter');
         const res = await ref.transaction(curr => (curr || 0) + 1);
         const num = res && res.snapshot ? res.snapshot.val() : null;
-        if (num) {
-            userProfile.id = String(num);
-            localStorage.setItem('sakura-uid', String(num));
-            showNotification(`Ваш ID: ${num}`, '🆔');
-        }
-    } catch(e) {
-        logError('assignNumericId: ' + e.message);
-        const fallback = String(Math.floor(Math.random() * 9000) + 1000);
-        userProfile.id = fallback;
-        localStorage.setItem('sakura-uid', fallback);
-    }
+        if (num) { userProfile.id = String(num); localStorage.setItem('sakura-uid', String(num)); showNotification(`Ваш ID: ${num}`, '🆔'); }
+    } catch(e) { logError('assignNumericId: ' + e.message); }
 }
-
 async function trackVisit() {
     if (!db || !userProfile.id) return;
     try {
         const ref = db.ref('sakura/userVisits/' + userProfile.id);
-        const entry = {
-            uid: userProfile.id,
-            nickname: userProfile.nickname || 'Аноним',
-            firstSeen: userVisits[userProfile.id]?.firstSeen || Date.now(),
-            lastSeen: Date.now()
-        };
+        const entry = { uid: userProfile.id, nickname: userProfile.nickname || 'Аноним', firstSeen: userVisits[userProfile.id]?.firstSeen || Date.now(), lastSeen: Date.now() };
         await ref.update(entry);
         userVisits[userProfile.id] = entry;
     } catch(e) {}
 }
-
-function addLog(text, icon = '📜') {
+function addLog(text) {
     logs.unshift({ text, time: Date.now(), by: currentAuth.tag || currentAuth.role || userProfile.nickname || 'Система' });
     if (logs.length > 300) logs = logs.slice(0, 300);
     saveToFirebase();
 }
 
 /* ==================== MODERATION ==================== */
-const WORD_NUMBERS = { 'ноль':0,'один':1,'одна':1,'два':2,'две':2,'три':3,'четыре':4,'пять':5,'шесть':6,'семь':7,'восемь':8,'девять':9,'десять':10,'одиннадцать':11,'двенадцать':12,'тринадцать':13,'четырнадцать':14,'пятнадцать':15,'шестнадцать':16,'семнадцать':17,'восемнадцать':18,'девятнадцать':19,'двадцать':20,'тридцать':30,'сорок':40,'пятьдесят':50 };
-const LAT_TO_CYR = { 'a':'а','e':'е','o':'о','p':'р','c':'с','x':'х','y':'у','k':'к','m':'м','t':'т','h':'н','b':'в' };
-const BAD_WORDS = ['хуй','пизд','бляд','ебан','ебат','сука','мразь','тварь','убью','изнасил','трахн','долбо','мудак','гандон','шлюх','проститут','насил','суицид','покончить','резать себя','селфхарм'];
+const BAD_WORDS = ['хуй','пизд','бляд','ебан','ебат','сука','мразь','тварь','убью','изнасил','трахн','долбо','мудак','гандон','шлюх','проститут','насил','суицид','покончить'];
 const PERSONAL_PATTERNS = [
     /(?:^|\s)(?:мне\s+)?\d{1,2}\s*(?:лет|года|год)(?:\s|$)/i,
     /(?:^|\s)(?:возраст|age)\s*[:\-]?\s*\d{1,2}(?:\s|$)/i,
-    /(?:^|\s)(?:город|г\.|city)\s*[:\-]?\s*[А-ЯЁA-Z][а-яёa-z\-]+/i,
-    /(?:^|\s)живу\s+(?:в|на)\s+[А-ЯЁA-Zа-яёa-z\-]+/i,
     /\+?\d[\d\s\-\(\)]{8,}/,
     /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/,
-    /(?:^|\s)(?:ул\.?|улица|street|адрес)\s*[:\-]?\s*[А-ЯЁA-Zа-яёa-z0-9\s\-]+/i,
-    /(?:^|\s)(?:паспорт|снилс|инн)\s*[:\-]?\s*\d/i,
-    /(?:^|\s)(?:инстаграм|inst|insta|вк|vk|телеграм|telegram|tg|whatsapp|ватсап)\s*[:\-]?\s*@?[A-Za-z0-9_.]{3,}/i,
-    /(?:^|\s)(?:фио|фамилия|отчество)\s*[:\-]?\s*[А-ЯЁ][а-яё]+/i
+    /(?:^|\s)(?:ул\.?|улица|адрес)\s*[:\-]?\s*[А-ЯЁA-Zа-яёa-z0-9\s\-]+/i
 ];
-function normalizeText(text) {
-    let t = String(text).toLowerCase();
-    t = t.replace(/[a-z]/g, c => LAT_TO_CYR[c] || c);
-    t = t.replace(/[^а-яёa-z0-9\s]/gi, ' ');
-    t = t.replace(/\s+/g, ' ').trim();
-    Object.keys(WORD_NUMBERS).forEach(w => { t = t.replace(new RegExp('\\b' + w + '\\b', 'g'), WORD_NUMBERS[w]); });
-    t = t.replace(/(\d)([а-яё])/g, '$1 $2').replace(/([а-яё])(\d)/g, '$1 $2');
-    return t;
-}
-let msgTracker = {};
-function checkFlood(userId) {
-    const now = Date.now();
-    if (!msgTracker[userId]) msgTracker[userId] = [];
-    msgTracker[userId] = msgTracker[userId].filter(t => now - t < 10000);
-    if (msgTracker[userId].length >= 6) return { blocked: true, reason: '🚫 Флуд: 6 сообщений за 10 сек' };
-    msgTracker[userId].push(now);
-    return { blocked: false };
-}
 function moderateMessage(text, userId, isAdminMsg = false) {
-    if (!text || !text.trim()) return { blocked: true, reason: '🚫 Пустое сообщение' };
-    if (text.length > 1000) return { blocked: true, reason: '🚫 Слишком длинное (макс 1000)' };
-    if (!isAdminMsg) {
-        const flood = checkFlood(userId);
-        if (flood.blocked) return flood;
-    }
-    const norm = normalizeText(text);
-    for (const bad of BAD_WORDS) { if (norm.includes(bad)) return { blocked: true, reason: '🚫 Запрещённое слово' }; }
-    
-    if (isAdminMsg) {
-        for (const p of PERSONAL_PATTERNS) { 
-            if (p.test(norm) || p.test(text)) { 
-                return { blocked: true, reason: '🚫 Личная информация запрещена', personal: true }; 
-            } 
-        }
-    }
+    if (!text || !text.trim()) return { blocked: true, reason: '🚫 Пустое' };
+    if (text.length > 1000) return { blocked: true, reason: '🚫 Длинное' };
+    const norm = text.toLowerCase();
+    for (const bad of BAD_WORDS) { if (norm.includes(bad)) return { blocked: true, reason: '🚫 Мат' }; }
+    if (isAdminMsg) { for (const p of PERSONAL_PATTERNS) { if (p.test(norm) || p.test(text)) return { blocked: true, reason: '🚫 ЛД', personal: true }; } }
     return { blocked: false };
 }
 
 /* ==================== NAVIGATION ==================== */
 function switchPanel(panelId) {
-    const allPanels = ['mainContent', 'profilePanel', 'userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel', 'devPanel'];
-    allPanels.forEach(id => {
+    ['mainContent', 'profilePanel', 'userPanel', 'moderatorPanel', 'supportPanel', 'anketaPanel', 'adminPanel', 'ownerPanel', 'devPanel'].forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
         if (id === 'mainContent') el.style.display = 'none';
         else el.classList.remove('active');
     });
-    if (panelId === 'mainContent') {
-        const mc = document.getElementById('mainContent');
-        if (mc) mc.style.display = 'block';
-    } else {
-        const el = document.getElementById(panelId);
-        if (el) el.classList.add('active');
-    }
+    if (panelId === 'mainContent') document.getElementById('mainContent').style.display = 'block';
+    else document.getElementById(panelId).classList.add('active');
+
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-role'));
     if (panelId === 'mainContent') document.getElementById('navHome').classList.add('active-role');
     if (panelId === 'profilePanel') document.getElementById('navProfile').classList.add('active-role');
@@ -1462,15 +1712,15 @@ function switchPanel(panelId) {
     if (panelId === 'supportPanel') renderTickets();
     if (panelId === 'adminPanel') { renderAdminDialogs(); renderAdminNorm(); renderAdminReviews(); }
     if (panelId === 'moderatorPanel') renderModeratorDialogs();
-    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); renderOwnerReviews(); renderOwnerRests(); renderOwnerUsers(); renderOwnerStats(); renderCharts(); renderOwnerNormSettings(); }
+    if (panelId === 'ownerPanel') { renderAdminsList(); renderOwnerDialogs(); renderOwnerTickets(); renderBlacklist(); renderReports(); renderLogs(); renderOwnerReviews(); renderOwnerUsers(); renderOwnerStats(); renderCharts(); renderOwnerNormSettings(); renderTopCandies(); }
     if (panelId === 'devPanel') { renderDevDialogs(); renderDevLogs(); renderDevStats(); renderDevErrors(); }
     if (panelId === 'anketaPanel') loadAnketa();
     if (panelId === 'userPanel') renderAdminsPicker();
-    if (panelId === 'profilePanel') { renderProfile(); renderProfileWarns(); }
+    if (panelId === 'profilePanel') { renderProfile(); renderProfileWarns(); renderTasks(); renderShop(); renderAchievements(); renderCandyBalance(); }
 }
 
 /* ==================== PROFILE ==================== */
-const AVATARS = ['😊','🌸','🌺','🌷','🌻','🦋','🐱','🐶','🦊','🐼','🦄','🐧','🐰','🐨','🌙','⭐','☀️','🍀','💎','👑'];
+const AVATARS = ['😊','🌸','🎃','👻','🦇','💀','🧙','🕷️','🌙','⭐','☀️','🍀','💎','👑'];
 function toggleAvatarPicker() {
     const p = document.getElementById('avatarPicker');
     if (!p) return;
@@ -1505,33 +1755,28 @@ function renderProfileWarns() {
     const allWarns = [];
     realDialogs.forEach(d => {
         if (d.userId === userProfile.id || d.userNickname === userProfile.nickname) {
-            (d.warnsHistory || []).forEach(w => allWarns.push({ ...w, dialogAdmin: d.adminName }));
+            (d.warnsHistory || []).forEach(w => allWarns.push(w));
         }
     });
     if (cnt) cnt.textContent = allWarns.length;
     if (allWarns.length === 0) { list.innerHTML = '<div class="empty-state">Предупреждений нет 🌸</div>'; return; }
     list.innerHTML = allWarns.map(w => `
         <div class="warn-item">
-            <div class="warn-head">
-                <span class="warn-by">⚠️ ${escapeHtml(w.by || w.dialogAdmin || 'Админ')}</span>
-                <span class="warn-date">${new Date(w.date || Date.now()).toLocaleString('ru-RU')}</span>
-            </div>
-            <div class="warn-reason">${escapeHtml(w.reason || 'Без указания причины')}</div>
+            <div class="warn-head"><span class="warn-by">⚠️ ${escapeHtml(w.by || 'Админ')}</span><span class="warn-date">${new Date(w.date).toLocaleString('ru-RU')}</span></div>
+            <div class="warn-reason">${escapeHtml(w.reason || '—')}</div>
         </div>
     `).join('');
 }
 function saveNickname() {
     const val = document.getElementById('nicknameInput').value.trim();
-    if (!val) { showNotification('Введите псевдоним', '⚠️'); return; }
-    if (val.length < 2 || val.length > 30) { showNotification('Ник: 2–30 символов', '⚠️'); return; }
-    if (blacklist.find(b => b.nickname === val || b.uid === userProfile.id)) {
-        showNotification('Этот ник или ID забанен', '🚫');
-        return;
-    }
+    if (!val) { showNotification('Введите ник', '⚠️'); return; }
+    if (val.length < 2 || val.length > 30) { showNotification('2–30 символов', '⚠️'); return; }
+    if (blacklist.find(b => b.nickname === val || b.uid === userProfile.id)) { showNotification('Забанен', '🚫'); return; }
     userProfile.nickname = val;
     saveProfile();
     trackVisit();
     renderProfile();
+    if (userProfile.nickname && userProfile.avatar) completeTask('profile');
     showNotification(`Сохранено: ${val}`, '✏️');
 }
 
@@ -1547,21 +1792,11 @@ function renderAdminsPicker() {
     if (!picker) return;
     picker.innerHTML = '';
     const filtered = userAdminData.filter(a => currentAdminFilter === 'all' || a.category === currentAdminFilter);
-    if (filtered.length === 0) {
-        picker.innerHTML = '<div class="empty-state">В этой категории пока нет админов</div>';
-        return;
-    }
+    if (filtered.length === 0) { picker.innerHTML = '<div class="empty-state">Нет админов</div>'; return; }
     filtered.forEach(a => {
         const card = document.createElement('div');
         card.className = 'admin-pick-card';
-        card.innerHTML = `
-            <div class="pick-avatar">${escapeHtml(a.initials)}</div>
-            <div class="pick-info">
-                <div class="pick-name">${escapeHtml(a.name)}</div>
-                <div class="pick-category">${escapeHtml(a.category || '—')}</div>
-            </div>
-            <div style="color:var(--text-muted);font-size:1.2rem;">›</div>
-        `;
+        card.innerHTML = `<div class="pick-avatar">${escapeHtml(a.initials)}</div><div class="pick-info"><div class="pick-name">${escapeHtml(a.name)}</div><div class="pick-category">${escapeHtml(a.category || '—')}</div></div><div style="color:var(--text-muted);font-size:1.2rem;">›</div>`;
         card.onclick = () => selectAdmin(a.id);
         picker.appendChild(card);
     });
@@ -1569,29 +1804,14 @@ function renderAdminsPicker() {
 function selectAdmin(adminId) {
     const admin = userAdminData.find(a => a.id === adminId);
     if (!admin) return;
-    if (!userProfile.nickname) { showNotification('Сначала введите псевдоним в профиле', '⚠️'); return; }
+    if (!userProfile.nickname) { showNotification('Сначала ник', '⚠️'); return; }
     const bl = blacklist.find(b => b.nickname === userProfile.nickname || b.uid === userProfile.id);
-    if (bl) { showNotification(`Вы заблокированы. Причина: ${bl.reason}`, '🚫'); return; }
-
+    if (bl) { showNotification(`Забанен: ${bl.reason}`, '🚫'); return; }
     const activeDialog = realDialogs.find(d => (d.userId === userProfile.id || d.userNickname === userProfile.nickname) && !d.closed && !d.banned);
-    if (activeDialog && activeDialog.adminId !== adminId) {
-        showNotification('У вас уже есть активный диалог с ' + activeDialog.adminName + '. Завершите его, чтобы начать новый.', '⚠️');
-        return;
-    }
-
+    if (activeDialog && activeDialog.adminId !== adminId) { showNotification('Уже есть активный диалог', '⚠️'); return; }
     let existing = realDialogs.find(d => d.adminId === adminId && !d.closed && !d.banned && (d.userId === userProfile.id || d.userNickname === userProfile.nickname));
     if (!existing) {
-        const welcomeTime = new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'});
-        const nd = {
-            id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-            adminId, adminName: admin.name,
-            userId: userProfile.id,
-            userNickname: userProfile.nickname,
-            status: 'waiting', closed: false, banned: false, warns: 0,
-            warnsHistory: [],
-            createdAt: Date.now(), lastActivity: Date.now(),
-            messages: [{ text: '💬 Диалог создан. Напишите первое сообщение.', sender: 'system', time: welcomeTime, status: 'read' }]
-        };
+        const nd = { id: 'dlg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8), adminId, adminName: admin.name, userId: userProfile.id, userNickname: userProfile.nickname, status: 'waiting', closed: false, banned: false, warns: 0, warnsHistory: [], createdAt: Date.now(), lastActivity: Date.now(), messages: [{ text: '💬 Напишите первое сообщение.', sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' }] };
         realDialogs.push(nd);
         saveToFirebase();
         existing = nd;
@@ -1599,23 +1819,25 @@ function selectAdmin(adminId) {
     if (!Array.isArray(existing.messages)) existing.messages = [];
     currentDialogId = existing.id;
     selectedAdminId = adminId;
+    if (!userProfile.distinctAdmins) userProfile.distinctAdmins = [];
+    if (!userProfile.distinctAdmins.includes(adminId)) {
+        userProfile.distinctAdmins.push(adminId);
+        saveProfile();
+        if (userProfile.distinctAdmins.length >= 3) completeTask('all_admins');
+    }
     openFullscreenChat(existing, false);
 }
 
 /* ==================== CHAT ==================== */
 const RP_COMMANDS = [
     { label: '🤗 Обнять', text: '*нежно обнимает*' },
-    { label: '🫂 Прижать', text: '*прижимает к себе*' },
-    { label: '🌸 Погладить', text: '*ласково гладит по голове*' },
-    { label: '💐 Цветы', text: '*дарит букет цветов*' },
-    { label: '☕ Чай', text: '*протягивает чашку тёплого чая*' },
-    { label: '🍰 Тортик', text: '*угощает кусочком торта*' },
-    { label: '💌 Письмо', text: '*пишет тёплое письмо*' },
-    { label: '🎁 Подарок', text: '*дарит маленький подарок*' },
-    { label: '😊 Улыбка', text: '*улыбается искренне*' },
-    { label: '🎵 Песня', text: '*тихо поёт песенку*' },
-    { label: '🌙 Укрыть', text: '*укрывает тёплым пледом*' },
-    { label: '✨ Поддержать', text: '*поддерживает ласково*' }
+    { label: '🌸 Погладить', text: '*гладит по голове*' },
+    { label: '💐 Цветы', text: '*дарит букет*' },
+    { label: '☕ Чай', text: '*наливает чай*' },
+    { label: '🍰 Тортик', text: '*угощает тортом*' },
+    { label: '🎁 Подарок', text: '*дарит подарок*' },
+    { label: '🌙 Укрыть', text: '*укрывает пледом*' },
+    { label: '✨ Поддержать', text: '*поддерживает*' }
 ];
 function renderRpPalette() {
     const p = document.getElementById('rpPalette');
@@ -1630,6 +1852,8 @@ function renderRpPalette() {
             if (!inp || inp.disabled) return;
             inp.value = cmd.text;
             inp.focus();
+            currentRpCountToday++;
+            if (currentRpCountToday >= 3) completeTask('rp');
         };
         p.appendChild(b);
     });
@@ -1639,31 +1863,18 @@ function openFullscreenChat(dialog, isAdmin) {
     if (!Array.isArray(dialog.messages)) dialog.messages = [];
     fsCurrentDialog = dialog;
     fsIsAdmin = isAdmin;
-    const nameEl = document.getElementById('fsChatName');
-    const subEl = document.getElementById('fsChatSub');
-    if (isAdmin) {
-        nameEl.textContent = dialog.userNickname;
-        subEl.textContent = 'ID: ' + (dialog.userId || '—') + ' • Варнов: ' + (dialog.warns || 0) + '/3';
-    } else {
-        nameEl.textContent = dialog.adminName;
-        subEl.textContent = 'Админ #' + dialog.adminName + ' • Ваш ID: ' + (dialog.userId || userProfile.id);
-    }
-    const canModerate = isAdmin && (['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev');
-    document.getElementById('fsAdminActions').style.display = canModerate ? 'flex' : 'none';
-    
-    const showUserActions = !isAdmin && !dialog.closed && !dialog.banned;
-    document.getElementById('fsUserActions').style.display = showUserActions ? 'flex' : 'none';
-
+    document.getElementById('fsChatName').textContent = isAdmin ? dialog.userNickname : dialog.adminName;
+    document.getElementById('fsChatSub').textContent = isAdmin 
+        ? 'ID: ' + (dialog.userId || '—') + ' • Варнов: ' + (dialog.warns || 0) + '/3'
+        : 'Админ #' + dialog.adminName + ' • Ваш ID: ' + (dialog.userId || userProfile.id);
+    const canMod = isAdmin && (['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev');
+    document.getElementById('fsAdminActions').style.display = canMod ? 'flex' : 'none';
+    document.getElementById('fsUserActions').style.display = (!isAdmin && !dialog.closed && !dialog.banned) ? 'flex' : 'none';
     renderFsMessages();
     renderRpPalette();
     const input = document.getElementById('fsChatInput');
-    if (dialog.closed || dialog.banned) {
-        input.disabled = true;
-        input.placeholder = dialog.banned ? 'Диалог забанен' : 'Диалог завершён';
-    } else {
-        input.disabled = false;
-        input.placeholder = 'Сообщение...';
-    }
+    if (dialog.closed || dialog.banned) { input.disabled = true; input.placeholder = dialog.banned ? 'Забанен' : 'Завершён'; }
+    else { input.disabled = false; input.placeholder = 'Сообщение...'; }
     document.getElementById('fullscreenChat').classList.add('active');
     setTimeout(() => { const cm = document.getElementById('fsChatMessages'); if (cm) cm.scrollTop = cm.scrollHeight; }, 50);
     if (!isAdmin) markMessagesRead(dialog.id);
@@ -1677,16 +1888,14 @@ function markMessagesRead(dialogId) {
 }
 function closeFullscreenChat() {
     document.getElementById('fullscreenChat').classList.remove('active');
-    fsCurrentDialog = null;
-    fsIsAdmin = false;
+    fsCurrentDialog = null; fsIsAdmin = false;
     renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
 }
 function renderFsMessages() {
     const cm = document.getElementById('fsChatMessages');
     if (!cm) return;
     cm.innerHTML = '';
-    if (!fsCurrentDialog) return;
-    if (!Array.isArray(fsCurrentDialog.messages) || fsCurrentDialog.messages.length === 0) {
+    if (!fsCurrentDialog || !Array.isArray(fsCurrentDialog.messages) || fsCurrentDialog.messages.length === 0) {
         cm.innerHTML = '<div class="message system">💬 Напишите первое сообщение.</div>';
         return;
     }
@@ -1703,17 +1912,11 @@ function renderFsMessages() {
         let statusIcon = '';
         if (m.sender === 'bot') {
             if (m.status === 'read') statusIcon = '<span class="msg-status read">✓✓ прочитано</span>';
-            else if (m.status === 'delivered') statusIcon = '<span class="msg-status">✓✓ доставлено</span>';
             else statusIcon = '<span class="msg-status">⏱ отправлено</span>';
         }
         div.innerHTML = escapeHtml(m.text || '') + (m.attachment || '') + statusIcon + `<span class="time">${escapeHtml(m.time || '')}</span>`;
-        
         const img = div.querySelector('.attachment-photo img');
-        if (img) {
-            img.addEventListener('click', () => openPhoto(img.src));
-            img.style.cursor = 'pointer';
-        }
-        
+        if (img) { img.addEventListener('click', () => openPhoto(img.src)); img.style.cursor = 'pointer'; }
         cm.appendChild(div);
     });
     cm.scrollTop = cm.scrollHeight;
@@ -1727,23 +1930,13 @@ async function fsSendMessage() {
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
     if (!d) { showNotification('Диалог не найден', '❌'); return; }
     if (!Array.isArray(d.messages)) d.messages = [];
-
-    const mod = moderateMessage(text, fsIsAdmin ? (currentAuth.tag || 'admin') : userProfile.id, fsIsAdmin);
+    const mod = moderateMessage(text, fsIsAdmin ? currentAuth.tag : userProfile.id, fsIsAdmin);
     if (mod.blocked) {
-        if (mod.personal && fsIsAdmin) {
-            autoDemoteAdmin(currentAuth.tag || currentAuth.role, 'Разглашение личной информации');
-            return;
-        }
+        if (mod.personal && fsIsAdmin) { autoDemoteAdmin(currentAuth.tag, 'ЛД'); return; }
         showNotification(mod.reason, '🚫');
-        if (!fsIsAdmin) addWarnToDialog(d, mod.reason);
         return;
     }
-    d.messages.push({
-        text,
-        sender: fsIsAdmin ? 'bot' : 'user',
-        time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
-        status: fsIsAdmin ? 'sent' : 'received'
-    });
+    d.messages.push({ text, sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: fsIsAdmin ? 'sent' : 'received' });
     d.lastActivity = Date.now();
     if (d.status === 'waiting') d.status = 'active';
     saveToFirebase();
@@ -1752,24 +1945,14 @@ async function fsSendMessage() {
     input.value = '';
     renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
     if (fsIsAdmin) renderAdminNorm();
-}
-function addWarnToDialog(d, reason) {
-    if (!Array.isArray(d.messages)) d.messages = [];
-    d.warns = (d.warns || 0) + 1;
-    if (!Array.isArray(d.warnsHistory)) d.warnsHistory = [];
-    d.warnsHistory.push({ by: 'Система (авто)', reason, date: Date.now() });
-    if (d.warns >= 3) {
-        d.banned = true; d.closed = true;
-        if (!blacklist.find(b => b.nickname === d.userNickname || b.uid === d.userId)) {
-            blacklist.push({ nickname: d.userNickname, uid: d.userId, reason: '3/3 автоварна', date: Date.now(), admin: 'Система' });
-        }
-        d.messages.push({ text: '🚫 Забанены (3/3). Апелляция — через техподдержку.', sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-        addLog(`Автобан ${d.userNickname}`, '🚫');
-    } else {
-        d.messages.push({ text: `⚠️ Предупреждение ${d.warns}/3. Причина: ${reason}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+    if (!fsIsAdmin) {
+        userProfile.messagesSent = (userProfile.messagesSent || 0) + 1;
+        saveProfile();
+        completeTask('message');
+        if (text.length >= 100) completeTask('long_message');
+        if (checkMidnight()) { completeTask('midnight'); unlockAchievement('midnight_owl'); }
+        if (userProfile.messagesSent >= 100 && !userProfile.achievements.includes('vampire')) unlockAchievement('vampire');
     }
-    saveToFirebase();
-    if (fsCurrentDialog && fsCurrentDialog.id === d.id) { fsCurrentDialog = d; renderFsMessages(); }
 }
 function autoDemoteAdmin(tag, reason) {
     const admin = adminsData.find(a => a.username === tag || a.name === String(tag).replace('#',''));
@@ -1780,60 +1963,36 @@ function autoDemoteAdmin(tag, reason) {
     userAdminData = userAdminData.filter(a => a.name !== admin.name);
     delete adminWarns[admin.name];
     saveToFirebase();
-    addLog(`🚨 АВТОДЕМОУТ: ${admin.name} — ${reason}`, '🚨');
-    showNotification(`🚨 ${admin.name} снят за нарушение правил`, '🚨');
+    addLog(`🚨 АВТОДЕМОУТ: ${admin.name} — ${reason}`);
+    showNotification(`🚨 ${admin.name} снят`, '🚨');
     if (currentAuth.tag === tag) logout();
     closeFullscreenChat();
     renderAdminsList(); renderAdminsPicker();
 }
-
-/* ==================== FIREBASE STORAGE UPLOAD ==================== */
 function uploadToStorage(file, path, callback) {
     if (!storage) { showNotification('Storage не подключен', '❌'); return; }
-    const uploadTask = storage.ref(path).put(file);
-    uploadTask.on('state_changed', 
-        (snapshot) => {},
-        (error) => {
-            console.error("Upload error:", error);
-            showNotification('Ошибка загрузки (проверьте правила Storage)', '❌');
-            logError("Storage upload: " + error.message);
-        }, 
-        () => {
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                callback(downloadURL);
-            });
-        }
-    );
+    const task = storage.ref(path).put(file);
+    task.on('state_changed', () => {}, (err) => { showNotification('Ошибка загрузки', '❌'); logError('Upload: ' + err.message); }, () => {
+        task.snapshot.ref.getDownloadURL().then(url => callback(url));
+    });
 }
-
 function fsAttachPhoto() {
     if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
     const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*,video/*';
+    input.type = 'file'; input.accept = 'image/*,video/*';
     input.onchange = e => {
         const file = e.target.files[0];
         if (!file) return;
-        if (file.size > 10 * 1024 * 1024) { showNotification('Файл > 10 МБ', '❌'); return; }
-        
-        showNotification('Загрузка медиа...', '⏳');
+        if (file.size > 10 * 1024 * 1024) { showNotification('>10 МБ', '❌'); return; }
+        showNotification('Загрузка...', '⏳');
         const isVideo = file.type.startsWith('video/');
         const path = `media/${fsCurrentDialog.id}/${Date.now()}_${file.name}`;
-        
         uploadToStorage(file, path, (url) => {
-            const html = isVideo
-                ? `<div class="attachment-video"><video controls src="${url}"></video></div>`
-                : `<span class="attachment-photo"><img src="${url}"></span>`;
+            const html = isVideo ? `<div class="attachment-video"><video controls src="${url}"></video></div>` : `<span class="attachment-photo"><img src="${url}"></span>`;
             const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
             if (!d) return;
             if (!Array.isArray(d.messages)) d.messages = [];
-            d.messages.push({
-                text: isVideo ? '🎬 Видео' : '📷 Фото',
-                sender: fsIsAdmin ? 'bot' : 'user',
-                time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
-                attachment: html,
-                status: fsIsAdmin ? 'sent' : 'received'
-            });
+            d.messages.push({ text: isVideo ? '🎬 Видео' : '📷 Фото', sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html, status: fsIsAdmin ? 'sent' : 'received' });
             d.lastActivity = Date.now();
             saveToFirebase();
             fsCurrentDialog = d;
@@ -1843,7 +2002,6 @@ function fsAttachPhoto() {
     };
     input.click();
 }
-
 async function fsToggleVoice() {
     if (!fsCurrentDialog || fsCurrentDialog.closed || fsCurrentDialog.banned) return;
     const btn = document.getElementById('fsVoiceBtn');
@@ -1856,22 +2014,13 @@ async function fsToggleVoice() {
         mediaRecorder.onstop = () => {
             const blob = new Blob(audioChunks, { type: 'audio/webm' });
             const dur = Math.round((Date.now() - recordStartTime) / 1000);
-            
-            showNotification('Загрузка голосового...', '⏳');
+            showNotification('Загрузка голоса...', '⏳');
             const path = `voice/${fsCurrentDialog.id}/${Date.now()}.webm`;
-            
             uploadToStorage(blob, path, (url) => {
                 const html = `<audio controls src="${url}"></audio>`;
                 const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
                 if (d) {
-                    if (!Array.isArray(d.messages)) d.messages = [];
-                    d.messages.push({
-                        text: `🎤 Голосовое (${dur} сек)`,
-                        sender: fsIsAdmin ? 'bot' : 'user',
-                        time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
-                        attachment: html,
-                        status: fsIsAdmin ? 'sent' : 'received'
-                    });
+                    d.messages.push({ text: `🎤 Голосовое (${dur} сек)`, sender: fsIsAdmin ? 'bot' : 'user', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), attachment: html, status: fsIsAdmin ? 'sent' : 'received' });
                     d.lastActivity = Date.now();
                     saveToFirebase();
                     fsCurrentDialog = d;
@@ -1886,56 +2035,44 @@ async function fsToggleVoice() {
         recordStartTime = Date.now();
         btn.classList.add('recording');
         showNotification('🎤 Запись...', '🎤');
-    } catch(e) { showNotification('Нет доступа к микрофону', '❌'); }
+    } catch(e) { showNotification('Нет микрофона', '❌'); }
 }
-
 function fsActionWarn() {
     if (!fsCurrentDialog) return;
     if (!(['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev')) return;
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
     if (!d) return;
-    
-    showPrompt('Причина варна', `Укажите причину для пользователя ${d.userNickname}`, 'Например: Нарушение правил', (reason) => {
-        if (!Array.isArray(d.messages)) d.messages = [];
+    showPrompt('Варн', `Причина для ${d.userNickname}:`, 'Нарушение', (reason) => {
         d.warns = (d.warns || 0) + 1;
-        if (!Array.isArray(d.warnsHistory)) d.warnsHistory = [];
-        d.warnsHistory.push({ by: currentAuth.tag || 'Админ', reason: reason || '—', date: Date.now() });
+        if (!d.warnsHistory) d.warnsHistory = [];
+        d.warnsHistory.push({ by: currentAuth.tag, reason, date: Date.now() });
         if (d.warns >= 3) {
             d.banned = true; d.closed = true;
-            if (!blacklist.find(b => b.nickname === d.userNickname || b.uid === d.userId)) {
-                blacklist.push({ nickname: d.userNickname, uid: d.userId, reason: '3 предупреждения', date: Date.now(), admin: currentAuth.tag });
-            }
-            d.messages.push({ text: '🚫 Забанены (3/3). Техподдержка — для апелляции.', sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-            addLog(`Бан ${d.userNickname} (3/3) от ${currentAuth.tag}`, '🚫');
-        } else {
-            d.messages.push({ text: `⚠️ Предупреждение ${d.warns}/3: ${reason}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
+            if (!blacklist.find(b => b.uid === d.userId)) blacklist.push({ nickname: d.userNickname, uid: d.userId, reason: '3/3', date: Date.now(), admin: currentAuth.tag });
         }
         saveToFirebase();
         fsCurrentDialog = d;
-        showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️');
         renderFsMessages();
         renderAdminDialogs();
+        showNotification(`⚠️ Варн ${d.warns}/3`, '⚠️');
     });
 }
 function fsActionBan() {
     if (!fsCurrentDialog) return;
     if (!(['admin','st_admin','ml_admin','co_owner','dep_owner'].includes(currentAuth.dbRole) || currentAuth.role === 'owner' || currentAuth.role === 'dev')) return;
-    showConfirm('Бан', 'Забанить пользователя и добавить в ЧС?', () => {
+    showConfirm('Бан', 'Забанить?', () => {
         const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
         if (!d) return;
         d.banned = true; d.closed = true;
-        if (!blacklist.find(b => b.nickname === d.userNickname || b.uid === d.userId)) {
-            blacklist.push({ nickname: d.userNickname, uid: d.userId, reason: 'Забанен администратором', date: Date.now(), admin: currentAuth.tag });
-        }
-        addLog(`Забанен ${d.userNickname} (${currentAuth.tag})`, '🚫');
+        if (!blacklist.find(b => b.uid === d.userId)) blacklist.push({ nickname: d.userNickname, uid: d.userId, reason: 'Бан', date: Date.now(), admin: currentAuth.tag });
         saveToFirebase();
         closeFullscreenChat();
-        showNotification('Забанен и добавлен в ЧС', '🚫');
+        showNotification('Забанен', '🚫');
     });
 }
 function fsActionFinish() {
     if (!fsCurrentDialog || fsIsAdmin) return;
-    if (fsCurrentDialog.closed) { showNotification('Диалог уже завершён', '⚠️'); return; }
+    if (fsCurrentDialog.closed) { showNotification('Уже завершён', '⚠️'); return; }
     currentRating = 0;
     document.getElementById('reviewText').value = '';
     document.querySelectorAll('#ratingStarsInput .star').forEach(s => s.style.color = '#ccc');
@@ -1943,79 +2080,38 @@ function fsActionFinish() {
 }
 function setRating(n) {
     currentRating = n;
-    document.querySelectorAll('#ratingStarsInput .star').forEach(s => {
-        s.style.color = Number(s.dataset.value) <= n ? '#ffd700' : '#ccc';
-    });
+    document.querySelectorAll('#ratingStarsInput .star').forEach(s => { s.style.color = Number(s.dataset.value) <= n ? '#ffd700' : '#ccc'; });
 }
-function closeRatingModal() {
-    document.getElementById('ratingModal').classList.remove('active');
-    currentRating = 0;
-}
+function closeRatingModal() { document.getElementById('ratingModal').classList.remove('active'); currentRating = 0; }
 function submitRating() {
-    if (currentRating < 1) { showNotification('Поставьте оценку (1–5)', '⚠️'); return; }
+    if (currentRating < 1) { showNotification('Поставьте оценку', '⚠️'); return; }
     const text = document.getElementById('reviewText').value.trim();
     if (!text) { showNotification('Напишите отзыв', '⚠️'); return; }
-    if (!fsCurrentDialog) return;
     const d = realDialogs.find(x => x.id === fsCurrentDialog.id);
     if (!d) return;
-    if (!Array.isArray(d.messages)) d.messages = [];
-    adminReviews.push({
-        id: 'RV-' + Date.now(),
-        adminName: d.adminName,
-        fromNickname: d.userNickname,
-        fromUid: d.userId,
-        rating: currentRating,
-        text,
-        date: Date.now(),
-        dialogId: d.id
-    });
+    adminReviews.push({ id: 'RV-' + Date.now(), adminName: d.adminName, fromNickname: d.userNickname, fromUid: d.userId, rating: currentRating, text, date: Date.now(), dialogId: d.id });
     d.closed = true;
-    d.messages.push({
-        text: `✅ Диалог завершён. Оценка: ${'★'.repeat(currentRating)}${'☆'.repeat(5 - currentRating)}`,
-        sender: 'system',
-        time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}),
-        status: 'read'
-    });
     saveToFirebase();
-    addLog(`Отзыв от ${d.userNickname} админу ${d.adminName}: ${currentRating}/5`, '⭐');
+    addLog(`Отзыв: ${d.adminName} ${currentRating}/5`);
+    completeTask('review');
     closeRatingModal();
     closeFullscreenChat();
     showNotification('Спасибо за отзыв! 🌸', '✅');
 }
 
 /* ==================== COMPLAINTS ==================== */
-function openComplaintModal() {
-    if (!fsCurrentDialog) return;
-    document.getElementById('complaintReason').value = '';
-    document.getElementById('complaintModal').classList.add('active');
-}
+function openComplaintModal() { if (!fsCurrentDialog) return; document.getElementById('complaintReason').value = ''; document.getElementById('complaintModal').classList.add('active'); }
 function closeComplaintModal() { document.getElementById('complaintModal').classList.remove('active'); }
 function submitComplaint() {
     const reason = document.getElementById('complaintReason').value.trim();
-    if (!reason) { showNotification('Опишите причину', '⚠️'); return; }
-    if (!fsCurrentDialog) return;
-    adminReports.push({
-        id: 'RPT-' + Date.now(),
-        fromNickname: fsCurrentDialog.userNickname,
-        fromUid: fsCurrentDialog.userId,
-        adminName: fsCurrentDialog.adminName,
-        reason,
-        date: Date.now(),
-        dialogId: fsCurrentDialog.id
-    });
+    if (!reason) { showNotification('Опишите', '⚠️'); return; }
+    adminReports.push({ id: 'RPT-' + Date.now(), fromNickname: fsCurrentDialog.userNickname, fromUid: fsCurrentDialog.userId, adminName: fsCurrentDialog.adminName, reason, date: Date.now(), dialogId: fsCurrentDialog.id });
     saveToFirebase();
-    addLog(`Жалоба от ${fsCurrentDialog.userNickname} на ${fsCurrentDialog.adminName}`, '⚠️');
     closeComplaintModal();
-    showNotification('Жалоба отправлена Владельцу', '✅');
+    showNotification('Жалоба отправлена', '✅');
 }
 
 /* ==================== RENDER LISTS ==================== */
-function searchAdminDialogs(q) {
-    const query = (q || '').toLowerCase().trim();
-    document.querySelectorAll('#dialogsList .dialog-item').forEach(item => {
-        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
-    });
-}
 function myAdminName() { return (currentAuth.tag || '').replace('#',''); }
 function renderAdminDialogs() {
     const list = document.getElementById('dialogsList');
@@ -2023,25 +2119,13 @@ function renderAdminDialogs() {
     list.innerHTML = '';
     const me = myAdminName();
     const active = realDialogs.filter(d => !d.closed && !d.banned && (currentAuth.dbRole === 'dev' || currentAuth.role === 'owner' || d.adminName === me));
-    if (active.length === 0) list.innerHTML = '<div class="empty-state">💬 Нет активных диалогов</div>';
+    if (active.length === 0) list.innerHTML = '<div class="empty-state">💬 Нет диалогов</div>';
     else active.forEach(d => {
         const item = document.createElement('div');
         item.className = 'dialog-item';
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        const statusHtml = d.status === 'waiting' ? '<div class="dialog-status waiting">⏳</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `
-            <div class="dialog-info">
-                <div class="avatar">${escapeHtml(init)}</div>
-                <div class="dialog-content">
-                    <div class="dialog-name">${escapeHtml(d.userNickname)} <span style="font-size:0.75rem;color:var(--text-muted);">#${escapeHtml(d.userId || '—')}</span></div>
-                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
-                </div>
-            </div>
-            <div class="dialog-meta">
-                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
-                ${d.warns > 0 ? `<span class="warns-badge">⚠️ ${d.warns}</span>` : statusHtml}
-            </div>`;
+        item.innerHTML = `<div class="dialog-info"><div class="avatar">${escapeHtml(init)}</div><div class="dialog-content"><div class="dialog-name">${escapeHtml(d.userNickname)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div></div>`;
         item.onclick = () => openFullscreenChat(d, true);
         list.appendChild(item);
     });
@@ -2052,24 +2136,13 @@ function renderModeratorDialogs() {
     const list = document.getElementById('moderatorDialogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (realDialogs.length === 0) list.innerHTML = '<div class="empty-state">💬 Нет диалогов</div>';
+    if (realDialogs.length === 0) list.innerHTML = '<div class="empty-state">Нет диалогов</div>';
     else realDialogs.forEach(d => {
         const item = document.createElement('div');
         item.className = 'dialog-item';
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        item.innerHTML = `
-            <div class="dialog-info">
-                <div class="avatar" style="background:linear-gradient(135deg,#90caf9,#42a5f5);">${escapeHtml(init)}</div>
-                <div class="dialog-content">
-                    <div class="dialog-name">${escapeHtml(d.userNickname)}</div>
-                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
-                </div>
-            </div>
-            <div class="dialog-meta">
-                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
-                <div class="dialog-status waiting">👁️</div>
-            </div>`;
+        item.innerHTML = `<div class="dialog-info"><div class="avatar" style="background:linear-gradient(135deg,#90caf9,#42a5f5);">${escapeHtml(init)}</div><div class="dialog-content"><div class="dialog-name">${escapeHtml(d.userNickname)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div><div class="dialog-meta"><div class="dialog-status waiting">👁️</div></div>`;
         item.onclick = () => viewDialogHistory(d.id);
         list.appendChild(item);
     });
@@ -2080,25 +2153,13 @@ function renderOwnerDialogs() {
     const list = document.getElementById('ownerDialogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (realDialogs.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет диалогов</div>'; return; }
+    if (realDialogs.length === 0) { list.innerHTML = '<div class="empty-state">Нет диалогов</div>'; return; }
     realDialogs.forEach(d => {
         const item = document.createElement('div');
         item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
         const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
         const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        const statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `
-            <div class="dialog-info">
-                <div class="avatar">${escapeHtml(init)}</div>
-                <div class="dialog-content">
-                    <div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div>
-                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
-                </div>
-            </div>
-            <div class="dialog-meta">
-                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
-                ${statusHtml}
-            </div>`;
+        item.innerHTML = `<div class="dialog-info"><div class="avatar">${escapeHtml(init)}</div><div class="dialog-content"><div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div><div class="dialog-preview">${escapeHtml(lastMsg)}</div></div></div>`;
         item.onclick = () => viewDialogHistory(d.id);
         list.appendChild(item);
     });
@@ -2108,61 +2169,29 @@ function renderOwnerDialogs() {
 function renderDevDialogs() {
     const list = document.getElementById('devDialogsList');
     if (!list) return;
-    list.innerHTML = '';
-    if (realDialogs.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет диалогов</div>'; return; }
-    realDialogs.forEach(d => {
-        const item = document.createElement('div');
-        item.className = 'dialog-item' + (d.closed ? ' closed' : '') + (d.banned ? ' banned' : '');
-        const lastMsg = (d.messages && d.messages.length > 0) ? (d.messages[d.messages.length-1].text || '📎') : '—';
-        const init = (d.userNickname || '??').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'АН';
-        const statusHtml = d.banned ? '<div class="dialog-status banned">🚫</div>' : d.closed ? '<div class="dialog-status closed">✓</div>' : '<div class="dialog-status online">●</div>';
-        item.innerHTML = `
-            <div class="dialog-info">
-                <div class="avatar">${escapeHtml(init)}</div>
-                <div class="dialog-content">
-                    <div class="dialog-name">${escapeHtml(d.userNickname)} → ${escapeHtml(d.adminName)}</div>
-                    <div class="dialog-preview">${escapeHtml(lastMsg)}</div>
-                </div>
-            </div>
-            <div class="dialog-meta">
-                <div class="dialog-time">${new Date(d.lastActivity).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}</div>
-                ${statusHtml}
-            </div>`;
-        item.onclick = () => viewDialogHistory(d.id);
-        list.appendChild(item);
-    });
-    const c = document.getElementById('devActiveDialogs');
-    if (c) c.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+    list.innerHTML = '<div class="empty-state">Диалоги скрыты</div>';
 }
 function renderLogs() {
     const list = document.getElementById('ownerLogsList');
     if (!list) return;
     list.innerHTML = '';
-    const badge = document.getElementById('ownerLogsBadge');
-    if (badge) badge.textContent = logs.length;
-    if (logs.length === 0) { list.innerHTML = '<div class="empty-state">📜 Логов пока нет</div>'; return; }
+    if (logs.length === 0) { list.innerHTML = '<div class="empty-state">Логов нет</div>'; return; }
     logs.slice(0, 150).forEach(l => {
         const div = document.createElement('div');
         div.className = 'log-item';
-        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div><div class="log-text"><strong>${escapeHtml(l.by)}</strong>: ${escapeHtml(l.text)}</div>`;
+        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU')}</div><div class="log-text"><strong>${escapeHtml(l.by)}</strong>: ${escapeHtml(l.text)}</div>`;
         list.appendChild(div);
-    });
-}
-function searchLogs(q) {
-    const query = (q || '').toLowerCase().trim();
-    document.querySelectorAll('#ownerLogsList .log-item').forEach(item => {
-        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
     });
 }
 function renderDevLogs() {
     const list = document.getElementById('devLogsList');
     if (!list) return;
     list.innerHTML = '';
-    if (logs.length === 0) { list.innerHTML = '<div class="empty-state">📜 Логов пока нет</div>'; return; }
+    if (logs.length === 0) { list.innerHTML = '<div class="empty-state">Логов нет</div>'; return; }
     logs.slice(0, 200).forEach(l => {
         const div = document.createElement('div');
         div.className = 'log-item';
-        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div><div class="log-text"><strong>${escapeHtml(l.by)}</strong>: ${escapeHtml(l.text)}</div>`;
+        div.innerHTML = `<div class="log-time">${new Date(l.time).toLocaleString('ru-RU')}</div><div class="log-text"><strong>${escapeHtml(l.by)}</strong>: ${escapeHtml(l.text)}</div>`;
         list.appendChild(div);
     });
 }
@@ -2170,9 +2199,7 @@ function renderDevErrors() {
     const list = document.getElementById('devErrorsList');
     if (!list) return;
     list.innerHTML = '';
-    const badge = document.getElementById('devErrorsBadge');
-    if (badge) badge.textContent = errors.length;
-    if (errors.length === 0) { list.innerHTML = '<div class="empty-state">🔴 Ошибок нет</div>'; return; }
+    if (errors.length === 0) { list.innerHTML = '<div class="empty-state">Ошибок нет</div>'; return; }
     errors.slice(0, 100).forEach(e => {
         const div = document.createElement('div');
         div.className = 'log-item error';
@@ -2181,18 +2208,18 @@ function renderDevErrors() {
     });
 }
 function renderDevStats() {
-    const c1 = document.getElementById('devAdminsCount'); if (c1) c1.textContent = adminsData.length;
-    const c2 = document.getElementById('devTicketsCount'); if (c2) c2.textContent = tickets.length;
-    const c3 = document.getElementById('devBlacklistCount'); if (c3) c3.textContent = blacklist.length;
-    const c4 = document.getElementById('devActiveDialogs'); if (c4) c4.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+    if (document.getElementById('devAdminsCount')) document.getElementById('devAdminsCount').textContent = adminsData.length;
+    if (document.getElementById('devTicketsCount')) document.getElementById('devTicketsCount').textContent = tickets.length;
+    if (document.getElementById('devBlacklistCount')) document.getElementById('devBlacklistCount').textContent = blacklist.length;
+    if (document.getElementById('devActiveDialogs')) document.getElementById('devActiveDialogs').textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
 }
 function renderOwnerStats() {
-    const s1 = document.getElementById('ownerActiveDialogs'); if (s1) s1.textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
-    const s2 = document.getElementById('adminsCount'); if (s2) s2.textContent = adminsData.length;
-    const s3 = document.getElementById('ownerTicketsCount'); if (s3) s3.textContent = tickets.length;
-    const s4 = document.getElementById('ownerUsersCount'); if (s4) s4.textContent = Object.keys(userVisits).length;
-    const s5 = document.getElementById('ownerReviewsCount'); if (s5) s5.textContent = adminReviews.length;
-    const s6 = document.getElementById('ownerBlacklistCount2'); if (s6) s6.textContent = blacklist.length;
+    if (document.getElementById('ownerActiveDialogs')) document.getElementById('ownerActiveDialogs').textContent = realDialogs.filter(d => !d.closed && !d.banned).length;
+    if (document.getElementById('adminsCount')) document.getElementById('adminsCount').textContent = adminsData.length;
+    if (document.getElementById('ownerTicketsCount')) document.getElementById('ownerTicketsCount').textContent = tickets.length;
+    if (document.getElementById('ownerUsersCount')) document.getElementById('ownerUsersCount').textContent = Object.keys(userVisits).length;
+    if (document.getElementById('ownerReviewsCount')) document.getElementById('ownerReviewsCount').textContent = adminReviews.length;
+    if (document.getElementById('ownerBlacklistCount2')) document.getElementById('ownerBlacklistCount2').textContent = blacklist.length;
 }
 function renderOwnerUsers() {
     const list = document.getElementById('ownerUsersList');
@@ -2200,185 +2227,68 @@ function renderOwnerUsers() {
     list.innerHTML = '';
     const users = Object.values(userVisits);
     if (users.length === 0) { list.innerHTML = '<div class="empty-state">Нет пользователей</div>'; return; }
-    users.sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0)).forEach(u => {
+    users.forEach(u => {
         const item = document.createElement('div');
         item.className = 'user-item';
-        const isBanned = blacklist.find(b => b.uid === u.uid || b.nickname === u.nickname);
-        item.innerHTML = `
-            <div class="user-info">
-                <div class="avatar">${escapeHtml((u.nickname || '??').slice(0,2).toUpperCase())}</div>
-                <div style="min-width:0;flex:1;">
-                    <div class="user-name">${escapeHtml(u.nickname || 'Аноним')}</div>
-                    <div class="user-status">ID: ${escapeHtml(u.uid || '—')}</div>
-                    <div class="user-status">Визит: ${u.lastSeen ? new Date(u.lastSeen).toLocaleString('ru-RU') : '—'}</div>
-                </div>
-            </div>
-            <div class="user-actions">
-                ${isBanned
-                    ? `<button onclick="unbanByUid('${escapeHtml(u.uid)}')" title="Разбанить">✅</button>`
-                    : `<button onclick="banByUid('${escapeHtml(u.uid)}', '${escapeHtml(u.nickname)}')" title="Забанить">🚫</button>`}
-            </div>`;
+        const isBanned = blacklist.find(b => b.uid === u.uid);
+        item.innerHTML = `<div class="user-info"><div class="avatar">${escapeHtml((u.nickname || '??').slice(0,2).toUpperCase())}</div><div><div class="user-name">${escapeHtml(u.nickname || 'Аноним')}</div><div class="user-status">ID: ${escapeHtml(u.uid || '—')}</div></div></div><div class="user-actions">${isBanned ? `<button onclick="unbanByUid('${escapeHtml(u.uid)}')">✅</button>` : `<button onclick="banByUid('${escapeHtml(u.uid)}', '${escapeHtml(u.nickname)}')">🚫</button>`}</div>`;
         list.appendChild(item);
     });
 }
 function banByUid(uid, nickname) {
     if (!uid) return;
-    showPrompt('Бан пользователя', `Причина бана ${nickname || uid}:`, 'Нарушение правил', (reason) => {
-        if (blacklist.find(b => b.uid === uid)) { showNotification('Уже в ЧС', '⚠️'); return; }
-        blacklist.push({ uid, nickname: nickname || uid, reason: reason, date: Date.now(), admin: currentAuth.tag || 'Владелец' });
-        realDialogs.forEach(d => {
-            if (d.userId === uid && !d.closed) { d.banned = true; d.closed = true; }
-        });
+    showPrompt('Бан', `Причина для ${nickname}:`, 'Нарушение', (reason) => {
+        if (blacklist.find(b => b.uid === uid)) return;
+        blacklist.push({ uid, nickname: nickname || uid, reason, date: Date.now(), admin: currentAuth.tag || 'Владелец' });
+        realDialogs.forEach(d => { if (d.userId === uid && !d.closed) { d.banned = true; d.closed = true; } });
         saveToFirebase();
-        addLog(`Бан UID ${uid}`, '🚫');
-        renderOwnerUsers(); renderBlacklist(); renderOwnerDialogs();
-        showNotification('Забанен', '🚫');
+        renderOwnerUsers(); renderBlacklist();
     });
 }
 function unbanByUid(uid) {
     if (!uid) return;
     const idx = blacklist.findIndex(b => b.uid === uid);
-    if (idx === -1) { showNotification('Не в ЧС', '⚠️'); return; }
-    showConfirm('Разбан', 'Разбанить пользователя?', () => {
-        blacklist.splice(idx, 1);
-        saveToFirebase();
-        addLog(`Разбан UID ${uid}`, '✅');
-        renderOwnerUsers(); renderBlacklist();
-        showNotification('Разбанен', '✅');
-    });
+    if (idx === -1) return;
+    showConfirm('Разбан', 'Разбанить?', () => { blacklist.splice(idx, 1); saveToFirebase(); renderOwnerUsers(); renderBlacklist(); });
 }
-
-/* ==================== ВРЕМЯ ОТВЕТА ==================== */
-function calcAdminResponseTime(adminName) {
-    let totalMs = 0, repliesCount = 0;
-    const dialogs = realDialogs.filter(d => d.adminName === adminName);
-    dialogs.forEach(d => {
-        if (!d.messages) return;
-        for (let i = 0; i < d.messages.length - 1; i++) {
-            const m1 = d.messages[i];
-            const m2 = d.messages[i+1];
-            if (m1.sender === 'user' && m2.sender === 'bot') {
-                if (m1.time && m2.time) {
-                    try {
-                        const t1 = m1.time.split(':');
-                        const t2 = m2.time.split(':');
-                        let minDiff = (parseInt(t2[0])*60 + parseInt(t2[1])) - (parseInt(t1[0])*60 + parseInt(t1[1]));
-                        if (minDiff < 0) minDiff += 24*60;
-                        if (minDiff < 60 * 6) {
-                            totalMs += minDiff * 60000;
-                            repliesCount++;
-                        }
-                    } catch(e){}
-                }
-            }
-        }
-    });
-    if (repliesCount === 0) return '—';
-    const avgMins = Math.round(totalMs / repliesCount / 60000);
-    return `${avgMins} мин`;
-}
-
 function renderAdminsList() {
     const list = document.getElementById('adminsList');
     if (!list) return;
     list.innerHTML = '';
-    if (adminsData.length === 0) { list.innerHTML = '<div class="empty-state">👥 Нет админов</div>'; return; }
+    if (adminsData.length === 0) { list.innerHTML = '<div class="empty-state">Нет админов</div>'; return; }
     adminsData.forEach((a, idx) => {
         const myDialogs = realDialogs.filter(d => d.adminName === a.name);
         let msgCount = 0;
         const userSet = new Set();
-        myDialogs.forEach(d => {
-            (d.messages || []).forEach(m => { if (m.sender === 'bot') msgCount++; });
-            userSet.add(d.userNickname);
-        });
+        myDialogs.forEach(d => { (d.messages || []).forEach(m => { if (m.sender === 'bot') msgCount++; }); userSet.add(d.userNickname); });
         const myWarns = adminWarns[a.name] || [];
-        const roleNames = { 'admin': '💼 Админ', 'st_admin': '💼 СТ Админ', 'ml_admin': '👶 МЛ Админ', 'co_owner': '💎 СОВЛАД', 'dep_owner': '👑 ЗАМ ВЛД', 'moderator': '🛡️ Модератор' };
-        const roleDisplay = roleNames[a.role] || '💼 Админ'; 
-        const avgResp = calcAdminResponseTime(a.name);
-        
         const item = document.createElement('div');
         item.className = 'user-item';
-        item.innerHTML = `
-            <div class="user-info">
-                <div class="avatar">${escapeHtml(a.initials)}</div>
-                <div style="min-width:0;flex:1;">
-                    <div class="user-name">${escapeHtml(a.name)} <span class="user-category">${escapeHtml(a.category)}</span></div>
-                    <div class="user-status">${escapeHtml(a.username)} • ${roleDisplay}</div>
-                    <div class="user-status" style="color:var(--accent-pink-dark);font-weight:700;margin-top:2px;cursor:pointer;" onclick="openWarnsManager('${escapeHtml(a.name)}')">
-                        Норма: 💬 ${msgCount}/${adminNorm.messages} | 👥 ${userSet.size}/${adminNorm.users} | ⏱️ ${avgResp}
-                        ${myWarns.length > 0 ? ` | ⚠️ ${myWarns.length} (нажмите)` : ''}
-                    </div>
-                </div>
-            </div>
-            <div class="user-actions">
-                <button class="btn-warn" onclick="warnAdminFromList('${escapeHtml(a.username)}')" title="Дать варн">⚠️</button>
-                <button onclick="removeAdmin(${idx})" title="Снять">🗑️</button>
-            </div>`;
+        item.innerHTML = `<div class="user-info"><div class="avatar">${escapeHtml(a.initials)}</div><div style="flex:1;"><div class="user-name">${escapeHtml(a.name)} <span class="user-category">${escapeHtml(a.category)}</span></div><div class="user-status">${escapeHtml(a.username)}</div><div class="user-status" style="color:var(--accent-pink-dark);font-weight:700;cursor:pointer;" onclick="openWarnsManager('${escapeHtml(a.name)}')">Норма: 💬 ${msgCount}/${adminNorm.messages} | 👥 ${userSet.size}/${adminNorm.users} ${myWarns.length > 0 ? `| ⚠️ ${myWarns.length}` : ''}</div></div></div><div class="user-actions"><button class="btn-warn" onclick="warnAdminFromList('${escapeHtml(a.username)}')">⚠️</button><button onclick="removeAdmin(${idx})">🗑️</button></div>`;
         list.appendChild(item);
     });
-    const c = document.getElementById('adminsCount');
-    if (c) c.textContent = adminsData.length;
 }
 function warnAdminFromList(username) {
     const admin = adminsData.find(a => a.username === username);
     if (!admin) return;
-    showPrompt('Варн админу', `Причина варна для ${admin.name}:`, 'Нарушение', (reason) => {
+    showPrompt('Варн', `Причина для ${admin.name}:`, 'Нарушение', (reason) => {
         if (!adminWarns[admin.name]) adminWarns[admin.name] = [];
-        adminWarns[admin.name].push({ by: currentAuth.tag || 'Владелец', reason: reason, date: Date.now() });
+        adminWarns[admin.name].push({ by: currentAuth.tag || 'Владелец', reason, date: Date.now() });
         saveToFirebase();
-        addLog(`Варн ${admin.name}: ${reason}`, '⚠️');
         renderAdminsList();
-        showNotification(`Варн выдан ${admin.name}`, '⚠️');
     });
 }
-
-/* ==================== ПРЕМИУМ ОТЗЫВЫ ==================== */
 function renderOwnerReviews() {
     const list = document.getElementById('ownerReviewsList');
     if (!list) return;
     list.innerHTML = '';
-    const badge = document.getElementById('ownerReviewsBadge');
-    if (badge) badge.textContent = adminReviews.length;
-    if (adminReviews.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет отзывов</div>'; return; }
-    
-    const totalAvg = adminReviews.reduce((acc, r) => acc + (r.rating || 0), 0) / adminReviews.length;
-    
-    let html = `
-    <div class="rpc-avg-block">
-        <div>
-            <div class="rpc-avg-label">Средний балл всех админов</div>
-            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">На основе ${adminReviews.length} отзывов</div>
-        </div>
-        <div style="text-align:right;">
-            <div class="rpc-avg-score">${totalAvg.toFixed(1)}</div>
-            <div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div>
-        </div>
-    </div>
-    `;
-
+    if (adminReviews.length === 0) { list.innerHTML = '<div class="empty-state">Нет отзывов</div>'; return; }
+    const totalAvg = adminReviews.reduce((a, r) => a + (r.rating || 0), 0) / adminReviews.length;
+    let html = `<div class="rpc-avg-block"><div><div class="rpc-avg-label">Средний балл</div><div style="font-size:0.8rem;color:var(--text-muted);">${adminReviews.length} отзывов</div></div><div style="text-align:right;"><div class="rpc-avg-score">${totalAvg.toFixed(1)}</div><div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div></div></div>`;
     adminReviews.slice().reverse().forEach(r => {
         const admin = adminsData.find(a => a.name === r.adminName);
         const initials = admin ? admin.initials : (r.adminName || '??').slice(0,2).toUpperCase();
-        
-        html += `
-        <div class="review-premium-card">
-            <div class="rpc-header">
-                <div class="rpc-admin-info">
-                    <div class="rpc-avatar">${escapeHtml(initials)}</div>
-                    <div>
-                        <div class="rpc-admin-name">${escapeHtml(r.adminName)}</div>
-                        <div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div>
-                    </div>
-                </div>
-                <div class="rpc-rating">
-                    <div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div>
-                    <div class="rpc-score">${r.rating || 0} / 5</div>
-                </div>
-            </div>
-            <div class="rpc-text">«${escapeHtml(r.text)}»</div>
-            <div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div>
-        </div>
-        `;
+        html += `<div class="review-premium-card"><div class="rpc-header"><div class="rpc-admin-info"><div class="rpc-avatar">${escapeHtml(initials)}</div><div><div class="rpc-admin-name">${escapeHtml(r.adminName)}</div><div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div></div></div><div class="rpc-rating"><div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div><div class="rpc-score">${r.rating} / 5</div></div></div><div class="rpc-text">«${escapeHtml(r.text)}»</div><div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div></div>`;
     });
     list.innerHTML = html;
 }
@@ -2388,359 +2298,138 @@ function renderAdminReviews() {
     list.innerHTML = '';
     const me = myAdminName();
     const mine = adminReviews.filter(r => r.adminName === me);
-    if (mine.length === 0) { list.innerHTML = '<div class="empty-state">💬 Нет отзывов</div>'; return; }
-
-    const totalAvg = mine.reduce((acc, r) => acc + (r.rating || 0), 0) / mine.length;
-    
-    let html = `
-    <div class="rpc-avg-block">
-        <div>
-            <div class="rpc-avg-label">Мой средний балл</div>
-            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">На основе ${mine.length} отзывов</div>
-        </div>
-        <div style="text-align:right;">
-            <div class="rpc-avg-score">${totalAvg.toFixed(1)}</div>
-            <div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div>
-        </div>
-    </div>
-    `;
-
+    if (mine.length === 0) { list.innerHTML = '<div class="empty-state">Нет отзывов</div>'; return; }
+    const totalAvg = mine.reduce((a, r) => a + (r.rating || 0), 0) / mine.length;
+    let html = `<div class="rpc-avg-block"><div><div class="rpc-avg-label">Мой средний балл</div></div><div style="text-align:right;"><div class="rpc-avg-score">${totalAvg.toFixed(1)}</div><div class="rpc-stars">${'★'.repeat(Math.round(totalAvg))}${'☆'.repeat(5 - Math.round(totalAvg))}</div></div></div>`;
     mine.slice().reverse().forEach(r => {
         const admin = adminsData.find(a => a.name === r.adminName);
-        const initials = admin ? admin.initials : (r.adminName || '??').slice(0,2).toUpperCase();
-
-        html += `
-        <div class="review-premium-card">
-            <div class="rpc-header">
-                <div class="rpc-admin-info">
-                    <div class="rpc-avatar">${escapeHtml(initials)}</div>
-                    <div>
-                        <div class="rpc-admin-name">${escapeHtml(r.adminName)}</div>
-                        <div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div>
-                    </div>
-                </div>
-                <div class="rpc-rating">
-                    <div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div>
-                    <div class="rpc-score">${r.rating || 0} / 5</div>
-                </div>
-            </div>
-            <div class="rpc-text">«${escapeHtml(r.text)}»</div>
-            <div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div>
-        </div>
-        `;
+        const initials = admin ? admin.initials : 'AD';
+        html += `<div class="review-premium-card"><div class="rpc-header"><div class="rpc-admin-info"><div class="rpc-avatar">${escapeHtml(initials)}</div><div><div class="rpc-admin-name">${escapeHtml(r.adminName)}</div><div class="rpc-from">от ${escapeHtml(r.fromNickname)}</div></div></div><div class="rpc-rating"><div class="rpc-stars">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</div></div></div><div class="rpc-text">«${escapeHtml(r.text)}»</div><div class="rpc-date">${new Date(r.date).toLocaleString('ru-RU')}</div></div>`;
     });
     list.innerHTML = html;
 }
-
 function renderAdminNorm() {
     if (!currentAuth.tag && currentAuth.role !== 'owner' && currentAuth.role !== 'dev') return;
     const me = myAdminName();
     const myDialogs = realDialogs.filter(d => d.adminName === me);
     let msgCount = 0;
     const userSet = new Set();
-    myDialogs.forEach(d => {
-        (d.messages || []).forEach(m => { if (m.sender === 'bot') msgCount++; });
-        userSet.add(d.userNickname);
-    });
+    myDialogs.forEach(d => { (d.messages || []).forEach(m => { if (m.sender === 'bot') msgCount++; }); userSet.add(d.userNickname); });
     const msgPct = Math.min(100, Math.round(msgCount / adminNorm.messages * 100));
     const userPct = Math.min(100, Math.round(userSet.size / adminNorm.users * 100));
-    const mt = document.getElementById('adminNormMsgText'); if (mt) mt.innerHTML = `${msgCount} <span>/ ${adminNorm.messages}</span>`;
-    const mb = document.getElementById('adminNormMsgBar'); if (mb) mb.style.width = msgPct + '%';
-    const mp = document.getElementById('adminNormMsgPct'); if (mp) mp.textContent = msgPct + '%';
-    const ut = document.getElementById('adminNormUserText'); if (ut) ut.innerHTML = `${userSet.size} <span>/ ${adminNorm.users}</span>`;
-    const ub = document.getElementById('adminNormUserBar'); if (ub) ub.style.width = userPct + '%';
-    const up = document.getElementById('adminNormUserPct'); if (up) up.textContent = userPct + '%';
+    if (document.getElementById('adminNormMsgText')) document.getElementById('adminNormMsgText').innerHTML = `${msgCount} <span>/ ${adminNorm.messages}</span>`;
+    if (document.getElementById('adminNormMsgBar')) document.getElementById('adminNormMsgBar').style.width = msgPct + '%';
+    if (document.getElementById('adminNormMsgPct')) document.getElementById('adminNormMsgPct').textContent = msgPct + '%';
+    if (document.getElementById('adminNormUserText')) document.getElementById('adminNormUserText').innerHTML = `${userSet.size} <span>/ ${adminNorm.users}</span>`;
+    if (document.getElementById('adminNormUserBar')) document.getElementById('adminNormUserBar').style.width = userPct + '%';
+    if (document.getElementById('adminNormUserPct')) document.getElementById('adminNormUserPct').textContent = userPct + '%';
 }
 function renderBlacklist() {
     const list = document.getElementById('ownerBlacklistList');
     if (!list) return;
     list.innerHTML = '';
-    const badge = document.getElementById('ownerBlacklistBadge');
-    if (badge) badge.textContent = blacklist.length;
-    if (blacklist.length === 0) { list.innerHTML = '<div class="empty-state">🚫 ЧС пуст</div>'; return; }
+    if (blacklist.length === 0) { list.innerHTML = '<div class="empty-state">ЧС пуст</div>'; return; }
     blacklist.forEach((b, idx) => {
         const item = document.createElement('div');
         item.className = 'blacklist-item';
-        item.innerHTML = `<div class="bl-info"><div class="bl-avatar">${escapeHtml((b.nickname || '??').slice(0,2).toUpperCase())}</div><div style="min-width:0;"><div class="bl-name">${escapeHtml(b.nickname)} ${b.uid ? `<span style="font-size:0.75rem;color:var(--text-muted);">#${escapeHtml(b.uid)}</span>` : ''}</div><div class="bl-reason">${escapeHtml(b.reason || '—')} • ${new Date(b.date).toLocaleDateString('ru-RU')}</div></div></div><div class="bl-actions"><button onclick="removeFromBlacklist(${idx})">🗑️</button></div>`;
+        item.innerHTML = `<div class="bl-info"><div class="bl-avatar">${escapeHtml((b.nickname || '??').slice(0,2).toUpperCase())}</div><div><div class="bl-name">${escapeHtml(b.nickname)}</div><div class="bl-reason">${escapeHtml(b.reason || '—')}</div></div></div><div class="bl-actions"><button onclick="removeFromBlacklist(${idx})">🗑️</button></div>`;
         list.appendChild(item);
     });
 }
 function removeFromBlacklist(idx) {
     if (idx < 0 || idx >= blacklist.length) return;
-    showConfirm('Разбан', `Разбанить ${blacklist[idx].nickname}?`, () => {
-        const nick = blacklist[idx].nickname;
-        blacklist.splice(idx, 1);
-        saveToFirebase();
-        renderBlacklist();
-        addLog(`Разбан ${nick}`, '✅');
-        showNotification(`${nick} разбанен`, '✅');
-    });
+    showConfirm('Разбан', 'Разбанить?', () => { blacklist.splice(idx, 1); saveToFirebase(); renderBlacklist(); });
 }
 function renderReports() {
     const list = document.getElementById('ownerReportsList');
     if (!list) return;
     list.innerHTML = '';
-    const badge = document.getElementById('ownerReportsBadge');
-    if (badge) badge.textContent = adminReports.length;
-    if (adminReports.length === 0) { list.innerHTML = '<div class="empty-state">⚠️ Нет жалоб</div>'; return; }
+    if (adminReports.length === 0) { list.innerHTML = '<div class="empty-state">Нет жалоб</div>'; return; }
     adminReports.forEach((r, idx) => {
         const item = document.createElement('div');
         item.className = 'report-card';
-        item.innerHTML = `
-            <div class="rc-header">
-                <div class="rc-from">👤 ${escapeHtml(r.fromNickname)}${r.fromUid ? ` #${escapeHtml(r.fromUid)}` : ''}</div>
-                <div class="rc-admin">→ ${escapeHtml(r.adminName)}</div>
-            </div>
-            <div class="rc-reason">${escapeHtml(r.reason)}</div>
-            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:10px;">${new Date(r.date).toLocaleString('ru-RU')}</div>
-            <div class="rc-actions">
-                <button class="btn btn-yellow btn-sm" onclick="warnAdminByReport(${idx})">⚠️ Предупредить</button>
-                <button class="btn btn-red btn-sm" onclick="fireAdminByReport(${idx})">🗑️ Снять</button>
-                <button class="btn btn-outline btn-sm" onclick="dismissReport(${idx})">✖ Отклонить</button>
-            </div>`;
+        item.innerHTML = `<div class="rc-header"><div class="rc-from">👤 ${escapeHtml(r.fromNickname)}</div><div class="rc-admin">→ ${escapeHtml(r.adminName)}</div></div><div class="rc-reason">${escapeHtml(r.reason)}</div><div class="rc-actions"><button class="btn btn-red btn-sm" onclick="dismissReport(${idx})">✖ Отклонить</button></div>`;
         list.appendChild(item);
     });
 }
-function warnAdminByReport(idx) {
-    const r = adminReports[idx]; if (!r) return;
-    if (!adminWarns[r.adminName]) adminWarns[r.adminName] = [];
-    adminWarns[r.adminName].push({ by: currentAuth.tag || 'Владелец', reason: 'По жалобе: ' + r.reason, date: Date.now() });
-    saveToFirebase();
-    addLog(`Варн ${r.adminName} по жалобе`, '⚠️');
-    adminReports.splice(idx, 1);
-    saveToFirebase();
-    renderReports(); renderAdminsList();
-    showNotification(`${r.adminName} предупреждён`, '⚠️');
-}
-function fireAdminByReport(idx) {
-    const r = adminReports[idx]; if (!r) return;
-    showConfirm('Снятие', `Снять ${r.adminName}?`, () => {
-        const a = adminsData.find(x => x.name === r.adminName);
-        if (a) {
-            delete AUTH[a.username.replace('#','')];
-            adminsData = adminsData.filter(x => x.name !== a.name);
-            userAdminData = userAdminData.filter(x => x.name !== a.name);
-            delete adminWarns[a.name];
-            saveToFirebase();
-            addLog(`Снят ${r.adminName} (жалоба)`, '🗑️');
-        }
-        adminReports.splice(idx, 1);
-        saveToFirebase();
-        renderReports(); renderAdminsList();
-        showNotification(`${r.adminName} снят`, '🗑️');
-    });
-}
-function dismissReport(idx) {
-    adminReports.splice(idx, 1);
-    saveToFirebase();
-    renderReports();
-    showNotification('Отклонено', '✖');
-}
+function dismissReport(idx) { adminReports.splice(idx, 1); saveToFirebase(); renderReports(); }
 function removeAdmin(idx) {
     if (idx < 0 || idx >= adminsData.length) return;
     const a = adminsData[idx];
-    showConfirm('Снятие админа', `Удалить админа ${a.name} и его диалоги?`, () => {
+    showConfirm('Снять админа', `Удалить ${a.name}?`, () => {
         delete AUTH[a.username.replace('#','')];
         adminsData = adminsData.filter(x => x.name !== a.name);
         userAdminData = userAdminData.filter(x => x.name !== a.name);
         realDialogs = realDialogs.filter(d => d.adminName !== a.name);
-        delete adminWarns[a.name];
         saveToFirebase();
-        addLog(`Удалён ${a.name}`, '🗑️');
         renderAdminsList(); renderAdminsPicker();
-        renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
-        showNotification(`${a.name} удалён`, '🗑️');
     });
 }
 function addAdminInline() {
     let username = document.getElementById('inlineAdminUsername').value.trim();
     const category = document.getElementById('inlineAdminCategory').value;
     const password = document.getElementById('inlineAdminPassword').value.trim();
-    if (!username || !category || !password) { showNotification('Заполните все поля', '⚠️'); return; }
+    if (!username || !category || !password) { showNotification('Заполните', '⚠️'); return; }
     if (!username.startsWith('#')) username = '#' + username;
     const name = username.replace('#','');
-    if (adminsData.find(a => a.username === username)) { showNotification('Тег занят', '⚠️'); return; }
+    if (adminsData.find(a => a.username === username)) { showNotification('Занят', '⚠️'); return; }
     const initials = name.slice(0, 2).toUpperCase();
     adminsData.push({ name, username, initials, category, role: 'admin' });
     userAdminData.push({ id: 'admin_' + Date.now(), name, initials, category });
     AUTH[username.replace('#','')] = { tag: username, password, category, name, role: 'admin' };
     saveToFirebase();
-    addLog(`Добавлен админ ${name} (${category})`, '🌸');
     renderAdminsList(); renderAdminsPicker();
     document.getElementById('inlineAdminUsername').value = '';
     document.getElementById('inlineAdminCategory').value = '';
     document.getElementById('inlineAdminPassword').value = '';
     showNotification(`${name} добавлен`, '✅');
 }
-function renderOwnerRests() {
-    const list = document.getElementById('ownerRestsList');
-    if (!list) return;
-    list.innerHTML = '';
-    const badge = document.getElementById('ownerRestsBadge');
-    if (badge) badge.textContent = restRequests.length;
-    if (restRequests.length === 0) { list.innerHTML = '<div class="empty-state">😴 Нет заявок</div>'; return; }
-    restRequests.forEach((r, idx) => {
-        const item = document.createElement('div');
-        item.className = 'review-list-item';
-        item.innerHTML = `
-            <div class="rl-header">
-                <span class="rl-admin">${escapeHtml(r.adminName)}</span>
-                <span class="rl-user">${r.status === 'approved' ? '✅' : r.status === 'rejected' ? '❌' : '⏳'}</span>
-            </div>
-            <div class="rl-text">С ${escapeHtml(r.dateFrom)} по ${escapeHtml(r.dateTo)}</div>
-            <div class="rl-text">Причина: ${escapeHtml(r.reason)}</div>
-            <div class="rl-date">${new Date(r.createdAt).toLocaleString('ru-RU')}</div>
-            ${r.status === 'pending' ? `
-                <div style="display:flex;gap:8px;margin-top:8px;">
-                    <button class="btn btn-green btn-sm" onclick="approveRest(${idx})">✅ Принять</button>
-                    <button class="btn btn-red btn-sm" onclick="rejectRest(${idx})">❌ Отклонить</button>
-                </div>` : ''}`;
-        list.appendChild(item);
+function renderCharts() {
+    const ctx = document.getElementById('chartDialogs');
+    if (!ctx) return;
+    const labels = [], counts = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(today); d.setDate(today.getDate() - i);
+        labels.push(d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit'}));
+        const start = new Date(d.setHours(0,0,0,0)).getTime();
+        const end = new Date(d.setHours(23,59,59,999)).getTime();
+        counts.push(realDialogs.filter(dlg => dlg.createdAt >= start && dlg.createdAt <= end).length);
+    }
+    if (chartDialogsObj) chartDialogsObj.destroy();
+    chartDialogsObj = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Диалоги', data: counts, borderColor: '#ff6600', backgroundColor: 'rgba(255,102,0,0.1)', borderWidth: 2, fill: true, tension: 0.4 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 }
-function approveRest(idx) {
-    const r = restRequests[idx]; if (!r) return;
-    r.status = 'approved';
-    adminRests[r.adminName] = { from: r.dateFrom, to: r.dateTo };
-    saveToFirebase();
-    addLog(`Рест принят: ${r.adminName}`, '😴');
-    renderOwnerRests();
-    showNotification('Рест принят', '✅');
-}
-function rejectRest(idx) {
-    const r = restRequests[idx]; if (!r) return;
-    r.status = 'rejected';
-    saveToFirebase();
-    addLog(`Рест отклонён: ${r.adminName}`, '❌');
-    renderOwnerRests();
-    showNotification('Рест отклонён', '❌');
-}
-function submitRestRequest() {
-    const dateFrom = document.getElementById('restDateFrom').value.trim();
-    const dateTo = document.getElementById('restDateTo').value.trim();
-    const reason = document.getElementById('restReason').value.trim();
-    if (!dateFrom || !dateTo || !reason) { showNotification('Заполните все поля', '⚠️'); return; }
-    restRequests.push({ adminName: myAdminName(), dateFrom, dateTo, reason, status: 'pending', createdAt: Date.now() });
-    saveToFirebase();
-    addLog(`Заявка на рест от ${myAdminName()}`, '😴');
-    document.getElementById('restDateFrom').value = '';
-    document.getElementById('restDateTo').value = '';
-    document.getElementById('restReason').value = '';
-    showNotification('Заявка отправлена', '✅');
-    const info = document.getElementById('adminRestRequestInfo');
-    if (info) { info.style.display = 'block'; info.innerHTML = '<div class="empty-state">⏳ Заявка на рассмотрении</div>'; }
-}
-
-/* ==================== НАСТРОЙКИ НОРМЫ (ВЛАДЕЛЕЦ) ==================== */
 function renderOwnerNormSettings() {
-    const m = document.getElementById('normMessagesInput');
-    const u = document.getElementById('normUsersInput');
-    if (m) m.value = adminNorm.messages;
-    if (u) u.value = adminNorm.users;
+    if (document.getElementById('normMessagesInput')) document.getElementById('normMessagesInput').value = adminNorm.messages;
+    if (document.getElementById('normUsersInput')) document.getElementById('normUsersInput').value = adminNorm.users;
 }
-
 function saveNormSettings() {
     const m = parseInt(document.getElementById('normMessagesInput').value);
     const u = parseInt(document.getElementById('normUsersInput').value);
-    
-    if (!m || !u || m < 1 || u < 1) { 
-        showNotification('Введите числа больше 0', '⚠️'); 
-        return; 
-    }
-    
-    adminNorm.messages = m;
-    adminNorm.users = u;
-    
+    if (!m || !u || m < 1 || u < 1) { showNotification('Введите числа >0', '⚠️'); return; }
+    adminNorm.messages = m; adminNorm.users = u;
     saveToFirebase();
-    addLog(`Изменена норма: ${m} сообщений / ${u} юзеров`, '⚙️');
-    
-    // Мгновенно обновляем интерфейс везде, где отображается норма
-    renderAdminsList();
-    renderAdminNorm();
-    
+    renderAdminsList(); renderAdminNorm();
     showNotification('Норма обновлена', '✅');
 }
-
-/* ==================== CHART.JS ГРАФИКИ ==================== */
-function renderCharts() {
-    const ctx1 = document.getElementById('chartDialogs');
-    if (!ctx1) return;
-    
-    const last7Days = [];
-    const counts = [];
-    const today = new Date();
-    
-    for (let i = 6; i >= 0; i--) {
-        const d = new Date(today);
-        d.setDate(today.getDate() - i);
-        const dateStr = d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit'});
-        last7Days.push(dateStr);
-        
-        const startOfDay = new Date(d.setHours(0,0,0,0)).getTime();
-        const endOfDay = new Date(d.setHours(23,59,59,999)).getTime();
-        const count = realDialogs.filter(dlg => dlg.createdAt >= startOfDay && dlg.createdAt <= endOfDay).length;
-        counts.push(count);
-    }
-    
-    if (chartDialogsObj) chartDialogsObj.destroy();
-    chartDialogsObj = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: last7Days,
-            datasets: [{
-                label: 'Новые диалоги',
-                data: counts,
-                borderColor: '#c2185b',
-                backgroundColor: 'rgba(194, 24, 91, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
-    });
-
-    const ctx2 = document.getElementById('chartRatings');
-    if (!ctx2) return;
-    
-    const adminNames = [];
-    const adminRatings = [];
-    
-    adminsData.forEach(a => {
-        const reviews = adminReviews.filter(r => r.adminName === a.name);
-        if (reviews.length > 0) {
-            const avg = reviews.reduce((acc, r) => acc + (r.rating || 0), 0) / reviews.length;
-            adminNames.push(a.name);
-            adminRatings.push(avg.toFixed(1));
-        }
-    });
-    
-    if (chartRatingsObj) chartRatingsObj.destroy();
-    chartRatingsObj = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: adminNames,
-            datasets: [{
-                label: 'Средний балл',
-                data: adminRatings,
-                backgroundColor: 'rgba(194, 24, 91, 0.7)',
-                borderColor: '#c2185b',
-                borderWidth: 1,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 5 } }
-        }
-    });
+function renderTopCandies() {
+    const list = document.getElementById('topCandiesList');
+    if (!list) return;
+    const allUsers = Object.values(userVisits).map(u => ({ ...u, candies: 0 }));
+    if (allUsers.length === 0) { list.innerHTML = '<div class="empty-state">Нет данных</div>'; return; }
+    const total = allUsers.reduce((a, u) => a + (u.candies || 0), 0);
+    if (document.getElementById('totalCandies')) document.getElementById('totalCandies').textContent = total;
+    list.innerHTML = '<div class="empty-state">Данные о конфетах хранятся в профилях пользователей</div>';
+}
+function ownerAddCandies() {
+    const nick = document.getElementById('candyUsername').value.trim();
+    const amount = parseInt(document.getElementById('candyAmount').value);
+    if (!nick || !amount || amount < 1) { showNotification('Заполните', '⚠️'); return; }
+    showNotification('Функция требует записи в профиль пользователя по нику', 'ℹ️');
 }
 
 /* ==================== TICKETS ==================== */
@@ -2750,27 +2439,8 @@ function createTicket() {
     const category = document.getElementById('ticketCategory').value;
     const subject = document.getElementById('ticketSubject').value.trim();
     const description = document.getElementById('ticketDescription').value.trim();
-    if (!name || !subject || !description || !category) { showNotification('Заполните все поля', '⚠️'); return; }
-    const norm = normalizeText(subject + ' ' + description);
-    for (const bad of BAD_WORDS) {
-        if (norm.includes(bad)) {
-            if (!blacklist.find(b => b.uid === userProfile.id || b.nickname === userProfile.nickname)) {
-                blacklist.push({ uid: userProfile.id, nickname: userProfile.nickname || name, reason: 'Оскорбления в тикете', date: Date.now(), admin: 'Система' });
-                saveToFirebase();
-                addLog(`Автобан за мат в тикете: ${name}`, '🚫');
-                showNotification('Вы забанены за оскорбления', '🚫');
-                return;
-            }
-        }
-    }
-    tickets.unshift({
-        id: 'TKT-' + Date.now().toString().slice(-6),
-        name, contact, category, subject, description,
-        userId: userProfile.id,
-        userNickname: userProfile.nickname || name,
-        status: 'pending',
-        createdAt: Date.now()
-    });
+    if (!name || !subject || !description || !category) { showNotification('Заполните', '⚠️'); return; }
+    tickets.unshift({ id: 'TKT-' + Date.now().toString().slice(-6), name, contact, category, subject, description, userId: userProfile.id, userNickname: userProfile.nickname || name, status: 'pending', createdAt: Date.now() });
     saveToFirebase();
     renderTickets(); renderOwnerTickets();
     document.getElementById('ticketName').value = '';
@@ -2781,143 +2451,44 @@ function createTicket() {
     showNotification('Тикет создан', '✅');
 }
 function renderTicketCard(t, isOwner = false) {
-    let actionsHtml = '';
-    if (isOwner && t.status === 'pending') actionsHtml = `<div class="ticket-actions"><button class="btn btn-blue btn-sm" onclick="openTicketReply('${t.id}')">💬 Ответить</button><button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button></div>`;
-    else if (isOwner && t.status === 'answered') actionsHtml = `<div class="ticket-actions"><button class="btn btn-outline btn-sm" onclick="deleteTicket('${t.id}')">✖ Удалить</button></div>`;
     const statusIcon = t.status === 'answered' ? '✅' : '⏳';
     const statusClass = t.status === 'answered' ? 'answered' : 'pending';
-    return `<div class="ticket-item ${t.status === 'pending' ? 'pending' : ''}">
-        <div class="ticket-item-header"><span class="ticket-item-id">${t.id}</span><span class="ticket-item-status ${statusClass}">${statusIcon}</span></div>
-        <div class="ticket-item-title">${escapeHtml(t.subject)}</div>
-        <span class="ticket-item-category">${escapeHtml(t.category)}</span>
-        <div class="ticket-item-text">${escapeHtml(t.description)}</div>
-        ${t.answer ? `<div style="background:#e8f5e9;padding:12px;border-radius:12px;border-left:3px solid #a5d6a7;margin-top:10px;"><div style="font-size:0.8rem;color:#2e7d32;font-weight:700;margin-bottom:4px;">✅ Ответ:</div><div style="color:var(--text-main);font-size:0.9rem;">${escapeHtml(t.answer)}</div></div>` : ''}
-        <div class="ticket-item-footer"><span>👤 ${escapeHtml(t.name)} (ID: ${escapeHtml(t.userId || '—')})</span><span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span></div>
-        ${actionsHtml}</div>`;
+    return `<div class="ticket-item ${t.status === 'pending' ? 'pending' : ''}"><div class="ticket-item-header"><span class="ticket-item-id">${t.id}</span><span class="ticket-item-status ${statusClass}">${statusIcon}</span></div><div class="ticket-item-title">${escapeHtml(t.subject)}</div><span class="ticket-item-category">${escapeHtml(t.category)}</span><div class="ticket-item-text">${escapeHtml(t.description)}</div><div class="ticket-item-footer"><span>👤 ${escapeHtml(t.name)}</span><span>🕒 ${new Date(t.createdAt).toLocaleString('ru-RU')}</span></div></div>`;
 }
 function renderTickets() {
     const list = document.getElementById('ticketList');
     if (!list) return;
-    const myTickets = tickets.filter(t => t.userId === userProfile.id || t.userNickname === userProfile.nickname);
-    if (myTickets.length === 0) { list.innerHTML = '<div class="ticket-empty">🎫 Нет тикетов</div>'; return; }
-    list.innerHTML = myTickets.map(t => renderTicketCard(t)).join('');
+    const my = tickets.filter(t => t.userId === userProfile.id || t.userNickname === userProfile.nickname);
+    if (my.length === 0) { list.innerHTML = '<div class="ticket-empty">Нет тикетов</div>'; return; }
+    list.innerHTML = my.map(t => renderTicketCard(t)).join('');
 }
 function renderOwnerTickets() {
     const list = document.getElementById('ownerTicketList');
     if (!list) return;
-    if (tickets.length === 0) list.innerHTML = '<div class="ticket-empty">🎫 Нет тикетов</div>';
+    if (tickets.length === 0) list.innerHTML = '<div class="ticket-empty">Нет тикетов</div>';
     else list.innerHTML = tickets.map(t => renderTicketCard(t, true)).join('');
-    const c = document.getElementById('ownerTicketsCount'); if (c) c.textContent = tickets.length;
-    const b = document.getElementById('ownerTicketsBadge'); if (b) b.textContent = tickets.length;
-}
-function deleteTicket(id) {
-    tickets = tickets.filter(t => t.id !== id);
-    saveToFirebase();
-    renderTickets(); renderOwnerTickets();
-    showNotification('Удалено', '✖');
-}
-let currentReplyTicketId = null;
-function openTicketReply(ticketId) {
-    const t = tickets.find(x => x.id === ticketId); if (!t) return;
-    currentReplyTicketId = ticketId;
-    document.getElementById('ticketReplyId').textContent = t.id;
-    document.getElementById('ticketReplySubject').textContent = t.subject;
-    document.getElementById('ticketReplyText').textContent = t.description;
-    document.getElementById('ticketReplyFrom').textContent = `👤 ${t.name} • ${t.category}`;
-    document.getElementById('ticketReplyAnswer').value = '';
-    document.getElementById('ticketReplyModal').classList.add('active');
-}
-function closeTicketReply() { document.getElementById('ticketReplyModal').classList.remove('active'); currentReplyTicketId = null; }
-function submitTicketReply() {
-    if (!currentReplyTicketId) return;
-    const answer = document.getElementById('ticketReplyAnswer').value.trim();
-    if (!answer) { showNotification('Напишите ответ', '⚠️'); return; }
-    const t = tickets.find(x => x.id === currentReplyTicketId); if (!t) return;
-    t.answer = answer; t.status = 'answered'; t.answeredAt = Date.now();
-    saveToFirebase();
-    const userDialogs = realDialogs.filter(d => (d.userNickname === t.userNickname || d.userId === t.userId) && !d.closed && !d.banned);
-    if (userDialogs.length > 0) {
-        const d = userDialogs[0];
-        if (!Array.isArray(d.messages)) d.messages = [];
-        d.messages.push({ text: `🎫 Ответ на тикет ${t.id}: ${answer}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-        d.lastActivity = Date.now();
-        saveToFirebase();
-    }
-    renderTickets(); renderOwnerTickets();
-    closeTicketReply();
-    showNotification('Ответ отправлен', '✅');
 }
 
 /* ==================== ANKETA ==================== */
 const ANKETA_FIELDS = ['anketaWeekdays','anketaWeekends','anketaCritic','anketaPsy1','anketaPsy2','anketaPsy3','anketaPsyMan','anketaTrigger','anketaCrisisWhy','anketaMotivation','anketaSit1','anketaSit2','anketaSit3','anketaSit4','anketaSit5','anketaSit6'];
 const ANKETA_RADIOS = ['anketaCrisis'];
-function selectRadio(input) {
-    document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
-        r.closest('.anketa-option').classList.toggle('selected', r.checked);
-    });
-}
-async function saveAnketa() {
+function selectRadio(input) { document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => { r.closest('.anketa-option').classList.toggle('selected', r.checked); }); }
+function saveAnketa() {
     const data = {};
     ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
-    ANKETA_RADIOS.forEach(n => { const c = document.querySelector(`input[name="${n}"]:checked`); if (c) data[n] = c.value; });
-
-    if (!db || !userProfile.id) {
-        showNotification('Нет соединения с Firebase', '❌');
-        return;
-    }
-    try {
-        await db.ref('sakura/anketas/' + userProfile.id).set({
-            data,
-            userId: userProfile.id,
-            nickname: userProfile.nickname || '',
-            updatedAt: Date.now()
-        });
-        showNotification('Сохранено в облаке', '✅');
-        addLog('Анкета сохранена в Firebase', '📝');
-    } catch(e) {
-        logError('saveAnketa: ' + e.message);
-        showNotification('Ошибка сохранения', '❌');
-    }
+    if (!db || !userProfile.id) { showNotification('Нет связи', '❌'); return; }
+    db.ref('sakura/anketas/' + userProfile.id).set({ data, userId: userProfile.id, updatedAt: Date.now() }).then(() => showNotification('Сохранено', '✅'));
 }
-async function loadAnketa() {
+function loadAnketa() {
     if (!db || !userProfile.id) return;
-    try {
-        const snap = await db.ref('sakura/anketas/' + userProfile.id).get();
+    db.ref('sakura/anketas/' + userProfile.id).get().then(snap => {
         const saved = snap.val();
         if (!saved || !saved.data) return;
-        const data = saved.data;
-        ANKETA_FIELDS.forEach(id => {
-            const el = document.getElementById(id);
-            if (el && data[id] !== undefined) el.value = data[id];
-        });
-        ANKETA_RADIOS.forEach(n => {
-            if (data[n]) {
-                const r = document.querySelector(`input[name="${n}"][value="${data[n]}"]`);
-                if (r) { r.checked = true; r.closest('.anketa-option').classList.add('selected'); }
-            }
-        });
-    } catch(e) {
-        logError('loadAnketa: ' + e.message);
-    }
-}
-async function clearAnketa() {
-    showConfirm('Очистка', 'Очистить анкету?', async () => {
-        ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-        ANKETA_RADIOS.forEach(n => document.querySelectorAll(`input[name="${n}"]`).forEach(r => {
-            r.checked = false;
-            r.closest('.anketa-option').classList.remove('selected');
-        }));
-        if (db && userProfile.id) {
-            try { await db.ref('sakura/anketas/' + userProfile.id).remove(); } catch(e) { logError('clearAnketa: ' + e.message); }
-        }
-        showNotification('Анкета очищена', '🗑️');
+        ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el && saved.data[id]) el.value = saved.data[id]; });
     });
 }
-function copyAnketaFilled() {
-    const data = {};
-    ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
-    navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => showNotification('Скопировано', '✅'));
-}
+function clearAnketa() { showConfirm('Очистить?', 'Очистить анкету?', () => { ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); if (db) db.ref('sakura/anketas/' + userProfile.id).remove(); }); }
+function copyAnketaFilled() { const d = {}; ANKETA_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) d[id] = el.value; }); navigator.clipboard.writeText(JSON.stringify(d, null, 2)); showNotification('Скопировано', '✅'); }
 
 /* ==================== AUTH ==================== */
 function openAuthModal(role) {
@@ -2926,15 +2497,9 @@ function openAuthModal(role) {
     document.getElementById('authPassword').value = '';
     if (role === 'admin' || role === 'moderator') {
         document.getElementById('authTitle').textContent = '💼 Вход для персонала';
-        document.getElementById('authSubtitle').textContent = 'Введите тег и пароль';
         document.getElementById('authTagField').style.display = 'block';
-    } else if (role === 'dev') {
-        document.getElementById('authTitle').textContent = '🛠️ Вход разработчика';
-        document.getElementById('authSubtitle').textContent = 'Введите пароль';
-        document.getElementById('authTagField').style.display = 'none';
     } else {
-        document.getElementById('authTitle').textContent = '👑 Вход владельца';
-        document.getElementById('authSubtitle').textContent = 'Введите пароль';
+        document.getElementById('authTitle').textContent = 'Вход';
         document.getElementById('authTagField').style.display = 'none';
     }
     document.getElementById('authModal').classList.add('active');
@@ -2946,21 +2511,13 @@ function submitAuth() {
     let tag = (role === 'owner' || role === 'dev') ? null : document.getElementById('authTag').value.trim();
     if (tag && !tag.startsWith('#')) tag = '#' + tag;
     if (role === 'owner') {
-        if (password === AUTH.owner.password) {
-            currentAuth = { role: 'owner', tag: null, category: null, dbRole: 'owner' };
-            closeAuthModal(); switchPanel('ownerPanel');
-            showNotification('Добро пожаловать', '✅');
-            addLog('Вход владельца', '🔑');
-        } else { logError('Неверный пароль owner'); showNotification('Неверный пароль', '❌'); }
+        if (password === AUTH.owner.password) { currentAuth = { role: 'owner', tag: null, category: null, dbRole: 'owner' }; closeAuthModal(); switchPanel('ownerPanel'); }
+        else showNotification('Неверный пароль', '❌');
         return;
     }
     if (role === 'dev') {
-        if (password === AUTH.dev.password) {
-            currentAuth = { role: 'dev', tag: null, category: null, dbRole: 'dev' };
-            closeAuthModal(); switchPanel('devPanel');
-            showNotification('Добро пожаловать, DEV', '✅');
-            addLog('Вход разработчика', '🔑');
-        } else { logError('Неверный пароль dev'); showNotification('Неверный пароль', '❌'); }
+        if (password === AUTH.dev.password) { currentAuth = { role: 'dev', tag: null, category: null, dbRole: 'dev' }; closeAuthModal(); switchPanel('devPanel'); }
+        else showNotification('Неверный пароль', '❌');
         return;
     }
     const key = tag ? tag.replace('#','') : '';
@@ -2969,77 +2526,44 @@ function submitAuth() {
         currentAuth = { role: custom.role === 'moderator' ? 'moderator' : 'admin', tag: custom.tag, category: custom.category, dbRole: custom.role };
         closeAuthModal();
         if (custom.role === 'moderator') switchPanel('moderatorPanel');
-        else {
-            document.getElementById('adminHeaderTag').textContent = '💼 ' + currentAuth.tag;
-            switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm(); renderAdminReviews();
-        }
+        else { document.getElementById('adminHeaderTag').textContent = '💼 ' + currentAuth.tag; switchPanel('adminPanel'); renderAdminDialogs(); renderAdminNorm(); renderAdminReviews(); }
         showNotification('Добро пожаловать', '✅');
-        addLog(`Вход ${custom.tag}`, '🔑');
-    } else {
-        logError(`Неверный вход ${tag}`);
-        showNotification('Неверный тег или пароль', '❌');
-    }
+    } else showNotification('Неверный вход', '❌');
 }
 function logout() {
-    showConfirm('Выход', 'Вы уверены, что хотите выйти?', () => {
+    showConfirm('Выход', 'Выйти?', () => {
         currentAuth = { role: null, tag: null, category: null, dbRole: null };
-        selectedAdminId = null; currentDialogId = null;
         document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
         switchPanel('mainContent');
-        showNotification('Вы вышли', '✅');
     });
 }
 
 /* ==================== EXPORT / IMPORT ==================== */
-async function exportAllData() {
-    let anketas = {};
-    if (db) {
-        try {
-            const snap = await db.ref('sakura/anketas').get();
-            anketas = snap.val() || {};
-        } catch(e) { logError('exportAnketas: ' + e.message); }
-    }
-    const data = { tickets, realDialogs, adminsData, userAdminData, blacklist, logs, adminReports, errors, adminRests, restRequests, adminReviews, userVisits, adminWarns, adminNorm, AUTH, anketas };
+function exportAllData() {
+    const data = { tickets, realDialogs, adminsData, userAdminData, blacklist, logs, adminReports, errors, restRequests, adminReviews, userVisits, adminWarns, adminNorm, AUTH };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'sakura-backup-' + Date.now() + '.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    showNotification('Экспорт выполнен', '📤');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'sakura-backup-' + Date.now() + '.json'; a.click();
+    showNotification('Экспорт', '📤');
 }
-async function importAllData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async e => {
+function importAllData(event) {
+    const file = event.target.files[0]; if (!file) return;
+    const r = new FileReader();
+    r.onload = e => {
         try {
             const data = JSON.parse(e.target.result);
-            showConfirm('Импорт', 'Импортировать? Текущие данные будут перезаписаны.', async () => {
+            showConfirm('Импорт', 'Перезаписать данные?', () => {
                 if (data.tickets) tickets = data.tickets;
                 if (data.realDialogs) realDialogs = normalizeArray(data.realDialogs);
-                realDialogs.forEach(d => { if (!Array.isArray(d.messages)) d.messages = []; });
                 if (data.adminsData) adminsData = data.adminsData;
                 if (data.userAdminData) userAdminData = data.userAdminData;
                 if (data.blacklist) blacklist = data.blacklist;
                 if (data.logs) logs = data.logs;
-                if (data.adminReports) adminReports = data.adminReports;
-                if (data.errors) errors = data.errors;
-                if (data.restRequests) restRequests = data.restRequests;
-                if (data.adminReviews) adminReviews = data.adminReviews;
-                if (data.userVisits) userVisits = data.userVisits;
-                if (data.adminWarns) adminWarns = data.adminWarns;
-                if (data.anketas && db) {
-                    try { await db.ref('sakura/anketas').set(data.anketas); } catch(e) { logError('importAnketas: ' + e.message); }
-                }
                 saveToFirebase();
-                showNotification('Импорт выполнен', '📥');
+                showNotification('Импорт', '📥');
             });
-        } catch(err) { logError('Импорт: ' + err.message); showNotification('Ошибка импорта', '❌'); }
+        } catch(err) { showNotification('Ошибка', '❌'); }
     };
-    reader.readAsText(file);
-    event.target.value = '';
+    r.readAsText(file); event.target.value = '';
 }
 
 /* ==================== BROADCAST ==================== */
@@ -3048,80 +2572,41 @@ function sendBroadcast() {
     if (!text) { showNotification('Введите текст', '⚠️'); return; }
     showConfirm('Рассылка', 'Отправить всем?', () => {
         let count = 0;
-        realDialogs.forEach(d => {
-            if (!d.closed && !d.banned) {
-                if (!Array.isArray(d.messages)) d.messages = [];
-                d.messages.push({ text: `📢 Объявление от Владельца: ${text}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-                d.lastActivity = Date.now();
-                count++;
-            }
-        });
+        realDialogs.forEach(d => { if (!d.closed && !d.banned) { if (!Array.isArray(d.messages)) d.messages = []; d.messages.push({ text: `📢 ${text}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' }); d.lastActivity = Date.now(); count++; } });
         saveToFirebase();
-        addLog(`Рассылка на ${count}`, '📢');
         document.getElementById('broadcastText').value = '';
         showNotification(`Отправлено ${count}`, '✅');
     });
 }
-function devSendBroadcast() {
-    const text = document.getElementById('devBroadcastText').value.trim();
-    if (!text) { showNotification('Введите текст', '⚠️'); return; }
-    showConfirm('Рассылка', 'Отправить всем?', () => {
-        let count = 0;
-        realDialogs.forEach(d => {
-            if (!d.closed && !d.banned) {
-                if (!Array.isArray(d.messages)) d.messages = [];
-                d.messages.push({ text: `🛠️ Объявление от Разработчика: ${text}`, sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-                d.lastActivity = Date.now();
-                count++;
-            }
-        });
-        saveToFirebase();
-        addLog(`DEV рассылка на ${count}`, '🛠️');
-        document.getElementById('devBroadcastText').value = '';
-        showNotification(`Отправлено ${count}`, '✅');
-    });
-}
 
-/* ==================== CLEAN / AUTO-CLOSE ==================== */
+/* ==================== CLEAN ==================== */
 function cleanGhostDialogs() {
     const initial = realDialogs.length;
-    realDialogs = realDialogs.filter(d => d && d.userNickname && String(d.userNickname).trim() !== '' && d.id);
+    realDialogs = realDialogs.filter(d => d && d.userNickname && d.id);
     realDialogs.forEach(d => { if (!Array.isArray(d.messages)) d.messages = []; });
     if (initial !== realDialogs.length) saveToFirebase();
-    renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
 }
 function autoCloseStaleDialogs() {
     const now = Date.now();
     const DAY = 24 * 60 * 60 * 1000;
     let changed = false;
     realDialogs.forEach(d => {
-        if (!d.closed && !d.banned && (now - d.lastActivity) > DAY) {
-            d.closed = true;
-            d.autoClosed = true;
-            if (!Array.isArray(d.messages)) d.messages = [];
-            d.messages.push({ text: '⏰ Диалог автоматически закрыт (24ч без активности).', sender: 'system', time: new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'}), status: 'read' });
-            changed = true;
-        }
+        if (!d.closed && !d.banned && (now - d.lastActivity) > DAY) { d.closed = true; changed = true; }
     });
-    if (changed) { saveToFirebase(); renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs(); }
+    if (changed) saveToFirebase();
 }
 setInterval(autoCloseStaleDialogs, 5 * 60 * 1000);
 
 /* ==================== THEME ==================== */
 let currentTheme = 'light';
-async function loadUserTheme() {
-    if (!userProfile.id || !db) return;
-    try {
-        const snap = await db.ref('sakura/themes/' + userProfile.id).get();
-        const theme = snap.val();
-        if (theme === 'dark') { document.body.classList.add('dark-theme'); document.getElementById('themeToggle').textContent = '☀️'; currentTheme = 'dark'; }
-        else { document.body.classList.remove('dark-theme'); document.getElementById('themeToggle').textContent = '🌙'; currentTheme = 'light'; }
-    } catch(e) {}
+function loadUserTheme() {
+    if (userProfile.id) { try { const t = localStorage.getItem('sakura-theme-' + userProfile.id); if (t === 'dark') { document.body.classList.add('dark-theme'); document.getElementById('themeToggle').textContent = '☀️'; currentTheme = 'dark'; } } catch(e) {} }
+    const isHalloween = userProfile.halloweenThemeOn || (new Date().getMonth() === 9 && !userProfile.halloweenThemeOn === false);
+    if (userProfile.halloweenThemeOn) { document.body.classList.add('halloween-theme'); }
+    else if (new Date().getMonth() === 9 && userProfile.halloweenThemeOn === undefined) { document.body.classList.add('halloween-theme'); userProfile.halloweenThemeOn = true; saveProfile(); }
+    updateHalloweenIcons();
 }
-function saveUserTheme(theme) {
-    if (!userProfile.id || !db) return;
-    try { db.ref('sakura/themes/' + userProfile.id).set(theme); } catch(e) {}
-}
+function saveUserTheme(theme) { if (userProfile.id) try { localStorage.setItem('sakura-theme-' + userProfile.id, theme); } catch(e) {} }
 
 /* ==================== DOM READY ==================== */
 window.addEventListener('DOMContentLoaded', async () => {
@@ -3129,7 +2614,11 @@ window.addEventListener('DOMContentLoaded', async () => {
         await loadFromFirebase();
         await assignNumericId();
         cleanGhostDialogs();
-        await loadUserTheme();
+        loadUserTheme();
+        checkStreak();
+        checkDailyReset();
+        completeTask('login');
+        if (new Date().getMonth() === 9 && !userProfile.achievements?.includes('halloween_spirit')) unlockAchievement('halloween_spirit');
         renderProfile();
         renderAdminsPicker();
         renderTickets();
@@ -3143,48 +2632,30 @@ window.addEventListener('DOMContentLoaded', async () => {
         renderDevErrors();
         renderOwnerUsers();
         renderOwnerReviews();
-        renderOwnerRests();
         renderOwnerStats();
         renderCharts();
         renderOwnerNormSettings();
+        renderCandyBalance();
+        renderTasks();
+        renderShop();
+        renderAchievements();
         switchPanel('mainContent');
-        autoCloseStaleDialogs();
         trackVisit();
-
-        if (!userProfile.hintShown) {
-            setTimeout(() => {
-                showNotification('Ваш профиль — вкладка «Профиль» внизу', '💡');
-                userProfile.hintShown = true;
-                saveProfile();
-            }, 1500);
-        }
 
         if (db) {
             db.ref('sakura/realDialogs').on('value', (snap) => {
                 const data = normalizeArray(snap.val());
                 data.forEach(d => { if (!Array.isArray(d.messages)) d.messages = []; });
                 realDialogs = data;
-                if (fsCurrentDialog) {
-                    const updated = realDialogs.find(x => x.id === fsCurrentDialog.id);
-                    if (updated) { fsCurrentDialog = updated; renderFsMessages(); }
-                }
+                if (fsCurrentDialog) { const u = realDialogs.find(x => x.id === fsCurrentDialog.id); if (u) { fsCurrentDialog = u; renderFsMessages(); } }
                 if (fsCurrentDialog && !fsIsAdmin) markMessagesRead(fsCurrentDialog.id);
-                renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs(); renderDevDialogs();
-                renderOwnerStats();
-                if (document.getElementById('ownerPanel').classList.contains('active')) renderCharts();
+                renderAdminDialogs(); renderModeratorDialogs(); renderOwnerDialogs();
             });
-            db.ref('sakura/userVisits').on('value', (snap) => {
-                userVisits = snap.val() || {};
-                renderOwnerUsers(); renderOwnerStats();
-            });
+            db.ref('sakura/userVisits').on('value', (snap) => { userVisits = snap.val() || {}; renderOwnerUsers(); });
         }
-        addLog('Инициализация завершена', '🌸');
-    } catch(e) {
-        logError('Инициализация: ' + e.message, 'init', e.stack);
-    }
+    } catch(e) { logError('Init: ' + e.message); }
 });
 
-/* ==================== NAV EVENTS ==================== */
 document.getElementById('themeToggle').addEventListener('click', () => {
     currentTheme = currentTheme === 'light' ? 'dark' : 'light';
     if (currentTheme === 'dark') { document.body.classList.add('dark-theme'); document.getElementById('themeToggle').textContent = '☀️'; }
@@ -3196,57 +2667,67 @@ document.getElementById('navProfile').addEventListener('click', () => switchPane
 document.getElementById('navUser').addEventListener('click', () => switchPanel('userPanel'));
 document.getElementById('navSupport').addEventListener('click', () => switchPanel('supportPanel'));
 document.getElementById('navStaff').addEventListener('click', () => document.getElementById('staffModal').classList.add('active'));
-function closeStaffModal() { document.getElementById('staffModal').classList.remove('active'); }
 document.getElementById('profileFloat').addEventListener('click', () => switchPanel('profilePanel'));
+function closeStaffModal() { document.getElementById('staffModal').classList.remove('active'); }
 
 document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeAuthModal(); });
 document.getElementById('authPassword').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
 document.getElementById('authTag').addEventListener('keypress', e => { if (e.key === 'Enter') submitAuth(); });
-document.getElementById('ticketReplyModal').addEventListener('click', function(e) { if (e.target === this) closeTicketReply(); });
 document.getElementById('staffModal').addEventListener('click', function(e) { if (e.target === this) closeStaffModal(); });
 document.getElementById('complaintModal').addEventListener('click', function(e) { if (e.target === this) closeComplaintModal(); });
 document.getElementById('ratingModal').addEventListener('click', function(e) { if (e.target === this) closeRatingModal(); });
 document.getElementById('fsChatInput').addEventListener('keypress', e => { if (e.key === 'Enter') fsSendMessage(); });
 
 document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-owner-tab], [data-admin-tab], [data-dev-tab]');
+    const btn = e.target.closest('[data-owner-tab], [data-admin-tab], [data-dev-tab], [data-profile-tab]');
     if (!btn) return;
+    if (btn.dataset.profileTab) {
+        const t = btn.dataset.profileTab;
+        document.querySelectorAll('[data-profile-tab]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#profilePanel .tab-page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById('profileTab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (target) target.classList.add('active');
+        if (t === 'tasks') renderTasks();
+        if (t === 'shop') renderShop();
+        if (t === 'achievements') renderAchievements();
+    }
     if (btn.dataset.ownerTab) {
-        const tabId = btn.dataset.ownerTab;
+        const t = btn.dataset.ownerTab;
         document.querySelectorAll('[data-owner-tab]').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('#ownerPanel .tab-page').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        const target = document.getElementById('ownerTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        const target = document.getElementById('ownerTab' + t.charAt(0).toUpperCase() + t.slice(1));
         if (target) target.classList.add('active');
-        if (tabId === 'reviews') renderOwnerReviews();
-        if (tabId === 'rests') renderOwnerRests();
-        if (tabId === 'users') renderOwnerUsers();
-        if (tabId === 'blacklist') renderBlacklist();
-        if (tabId === 'admins') renderAdminsList();
-        if (tabId === 'tickets') renderOwnerTickets();
-        if (tabId === 'dialogs') renderOwnerDialogs();
-        if (tabId === 'reports') renderReports();
-        if (tabId === 'logs') renderLogs();
-        if (tabId === 'stats') renderCharts();
-        if (tabId === 'norm') renderOwnerNormSettings();
+        if (t === 'reviews') renderOwnerReviews();
+        if (t === 'blacklist') renderBlacklist();
+        if (t === 'admins') renderAdminsList();
+        if (t === 'tickets') renderOwnerTickets();
+        if (t === 'dialogs') renderOwnerDialogs();
+        if (t === 'reports') renderReports();
+        if (t === 'logs') renderLogs();
+        if (t === 'stats') renderCharts();
+        if (t === 'norm') renderOwnerNormSettings();
+        if (t === 'users') renderOwnerUsers();
+        if (t === 'halloween') renderTopCandies();
     }
     if (btn.dataset.adminTab) {
-        const tabId = btn.dataset.adminTab;
+        const t = btn.dataset.adminTab;
         document.querySelectorAll('[data-admin-tab]').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('#adminPanel .tab-page').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        const target = document.getElementById('adminTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        const target = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
         if (target) target.classList.add('active');
-        if (tabId === 'reviews') renderAdminReviews();
+        if (t === 'reviews') renderAdminReviews();
     }
     if (btn.dataset.devTab) {
-        const tabId = btn.dataset.devTab;
+        const t = btn.dataset.devTab;
         document.querySelectorAll('[data-dev-tab]').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('#devPanel .tab-page').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        const target = document.getElementById('devTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        const target = document.getElementById('devTab' + t.charAt(0).toUpperCase() + t.slice(1));
         if (target) target.classList.add('active');
-        if (tabId === 'errors') renderDevErrors();
+        if (t === 'errors') renderDevErrors();
     }
 });
 </script>
