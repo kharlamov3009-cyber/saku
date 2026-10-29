@@ -193,9 +193,9 @@ body.plain .chat-foot{background:rgba(255,255,255,.94)}
 .send:disabled{opacity:.45;box-shadow:none}
 
 /* ===== шторка ===== */
-.mask{position:fixed;inset:0;z-index:60;background:rgba(4,0,8,.62);opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(2px)}
+.mask{position:fixed;inset:0;z-index:90;background:rgba(4,0,8,.62);opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(2px)}
 .mask.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--surf);border-radius:26px 26px 0 0;
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:95;background:var(--surf);border-radius:26px 26px 0 0;
   border-top:1px solid var(--line2);padding:10px 18px calc(20px + env(safe-area-inset-bottom));
   transform:translateY(102%);transition:transform .28s cubic-bezier(.32,.72,0,1);max-height:88vh;overflow-y:auto;
   max-width:660px;margin:0 auto;box-shadow:0 -18px 44px rgba(0,0,0,.5)}
@@ -274,7 +274,7 @@ body.plain .st.work{color:#7a34c9}
 .role-form .btn{flex:0 0 auto;width:auto;margin-top:0;padding:0 16px;min-height:46px;white-space:nowrap}
 
 /* ===== тост ===== */
-.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 22px);transform:translate(-50%,14px);z-index:65;
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 22px);transform:translate(-50%,14px);z-index:100;
   display:flex;align-items:center;gap:9px;max-width:calc(100% - 32px);padding:12px 16px;border-radius:16px;
   background:rgba(32,14,46,.97);border:1px solid var(--line2);box-shadow:0 14px 34px rgba(0,0,0,.5);
   font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;color:#fff}
@@ -284,6 +284,28 @@ body.plain .toast{background:rgba(28,12,40,.95)}
   border-radius:12px;padding:9px 12px;font-size:12px;margin-bottom:12px;text-align:center}
 @media (max-width:359px){.ach-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-greet{font-size:19px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+#staffTabs{display:flex;flex-wrap:wrap;gap:8px;overflow:visible;padding-bottom:0}
+#staffTabs .chipbtn{flex:0 0 auto;padding:0 13px}
+.perm-row{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.staff-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;
+  padding:10px 12px;border-radius:14px;background:var(--surf2);border:1px solid var(--line);font-size:13.5px}
+.staff-head .who{font-weight:600;letter-spacing:-.01em}
+#gateErr{color:var(--red)}
+#gatePass{font-variant-numeric:tabular-nums}
+.role-form .btn.eye{flex:0 0 auto}
+.pchip{display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:0 10px;border-radius:11px;
+  border:1px solid var(--line);background:var(--surf2);color:var(--hint);font-size:12px;font-weight:500}
+.pchip.on{border-color:rgba(255,127,69,.55);background:rgba(255,127,69,.14);color:var(--text)}
+.repbtn{border:0;background:transparent;color:inherit;opacity:.5;font-size:13px;padding:2px 2px 2px 10px;float:right;line-height:1;min-width:26px;min-height:26px}
+.rep-card{padding:12px}
+.rep-text{margin-top:6px;font-size:13.5px;line-height:1.4;padding:8px 10px;border-radius:11px;
+  background:var(--surf2);border:1px solid var(--line);word-break:break-word}
+.rep-act{display:flex;gap:8px;margin-top:10px}
+.rep-act .btn{flex:1;min-height:40px;margin-top:0}
+.wchip{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 10px;border-radius:11px;background:var(--surf2);
+  border:1px solid var(--line);font-size:12.5px;margin:0 6px 6px 0}
+.wchip button{border:0;background:transparent;color:var(--hint);font-size:15px;line-height:1;padding:0 3px}
 </style>
 </head>
 <body>
@@ -432,30 +454,73 @@ body.plain .toast{background:rgba(28,12,40,.95)}
     <!-- ПЕРСОНАЛ -->
     <section class="view" id="view-staff" hidden>
       <div class="card" id="staffGate" style="margin-top:12px">
-        <h3>Служебный раздел</h3>
-        <p class="hint" id="staffGateHint">Доступ выдаётся по Telegram-аккаунту, пароли не нужны.</p>
-        <label class="lbl">Ваш Telegram ID</label>
+        <h3>Служебный вход</h3>
+        <p class="hint" id="staffGateHint">Вход по паролю — аккаунт Telegram не нужен.</p>
+        <div class="chips" id="gateTabs" style="margin:0 0 12px"></div>
+        <label class="lbl" for="gatePass">Пароль</label>
         <div class="role-form">
-          <input type="text" id="staffUid" readonly>
-          <button class="btn ghost" id="copyUid" type="button">Копировать</button>
+          <input type="password" id="gatePass" placeholder="••••••••" autocomplete="current-password">
+          <button class="btn small" id="gateBtn" type="button" style="min-height:46px">Войти</button>
         </div>
-        <button class="btn" id="claimBtn" hidden>👑 Назначить этот аккаунт владельцем</button>
-        <p class="hint" style="margin-top:12px">Передайте ID владельцу — он откроет панель.</p>
+        <p class="hint" id="gateErr" hidden style="margin:10px 0 0"></p>
+        <p class="hint" style="margin-top:12px">Забыли пароль — напишите владельцу проекта.</p>
       </div>
 
       <div id="staffPanel" hidden>
-        <div class="sechead" style="margin-top:14px"><h2>Очередь обращений</h2><span class="tk-meta" id="staffCount"></span></div>
-        <div class="chips" id="staffFilters"></div>
-        <div id="staffQueue" style="margin-top:10px"></div>
+        <div class="staff-head"><span class="who" id="staffWho">—</span>
+          <button class="btn small ghost" id="staffLogout" type="button">Выйти</button></div>
+        <div class="chips" id="staffTabs" style="margin-top:14px"></div>
 
-        <div id="rolesBlock" hidden>
-          <div class="sechead"><h2>Доступ персонала</h2></div>
+        <div id="staffTabQueue" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Очередь обращений</h2><span class="tk-meta" id="staffCount"></span></div>
+          <div class="chips" id="staffFilters"></div>
+          <div id="staffQueue" style="margin-top:10px"></div>
+        </div>
+
+        <div id="staffTabReports" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Жалобы и автоспам</h2><span class="tk-meta" id="repCount"></span></div>
+          <div class="chips" id="repFilters"></div>
+          <div id="repList" style="margin-top:10px"></div>
+        </div>
+
+        <div id="staffTabAccess" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Новый доступ</h2></div>
+          <div class="card">
+            <label class="lbl" for="staffName">Имя сотрудника</label>
+            <input type="text" id="staffName" maxlength="40" placeholder="Например: Аскорбинка" autocomplete="off">
+            <label class="lbl" for="staffPass">Пароль</label>
+            <div class="role-form">
+              <input type="password" id="staffPass" maxlength="40" placeholder="Не короче 4 символов" autocomplete="new-password">
+              <button class="btn ghost small eye" id="passEye" type="button" aria-label="Показать пароль">👁</button>
+            </div>
+            <p class="hint" style="margin:12px 0 6px">Права сотрудника</p>
+            <div class="perm-row" id="newPerms"></div>
+            <button class="btn" id="staffAdd" type="button">Создать доступ</button>
+          </div>
+
+          <div class="sechead"><h2>Кто имеет доступ</h2><span class="tk-meta" id="staffCount2"></span></div>
+          <div class="card" id="staffList"></div>
+
+          <div class="sechead"><h2>Пароль владельца</h2></div>
           <div class="card">
             <div class="role-form">
-              <input type="text" id="roleIdInput" inputmode="numeric" placeholder="Telegram ID сотрудника" autocomplete="off">
-              <button class="btn small" id="grantBtn" style="min-height:46px">Выдать</button>
+              <input type="password" id="ownerPass" maxlength="40" placeholder="Новый пароль владельца" autocomplete="new-password">
+              <button class="btn small" id="ownerPassBtn" type="button" style="min-height:46px">Сменить</button>
             </div>
-            <div id="rolesList" style="margin-top:12px"></div>
+            <p class="hint" id="ownerPassHint" style="margin:10px 0 0">—</p>
+          </div>
+        </div>
+
+        <div id="staffTabSettings" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Антифлуд</h2></div>
+          <div class="card" id="floodCard"></div>
+          <div class="sechead"><h2>Стоп-слова</h2><span class="tk-meta" id="wordsCount"></span></div>
+          <div class="card">
+            <div class="role-form">
+              <input type="text" id="wordInput" placeholder="Слово или фраза" autocomplete="off">
+              <button class="btn small" id="wordAdd" style="min-height:46px">Добавить</button>
+            </div>
+            <div id="wordsList" style="margin-top:10px"></div>
           </div>
         </div>
       </div>
@@ -539,6 +604,15 @@ const SHOP=[
 const TICKET_CATS=[{id:'tech',icon:'🔧',name:'Техпроблема'},{id:'bug',icon:'🐛',name:'Ошибка'},
   {id:'admin',icon:'⚠️',name:'Жалоба на админа'},{id:'user',icon:'🚫',name:'Жалоба на пользователя'},
   {id:'idea',icon:'💡',name:'Идея'}];
+const PERMS=[{id:'tickets',icon:'🎫',name:'Обращения'},{id:'moderation',icon:'🛡️',name:'Жалобы'},
+  {id:'access',icon:'👑',name:'Доступы'},{id:'settings',icon:'⚙️',name:'Настройки'}];
+const STAFF_TABS=[{id:'queue',perm:'tickets',name:'Очередь'},{id:'reports',perm:'moderation',name:'Жалобы'},
+  {id:'access',perm:'access',name:'Доступы'},{id:'settings',perm:'settings',name:'Настройки'}];
+const DEF_WORDS=['казино','криптовалюта','заработок в интернете','промокод','ставки на спорт','1xbet',
+  'подписывайся на канал','инвестиции без риска'];
+const DEF_FLOOD={burst:5,burstMs:10000,perMin:15,mute:30};
+const REP_REASONS=[{id:'spam',name:'Спам или реклама'},{id:'insult',name:'Оскорбление'},
+  {id:'flood',name:'Флуд'},{id:'other',name:'Другое'}];
 const CATS=['Общение','Поддержка','Универсал'];
 const AVATARS=['😊','🌸','🖤','🐈','🌙','👻','🎃','🦇','🔮','💀'];
 const RP=[{label:'🤗 Обнять',text:'*нежно обнимает*'},{label:'🌸 Погладить',text:'*гладит по голове*'},
@@ -562,6 +636,11 @@ let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0
   messagesSent:0,rpUsed:0,distinctAdmins:null,nightWrite:0};
 
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
+let perms={},reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
+const KEY_STAFF='saku-staff-session',DEF_OWNER_PASS='owner123',DEF_ADMIN_PASS='admin123';
+let staffAuth={},staffSession=null,gateRole='owner',newPerms={};
+let floodCfg=Object.assign({},DEF_FLOOD);
+let flood={times:[],last:'',dup:0,lockUntil:0,strikes:[]};
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -673,6 +752,13 @@ async function loadRemote(){
     dialogs=toArray(d.realDialogs).map(x=>Object.assign({},x,{messages:Array.isArray(x.messages)?x.messages:[]}));
     tickets=toArray(d.supportTickets||{});
     roles=d.roles||{};
+    perms=d.perms||{};
+    staffAuth=d.staffAuth||{};
+    reports=toArray(d.reports||{});
+    if(d.moderation){
+      if(Array.isArray(d.moderation.stopWords))stopWords=d.moderation.stopWords.slice();
+      if(d.moderation.flood)floodCfg=Object.assign({},DEF_FLOOD,d.moderation.flood);
+    }
     ownerId=d.meta&&d.meta.ownerId?String(d.meta.ownerId):null;
     const remote=(d.userProfile||{})[profile.id];
     if(remote){
@@ -689,7 +775,27 @@ async function loadRemote(){
     });
     db.ref('sakura/supportTickets').on('value',s=>{tickets=toArray(s.val());renderMyTickets();renderStaff()});
     db.ref('sakura/roles').on('value',s=>{roles=s.val()||{};resolveRole()});
-    db.ref('sakura/meta/ownerId').on('value',s=>{ownerId=s.val()?String(s.val()):null;resolveRole()});
+    db.ref('sakura/perms').on('value',s=>{perms=s.val()||{};renderStaff()});
+    db.ref('sakura/reports').on('value',s=>{reports=toArray(s.val());renderReports()});
+    db.ref('sakura/moderation').on('value',s=>{
+      const m=s.val()||{};
+      if(Array.isArray(m.stopWords))stopWords=m.stopWords.slice();
+      floodCfg=Object.assign({},DEF_FLOOD,m.flood||{});
+      renderSettings();
+    });
+    db.ref('sakura/staffAuth').on('value',s=>{
+      staffAuth=s.val()||{};
+      if(myRole==='admin'&&staffSession&&staffSession.id&&staffSession.id!=='default'){
+        const cur=(staffAuth.staff||{})[staffSession.id];
+        if(!cur){staffLogout();toast('Доступ отозван','🚫')}
+        else{
+          staffSession.perms=cur.perms||{};staffSession.name=cur.name||staffSession.name;
+          saveSession();renderStaffTabs();
+        }
+      }
+      renderAccess();
+    });
+    db.ref('sakura/meta/ownerId').on('value',s=>{ownerId=s.val()?String(s.val()):null});
     db.ref('sakura/userAdminData').on('value',s=>{
       const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();
     });
@@ -706,78 +812,397 @@ function saveTickets(){
   if(!db)return;
   db.ref('sakura/supportTickets').set(tickets||[]).catch(()=>{});
 }
+function saveReports(){if(!db)return;db.ref('sakura/reports').set(reports||[]).catch(()=>{})}
+function saveWords(){if(!db)return;db.ref('sakura/moderation/stopWords').set(stopWords||[]).catch(()=>{})}
+function saveFlood(){if(!db)return;db.ref('sakura/moderation/flood').set(floodCfg||{}).catch(()=>{})}
 
-/* ==================== РОЛИ ==================== */
-function resolveRole(){
-  const id=uid();
-  let r=null;
-  if(!id)r=null;
-  else if(ownerId&&String(ownerId)===id)r='owner';
-  else if(roles[id]==='owner')r='owner';
-  else if(roles[id]==='admin')r='admin';
-  else{
-    const u=(tgUser&&tgUser.username||'').toLowerCase();
-    if(u&&admins.some(a=>(a.username||'').toLowerCase()===u))r='admin';
+/* ==================== ДОСТУП ПО ПАРОЛЮ ==================== */
+function loadSession(){
+  try{
+    const raw=localStorage.getItem(KEY_STAFF);
+    if(raw){const s=JSON.parse(raw);if(s&&s.role)staffSession=s}
+  }catch(e){}
+  myRole=staffSession?staffSession.role:null;
+}
+function saveSession(){
+  try{
+    if(staffSession)localStorage.setItem(KEY_STAFF,JSON.stringify(staffSession));
+    else localStorage.removeItem(KEY_STAFF);
+  }catch(e){}
+}
+async function hashPass(p){
+  const s='saku$'+String(p);
+  try{
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){
+    let hsh=0;for(let i=0;i<s.length;i++)hsh=(hsh*31+s.charCodeAt(i))>>>0;
+    return 'f'+hsh.toString(16);
   }
+}
+function ownerHash(){return (staffAuth&&staffAuth.owner&&staffAuth.owner.h)||''}
+function staffEntries(){
+  const s=(staffAuth&&staffAuth.staff)||{};
+  return Object.keys(s).map(k=>Object.assign({id:k},s[k]||{}));
+}
+function resolveRole(){
+  const r=staffSession&&staffSession.role?staffSession.role:null;
   if(r!==myRole){myRole=r;renderStaff();renderProfile()}
 }
 function roleLabel(){
   if(myRole==='owner')return'👑 владелец';
-  if(myRole==='admin')return'🛡️ администратор';
+  if(myRole==='admin')return'🛡️ администратор'+(staffSession&&staffSession.name?': '+staffSession.name:'');
   return tgUser?'гость':'гость · без Telegram';
+}
+function can(p){
+  if(myRole==='owner')return true;
+  if(myRole!=='admin')return false;
+  const m=(staffSession&&staffSession.perms)||{};
+  if(!Object.keys(m).length)return p==='tickets';
+  return !!m[p];
+}
+function firstAllowedTab(){
+  const t=STAFF_TABS.find(x=>can(x.perm));
+  return t?t.id:'queue';
+}
+function renderGateTabs(){
+  const bar=$('gateTabs');if(!bar)return;
+  bar.innerHTML=[['owner','👑 Владелец'],['admin','🛡️ Сотрудник']].map(p=>
+    '<button class="chipbtn '+(gateRole===p[0]?'on':'')+'" data-grole="'+p[0]+'" type="button">'+p[1]+'</button>').join('');
+  const inp=$('gatePass');
+  if(inp)inp.placeholder=gateRole==='owner'?'Пароль владельца':'Пароль сотрудника';
+}
+async function gateLogin(){
+  const inp=$('gatePass'),err=$('gateErr');
+  const pass=inp?inp.value.trim():'';
+  if(err)err.hidden=true;
+  if(!pass){toast('Введите пароль','⚠️');return}
+  const fail=m=>{
+    if(err){err.textContent=m;err.hidden=false}else toast(m,'⚠️');
+    haptic('error');
+    if(inp){inp.value='';inp.focus()}
+  };
+  const h=await hashPass(pass);
+  if(gateRole==='owner'){
+    const stored=ownerHash();
+    const ok=stored?stored===h:pass===DEF_OWNER_PASS;
+    if(!ok)return fail(stored?'Неверный пароль владельца':('Неверный пароль. Пароль владельца по умолчанию: '+DEF_OWNER_PASS));
+    staffSession={role:'owner',name:'Владелец',since:Date.now()};
+    if(!stored&&db){
+      try{
+        await db.ref('sakura/staffAuth/owner').set({h:h,updatedAt:Date.now()});
+        staffAuth.owner={h:h,updatedAt:Date.now()};
+      }catch(e){}
+    }
+    return finishLogin();
+  }
+  const list=staffEntries();
+  let hit=list.find(s=>s.h===h);
+  if(!hit&&!list.length&&pass===DEF_ADMIN_PASS){
+    hit={id:'default',name:'Сотрудник',perms:{tickets:true,moderation:true}};
+  }
+  if(!hit)return fail(list.length?'Неверный пароль сотрудника':('Неверный пароль. Пароль сотрудника по умолчанию: '+DEF_ADMIN_PASS));
+  staffSession={role:'admin',id:hit.id,name:hit.name||'Сотрудник',perms:hit.perms||{tickets:true},since:Date.now()};
+  finishLogin();
+}
+function finishLogin(){
+  gateRole=staffSession.role;
+  saveSession();
+  myRole=staffSession.role;
+  staffTab=firstAllowedTab();
+  if($('gatePass'))$('gatePass').value='';
+  if($('gateErr'))$('gateErr').hidden=true;
+  renderStaff();renderProfile();
+  toast(myRole==='owner'?'Вы вошли как владелец':('Привет, '+(staffSession.name||'сотрудник')),myRole==='owner'?'👑':'🛡️');
+  haptic('success');
+}
+function staffLogout(){
+  staffSession=null;saveSession();
+  myRole=null;staffTab='queue';
+  const who=$('staffWho');if(who)who.textContent='—';
+  const bar=$('staffTabs');if(bar)bar.innerHTML='';
+  ['staffTabQueue','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
+  renderStaff();renderProfile();
+  toast('Вы вышли из панели','👋');
 }
 function renderStaff(){
   const gate=$('staffGate'),panel=$('staffPanel');
   if(myRole){
     gate.hidden=true;panel.hidden=false;
-    $('rolesBlock').hidden=myRole!=='owner';
-    renderQueue();renderRoles();
+    const who=$('staffWho');
+    if(who)who.textContent=myRole==='owner'?'👑 Владелец':
+      ('🛡️ '+(staffSession&&staffSession.name?staffSession.name:'Сотрудник'));
+    renderStaffTabs();
   }else{
     gate.hidden=false;panel.hidden=true;
-    $('staffUid').value=uid()||'—';
-    $('claimBtn').hidden=!!ownerId||!uid();
-    $('staffGateHint').textContent=tgUser
-      ?'Доступ выдаётся по Telegram-аккаунту, пароли не нужны. Передайте владельцу свой ID — он откроет панель.'
-      :'Откройте мини-апп из Telegram — раздел узнает вас сам.';
+    renderGateTabs();
+    const hint=$('staffGateHint');
+    if(hint)hint.textContent=ownerHash()
+      ?'Пароль выдаёт владелец проекта. Аккаунт Telegram для входа не нужен.'
+      :('Первый вход владельца — пароль '+DEF_OWNER_PASS+', сотрудника — '+DEF_ADMIN_PASS+'. Смени их в «Доступах».');
   }
 }
+function renderStaffTabs(){
+  const tabs=STAFF_TABS.filter(t=>can(t.perm));
+  if(!tabs.some(t=>t.id===staffTab))staffTab=tabs.length?tabs[0].id:'queue';
+  const bar=$('staffTabs');
+  if(bar)bar.innerHTML=tabs.length?tabs.map(t=>
+    '<button class="chipbtn '+(t.id===staffTab?'on':'')+'" data-stab="'+t.id+'">'+t.name+'</button>').join('')
+    :'<span class="tk-meta">Права не выданы — попроси владельца</span>';
+  const map={queue:'staffTabQueue',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
+  Object.keys(map).forEach(k=>{
+    const el=$(map[k]);
+    if(el)el.hidden=(k!==staffTab||!tabs.some(t=>t.id===k));
+  });
+  if(staffTab==='queue'&&can('tickets'))renderQueue();
+  else if(staffTab==='reports'&&can('moderation'))renderReports();
+  else if(staffTab==='access'&&can('access'))renderAccess();
+  else if(staffTab==='settings'&&can('settings'))renderSettings();
+}
 function renderRoles(){
+  const box=$('rolesList');if(!box)return;
   const keys=Object.keys(roles||{});
-  $('rolesList').innerHTML=keys.length?keys.map(k=>
-    '<div class="role-row"><div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
-    'linear-gradient(135deg,'+mono(k)[0]+','+mono(k)[1]+')">'+(roles[k]==='owner'?'👑':'🛡️')+'</div>'+
-    '<span class="nm">'+esc(k)+(String(ownerId)===k?' · владелец':'')+'</span>'+
-    (String(ownerId)===k?'<span class="tk-meta">—</span>':
-      '<button class="btn small ghost" data-revoke="'+esc(k)+'">снять</button>')+'</div>').join('')
-    :'<div class="tk-meta">Пока никого — выдай доступ по ID</div>';
+  box.innerHTML=keys.length?keys.map(k=>{
+    const own=String(ownerId)===k||roles[k]==='owner';
+    const m=perms[k]||{};
+    return '<div class="role-row">'+
+      '<div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
+      'linear-gradient(135deg,'+mono(k)[0]+','+mono(k)[1]+')">'+(own?'👑':'🛡️')+'</div>'+
+      '<span class="nm">'+esc(k)+(own?' · владелец':'')+'</span>'+
+      (own?'<span class="tk-meta">все права</span>':
+        '<button class="btn small ghost" data-revoke="'+esc(k)+'">снять</button>')+'</div>'+
+      (own?'':'<div class="perm-row">'+PERMS.map(p=>
+        '<button class="pchip'+(m[p.id]?' on':'')+'" data-perm="'+p.id+'" data-pid="'+esc(k)+'">'+
+        p.icon+' '+p.name+'</button>').join('')+'</div>');
+  }).join(''):'<div class="tk-meta">Пока никого — выдай доступ по ID</div>';
 }
-async function claimOwner(){
-  const id=uid();
-  if(!id)return toast('Нужно открыть из Telegram','⚠️');
+async function togglePerm(pid,perm){
   if(!db)return toast('Нет связи с базой','⚠️');
+  const cur=!!(perms[pid]&&perms[pid][perm]);
+  const nm=(PERMS.find(p=>p.id===perm)||{name:perm}).name;
   try{
-    const res=await db.ref('sakura/meta/ownerId').transaction(cur=>cur||id);
-    const val=res&&res.snapshot?res.snapshot.val():null;
-    if(String(val)!==id){toast('Владелец уже назначен','⚠️');return}
-    ownerId=id;roles[id]='owner';
-    await db.ref('sakura/roles/'+id).set('owner').catch(()=>{});
-    resolveRole();renderStaff();toast('Вы владелец','👑');haptic('success');
-  }catch(e){toast('Не получилось, попробуй ещё','⚠️')}
-}
-async function grantRole(){
-  const id=$('roleIdInput').value.replace(/\D/g,'');
-  if(id.length<5)return toast('Введите Telegram ID','⚠️');
-  if(!db)return toast('Нет связи с базой','⚠️');
-  if(String(id)===String(ownerId))return toast('Это владелец','👑');
-  try{
-    await db.ref('sakura/roles/'+id).set('admin');
-    roles[id]='admin';$('roleIdInput').value='';
-    renderRoles();toast('Доступ выдан: '+id,'✅');haptic('success');
+    await db.ref('sakura/perms/'+pid+'/'+perm).set(!cur);
+    perms[pid]=Object.assign({},perms[pid]||{},{[perm]:!cur});
+    renderRoles();toast((cur?'Снято: ':'Выдано: ')+nm,'✅');haptic('success');
   }catch(e){toast('Не получилось','⚠️')}
 }
-async function revokeRole(id){
-  if(!db)return;
-  try{await db.ref('sakura/roles/'+id).remove();delete roles[id];renderRoles();toast('Доступ снят','✅')}catch(e){}
+function renderAccess(){
+  const list=staffEntries();
+  renderNewPerms();
+  const cnt=$('staffCount2');
+  if(cnt)cnt.textContent=list.length+' '+plural(list.length,'человек','человека','человек');
+  const box=$('staffList');
+  if(box)box.innerHTML=list.length?list.map(s=>{
+    const nm=s.name||'сотрудник';
+    const m=s.perms||{};
+    return '<div class="role-row">'+
+      '<div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
+      'linear-gradient(135deg,'+mono(nm)[0]+','+mono(nm)[1]+')">'+esc(initials(nm))+'</div>'+
+      '<span class="nm">'+esc(nm)+'</span>'+
+      '<button class="btn small ghost" data-sdel="'+esc(s.id)+'" type="button">снять</button></div>'+
+      '<div class="perm-row">'+PERMS.map(p=>'<button class="pchip'+(m[p.id]?' on':'')+'" data-sperm="'+p.id+
+        '" data-sid="'+esc(s.id)+'" type="button">'+p.icon+' '+p.name+'</button>').join('')+'</div>';
+  }).join(''):'<div class="tk-meta">Пока никого — создай доступ выше</div>';
+  const oh=$('ownerPassHint');
+  if(oh)oh.textContent=ownerHash()
+    ?('Пароль владельца задан'+(staffAuth.owner&&staffAuth.owner.updatedAt?' · изменён '+dfmt(staffAuth.owner.updatedAt):''))
+    :('Пароль по умолчанию: '+DEF_OWNER_PASS+' — смени его');
+}
+function renderNewPerms(){
+  const box=$('newPerms');if(!box)return;
+  box.innerHTML=PERMS.map(p=>'<button class="pchip'+(newPerms[p.id]?' on':'')+'" data-nperm="'+p.id+
+    '" type="button">'+p.icon+' '+p.name+'</button>').join('');
+}
+async function createStaff(){
+  if(!db)return toast('Нет связи с базой','⚠️');
+  const name=($('staffName')&&$('staffName').value||'').trim();
+  const pass=($('staffPass')&&$('staffPass').value||'').trim();
+  if(name.length<2)return toast('Введи имя сотрудника','⚠️');
+  if(pass.length<4)return toast('Пароль короче 4 символов','⚠️');
+  if(!PERMS.some(p=>newPerms[p.id]))return toast('Отметь хотя бы одно право','⚠️');
+  const id='st_'+Date.now().toString(36);
+  const h=await hashPass(pass);
+  const rec={name:name,h:h,perms:Object.assign({},newPerms),createdAt:Date.now()};
+  try{
+    await db.ref('sakura/staffAuth/staff/'+id).set(rec);
+    staffAuth.staff=staffAuth.staff||{};
+    staffAuth.staff[id]=rec;
+    $('staffName').value='';$('staffPass').value='';newPerms={};
+    renderAccess();toast('Доступ создан: '+name,'✅');haptic('success');
+  }catch(e){toast('Не получилось','⚠️')}
+}
+async function removeStaff(id){
+  if(!db)return toast('Нет связи с базой','⚠️');
+  try{
+    await db.ref('sakura/staffAuth/staff/'+id).remove();
+    if(staffAuth.staff)delete staffAuth.staff[id];
+    renderAccess();toast('Доступ снят','✅');
+  }catch(e){toast('Не получилось','⚠️')}
+}
+async function toggleStaffPerm(id,perm){
+  if(!db)return toast('Нет связи с базой','⚠️');
+  const cur=!!((((staffAuth.staff||{})[id]||{}).perms)||{})[perm];
+  const nm=(PERMS.find(p=>p.id===perm)||{name:perm}).name;
+  try{
+    await db.ref('sakura/staffAuth/staff/'+id+'/perms/'+perm).set(!cur);
+    staffAuth.staff[id]=staffAuth.staff[id]||{};
+    staffAuth.staff[id].perms=Object.assign({},staffAuth.staff[id].perms||{},{[perm]:!cur});
+    renderAccess();toast((cur?'Снято: ':'Выдано: ')+nm,'✅');
+  }catch(e){toast('Не получилось','⚠️')}
+}
+async function changeOwnerPass(){
+  if(!db)return toast('Нет связи с базой','⚠️');
+  const v=($('ownerPass')&&$('ownerPass').value||'').trim();
+  if(v.length<4)return toast('Пароль короче 4 символов','⚠️');
+  const h=await hashPass(v);
+  try{
+    await db.ref('sakura/staffAuth/owner').set({h:h,updatedAt:Date.now()});
+    staffAuth.owner={h:h,updatedAt:Date.now()};
+    $('ownerPass').value='';
+    renderAccess();toast('Пароль владельца обновлён','🔑');haptic('success');
+  }catch(e){toast('Не получилось','⚠️')}
+}
+
+/* ==================== АНТИФЛУД И АНТИСПАМ ==================== */
+function floodCheck(txt){
+  const now=Date.now();
+  if(flood.lockUntil>now)return{block:true,wait:Math.ceil((flood.lockUntil-now)/1000),why:'пауза'};
+  flood.times=flood.times.filter(t=>now-t<60000);
+  if(txt===flood.last&&flood.dup>=2){
+    flood.lockUntil=now+floodCfg.mute*1000;flood.times=[];
+    return{block:true,wait:floodCfg.mute,why:'одно и то же три раза'};
+  }
+  const burst=flood.times.filter(t=>now-t<floodCfg.burstMs).length;
+  if(burst>=floodCfg.burst){flood.lockUntil=now+floodCfg.mute*1000;return{block:true,wait:floodCfg.mute,why:'слишком часто'}}
+  if(flood.times.length>=floodCfg.perMin){flood.lockUntil=now+floodCfg.mute*1000;return{block:true,wait:floodCfg.mute,why:'лимит в минуту'}}
+  return{block:false};
+}
+function floodCommit(txt){
+  flood.times.push(Date.now());
+  if(txt===flood.last)flood.dup++;else{flood.dup=1;flood.last=txt}
+}
+function spamReason(txt){
+  const low=txt.toLowerCase();
+  for(const w of stopWords){
+    const k=String(w||'').toLowerCase().trim();
+    if(k.length>=3&&low.indexOf(k)>=0)return 'стоп-слово «'+k+'»';
+  }
+  const links=txt.match(/https?:\/\/|t\.me\/|www\.|@[a-z0-9_]{4,}/gi)||[];
+  if(links.length>=2)return 'несколько ссылок';
+  if(/(.)\1{9,}/.test(txt))return 'повтор символов';
+  const letters=txt.replace(/[^A-Za-zА-Яа-яЁё]/g,'');
+  const caps=letters.replace(/[^A-ZА-ЯЁ]/g,'');
+  if(letters.length>=18&&caps.length/letters.length>0.7)return 'капс';
+  return null;
+}
+function lockInput(sec){
+  const inp=$('chatInput'),btn=$('chatSend');
+  if(!inp||!btn)return;
+  btn.disabled=true;inp.disabled=true;
+  let left=Math.max(1,sec|0);
+  inp.placeholder='⏳ Подожди '+left+' с';
+  const t=setInterval(()=>{
+    left--;
+    if(left<=0){clearInterval(t);btn.disabled=false;inp.disabled=false;inp.placeholder='Написать сообщение…'}
+    else inp.placeholder='⏳ Подожди '+left+' с';
+  },1000);
+}
+function punish(reason,d,text){
+  reports.push({id:'rep_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),kind:'auto',reason,
+    text:String(text).slice(0,200),authorId:String(profile.id||''),author:profile.nickname||'аноним',
+    adminId:d?d.adminId:'',dialogId:d?d.id:'',ts:Date.now(),status:'new'});
+  saveReports();
+  flood.strikes=(flood.strikes||[]).filter(t=>Date.now()-t<600000);
+  flood.strikes.push(Date.now());
+  if(flood.strikes.length>=3&&d&&!d.banned){
+    d.banned=true;d.messages=d.messages||[];
+    d.messages.push({text:'🚫 Диалог заблокирован автоматически: подозрение на спам.',sender:'system',time:nowTime()});
+    saveDialogs();toast('Диалог заблокирован','🚫');
+  }
+}
+function openReport(i){
+  const d=dialogs.find(x=>x.id===openDialogId);if(!d)return;
+  const m=(d.messages||[])[i];if(!m)return;
+  reportTarget={dialogId:d.id,text:String(m.text||''),authorId:d.adminId,author:d.adminName||'админ'};
+  openSheet('<h3 style="margin:0 0 2px">Жалоба на сообщение</h3>'+
+    '<p class="hint" style="margin:0 0 10px">'+esc(String(m.text||'').slice(0,120))+'</p>'+
+    REP_REASONS.map(r=>'<button class="btn ghost small" style="justify-content:flex-start;margin-top:8px" data-reason="'+r.id+'">'+r.name+'</button>').join(''));
+}
+function sendReport(reason){
+  if(!reportTarget)return;
+  reports.push(Object.assign({},reportTarget,{id:'rep_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+    kind:'user',reason,by:{id:String(profile.id||''),name:profile.nickname||'аноним'},ts:Date.now(),status:'new'}));
+  saveReports();reportTarget=null;closeSheet();
+  toast('Жалоба отправлена','✅');haptic('success');
+}
+function renderReports(){
+  const box=$('repList');if(!box)return;
+  const fb=$('repFilters');
+  if(fb)fb.innerHTML=[{id:'new',n:'новые'},{id:'resolved',n:'решённые'},{id:'all',n:'все'}].map(f=>
+    '<button class="chipbtn '+(f.id===repFilter?'on':'')+'" data-rfilter="'+f.id+'">'+f.n+'</button>').join('');
+  const list=reports.filter(r=>repFilter==='all'||(r.status||'new')===repFilter)
+    .sort((a,b)=>(b.ts||0)-(a.ts||0));
+  const cnt=$('repCount');if(cnt)cnt.textContent=list.length?list.length+' шт':'';
+  box.innerHTML=list.length?list.map(r=>{
+    const nm=(REP_REASONS.find(x=>x.id===r.reason)||{name:r.reason||'жалоба'}).name;
+    const who=r.author||(r.by&&r.by.name)||'—';
+    return '<div class="card rep-card">'+
+      '<div class="tk-top"><b>'+(r.kind==='auto'?'🤖 ':'🚩 ')+esc(nm)+'</b>'+
+      '<span class="st '+(r.status==='resolved'?'done':'new')+'">'+(r.status==='resolved'?'решено':'новое')+'</span></div>'+
+      '<div class="tk-meta">'+esc(who)+' · '+dfmt(r.ts)+'</div>'+
+      '<div class="rep-text">'+esc(String(r.text||'').slice(0,160))+'</div>'+
+      (r.status==='resolved'?'':'<div class="rep-act">'+
+        '<button class="btn ghost small" data-rban="'+esc(r.id)+'">Забанить</button>'+
+        '<button class="btn ghost small" data-rdel="'+esc(r.id)+'">Удалить</button>'+
+        '<button class="btn ghost small" data-rok="'+esc(r.id)+'">Отклонить</button></div>')+'</div>';
+  }).join(''):'<div class="empty"><span class="e">🛡️</span>Жалоб нет — тихо</div>';
+}
+function reportResolve(id,action){
+  const r=reports.find(x=>x.id===id);if(!r)return;
+  if(action==='del'){
+    const d=dialogs.find(x=>x.id===r.dialogId);
+    if(d){d.messages=(d.messages||[]).filter(m=>String(m.text)!==String(r.text));saveDialogs();renderChat()}
+  }
+  if(action==='ban'&&r.dialogId){
+    const d=dialogs.find(x=>x.id===r.dialogId);
+    if(d&&!d.banned){
+      d.banned=true;d.messages=d.messages||[];
+      d.messages.push({text:'🚫 Пользователь заблокирован модератором.',sender:'system',time:nowTime()});
+      saveDialogs();
+    }
+  }
+  r.status='resolved';r.resolvedBy=uid();r.resolvedAt=Date.now();
+  saveReports();renderReports();
+  toast(action==='ban'?'Автор забанен':action==='del'?'Сообщение удалено':'Жалоба отклонена','✅');
+}
+function renderSettings(){
+  const f=$('floodCard');if(!f)return;
+  f.innerHTML='<label class="lbl">Сообщений подряд за 10 секунд</label>'+
+    '<input type="number" id="fBurst" min="1" max="20" value="'+floodCfg.burst+'">'+
+    '<label class="lbl">Сообщений в минуту</label>'+
+    '<input type="number" id="fPerMin" min="3" max="60" value="'+floodCfg.perMin+'">'+
+    '<label class="lbl">Пауза при срабатывании, сек</label>'+
+    '<input type="number" id="fMute" min="5" max="600" value="'+floodCfg.mute+'">'+
+    '<button class="btn" id="fSave">Сохранить лимиты</button>';
+  const s=$('fSave');
+  if(s)s.onclick=()=>{
+    floodCfg.burst=Math.max(1,Math.min(20,+$('fBurst').value||5));
+    floodCfg.perMin=Math.max(3,Math.min(60,+$('fPerMin').value||15));
+    floodCfg.mute=Math.max(5,Math.min(600,+$('fMute').value||30));
+    saveFlood();renderSettings();toast('Лимиты сохранены','✅');
+  };
+  const w=$('wordsList');
+  if(w)w.innerHTML=stopWords.length?stopWords.map((x,i)=>
+    '<span class="wchip">'+esc(x)+'<button data-wdel="'+i+'" aria-label="Удалить">×</button></span>').join('')
+    :'<div class="tk-meta">Список пуст — ловятся только капс, ссылки и повторы</div>';
+  const wc=$('wordsCount');if(wc)wc.textContent=stopWords.length?stopWords.length+' шт':'';
+}
+function addWord(){
+  const inp=$('wordInput');if(!inp)return;
+  const v=String(inp.value||'').trim().toLowerCase();
+  if(v.length<3)return toast('Минимум 3 символа','⚠️');
+  if(stopWords.indexOf(v)>=0)return toast('Уже в списке','⚠️');
+  stopWords.push(v);inp.value='';saveWords();renderSettings();toast('Добавлено','✅');
 }
 
 /* ==================== КВЕСТЫ ==================== */
@@ -1116,11 +1541,12 @@ function renderRp(){
 function renderChat(){
   const d=dialogs.find(x=>x.id===openDialogId);if(!d)return;
   const box=$('chatMsgs');
-  box.innerHTML=(d.messages||[]).map(m=>{
+  box.innerHTML=(d.messages||[]).map((m,mi)=>{
     const act=/^\*.*\*$/.test(String(m.text||'').trim());
     const cls=m.sender==='user'?'me':m.sender==='system'?'sys':'them';
     return '<div class="msg '+cls+(act?' act':'')+'">'+esc(m.text)+
-      (m.sender!=='system'?'<span class="t">'+esc(m.time||'')+'</span>':'')+'</div>';
+      (m.sender!=='system'?'<span class="t">'+esc(m.time||'')+'</span>':'')+
+      (m.sender==='user'||m.sender==='system'?'':'<button class="repbtn" data-report="'+mi+'">⚑</button>')+'</div>';
   }).join('')||'<div class="empty"><span class="e">💬</span>Напиши первым</div>';
   box.scrollTop=box.scrollHeight;
   if(d.messages&&d.messages.some(m=>m.sender!=='user'&&m.sender!=='system'&&m.status!=='read')){
@@ -1131,6 +1557,23 @@ function renderChat(){
 function sendMessage(){
   const d=dialogs.find(x=>x.id===openDialogId);if(!d||d.closed||d.banned)return;
   const txt=$('chatInput').value.trim();if(!txt)return;
+  const fc=floodCheck(txt);
+  if(fc.block){
+    lockInput(fc.wait);
+    toast('Стоп — '+(fc.why||'пауза')+'. Подожди '+fc.wait+' с','⏳');
+    haptic('error');
+    return;
+  }
+  const sp=spamReason(txt);
+  if(sp){
+    punish(sp,d,txt);
+    $('chatInput').value='';
+    lockInput(3);
+    toast('Похоже на спам: '+sp,'🚫');
+    haptic('error');
+    return;
+  }
+  floodCommit(txt);
   d.messages=d.messages||[];
   d.messages.push({text:txt,sender:'user',time:nowTime(),ts:Date.now(),status:'sent'});
   d.lastActivity=Date.now();d.status='waiting';
@@ -1185,7 +1628,7 @@ function createTicket(){
 function openTicket(id){
   const t=tickets.find(x=>x.id===id);if(!t)return;
   const st=statusMeta(t.status),cm=catMeta(t.category);
-  const isStaff=!!myRole;
+  const isStaff=can('tickets');
   const canReply=t.status!=='done'||isStaff;
   openSheet(
     '<div class="tk-top" style="margin-bottom:4px"><h3 style="margin:0">'+esc(t.subject)+'</h3>'+
@@ -1262,9 +1705,14 @@ function wire(){
   document.addEventListener('click',e=>{
     const el=e.target.closest('[data-view],[data-go],[data-admin],[data-start],[data-sheet-close],[data-dialog],'+
       '[data-ticket],[data-treply],[data-tstatus],[data-tcat],[data-sfilter],[data-tab],[data-av],[data-buy],[data-cat],'+
-      '[data-tg],[data-rp],[data-revoke],[data-new-dialog]');
+      '[data-tg],[data-rp],[data-revoke],[data-new-dialog],[data-stab],[data-perm],[data-report],[data-reason],'+
+      '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm]');
     if(!el)return;
     const d=el.dataset;
+    if(d.grole){gateRole=d.grole;renderGateTabs();if($('gateErr'))$('gateErr').hidden=true;return}
+    if(d.nperm){newPerms[d.nperm]=!newPerms[d.nperm];renderNewPerms();return}
+    if(d.sperm){toggleStaffPerm(d.sid,d.sperm);return}
+    if(d.sdel){removeStaff(d.sdel);return}
     if(d.newDialog!==undefined){go('admins');return}
     if(d.view){go(d.view);return}
     if(d.go){if(d.tab)activeTab=d.tab;go(d.go);if(d.tab)renderTab();return}
@@ -1284,12 +1732,38 @@ function wire(){
     if(d.tg){try{(tg&&tg.openTelegramLink?tg.openTelegramLink:window.open)('https://t.me/'+d.tg,tg?'':'blank')}catch(err){window.open('https://t.me/'+d.tg,'_blank')}return}
     if(d.rp){const r=RP[+d.rp];const inp=$('chatInput');inp.value=r.text;inp.focus();return}
     if(d.revoke){revokeRole(d.revoke);return}
+    if(d.stab){staffTab=d.stab;renderStaffTabs();return}
+    if(d.perm){togglePerm(d.pid,d.perm);return}
+    if(d.report!==undefined){openReport(+d.report);return}
+    if(d.reason){sendReport(d.reason);return}
+    if(d.rfilter){repFilter=d.rfilter;renderReports();return}
+    if(d.rban){reportResolve(d.rban,'ban');return}
+    if(d.rdel){reportResolve(d.rdel,'del');return}
+    if(d.rok){reportResolve(d.rok,'ok');return}
+    if(d.wdel!==undefined){
+      stopWords.splice(+d.wdel,1);saveWords();renderSettings();toast('Слово убрано','✅');return;
+    }
   });
   $('saveProfileBtn').addEventListener('click',saveProfile);
   $('tkCreate').addEventListener('click',createTicket);
-  $('claimBtn').addEventListener('click',claimOwner);
-  $('grantBtn').addEventListener('click',grantRole);
-  $('copyUid').addEventListener('click',()=>{
+  const gb=$('gateBtn');if(gb)gb.addEventListener('click',gateLogin);
+  const gp=$('gatePass');
+  if(gp){
+    gp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();gateLogin()}});
+    gp.addEventListener('input',()=>{const er=$('gateErr');if(er)er.hidden=true});
+  }
+  const lo=$('staffLogout');if(lo)lo.addEventListener('click',staffLogout);
+  const sa=$('staffAdd');if(sa)sa.addEventListener('click',createStaff);
+  const ob=$('ownerPassBtn');if(ob)ob.addEventListener('click',changeOwnerPass);
+  const pe=$('passEye');
+  if(pe)pe.addEventListener('click',()=>{
+    const i=$('staffPass');if(!i)return;
+    i.type=i.type==='password'?'text':'password';
+    pe.textContent=i.type==='password'?'👁':'🙈';
+  });
+  const wa=$('wordAdd');if(wa)wa.addEventListener('click',addWord);
+  const cu=$('copyUid');
+  if(cu)cu.addEventListener('click',()=>{
     const v=uid()||'';if(!v)return;
     navigator.clipboard&&navigator.clipboard.writeText(v).then(()=>toast('ID скопирован','📋')).catch(()=>toast('ID: '+v,''));
   });
@@ -1324,6 +1798,7 @@ function tick(){
     try{if(tg.setHeaderColor)tg.setHeaderColor('#0e0514')}catch(e){}
   }
   applyTheme();
+  loadSession();
   loadLocal();
   ensureId().then(()=>{
     syncStreak();
@@ -1338,7 +1813,7 @@ function tick(){
   renderAll();
   renderTkCats();
   setInterval(tick,20000);
-  setTimeout(()=>{if(!myRole)resolveRole()},1500);
+  resolveRole();renderStaff();
 })();
 
 function renderAll(){
