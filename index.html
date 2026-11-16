@@ -5,28 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#100616">
-<title>По ту сторону</title>
+<meta name="description" content="По ту сторону — конфиденциальное пространство общения, поддержки и диалогов с администраторами.">
+<title>По ту сторону — пространство поддержки</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0e0514;--surf:#1b0e27;--surf2:#241334;--surf3:#2e1940;
-  --line:rgba(255,255,255,.085);--line2:rgba(255,255,255,.16);
-  --text:#f7f0fb;--hint:#b199c2;--muted:#8b7399;
-  --orange:#ff7f45;--orange-d:#e85f1f;--violet:#b06bff;--pink:#ff9ecd;--green:#4ade80;--yellow:#ffd166;--red:#ff6b81;
-  --grad:linear-gradient(135deg,#ff7f45 0%,#e5539b 55%,#a855f7 100%);
-  --soft:rgba(255,127,69,.15);
+  --bg:#080f22;--surf:#111c36;--surf2:#17243f;--surf3:#1e2e4e;
+  --line:rgba(190,215,255,.10);--line2:rgba(190,215,255,.20);
+  --text:#eef5ff;--hint:#a8bcdd;--muted:#7d90b3;
+  --orange:#ffcf5c;--orange-d:#e0a92e;--violet:#7fb2ff;--pink:#bfe6ff;--green:#5ee0a0;--yellow:#ffd166;--red:#ff6b81;
+  --grad:linear-gradient(135deg,#ffd166 0%,#7fb2ff 58%,#a78bfa 100%);
+  --soft:rgba(255,207,92,.15);
   --r:20px;--r-s:14px;
-  --sh:0 12px 30px rgba(0,0,0,.34);
+  --sh:0 12px 30px rgba(2,8,24,.42);
   --nav-h:102px;
 }
 body.plain{
-  --bg:#f5f1f8;--surf:#ffffff;--surf2:#f7f1fb;--surf3:#efe6f6;
-  --line:rgba(28,10,44,.09);--line2:rgba(28,10,44,.18);
-  --text:#1a1026;--hint:#6d5c7d;--muted:#897796;
-  --orange:#e2621f;--orange-d:#c24d13;--violet:#8b3fd9;--pink:#d64f92;
-  --soft:rgba(226,98,31,.12);
-  --sh:0 10px 26px rgba(60,20,90,.12);
+  --bg:#eef4fc;--surf:#ffffff;--surf2:#f4f8ff;--surf3:#e7eefb;
+  --line:rgba(16,34,72,.09);--line2:rgba(16,34,72,.18);
+  --text:#111e36;--hint:#5b6f90;--muted:#7d8ea8;
+  --orange:#b8841b;--orange-d:#9a6c0f;--violet:#3f6fd8;--pink:#2f8fc4;
+  --grad:linear-gradient(135deg,#e0a92e 0%,#3f6fd8 60%,#7c5ae0 100%);
+  --soft:rgba(184,132,27,.12);
+  --sh:0 10px 26px rgba(16,44,96,.12);
 }
 html,body{margin:0;padding:0;min-height:100%}
 body{
@@ -65,8 +67,8 @@ body.plain .topbar{background:rgba(245,241,248,.82)}
 .chip{display:inline-flex;align-items:center;gap:5px;padding:7px 11px;border-radius:999px;font-size:13px;font-weight:650;
   background:var(--surf2);border:1px solid var(--line);white-space:nowrap}
 .chip b{font-weight:750}
-.chip.candy{background:linear-gradient(135deg,rgba(255,127,69,.22),rgba(229,83,155,.14));border-color:rgba(255,127,69,.34);color:#ffc7a6}
-body.plain .chip.candy{color:#a13c0d}
+.chip.snowpoints{background:linear-gradient(135deg,rgba(255,127,69,.22),rgba(229,83,155,.14));border-color:rgba(255,127,69,.34);color:#ffc7a6}
+body.plain .chip.snowpoints{color:#a13c0d}
 .chip.streak{color:#ffd9a8}
 body.plain .chip.streak{color:#8a5218}
 main{padding:0 16px}
@@ -307,19 +309,114 @@ body.plain .toast{background:rgba(28,12,40,.95)}
   border:1px solid var(--line);font-size:12.5px;margin:0 6px 6px 0}
 .wchip button{border:0;background:transparent;color:var(--hint);font-size:15px;line-height:1;padding:0 3px}
 </style>
+
+<style>
+/* ===== SAKU / winter glass UI refresh ===== */
+:root{
+  --bg:#071022;--surf:rgba(16,29,54,.88);--surf2:#142541;--surf3:#1c3153;
+  --line:rgba(190,215,255,.12);--line2:rgba(190,215,255,.24);
+  --text:#f1f6ff;--hint:#b3c5e3;--muted:#8298bd;
+  --orange:#ffd166;--orange-d:#e6b744;--violet:#8ab8ff;--pink:#c7e6ff;
+  --green:#65e6aa;--yellow:#ffda7a;--red:#ff718b;
+  --grad:linear-gradient(125deg,#ffd166 0%,#83b7ff 54%,#b5a0ff 100%);
+  --soft:rgba(131,183,255,.14);--sh:0 16px 42px rgba(1,8,24,.36);
+}
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(60% 44% at 100% 0%,rgba(83,151,255,.22),transparent 70%),
+    radial-gradient(58% 42% at 0% 10%,rgba(132,104,255,.18),transparent 72%),
+    radial-gradient(75% 48% at 50% 110%,rgba(68,170,210,.12),transparent 72%);
+}
+body.plain{
+  --bg:#edf4ff;--surf:rgba(255,255,255,.92);--surf2:#f3f7ff;--surf3:#e5edfb;
+  --line:rgba(27,55,100,.10);--line2:rgba(27,55,100,.2);
+  --text:#14233d;--hint:#607493;--muted:#8292ac;
+  --orange:#b8841b;--orange-d:#95690e;--violet:#4778d7;--pink:#398bb8;
+  --grad:linear-gradient(125deg,#e4b34b 0%,#6e9fe9 55%,#927ce5 100%);
+  --soft:rgba(71,120,215,.10);--sh:0 12px 30px rgba(28,58,108,.10);
+}
+.topbar{background:rgba(7,16,34,.78);border-bottom-color:rgba(190,215,255,.13)}
+body.plain .topbar{background:rgba(245,249,255,.86)}
+.tb-pump{box-shadow:0 7px 22px rgba(108,158,255,.28);border:1px solid rgba(255,255,255,.18)}
+.card,.qbtn,.acard,.tk,.staff-head{
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.card{background:linear-gradient(145deg,rgba(22,39,70,.94),rgba(13,26,49,.94));border-color:rgba(180,211,255,.12)}
+body.plain .card{background:rgba(255,255,255,.94)}
+.hero,.cover{
+  background:
+    radial-gradient(115% 95% at 100% 0%,rgba(110,169,255,.34),transparent 60%),
+    radial-gradient(75% 85% at 0% 100%,rgba(151,125,255,.22),transparent 66%),
+    linear-gradient(145deg,#10264b 0%,#111b3a 58%,#1a2048 100%);
+  border-color:rgba(151,194,255,.24);box-shadow:0 20px 48px rgba(0,8,28,.42)
+}
+.hero:after{width:210px;height:210px;right:-56px;bottom:-74px;background:radial-gradient(circle,rgba(150,190,255,.34),rgba(150,190,255,0) 68%)}
+.cover{background:radial-gradient(110% 90% at 90% 0%,rgba(110,169,255,.32),transparent 62%),linear-gradient(145deg,#10264b,#151c3d 72%)}
+.hero-mini,.cstat{background:rgba(220,235,255,.075);border-color:rgba(220,235,255,.15);backdrop-filter:blur(8px)}
+.hero-mini span,.cstat span{color:rgba(231,241,255,.72)}
+.sechead h2{letter-spacing:-.025em}
+.qbtn{background:linear-gradient(145deg,rgba(20,37,67,.96),rgba(13,27,51,.96));border-color:var(--line)}
+body.plain .qbtn{background:rgba(255,255,255,.95)}
+.qico{background:linear-gradient(145deg,rgba(255,209,102,.18),rgba(112,165,255,.16));border:1px solid rgba(169,204,255,.12)}
+.btn{background:var(--grad);color:#111d35;box-shadow:0 9px 24px rgba(103,155,245,.22);font-weight:750}
+.btn.ghost{background:var(--surf2);color:var(--text);border-color:var(--line2)}
+.btn.danger{color:var(--red)}
+.chipbtn.on,.cat.on,.av-pick.on,.pchip.on{background:linear-gradient(130deg,rgba(255,209,102,.18),rgba(112,165,255,.2));border-color:rgba(137,183,255,.55)}
+.chip.snowpoints{background:linear-gradient(135deg,rgba(255,209,102,.18),rgba(112,165,255,.13));border-color:rgba(255,209,102,.28);color:#ffe5a1}
+body.plain .chip.snowpoints{color:#94620d}
+.chip.streak{color:#c5e4ff}
+body.plain .chip.streak{color:#416eae}
+.tabbar{background:rgba(7,16,34,.9);border-top-color:rgba(190,215,255,.14)}
+body.plain .tabbar{background:rgba(247,250,255,.94)}
+.tab.active{background:linear-gradient(145deg,rgba(255,209,102,.16),rgba(112,165,255,.2));color:#f5f8ff}
+body.plain .tab.active{color:#315b9b}
+.tab.active .ti{filter:none}
+.chat{background-color:var(--bg);background-image:radial-gradient(65% 45% at 100% 0%,rgba(83,151,255,.18),transparent 70%),radial-gradient(60% 42% at 0% 100%,rgba(132,104,255,.14),transparent 70%)}
+.chat-top,.chat-foot{background:rgba(8,18,38,.88)}
+body.plain .chat-top,body.plain .chat-foot{background:rgba(248,251,255,.94)}
+.msg.me{background:linear-gradient(130deg,#6e9ff0,#897ce0);color:#fff}
+.send{background:var(--grad);color:#10203b;box-shadow:0 7px 18px rgba(103,155,245,.28)}
+.sheet{background:linear-gradient(160deg,#152847,#101d37);border-color:rgba(180,211,255,.2)}
+body.plain .sheet{background:#fff}
+input:focus,textarea:focus{border-color:#8ab8ff;box-shadow:0 0 0 3px rgba(138,184,255,.13)}
+button:focus-visible{outline:2px solid #8ab8ff;outline-offset:3px}
+input:focus-visible,textarea:focus-visible{outline:none}
+.acard,.tk{background:var(--surf2)}
+.dot-on{box-shadow:0 0 0 3px rgba(101,230,170,.16),0 0 14px rgba(101,230,170,.25)}
+.ach.on{background:linear-gradient(145deg,rgba(255,209,102,.16),rgba(112,165,255,.16));border-color:rgba(137,183,255,.35)}
+.q-prog i,.lvl-fill{background:var(--grad)}
+.toast{background:rgba(12,27,52,.97);border-color:rgba(180,211,255,.2)}
+body.plain .toast{background:rgba(25,44,75,.96)}
+.snow{z-index:2}
+@media(hover:hover){
+  .card:hover{border-color:rgba(150,190,255,.2)}
+  .qbtn:hover,.acard:hover,.tk:hover{transform:translateY(-2px);border-color:rgba(150,190,255,.3);box-shadow:0 16px 34px rgba(1,8,24,.25)}
+  .btn:hover{filter:brightness(1.045)}
+}
+@media(max-width:480px){
+  .hero{padding:18px 16px;border-radius:23px}
+  .card{padding:14px;border-radius:18px}
+  .topbar{padding-left:13px;padding-right:13px}
+  main{padding-left:13px;padding-right:13px}
+}
+@media(prefers-reduced-motion:reduce){.card,.qbtn,.acard,.tk,.btn{transition:none!important}}
+
+</style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="tb-left">
-      <div class="tb-pump">🎃</div>
+      <div class="tb-pump">❄️</div>
       <div>
         <div class="tb-title">По ту сторону</div>
-        <div class="tb-sub">поддержка · конфиденциально</div>
+        <div class="tb-sub">поддержка · зимнее настроение</div>
       </div>
     </div>
     <div class="tb-right">
-      <span class="chip candy">🍬 <b id="candyTop">0</b></span>
+      <span class="chip snowpoints">❄️ <b id="candyTop">0</b></span>
       <span class="chip streak">🔥 <b id="streakTop">0</b></span>
     </div>
   </header>
@@ -331,14 +428,14 @@ body.plain .toast{background:rgba(28,12,40,.95)}
 
       <div class="hero">
         <div class="hero-greet" id="homeGreet">Привет 👋</div>
-        <div class="hero-sub">Место, где не нужно держать лицо. Админы рядом, конфеты — за активность.</div>
+        <div class="hero-sub">Место, где не нужно держать лицо. Админы рядом, снежинки — за активность.</div>
         <div class="hero-row">
-          <div class="hero-mini"><b id="homeCandy">0</b><span id="lblCandy">конфет</span></div>
+          <div class="hero-mini"><b id="homeCandy">0</b><span id="lblCandy">снежинок</span></div>
           <div class="hero-mini"><b id="homeStreak">0</b><span id="lblStreak">дней подряд</span></div>
           <div class="hero-mini"><b id="homeQuests">0</b><span>квестов сегодня</span></div>
         </div>
         <div class="lvl">
-          <div class="lvl-top"><span id="lvlName">Новичок</span><span id="lvlNext">до «Знакомый» ещё 50 🍬</span></div>
+          <div class="lvl-top"><span id="lvlName">Новичок</span><span id="lvlNext">до «Знакомый» ещё 50 ❄️</span></div>
           <div class="lvl-bar"><i class="lvl-fill" id="lvlBar" style="width:0%"></i></div>
         </div>
       </div>
@@ -400,7 +497,7 @@ body.plain .toast{background:rgba(28,12,40,.95)}
           </div>
         </div>
         <div class="cover-stats">
-          <div class="cstat"><b id="profCandy">0</b><span>конфет</span></div>
+          <div class="cstat"><b id="profCandy">0</b><span>снежинок</span></div>
           <div class="cstat"><b id="profQuests">0</b><span>квестов</span></div>
           <div class="cstat"><b id="profWarns">0</b><span>варнов</span></div>
         </div>
@@ -477,6 +574,27 @@ body.plain .toast{background:rgba(28,12,40,.95)}
           <div id="staffQueue" style="margin-top:10px"></div>
         </div>
 
+        <div id="staffTabDialogs" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Мониторинг диалогов</h2><span class="tk-meta" id="monitorCount"></span></div>
+          <div class="card" style="margin-bottom:10px">
+            <label class="lbl" for="dialogSearch">Поиск по нику, ID или администратору</label>
+            <input type="search" id="dialogSearch" placeholder="Найти пользователя или диалог…" autocomplete="off">
+            <div class="chips" id="monitorFilters" style="margin-top:10px"></div>
+          </div>
+          <div id="monitorList" style="margin-top:10px"></div>
+          <div id="monitorDetail" style="margin-top:12px"></div>
+        </div>
+
+        <div id="staffTabTeam" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Администраторы проекта</h2><span class="tk-meta" id="teamAdminCount"></span></div>
+          <div class="card" style="margin-bottom:10px">
+            <label class="lbl" for="teamAdminSearch">Найти администратора</label>
+            <input type="search" id="teamAdminSearch" placeholder="Имя или ID администратора…" autocomplete="off">
+            <p class="hint" style="margin:9px 0 0">Выдавай предупреждения за нарушения. Бан скрывает администратора из каталога и приостанавливает его текущие диалоги на этой площадке.</p>
+          </div>
+          <div id="teamAdminList"></div>
+        </div>
+
         <div id="staffTabReports" hidden>
           <div class="sechead" style="margin-top:12px"><h2>Жалобы и автоспам</h2><span class="tk-meta" id="repCount"></span></div>
           <div class="chips" id="repFilters"></div>
@@ -501,6 +619,17 @@ body.plain .toast{background:rgba(28,12,40,.95)}
           <div class="sechead"><h2>Кто имеет доступ</h2><span class="tk-meta" id="staffCount2"></span></div>
           <div class="card" id="staffList"></div>
 
+        </div>
+
+        <div id="staffTabSettings" hidden>
+        <div class="sechead" style="margin-top:12px"><h2>Оформление</h2></div>
+        <div class="card">
+          <p class="hint" style="margin:0 0 10px">Зимняя тема: ночное небо, золото и лёд, падающий снег.</p>
+          <div class="role-form">
+            <button class="btn ghost small" type="button" onclick="toggleTheme()" style="min-height:44px">🌗 Сменить тему</button>
+            <button class="btn ghost small" type="button" onclick="toggleSnow()" style="min-height:44px" id="snowBtn">❄️ Снег</button>
+          </div>
+        </div>
           <div class="sechead"><h2>Пароль владельца</h2></div>
           <div class="card">
             <div class="role-form">
@@ -509,9 +638,7 @@ body.plain .toast{background:rgba(28,12,40,.95)}
             </div>
             <p class="hint" id="ownerPassHint" style="margin:10px 0 0">—</p>
           </div>
-        </div>
 
-        <div id="staffTabSettings" hidden>
           <div class="sechead" style="margin-top:12px"><h2>Антифлуд</h2></div>
           <div class="card" id="floodCard"></div>
           <div class="sechead"><h2>Стоп-слова</h2><span class="tk-meta" id="wordsCount"></span></div>
@@ -569,44 +696,45 @@ const CFG={apiKey:"AIzaSyCsRo-IAR6UgXX4NDoIDR9viJtoTCRVikc",authDomain:"poty-sto
   storageBucket:"poty-storony.firebasestorage.app",messagingSenderId:"522808917706",appId:"1:522808917706:web:859f785b26f863729dfe33"};
 
 const QUESTS=[
-  {id:'login',icon:'🎃',name:'Зайти в мини-апп',reward:3,daily:true,max:1},
-  {id:'message',icon:'💬',name:'Написать сообщение',reward:5,daily:true,max:3},
-  {id:'long_message',icon:'👻',name:'Длинное сообщение',reward:10,daily:true,max:2},
-  {id:'rp',icon:'🔮',name:'3 RP-команды',reward:10,daily:true,max:3},
-  {id:'midnight',icon:'🌙',name:'Написать после полуночи',reward:20,daily:true,max:1},
-  {id:'ticket',icon:'🎫',name:'Оформить обращение',reward:10,daily:true,max:1},
-  {id:'streak7',icon:'🕸️',name:'Стрик 7 дней',reward:100,daily:false,max:1},
-  {id:'streak31',icon:'🌕',name:'Стрик 31 день',reward:500,daily:false,max:1},
-  {id:'profile',icon:'💀',name:'Заполнить профиль',reward:50,daily:false,max:1},
-  {id:'all_admins',icon:'🧙',name:'3 разных админа',reward:100,daily:false,max:1}
+  {id:'login',icon:'🎄',name:'Открыть новогодний портал',reward:3,daily:true,max:1},
+  {id:'message',icon:'💌',name:'Отправить праздничное поздравление',reward:5,daily:true,max:3},
+  {id:'long_message',icon:'✉️',name:'Написать письмо Деду Морозу',reward:10,daily:true,max:2},
+  {id:'rp',icon:'🎁',name:'Поделиться зимним настроением',reward:10,daily:true,max:3},
+  {id:'midnight',icon:'⭐',name:'Загадать желание после полуночи',reward:20,daily:true,max:1},
+  {id:'ticket',icon:'🧑‍🎄',name:'Отправить письмо в мастерскую',reward:10,daily:true,max:1},
+  {id:'streak7',icon:'☃️',name:'Неделя зимнего волшебства',reward:100,daily:false,max:1},
+  {id:'streak31',icon:'🎅',name:'Месяц новогоднего настроения',reward:500,daily:false,max:1},
+  {id:'profile',icon:'🎀',name:'Украсить свою страничку',reward:50,daily:false,max:1},
+  {id:'all_admins',icon:'🧝',name:'Познакомиться с тремя помощниками',reward:100,daily:false,max:1}
 ];
 
 const ACH=[
-  {id:'first_candy',icon:'🍬',name:'Сладкоежка',desc:'Заработать конфету',goal:1,cur:p=>p.candiesEarned||0},
-  {id:'midnight_owl',icon:'👻',name:'Полуночник',desc:'Написать после полуночи',goal:1,cur:p=>p.nightWrite?1:0},
-  {id:'dark_night',icon:'🦇',name:'Тёмная ночь',desc:'10 квестов',goal:10,cur:p=>p.questsDone||0},
-  {id:'halloween_spirit',icon:'🎃',name:'Хэллоуин-дух',desc:'Зайти в октябре',goal:1,cur:()=>new Date().getMonth()===9?1:0},
-  {id:'spider_web',icon:'🕸️',name:'Паутина',desc:'7 дней подряд',goal:7,cur:p=>p.streak||0},
-  {id:'vampire',icon:'🧛',name:'Вампир',desc:'100 сообщений',goal:100,cur:p=>p.messagesSent||0},
-  {id:'sweet_tooth',icon:'🍬',name:'Конфетный магнат',desc:'500 конфет всего',goal:500,cur:p=>p.candiesEarned||0},
-  {id:'full_moon',icon:'🌕',name:'Полная луна',desc:'31 день подряд',goal:31,cur:p=>p.streak||0}
+  {id:'first_candy',icon:'❄️',name:'Первая снежинка',desc:'Заработать первые снежинки',goal:1,cur:p=>p.candiesEarned||0},
+  {id:'midnight_owl',icon:'🌟',name:'Звёздная ночь',desc:'Загадать желание после полуночи',goal:1,cur:p=>p.nightWrite?1:0},
+  {id:'dark_night',icon:'🎁',name:'Подарочный мастер',desc:'Выполнить 10 заданий',goal:10,cur:p=>p.questsDone||0},
+  {id:'halloween_spirit',icon:'🎄',name:'Новогодний дух',desc:'Зайти в мини-приложение зимой',goal:1,cur:()=>[11,0,1].includes(new Date().getMonth())?1:0},
+  {id:'spider_web',icon:'🧣',name:'Тёплый марафон',desc:'Заходить 7 дней подряд',goal:7,cur:p=>p.streak||0},
+  {id:'vampire',icon:'🛷',name:'Быстрые сани',desc:'Отправить 100 сообщений',goal:100,cur:p=>p.messagesSent||0},
+  {id:'sweet_tooth',icon:'💎',name:'Хранитель снежинок',desc:'Заработать 500 снежинок',goal:500,cur:p=>p.candiesEarned||0},
+  {id:'full_moon',icon:'🌠',name:'Путь к звезде',desc:'31 день подряд на площадке',goal:31,cur:p=>p.streak||0}
 ];
 
 const SHOP=[
-  {id:'pumpkin_frame',icon:'🎃',name:'Рамка-тыква',price:100},
-  {id:'ghost',icon:'👻',name:'Призрак у ника',price:150},
-  {id:'bat',icon:'🦇',name:'Летучая мышь',price:120},
-  {id:'skull',icon:'💀',name:'Череп',price:200},
-  {id:'witch_theme',icon:'🧙',name:'Ведьма-тема',price:300},
-  {id:'night_chat',icon:'🌙',name:'Ночной режим чата',price:150}
+  {id:'pumpkin_frame',icon:'❄️',name:'Ледяная рамка профиля',price:100},
+  {id:'ghost',icon:'🔮',name:'Снежный шар у ника',price:150},
+  {id:'bat',icon:'🦌',name:'Олень-помощник',price:120},
+  {id:'skull',icon:'☃️',name:'Снеговик у профиля',price:200},
+  {id:'witch_theme',icon:'🌌',name:'Тема «Северное сияние»',price:300},
+  {id:'night_chat',icon:'🕯️',name:'Уютная зимняя комната',price:150}
 ];
 
 const TICKET_CATS=[{id:'tech',icon:'🔧',name:'Техпроблема'},{id:'bug',icon:'🐛',name:'Ошибка'},
   {id:'admin',icon:'⚠️',name:'Жалоба на админа'},{id:'user',icon:'🚫',name:'Жалоба на пользователя'},
   {id:'idea',icon:'💡',name:'Идея'}];
 const PERMS=[{id:'tickets',icon:'🎫',name:'Обращения'},{id:'moderation',icon:'🛡️',name:'Жалобы'},
-  {id:'access',icon:'👑',name:'Доступы'},{id:'settings',icon:'⚙️',name:'Настройки'}];
-const STAFF_TABS=[{id:'queue',perm:'tickets',name:'Очередь'},{id:'reports',perm:'moderation',name:'Жалобы'},
+  {id:'dialogs',icon:'👁️',name:'Отслеживание диалогов'},{id:'access',icon:'👑',name:'Доступы'},{id:'settings',icon:'⚙️',name:'Настройки'}];
+const STAFF_TABS=[{id:'queue',perm:'tickets',name:'Очередь'},{id:'dialogs',perm:'dialogs',name:'Диалоги'},
+  {id:'team',ownerOnly:true,name:'Админы'},{id:'reports',perm:'moderation',name:'Жалобы'},
   {id:'access',perm:'access',name:'Доступы'},{id:'settings',perm:'settings',name:'Настройки'}];
 const DEF_WORDS=['казино','криптовалюта','заработок в интернете','промокод','ставки на спорт','1xbet',
   'подписывайся на канал','инвестиции без риска'];
@@ -614,7 +742,7 @@ const DEF_FLOOD={burst:5,burstMs:10000,perMin:15,mute:30};
 const REP_REASONS=[{id:'spam',name:'Спам или реклама'},{id:'insult',name:'Оскорбление'},
   {id:'flood',name:'Флуд'},{id:'other',name:'Другое'}];
 const CATS=['Общение','Поддержка','Универсал'];
-const AVATARS=['😊','🌸','🖤','🐈','🌙','👻','🎃','🦇','🔮','💀'];
+const AVATARS=['😊','🌸','🖤','🐈','🌙','👻','❄️','🦇','🔮','💀'];
 const RP=[{label:'🤗 Обнять',text:'*нежно обнимает*'},{label:'🌸 Погладить',text:'*гладит по голове*'},
   {label:'💐 Цветы',text:'*дарит букет*'},{label:'☕ Чай',text:'*наливает чай*'},
   {label:'🍰 Тортик',text:'*угощает тортом*'},{label:'🎁 Подарок',text:'*дарит подарок*'},
@@ -630,13 +758,14 @@ const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 const tgUser=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
 const uid=()=>tgUser?String(tgUser.id):'';
 
-let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],roles={},ownerId=null,myRole=null,offline=false;
+let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],roles={},ownerId=null,myRole=null,offline=false,adminModeration={};
 let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0,candiesEarned:0,questsDone:0,
   halloweenTasks:{},halloweenPurchases:[],achievements:[],streak:0,lastVisit:null,lastDailyReset:null,
   messagesSent:0,rpUsed:0,distinctAdmins:null,nightWrite:0};
 
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
 let perms={},reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
+let monitorDialogId=null,monitorFilter='all',monitorQuery='',userBan=null,userModerationRefId=null,teamAdminQuery='';
 const KEY_STAFF='saku-staff-session',DEF_OWNER_PASS='owner123',DEF_ADMIN_PASS='admin123';
 let staffAuth={},staffSession=null,gateRole='owner',newPerms={};
 let floodCfg=Object.assign({},DEF_FLOOD);
@@ -652,7 +781,7 @@ function yKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDat
 function nowTime(){const d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())}
 function dfmt(ts){const d=new Date(ts||Date.now());return pad(d.getDate())+'.'+pad(d.getMonth()+1)+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
 
-const PALETTE={bg:'#0e0514',surf:'#1b0e27'};
+const PALETTE={bg:'#080f22',surf:'#111c36'};
 
 /* ==================== ТЕМА ==================== */
 function plainMode(){try{return localStorage.getItem(KEY_THEME)==='plain'}catch(e){return false}}
@@ -660,13 +789,13 @@ function applyTheme(){
   const plain=plainMode();
   document.body.classList.toggle('plain',plain);
   const meta=document.querySelector('meta[name=theme-color]');
-  if(meta)meta.setAttribute('content',plain?'#f5f1f8':'#0e0514');
+  if(meta)meta.setAttribute('content',plain?'#eef4fc':'#080f22');
   const btn=$('themeBtn');
-  if(btn)btn.textContent=plain?'🌙 Вернуть хэллоуин':'🌸 Обычная тема';
+  if(btn)btn.textContent=plain?'🌙 Вернуть зиму':'🌸 Обычная тема';
 }
 function toggleTheme(){
   try{localStorage.setItem(KEY_THEME,plainMode()?'halloween':'plain')}catch(e){}
-  applyTheme();toast(plainMode()?'🌸 Обычная тема':'🎃 Хэллоуин включён','');
+  applyTheme();toast(plainMode()?'🌸 Обычная тема':'❄️ Зимняя тема включена','');
   if(tg&&tg.HapticFeedback)try{tg.HapticFeedback.impactOccurred('light')}catch(e){}
 }
 
@@ -703,6 +832,24 @@ function persist(){
   if(db&&profile.id)try{db.ref('sakura/userProfile/'+profile.id).update(sanitize(profile)).catch(()=>{})}catch(e){}
 }
 function sanitize(p){const c=Object.assign({},p);delete c.__;return c}
+
+function watchUserModeration(){
+  if(!db||!profile.id)return;
+  const id=String(profile.id);
+  if(userModerationRefId===id)return;
+  userModerationRefId=id;
+  db.ref('sakura/userProfile/'+id+'/warns').on('value',s=>{
+    const v=s.val();
+    profile.warns=Array.isArray(v)?v:(v&&typeof v==='object'?Object.keys(v).map(k=>v[k]):[]);
+    try{localStorage.setItem(KEY_PROFILE,JSON.stringify(profile))}catch(e){}
+    renderProfile();
+  });
+  db.ref('sakura/moderation/userBans/'+id).on('value',s=>{
+    userBan=s.val()||null;
+    if(openDialogId)openChat(openDialogId);
+    renderProfile();
+  });
+}
 
 async function ensureId(){
   if(profile.id)return;
@@ -758,6 +905,7 @@ async function loadRemote(){
     if(d.moderation){
       if(Array.isArray(d.moderation.stopWords))stopWords=d.moderation.stopWords.slice();
       if(d.moderation.flood)floodCfg=Object.assign({},DEF_FLOOD,d.moderation.flood);
+      adminModeration=d.moderation.admins||{};
     }
     ownerId=d.meta&&d.meta.ownerId?String(d.meta.ownerId):null;
     const remote=(d.userProfile||{})[profile.id];
@@ -772,6 +920,7 @@ async function loadRemote(){
     db.ref('sakura/realDialogs').on('value',s=>{
       dialogs=toArray(s.val()).map(x=>Object.assign({},x,{messages:Array.isArray(x.messages)?x.messages:[]}));
       renderDialogs();renderHome();renderBadge();if(openDialogId)renderChat();
+      if(myRole&&staffTab==='dialogs')renderMonitorDialogs();
     });
     db.ref('sakura/supportTickets').on('value',s=>{tickets=toArray(s.val());renderMyTickets();renderStaff()});
     db.ref('sakura/roles').on('value',s=>{roles=s.val()||{};resolveRole()});
@@ -781,7 +930,8 @@ async function loadRemote(){
       const m=s.val()||{};
       if(Array.isArray(m.stopWords))stopWords=m.stopWords.slice();
       floodCfg=Object.assign({},DEF_FLOOD,m.flood||{});
-      renderSettings();
+      adminModeration=m.admins||{};
+      renderSettings();renderTeamAdmins();renderAdmins();renderHomeAdmins();
     });
     db.ref('sakura/staffAuth').on('value',s=>{
       staffAuth=s.val()||{};
@@ -797,14 +947,14 @@ async function loadRemote(){
     });
     db.ref('sakura/meta/ownerId').on('value',s=>{ownerId=s.val()?String(s.val()):null});
     db.ref('sakura/userAdminData').on('value',s=>{
-      const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();
+      const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();renderTeamAdmins();
     });
   }catch(e){offline=true;$('offlineBox').hidden=false}
 }
 function saveDialogs(){
   if(!db)return;
   db.ref('sakura/realDialogs').set(dialogs.map(d=>({id:d.id,adminId:d.adminId,adminName:d.adminName,
-    userId:d.userId,userNickname:d.userNickname,status:d.status||'waiting',closed:!!d.closed,banned:!!d.banned,
+    userId:d.userId,userNickname:d.userNickname,status:d.status||'waiting',closed:!!d.closed,banned:!!d.banned,adminBanned:!!d.adminBanned,
     warns:d.warns||0,warnsHistory:d.warnsHistory||[],createdAt:d.createdAt||Date.now(),
     lastActivity:d.lastActivity||Date.now(),messages:d.messages||[]}))).catch(()=>{});
 }
@@ -921,7 +1071,7 @@ function staffLogout(){
   myRole=null;staffTab='queue';
   const who=$('staffWho');if(who)who.textContent='—';
   const bar=$('staffTabs');if(bar)bar.innerHTML='';
-  ['staffTabQueue','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
+  ['staffTabQueue','staffTabDialogs','staffTabTeam','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
   renderStaff();renderProfile();
   toast('Вы вышли из панели','👋');
 }
@@ -943,18 +1093,20 @@ function renderStaff(){
   }
 }
 function renderStaffTabs(){
-  const tabs=STAFF_TABS.filter(t=>can(t.perm));
+  const tabs=STAFF_TABS.filter(t=>(!t.ownerOnly||myRole==='owner')&&(!t.perm||can(t.perm)));
   if(!tabs.some(t=>t.id===staffTab))staffTab=tabs.length?tabs[0].id:'queue';
   const bar=$('staffTabs');
   if(bar)bar.innerHTML=tabs.length?tabs.map(t=>
     '<button class="chipbtn '+(t.id===staffTab?'on':'')+'" data-stab="'+t.id+'">'+t.name+'</button>').join('')
     :'<span class="tk-meta">Права не выданы — попроси владельца</span>';
-  const map={queue:'staffTabQueue',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
+  const map={queue:'staffTabQueue',dialogs:'staffTabDialogs',team:'staffTabTeam',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
   Object.keys(map).forEach(k=>{
     const el=$(map[k]);
     if(el)el.hidden=(k!==staffTab||!tabs.some(t=>t.id===k));
   });
   if(staffTab==='queue'&&can('tickets'))renderQueue();
+  else if(staffTab==='dialogs'&&can('dialogs'))renderMonitorDialogs();
+  else if(staffTab==='team'&&myRole==='owner')renderTeamAdmins();
   else if(staffTab==='reports'&&can('moderation'))renderReports();
   else if(staffTab==='access'&&can('access'))renderAccess();
   else if(staffTab==='settings'&&can('settings'))renderSettings();
@@ -1061,6 +1213,219 @@ async function changeOwnerPass(){
     $('ownerPass').value='';
     renderAccess();toast('Пароль владельца обновлён','🔑');haptic('success');
   }catch(e){toast('Не получилось','⚠️')}
+}
+
+/* ==================== УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ ==================== */
+function adminModKey(id){return encodeURIComponent(String(id||'')).replace(/\./g,'%2E')}
+function adminModEntry(id){return (adminModeration||{})[adminModKey(id)]||{}}
+function isAdminBanned(id){const b=adminModEntry(id).ban;return !!(b&&b.active)}
+function renderTeamAdmins(){
+  const box=$('teamAdminList');if(!box||myRole!=='owner')return;
+  const q=String(teamAdminQuery||'').trim().toLowerCase();
+  const list=admins.filter(a=>!q||[a.name,a.id,a.username,a.category].join(' ').toLowerCase().includes(q));
+  const cnt=$('teamAdminCount');if(cnt)cnt.textContent=list.length+' / '+admins.length;
+  box.innerHTML=list.length?list.map(a=>{
+    const mod=adminModEntry(a.id),warns=Array.isArray(mod.warns)?mod.warns:(mod.warns&&typeof mod.warns==='object'?Object.values(mod.warns):[]);
+    const banned=isAdminBanned(a.id),last=warns[warns.length-1],colors=mono(a.name);
+    return '<div class="card team-admin-card">'+
+      '<div class="team-admin-head">'+
+        '<div class="av" style="background:linear-gradient(135deg,'+colors[0]+','+colors[1]+')">'+esc(a.initials)+'</div>'+
+        '<div class="team-admin-name"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+' · ID '+esc(a.id)+'</span></div>'+
+        '<span class="st '+(banned?'new':'done')+'">'+(banned?'Заблокирован':'Активен')+'</span>'+
+      '</div>'+
+      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
+      '<div class="team-admin-actions">'+
+        '<button class="btn small" data-awarn="'+esc(a.id)+'" type="button">⚠️ Выдать варн</button>'+
+        (banned?'<button class="btn small ghost" data-aunban="'+esc(a.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-aban="'+esc(a.id)+'" type="button">🚫 Забанить</button>')+
+      '</div>'+
+    '</div>';
+  }).join(''):'<div class="empty"><span class="e">🛡️</span>Администраторы не найдены</div>';
+}
+function openAdminModerationForm(adminId,action){
+  if(myRole!=='owner')return toast('Только владелец может модерировать администраторов','🚫');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const isWarn=action==='warn';
+  openSheet('<h3 style="margin:0 0 6px">'+(isWarn?'Выдать варн администратору':'Заблокировать администратора')+'</h3>'+ 
+    '<p class="hint" style="margin:0 0 10px">'+esc(a.name)+' · ID '+esc(a.id)+'</p>'+ 
+    '<label class="lbl" for="adminModerationReason">'+(isWarn?'Причина предупреждения':'Причина блокировки')+'</label>'+ 
+    '<textarea id="adminModerationReason" maxlength="400" placeholder="Опиши нарушение и причину…"></textarea>'+ 
+    '<button class="btn '+(isWarn?'':'danger')+'" style="margin-top:10px" data-amodsubmit="'+action+'" data-adminid="'+esc(a.id)+'" type="button">'+(isWarn?'Выдать варн':'Подтвердить бан')+'</button>'+ 
+    '<button class="btn ghost" style="margin-top:8px" data-sheet-close type="button">Отмена</button>');
+}
+async function submitAdminModeration(adminId,action){
+  if(myRole!=='owner')return toast('Только владелец может модерировать администраторов','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const reason=(($('adminModerationReason')&&$('adminModerationReason').value)||'').trim();
+  if(reason.length<3)return toast('Укажи причину (минимум 3 символа)','⚠️');
+  const key=adminModKey(adminId),base='sakura/moderation/admins/'+key;
+  const actor='Владелец',ts=Date.now();
+  const record={id:'admin_mod_'+ts.toString(36),targetType:'admin',adminId:String(adminId),adminName:a.name,
+    type:action,reason,by:actor,byRole:'owner',ts};
+  try{
+    if(action==='warn'){
+      const ref=db.ref(base+'/warns');
+      const result=await ref.transaction(cur=>{
+        const arr=Array.isArray(cur)?cur:(cur&&typeof cur==='object'?Object.keys(cur).map(k=>cur[k]):[]);
+        arr.push({id:record.id,reason,by:actor,date:ts});return arr;
+      });
+      if(!result.committed)throw new Error('warn transaction not committed');
+      adminModeration[key]=adminModeration[key]||{};
+      adminModeration[key].warns=Array.isArray(result.snapshot.val())?result.snapshot.val():[];
+    }else if(action==='ban'){
+      await db.ref(base+'/ban').set({active:true,reason,by:actor,at:ts});
+      adminModeration[key]=adminModeration[key]||{};
+      adminModeration[key].ban={active:true,reason,by:actor,at:ts};
+      dialogs.filter(d=>String(d.adminId)===String(adminId)).forEach(d=>{
+        d.adminBanned=true;d.messages=d.messages||[];
+        d.messages.push({text:'🚫 Диалог приостановлен: администратор временно заблокирован. '+reason,sender:'system',time:nowTime(),ts});
+      });
+      saveDialogs();
+    }
+    await db.ref('sakura/moderation/actions').push(record);
+    closeSheet();renderTeamAdmins();renderAdmins();renderHomeAdmins();renderDialogs();
+    toast(action==='warn'?'Предупреждение администратору выдано':'Администратор заблокирован на площадке',action==='warn'?'⚠️':'🚫');
+    haptic('success');
+  }catch(e){toast('Не удалось выполнить действие. Проверь права Firebase','⚠️')}
+}
+async function liftAdminBan(adminId){
+  if(myRole!=='owner')return toast('Только владелец может снимать блокировку','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const key=adminModKey(adminId),ts=Date.now();
+  try{
+    await db.ref('sakura/moderation/admins/'+key+'/ban').remove();
+    adminModeration[key]=adminModeration[key]||{};delete adminModeration[key].ban;
+    dialogs.filter(d=>String(d.adminId)===String(adminId)&&d.adminBanned).forEach(d=>{
+      d.adminBanned=false;d.messages=d.messages||[];
+      d.messages.push({text:'✅ Блокировка администратора снята. Диалог снова доступен.',sender:'system',time:nowTime(),ts});
+    });
+    await db.ref('sakura/moderation/actions').push({targetType:'admin',adminId:String(adminId),adminName:a.name,
+      type:'unban',by:'Владелец',byRole:'owner',ts});
+    saveDialogs();renderTeamAdmins();renderAdmins();renderHomeAdmins();renderDialogs();
+    toast('Блокировка администратора снята','✅');
+  }catch(e){toast('Не удалось снять блокировку','⚠️')}
+}
+
+/* ==================== МОНИТОРИНГ И МОДЕРАЦИЯ ДИАЛОГОВ ==================== */
+function dialogState(d){
+  if(d.adminBanned)return'администратор заблокирован';
+  if(d.banned||((userBan&&String(d.userId)===String(profile.id))&&userBan.active))return'заблокирован';
+  if(d.closed)return'закрыт';
+  return d.status==='active'?'активный':'ожидает ответа';
+}
+function renderMonitorDialogs(){
+  if(!can('dialogs'))return;
+  const listBox=$('monitorList'),detailBox=$('monitorDetail');
+  if(!listBox||!detailBox)return;
+  const q=String(monitorQuery||'').trim().toLowerCase();
+  const all=dialogs.slice().sort((a,b)=>(b.lastActivity||b.createdAt||0)-(a.lastActivity||a.createdAt||0));
+  const filtered=all.filter(d=>{
+    const state=dialogState(d);
+    const matchState=monitorFilter==='all'||(monitorFilter==='active'&&!d.closed&&!d.banned&&!d.adminBanned)||
+      (monitorFilter==='closed'&&d.closed)||(monitorFilter==='banned'&&(d.banned||d.adminBanned||state==='заблокирован')); 
+    const hay=[d.userNickname,d.userId,d.adminName,d.adminId,d.id].join(' ').toLowerCase();
+    return matchState&&(!q||hay.includes(q));
+  });
+  const count=$('monitorCount');if(count)count.textContent=filtered.length+' / '+all.length;
+  const filters=[{id:'all',n:'Все'},{id:'active',n:'Активные'},{id:'closed',n:'Закрытые'},{id:'banned',n:'Заблокированные'}];
+  const fb=$('monitorFilters');
+  if(fb)fb.innerHTML=filters.map(f=>'<button class="chipbtn '+(f.id===monitorFilter?'on':'')+'" data-mfilter="'+f.id+'">'+f.n+'</button>').join('');
+  if(!filtered.some(d=>d.id===monitorDialogId))monitorDialogId=filtered.length?filtered[0].id:null;
+  listBox.innerHTML=filtered.length?filtered.map(d=>{
+    const selected=d.id===monitorDialogId;
+    const last=(d.messages||[]).slice(-1)[0];
+    const state=dialogState(d);
+    return '<button class="tk monitor-item '+(selected?'monitor-selected':'')+'" data-dmon="'+esc(d.id)+'" type="button">'+
+      '<div class="tk-top"><b>'+esc(d.userNickname||'Без ника')+'</b><span class="st '+((state==='заблокирован'||state==='администратор заблокирован')?'new':state==='закрыт'?'done':'work')+'">'+esc(state)+'</span></div>'+ 
+      '<div class="tk-meta">ID '+esc(d.userId||'—')+' · '+esc(d.adminName||'админ')+' · '+dfmt(d.lastActivity||d.createdAt)+'</div>'+ 
+      '<div class="tk-last">'+esc(last?String(last.text||'').slice(0,100):'Нет сообщений')+'</div></button>';
+  }).join(''):'<div class="empty"><span class="e">💬</span>Диалоги не найдены</div>';
+  const d=dialogs.find(x=>x.id===monitorDialogId);
+  if(!d){detailBox.innerHTML='';return}
+  const banned=!!d.banned;
+  const history=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
+  const messages=(d.messages||[]).map(m=>{
+    const side=m.sender==='user'?'user':m.sender==='system'?'system':'staff';
+    const who=m.sender==='user'?(d.userNickname||'Пользователь'):m.sender==='system'?'Система':(m.adminName||d.adminName||'Администратор');
+    return '<div class="monitor-msg '+side+'"><div class="monitor-msg-top"><b>'+esc(who)+'</b><span>'+esc(m.time||dfmt(m.ts))+'</span></div><div>'+esc(m.text||'')+'</div></div>';
+  }).join('')||'<div class="tk-meta">Переписка пока пустая</div>';
+  detailBox.innerHTML='<div class="card monitor-detail-card">'+
+    '<div class="tk-top"><div><b>'+esc(d.userNickname||'Без ника')+'</b><div class="tk-meta">ID пользователя: '+esc(d.userId||'—')+'</div></div>'+ 
+    '<span class="st '+(banned?'new':d.closed?'done':'work')+'">'+esc(dialogState(d))+'</span></div>'+ 
+    '<div class="tk-meta" style="margin-top:8px">С администратором: '+esc(d.adminName||'—')+' · '+(d.messages||[]).length+' сообщений</div>'+ 
+    '<div class="monitor-actions">'+
+      '<button class="btn small" data-dwarn="'+esc(d.id)+'" type="button">⚠️ Выдать варн</button>'+
+      (banned?'<button class="btn small ghost" data-dunban="'+esc(d.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-dban="'+esc(d.id)+'" type="button">🚫 Забанить</button>')+
+    '</div>'+
+    '<div class="monitor-warn-info">Предупреждений в этом диалоге: <b>'+(d.warns||history.length||0)+'</b>'+
+      (history.length?'<div class="tk-meta" style="margin-top:6px">'+history.slice(-3).reverse().map(w=>esc(w.reason||'Без причины')+' · '+dfmt(w.date||w.ts)).join('<br>')+'</div>':'')+'</div>'+ 
+    '<div class="monitor-chat">'+messages+'</div></div>';
+}
+function openModerationForm(dialogId,action){
+  if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
+  const d=dialogs.find(x=>x.id===dialogId);if(!d)return;
+  const isWarn=action==='warn';
+  openSheet('<h3 style="margin:0 0 6px">'+(isWarn?'Выдать предупреждение':'Заблокировать пользователя')+'</h3>'+ 
+    '<p class="hint" style="margin:0 0 10px">'+esc(d.userNickname||'Пользователь')+' · ID '+esc(d.userId||'—')+'</p>'+ 
+    '<label class="lbl" for="moderationReason">'+(isWarn?'Причина предупреждения':'Причина блокировки')+'</label>'+ 
+    '<textarea id="moderationReason" maxlength="400" placeholder="Опиши причину…"></textarea>'+ 
+    '<button class="btn '+(isWarn?'':'danger')+'" style="margin-top:10px" data-modsubmit="'+action+'" data-mdialog="'+esc(dialogId)+'" type="button">'+(isWarn?'Выдать варн':'Подтвердить бан')+'</button>'+ 
+    '<button class="btn ghost" style="margin-top:8px" data-sheet-close type="button">Отмена</button>');
+}
+async function submitModeration(dialogId,action){
+  if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>x.id===dialogId);if(!d)return;
+  const reason=(($('moderationReason')&&$('moderationReason').value)||'').trim();
+  if(reason.length<3)return toast('Укажи причину (минимум 3 символа)','⚠️');
+  const userId=String(d.userId||'');if(!userId)return toast('У диалога нет ID пользователя','⚠️');
+  const actor=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Модератор');
+  const record={id:'mod_'+Date.now().toString(36),type:action,userId,userNickname:d.userNickname||'Пользователь',
+    dialogId:d.id,reason,by:actor,byRole:myRole,ts:Date.now()};
+  try{
+    if(action==='warn'){
+      const wr=db.ref('sakura/userProfile/'+userId+'/warns');
+      const result=await wr.transaction(cur=>{
+        const arr=Array.isArray(cur)?cur:(cur&&typeof cur==='object'?Object.keys(cur).map(k=>cur[k]):[]);
+        arr.push({by:actor,reason,date:record.ts,dialogId:d.id,id:record.id});
+        return arr;
+      });
+      if(!result.committed)throw new Error('warn transaction not committed');
+      d.warns=(d.warns||0)+1;d.warnsHistory=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
+      d.warnsHistory.push({by:actor,reason,date:record.ts,id:record.id});
+      d.messages=d.messages||[];
+      d.messages.push({text:'⚠️ Пользователю выдано предупреждение: '+reason,sender:'system',time:nowTime(),ts:Date.now()});
+      await db.ref('sakura/moderation/actions').push(record).catch(()=>{});
+      saveDialogs();
+      toast('Предупреждение выдано','⚠️');
+    }else if(action==='ban'){
+      await db.ref('sakura/moderation/userBans/'+userId).set({active:true,reason,by:actor,byRole:myRole,at:record.ts,dialogId:d.id});
+      dialogs.filter(x=>String(x.userId)===userId).forEach(x=>{
+        x.banned=true;x.moderationBan=true;x.banReason=reason;x.messages=x.messages||[];
+        x.messages.push({text:'🚫 Пользователь заблокирован модератором: '+reason,sender:'system',time:nowTime(),ts:Date.now()});
+      });
+      await db.ref('sakura/moderation/actions').push(record).catch(()=>{});
+      saveDialogs();
+      toast('Пользователь заблокирован во всех диалогах','🚫');
+    }
+    closeSheet();renderMonitorDialogs();renderDialogs();
+  }catch(e){toast('Не удалось выполнить действие. Проверьте доступ к Firebase','⚠️')}
+}
+async function liftUserBan(dialogId){
+  if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>x.id===dialogId);if(!d||!d.userId)return;
+  const userId=String(d.userId),actor=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Модератор');
+  try{
+    await db.ref('sakura/moderation/userBans/'+userId).remove();
+    dialogs.filter(x=>String(x.userId)===userId).forEach(x=>{
+      x.banned=false;x.messages=x.messages||[];
+      x.messages.push({text:'✅ Блокировка пользователя снята модератором.',sender:'system',time:nowTime(),ts:Date.now()});
+    });
+    await db.ref('sakura/moderation/actions').push({type:'unban',userId,userNickname:d.userNickname||'Пользователь',dialogId:d.id,by:actor,byRole:myRole,ts:Date.now()}).catch(()=>{});
+    saveDialogs();renderMonitorDialogs();renderDialogs();toast('Блокировка снята','✅');
+  }catch(e){toast('Не удалось снять блокировку','⚠️')}
 }
 
 /* ==================== АНТИФЛУД И АНТИСПАМ ==================== */
@@ -1257,7 +1622,7 @@ function reward(q){
   profile.candiesEarned=(profile.candiesEarned||0)+q.reward;
   profile.questsDone=(profile.questsDone||0)+1;
   persist();
-  toast(q.name+' · +'+q.reward+' 🍬','🎃');
+  toast(q.name+' · +'+q.reward+' ❄️','❄️');
   haptic('success');
   checkAch();
 }
@@ -1305,12 +1670,12 @@ function renderHome(){
   $('homeGreet').textContent='Привет, '+greetName()+' 👋';
   $('homeCandy').textContent=profile.candies||0;
   $('homeStreak').textContent=profile.streak||0;
-  $('lblCandy').textContent=plural(profile.candies||0,'конфета','конфеты','конфет');
+  $('lblCandy').textContent=plural(profile.candies||0,'снежинка','снежинки','снежинок');
   $('lblStreak').textContent=plural(profile.streak||0,'день подряд','дня подряд','дней подряд');
   $('homeQuests').textContent=doneToday()+'/'+QUESTS.filter(q=>q.daily).length;
   $('lvlName').textContent=lv.name;
   $('lvlBar').style.width=lv.pct+'%';
-  $('lvlNext').textContent=lv.next?'до «'+lv.next+'» ещё '+lv.left+' 🍬':'максимальный уровень';
+  $('lvlNext').textContent=lv.next?'до «'+lv.next+'» ещё '+lv.left+' ❄️':'максимальный уровень';
   renderQuests();renderHomeAch();renderHomeAdmins();
 }
 function questRow(q,compact){
@@ -1319,7 +1684,7 @@ function questRow(q,compact){
   return '<div class="quest">'+
     '<div class="q-icon">'+q.icon+'</div>'+
     '<div class="q-main"><div class="q-name">'+esc(q.name)+
-      '<span class="rw">+'+q.reward+' 🍬</span></div>'+
+      '<span class="rw">+'+q.reward+' ❄️</span></div>'+
       '<div class="q-prog"><i style="width:'+pct+'%"></i></div>'+
       '<div class="q-meta">'+(done?'выполнено':cur+' / '+max)+'</div></div>'+
     (done?'<div class="q-done">✓</div>':'')+
@@ -1347,7 +1712,7 @@ function adminRow(a){
 }
 function renderHomeAdmins(){
   const box=$('homeAdmins');if(!box)return;
-  const list=admins.slice(0,4);
+  const list=admins.filter(a=>!isAdminBanned(a.id)).slice(0,4);
   box.innerHTML=list.length?list.map(adminRow).join(''):'<div class="empty"><span class="e">🌙</span>Админы загружаются</div>';
 }
 
@@ -1359,7 +1724,7 @@ function renderAdmins(){
     cats.innerHTML=all.map(c=>'<button class="chipbtn'+(c===adminCat?' on':'')+'" data-cat="'+esc(c)+'">'+esc(c)+'</button>').join('');
   }
   const q=adminQuery.trim().toLowerCase();
-  const list=admins.filter(a=>(adminCat==='Все'||a.category===adminCat)&&(!q||a.name.toLowerCase().includes(q)));
+  const list=admins.filter(a=>!isAdminBanned(a.id)&&(adminCat==='Все'||a.category===adminCat)&&(!q||a.name.toLowerCase().includes(q)));
   $('adminCount').textContent=list.length+' из '+admins.length;
   $('adminList').innerHTML=list.length?list.map(a=>{
     const[c1,c2]=mono(a.name);
@@ -1371,6 +1736,7 @@ function renderAdmins(){
 }
 function openAdminSheet(id){
   const a=admins.find(x=>x.id===id);if(!a)return;
+  if(isAdminBanned(a.id))return toast('Этот администратор временно заблокирован','🚫');
   const[c1,c2]=mono(a.name);
   openSheet(
     '<div style="display:flex;align-items:center;gap:13px;margin-bottom:12px">'+
@@ -1426,9 +1792,9 @@ function renderTab(){
       const has=own.includes(s.id);
       return '<div class="quest"><div class="q-icon">'+s.icon+'</div>'+
         '<div class="q-main"><div class="q-name">'+esc(s.name)+'</div>'+
-        '<div class="q-meta">'+s.price+' 🍬</div></div>'+
+        '<div class="q-meta">'+s.price+' ❄️</div></div>'+
         (has?'<div class="q-done">✓</div>':'<button class="btn small" data-buy="'+s.id+'">Купить</button>')+'</div>';
-    }).join('')+'<div class="reset-line">🍬 Конфеты за квесты и достижения</div>';
+    }).join('')+'<div class="reset-line">❄️ Снежинки за задания и достижения</div>';
   }else{
     const warns=profile.warns||[];
     body.innerHTML=warns.length?warns.map(w=>
@@ -1450,7 +1816,7 @@ function buyItem(id){
   const s=SHOP.find(x=>x.id===id);if(!s)return;
   profile.halloweenPurchases=profile.halloweenPurchases||[];
   if(profile.halloweenPurchases.includes(id))return;
-  if((profile.candies||0)<s.price)return toast('Не хватает конфет','⚠️');
+  if((profile.candies||0)<s.price)return toast('Не хватает снежинок','⚠️');
   profile.candies-=s.price;profile.halloweenPurchases.push(id);
   persist();renderProfile();renderHome();toast('Куплено: '+s.name,'🛍️');haptic('success');
 }
@@ -1461,7 +1827,7 @@ function myDialogs(){
   return dialogs.filter(d=>String(d.userId)===me||(profile.nickname&&d.userNickname===profile.nickname));
 }
 function activeDialog(){
-  return myDialogs().find(d=>!d.closed&&!d.banned)||null;
+  return myDialogs().find(d=>!d.closed&&!d.banned&&!d.adminBanned)||null;
 }
 function lastMsg(d){
   const m=(d.messages||[]).filter(x=>x.sender!=='system');
@@ -1477,7 +1843,7 @@ function renderDialogs(){
   }
   box.innerHTML=list.map(d=>{
     const lm=lastMsg(d);
-    const st=d.banned?'бан':d.closed?'закрыт':d.status==='active'?'в диалоге':'ждёт ответа';
+    const st=(d.banned||d.adminBanned)?'приостановлен':d.closed?'закрыт':d.status==='active'?'в диалоге':'ждёт ответа';
     return '<button class="tk" data-dialog="'+esc(d.id)+'">'+
       '<div class="tk-top"><b>'+esc(d.adminName||'Админ')+'</b>'+
       '<span class="st '+(d.closed?'done':'new')+'">'+esc(st)+'</span></div>'+
@@ -1495,8 +1861,10 @@ function renderBadge(){
   badge.textContent=unread>9?'9+':unread;
 }
 function startDialog(adminId){
+  if(userBan&&userBan.active)return toast('Доступ к диалогам ограничен: вы заблокированы','🚫');
   if(!profile.nickname)return toast('Сначала ник в профиле','⚠️');
   const a=admins.find(x=>x.id===adminId);if(!a)return;
+  if(isAdminBanned(adminId))return toast('Этот администратор временно заблокирован','🚫');
   const act=activeDialog();
   if(act&&act.adminId!==adminId)return toast('Уже идёт диалог: '+act.adminName,'⚠️');
   let d=myDialogs().find(x=>x.adminId===adminId&&!x.closed);
@@ -1523,11 +1891,13 @@ function openChat(id){
   const av=$('chatAv');av.textContent=initials(d.adminName||'Админ');
   av.style.background='linear-gradient(135deg,'+c1+','+c2+')';
   $('chatName').textContent=d.adminName||'Админ';
-  $('chatSub').textContent=d.banned?'заблокирован':d.closed?'диалог закрыт':d.status==='active'?'на связи':'ждёт ответа';
+  const globalBanned=!!(userBan&&userBan.active&&String(d.userId)===String(profile.id));
+  const blocked=!!(d.banned||d.adminBanned||globalBanned);
+  $('chatSub').textContent=d.adminBanned?'администратор заблокирован':blocked?'заблокирован':d.closed?'диалог закрыт':d.status==='active'?'на связи':'ждёт ответа';
   const input=$('chatInput');
-  input.disabled=!!(d.closed||d.banned);
-  $('chatSend').disabled=!!(d.closed||d.banned);
-  input.placeholder=d.banned?'Заблокирован':d.closed?'Диалог закрыт':'Написать сообщение…';
+  input.disabled=!!(d.closed||blocked);
+  $('chatSend').disabled=!!(d.closed||blocked);
+  input.placeholder=blocked?'Заблокирован':d.closed?'Диалог закрыт':'Написать сообщение…';
   renderRp();renderChat();
   document.body.style.overflow='hidden';
 }
@@ -1555,7 +1925,8 @@ function renderChat(){
   }
 }
 function sendMessage(){
-  const d=dialogs.find(x=>x.id===openDialogId);if(!d||d.closed||d.banned)return;
+  const d=dialogs.find(x=>x.id===openDialogId);if(!d||d.closed||d.banned||d.adminBanned)return;
+  if(userBan&&userBan.active&&String(d.userId)===String(profile.id)){toast('Вы заблокированы и не можете отправлять сообщения','🚫');return;}
   const txt=$('chatInput').value.trim();if(!txt)return;
   const fc=floodCheck(txt);
   if(fc.block){
@@ -1706,9 +2077,21 @@ function wire(){
     const el=e.target.closest('[data-view],[data-go],[data-admin],[data-start],[data-sheet-close],[data-dialog],'+
       '[data-ticket],[data-treply],[data-tstatus],[data-tcat],[data-sfilter],[data-tab],[data-av],[data-buy],[data-cat],'+
       '[data-tg],[data-rp],[data-revoke],[data-new-dialog],[data-stab],[data-perm],[data-report],[data-reason],'+
-      '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm]');
+      '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm],'+
+      '[data-mfilter],[data-dmon],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
+      '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit]');
     if(!el)return;
     const d=el.dataset;
+    if(d.mfilter){monitorFilter=d.mfilter;renderMonitorDialogs();return}
+    if(d.dmon){monitorDialogId=d.dmon;renderMonitorDialogs();return}
+    if(d.dwarn){openModerationForm(d.dwarn,'warn');return}
+    if(d.dban){openModerationForm(d.dban,'ban');return}
+    if(d.dunban){liftUserBan(d.dunban);return}
+    if(d.modsubmit){submitModeration(d.mdialog,d.modsubmit);return}
+    if(d.awarn){openAdminModerationForm(d.awarn,'warn');return}
+    if(d.aban){openAdminModerationForm(d.aban,'ban');return}
+    if(d.aunban){liftAdminBan(d.aunban);return}
+    if(d.amodsubmit){submitAdminModeration(d.adminid,d.amodsubmit);return}
     if(d.grole){gateRole=d.grole;renderGateTabs();if($('gateErr'))$('gateErr').hidden=true;return}
     if(d.nperm){newPerms[d.nperm]=!newPerms[d.nperm];renderNewPerms();return}
     if(d.sperm){toggleStaffPerm(d.sid,d.sperm);return}
@@ -1762,6 +2145,8 @@ function wire(){
     pe.textContent=i.type==='password'?'👁':'🙈';
   });
   const wa=$('wordAdd');if(wa)wa.addEventListener('click',addWord);
+  const ds=$('dialogSearch');if(ds)ds.addEventListener('input',()=>{monitorQuery=ds.value;renderMonitorDialogs()});
+  const tas=$('teamAdminSearch');if(tas)tas.addEventListener('input',()=>{teamAdminQuery=tas.value;renderTeamAdmins()});
   const cu=$('copyUid');
   if(cu)cu.addEventListener('click',()=>{
     const v=uid()||'';if(!v)return;
@@ -1787,7 +2172,7 @@ function tick(){
   if(profile.lastDailyReset!==todayKey()){
     dailyReset();
     renderHome();renderProfile();
-    toast('Новые задания дня','🎃');
+    toast('Новые задания дня','❄️');
   }
 }
 
@@ -1806,6 +2191,7 @@ function tick(){
     bumpQuest('login');
     checkAch();
     renderAll();
+    watchUserModeration();
   });
   initDb();
   loadRemote().then(()=>{renderAll();});
@@ -1822,5 +2208,70 @@ function renderAll(){
 }
 
 </script>
+<style>
+.snow{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;display:none}
+.snow.on{display:block}
+.snow i{position:absolute;top:-12px;background:#fff;border-radius:50%;opacity:.5;animation:SnowFall linear infinite}
+body.plain .snow i{background:#7fb2ff;opacity:.45}
+@keyframes SnowFall{0%{transform:translateY(-12px) translateX(0)}100%{transform:translateY(105vh) translateX(18px)}}
+@media (prefers-reduced-motion:reduce){.snow{display:none!important}}
+</style>
+<div class="snow" id="snowLayer" aria-hidden="true"></div>
+<script>
+(function(){
+  var layer=document.getElementById('snowLayer');
+  if(!layer)return;
+  for(var i=0;i<26;i++){
+    var f=document.createElement('i');
+    var sz=2+Math.random()*3.4;
+    f.style.width=sz+'px';f.style.height=sz+'px';
+    f.style.left=(Math.random()*100)+'%';
+    f.style.animationDuration=(6+Math.random()*8)+'s';
+    f.style.animationDelay=(-Math.random()*10)+'s';
+    f.style.opacity=(0.25+Math.random()*0.45).toFixed(2);
+    layer.appendChild(f);
+  }
+  function on(){try{return localStorage.getItem('saku_snow')!=='off'}catch(e){return true}}
+  window.snowOn=function(){
+    var v=on();
+    layer.classList.toggle('on',v);
+    var b=document.getElementById('snowBtn');
+    if(b)b.textContent=v?'❄️ Снег включён':'❄️ Снег выключен';
+  };
+  window.toggleSnow=function(){
+    try{localStorage.setItem('saku_snow',on()?'off':'on')}catch(e){}
+    window.snowOn();
+  };
+  window.snowOn();
+})();
+</script>
+
+<style>
+.chip.snowpoints{background:linear-gradient(135deg,rgba(83,180,255,.20),rgba(151,166,255,.16));border-color:rgba(114,190,255,.34);color:#d5f1ff}
+body.plain .chip.snowpoints{color:#2764a4}
+.team-admin-card{padding:14px;margin:0 0 10px}
+.team-admin-head{display:flex;align-items:center;gap:10px;min-width:0}
+.team-admin-name{flex:1;min-width:0}
+.team-admin-name b{display:block;font-size:14px;overflow-wrap:anywhere}
+.team-admin-name span{display:block;color:var(--hint);font-size:11px;margin-top:3px;overflow-wrap:anywhere}
+.team-admin-meta{font-size:11.5px;color:var(--hint);margin-top:10px;overflow-wrap:anywhere}
+.team-admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.team-admin-actions .btn{flex:1 1 120px;margin:0;min-height:40px}
+@media(max-width:420px){.team-admin-head>.st{font-size:9px}.team-admin-actions .btn{flex:1 1 100%}}
+.monitor-item{display:block;width:100%;text-align:left;margin:8px 0;transition:border-color .18s,transform .18s}
+.monitor-item.monitor-selected{border-color:var(--orange);box-shadow:0 0 0 1px rgba(255,207,92,.16),var(--sh)}
+.monitor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn.danger{background:linear-gradient(135deg,#ef476f,#c72c55);color:#fff;border:1px solid rgba(255,255,255,.12)}
+.monitor-warn-info{margin-top:12px;padding:11px 12px;border-radius:13px;background:var(--surf2);border:1px solid var(--line);font-size:13px;color:var(--hint)}
+.monitor-chat{display:flex;flex-direction:column;gap:9px;margin-top:14px;max-height:560px;overflow:auto;padding:2px}
+.monitor-msg{max-width:92%;padding:10px 12px;border-radius:15px;background:var(--surf2);border:1px solid var(--line);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.monitor-msg.user{align-self:flex-start;border-top-left-radius:5px;background:rgba(127,178,255,.10)}
+.monitor-msg.staff{align-self:flex-end;border-top-right-radius:5px;background:rgba(167,139,250,.13)}
+.monitor-msg.system{align-self:center;max-width:100%;font-size:12px;color:var(--hint);background:transparent;border-style:dashed;text-align:center}
+.monitor-msg-top{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:4px;color:var(--hint);font-size:11px}
+.monitor-msg-top span{white-space:nowrap;color:var(--muted)}
+@media(max-width:420px){.monitor-actions .btn{flex:1 1 100%}.monitor-chat{max-height:460px}}
+</style>
+
 </body>
 </html>
