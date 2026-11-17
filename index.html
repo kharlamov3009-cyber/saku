@@ -404,6 +404,64 @@ body.plain .toast{background:rgba(25,44,75,.96)}
 @media(prefers-reduced-motion:reduce){.card,.qbtn,.acard,.tk,.btn{transition:none!important}}
 
 </style>
+<style>
+/* ===== New Year identity, countdown, ratings and notifications ===== */
+.brand-lockup{position:relative;margin:1px 0 17px;padding-bottom:12px;border-bottom:1px solid rgba(211,232,255,.18)}
+.brand-eyebrow{font-size:9px;letter-spacing:.24em;font-weight:800;color:rgba(210,232,255,.72)}
+.brand-title{margin-top:2px;font-size:clamp(29px,7.4vw,43px);line-height:1.05;font-weight:900;letter-spacing:-.055em;color:#f5fbff;
+  background:linear-gradient(100deg,#fff 4%,#e6f4ff 34%,#8ecaff 70%,#fff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 8px 32px rgba(95,166,255,.14)}
+.brand-ornament{display:flex;align-items:center;gap:9px;color:#bfe7ff;font-size:13px;margin-top:8px;opacity:.9}
+.brand-ornament span{height:1px;width:35px;background:linear-gradient(90deg,transparent,rgba(186,225,255,.65))}
+.brand-ornament span:last-child{transform:rotate(180deg)}
+.hero-greet{font-size:18px;color:#eaf5ff}
+.newyear-box{position:relative;margin-top:14px;padding:12px 13px;border-radius:17px;border:1px solid rgba(190,225,255,.24);
+  background:linear-gradient(120deg,rgba(112,174,255,.17),rgba(225,244,255,.07));box-shadow:inset 0 1px rgba(255,255,255,.07)}
+.newyear-heading{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#d6eaff;font-weight:750;margin-bottom:9px}
+.newyear-heading b{color:#fff;font-size:13px;margin-left:3px}
+.newyear-timer{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.newyear-timer>div{min-width:0;text-align:center;padding:8px 3px 6px;border-radius:11px;background:rgba(222,240,255,.09);border:1px solid rgba(207,229,255,.13)}
+.newyear-timer b{display:block;font-size:clamp(19px,5vw,26px);line-height:1.05;font-weight:850;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 2px 14px rgba(120,185,255,.3)}
+.newyear-timer span{display:block;margin-top:4px;font-size:9px;letter-spacing:.04em;color:#c5ddf6;text-transform:uppercase}
+.notify-btn{position:relative;width:38px;height:38px;min-height:38px;flex:0 0 38px;border-radius:13px;border:1px solid var(--line2);background:var(--surf2);font-size:17px;display:grid;place-items:center}
+.notify-btn i{position:absolute;right:-5px;top:-5px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#72baff;color:#0a1932;font-size:9px;font-style:normal;font-weight:900;display:grid;place-items:center;border:2px solid var(--bg)}
+.notify-btn i[hidden]{display:none}
+.admin-rating-line{display:block!important;font-size:10.5px!important;color:#b9dcff!important;margin-top:3px}
+.admin-sheet-rating{padding:10px 12px;margin:10px 0;border:1px solid var(--line);background:var(--surf2);border-radius:12px;font-size:13px;color:#c8e5ff}
+.rating-stars{display:flex;justify-content:center;gap:9px;padding:10px 0 3px}
+.rating-star{min-height:48px;width:48px;border-radius:14px;background:var(--surf2);border:1px solid var(--line);font-size:27px;color:#526987;transition:transform .15s,color .15s,border-color .15s}
+.rating-star.selected{color:#b9e4ff;background:rgba(104,174,255,.18);border-color:rgba(139,201,255,.55);text-shadow:0 0 16px rgba(125,192,255,.35)}
+.rating-caption{text-align:center;color:var(--hint);font-size:11px;margin:2px 0 8px}
+.dialog-item{padding:12px 13px}
+.dialog-open{display:block;width:100%;min-height:0;padding:0;text-align:left;background:transparent}
+.dialog-rate-btn{margin-top:10px}
+.dialog-rated{margin-top:9px;font-size:11.5px;color:#b6dcff}
+.monitor-reply-box{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.monitor-reply-box textarea{min-height:76px}
+.notification-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.notification-head h3{margin:0}
+.notification-head .hint{margin-top:4px}
+.notification-head .btn{flex:0 0 auto}
+.notify-enable{margin:0 0 12px;width:100%}
+.notification-row{display:flex;align-items:center;gap:10px;width:100%;min-height:0;padding:12px 9px;border-top:1px solid var(--line);text-align:left;border-radius:0;background:transparent}
+.notification-row.unread{background:linear-gradient(90deg,rgba(115,180,255,.10),transparent)}
+.notification-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;background:var(--surf2);border:1px solid var(--line);border-radius:12px}
+.notification-content{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.notification-content b{font-size:12.5px;color:var(--text)}
+.notification-content span{font-size:12px;color:var(--hint);overflow-wrap:anywhere}
+.notification-content i{font-style:normal;font-size:10px;color:var(--muted)}
+.notification-row.unread .notification-content b:after{content:' •';color:#8ac7ff}
+.notification-chevron{font-size:22px;color:var(--muted)}
+.review-row{padding:12px 0;border-top:1px solid var(--line)}
+.review-row-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px}
+.review-row-top>span{white-space:nowrap;color:#b9e4ff}
+.review-row-top i{font-style:normal;font-size:10px;color:var(--hint);margin-left:4px}
+.review-row p{margin:7px 0 4px;font-size:13px;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
+.review-row .review-empty{color:var(--muted);font-style:italic}
+.review-row time{font-size:10px;color:var(--muted)}
+@media(max-width:390px){.tb-right{gap:5px}.chip{padding:6px 8px;font-size:11px}.notify-btn{width:34px;height:34px;flex-basis:34px}.brand-title{font-size:31px}.newyear-box{padding:10px}.newyear-timer{gap:4px}}
+@media(prefers-reduced-motion:reduce){.rating-star{transition:none}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -416,6 +474,7 @@ body.plain .toast{background:rgba(25,44,75,.96)}
       </div>
     </div>
     <div class="tb-right">
+      <button class="notify-btn" id="notifyBtn" type="button" aria-label="Уведомления" title="Уведомления">🔔<i id="notifyCount" hidden>0</i></button>
       <span class="chip snowpoints">❄️ <b id="candyTop">0</b></span>
       <span class="chip streak">🔥 <b id="streakTop">0</b></span>
     </div>
@@ -427,8 +486,22 @@ body.plain .toast{background:rgba(25,44,75,.96)}
       <div id="offlineBox" class="offline" hidden>Нет связи с базой — данные могут не обновляться</div>
 
       <div class="hero">
+        <div class="brand-lockup">
+          <div class="brand-eyebrow">ЗИМНЕЕ ПРОСТРАНСТВО ПОДДЕРЖКИ</div>
+          <div class="brand-title">По ту сторону</div>
+          <div class="brand-ornament"><span></span> ❄ <span></span></div>
+        </div>
         <div class="hero-greet" id="homeGreet">Привет 👋</div>
-        <div class="hero-sub">Место, где не нужно держать лицо. Админы рядом, снежинки — за активность.</div>
+        <div class="hero-sub">Место, где можно быть собой. Здесь тебя услышат.</div>
+        <div class="newyear-box" aria-live="off">
+          <div class="newyear-heading">До Нового года <b id="nyYear">2027</b></div>
+          <div class="newyear-timer">
+            <div><b id="nyDays">00</b><span>дней</span></div>
+            <div><b id="nyHours">00</b><span>часов</span></div>
+            <div><b id="nyMinutes">00</b><span>минут</span></div>
+            <div><b id="nySeconds">00</b><span>секунд</span></div>
+          </div>
+        </div>
         <div class="hero-row">
           <div class="hero-mini"><b id="homeCandy">0</b><span id="lblCandy">снежинок</span></div>
           <div class="hero-mini"><b id="homeStreak">0</b><span id="lblStreak">дней подряд</span></div>
@@ -580,6 +653,8 @@ body.plain .toast{background:rgba(25,44,75,.96)}
             <label class="lbl" for="dialogSearch">Поиск по нику, ID или администратору</label>
             <input type="search" id="dialogSearch" placeholder="Найти пользователя или диалог…" autocomplete="off">
             <div class="chips" id="monitorFilters" style="margin-top:10px"></div>
+            <div id="monitorResponseStats" style="margin-top:12px"></div>
+            <div id="monitorAdminStats" style="margin-top:10px"></div>
           </div>
           <div id="monitorList" style="margin-top:10px"></div>
           <div id="monitorDetail" style="margin-top:12px"></div>
@@ -765,7 +840,9 @@ let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0
 
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
 let perms={},reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
-let monitorDialogId=null,monitorFilter='all',monitorQuery='',userBan=null,userModerationRefId=null,teamAdminQuery='';
+let monitorDialogId=null,monitorFilter='all',monitorQuery='',monitorAdminFilter='',monitorHistoryExpanded=false,userBan=null,userModerationRefId=null,teamAdminQuery='';
+let adminRatings={},ratingDraft=5;
+let userNotifications=[],staffNotifications=[],userNotifRef=null,staffNotifRef=null,userNotifKey='',staffNotifKey='',notifReady={user:false,staff:false},notifKnown={user:[],staff:[]};
 const KEY_STAFF='saku-staff-session',DEF_OWNER_PASS='owner123',DEF_ADMIN_PASS='admin123';
 let staffAuth={},staffSession=null,gateRole='owner',newPerms={};
 let floodCfg=Object.assign({},DEF_FLOOD);
@@ -949,6 +1026,9 @@ async function loadRemote(){
     db.ref('sakura/userAdminData').on('value',s=>{
       const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();renderTeamAdmins();
     });
+    db.ref('sakura/adminRatings').on('value',s=>{
+      adminRatings=s.val()||{};renderAdmins();renderHomeAdmins();renderTeamAdmins();renderDialogs();
+    });
   }catch(e){offline=true;$('offlineBox').hidden=false}
 }
 function saveDialogs(){
@@ -1062,7 +1142,7 @@ function finishLogin(){
   staffTab=firstAllowedTab();
   if($('gatePass'))$('gatePass').value='';
   if($('gateErr'))$('gateErr').hidden=true;
-  renderStaff();renderProfile();
+  renderStaff();renderProfile();syncNotificationListeners();
   toast(myRole==='owner'?'Вы вошли как владелец':('Привет, '+(staffSession.name||'сотрудник')),myRole==='owner'?'👑':'🛡️');
   haptic('success');
 }
@@ -1072,7 +1152,7 @@ function staffLogout(){
   const who=$('staffWho');if(who)who.textContent='—';
   const bar=$('staffTabs');if(bar)bar.innerHTML='';
   ['staffTabQueue','staffTabDialogs','staffTabTeam','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
-  renderStaff();renderProfile();
+  renderStaff();renderProfile();syncNotificationListeners();
   toast('Вы вышли из панели','👋');
 }
 function renderStaff(){
@@ -1233,8 +1313,9 @@ function renderTeamAdmins(){
         '<div class="team-admin-name"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+' · ID '+esc(a.id)+'</span></div>'+
         '<span class="st '+(banned?'new':'done')+'">'+(banned?'Заблокирован':'Активен')+'</span>'+
       '</div>'+
-      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
+      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b> · '+esc(adminRatingLabel(a.id))+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
       '<div class="team-admin-actions">'+
+        '<button class="btn small ghost" data-areviews="'+esc(a.id)+'" type="button">⭐ Отзывы ('+adminRatingStats(a.id).count+')</button>'+ 
         '<button class="btn small" data-awarn="'+esc(a.id)+'" type="button">⚠️ Выдать варн</button>'+
         (banned?'<button class="btn small ghost" data-aunban="'+esc(a.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-aban="'+esc(a.id)+'" type="button">🚫 Забанить</button>')+
       '</div>'+
@@ -1308,59 +1389,137 @@ async function liftAdminBan(adminId){
 }
 
 /* ==================== МОНИТОРИНГ И МОДЕРАЦИЯ ДИАЛОГОВ ==================== */
+function messageKind(m){
+  const sender=String((m&&(m.sender||m.from||m.role))||'').toLowerCase();
+  if(['user','client','customer','пользователь','юзер'].includes(sender))return'user';
+  if(['system','service','система'].includes(sender))return'system';
+  return'staff';
+}
+function messageStamp(m,fallback){
+  const raw=m&&(m.ts||m.timestamp||m.createdAt);
+  const n=typeof raw==='number'?raw:(raw?Date.parse(raw):NaN);
+  return Number.isFinite(n)&&n>0?n:(Number(fallback)||0);
+}
+function dialogReplyState(d){
+  const meaningful=(d.messages||[]).filter(m=>messageKind(m)!=='system');
+  if(!meaningful.length)return{pending:false,hasUser:false,hasStaff:false,minutes:0,since:0};
+  const last=meaningful[meaningful.length-1];
+  const hasUser=meaningful.some(m=>messageKind(m)==='user');
+  const hasStaff=meaningful.some(m=>messageKind(m)==='staff');
+  const pending=messageKind(last)==='user'&&!d.closed&&!d.banned&&!d.adminBanned;
+  const since=pending?messageStamp(last,d.lastActivity||d.createdAt):0;
+  const minutes=since?Math.max(0,Math.floor((Date.now()-since)/60000)):0;
+  return{pending,hasUser,hasStaff,minutes,since};
+}
+function durationLabel(minutes){
+  const m=Math.max(0,Number(minutes)||0);
+  if(m<1)return'меньше минуты';
+  if(m<60)return m+' мин';
+  const h=Math.floor(m/60),r=m%60;
+  if(h<24)return h+' ч'+(r?' '+r+' мин':'');
+  const days=Math.floor(h/24),rh=h%24;
+  return days+' дн'+(rh?' '+rh+' ч':'');
+}
 function dialogState(d){
   if(d.adminBanned)return'администратор заблокирован';
   if(d.banned||((userBan&&String(d.userId)===String(profile.id))&&userBan.active))return'заблокирован';
   if(d.closed)return'закрыт';
-  return d.status==='active'?'активный':'ожидает ответа';
+  return dialogReplyState(d).pending?'без ответа':(d.status==='active'?'активный':'ожидает ответа');
 }
 function renderMonitorDialogs(){
   if(!can('dialogs'))return;
   const listBox=$('monitorList'),detailBox=$('monitorDetail');
   if(!listBox||!detailBox)return;
   const q=String(monitorQuery||'').trim().toLowerCase();
-  const all=dialogs.slice().sort((a,b)=>(b.lastActivity||b.createdAt||0)-(a.lastActivity||a.createdAt||0));
+  const all=dialogs.slice().sort((a,b)=>{
+    const ra=dialogReplyState(a),rb=dialogReplyState(b);
+    if(ra.pending!==rb.pending)return ra.pending?-1:1;
+    if(ra.pending&&rb.pending&&ra.minutes!==rb.minutes)return rb.minutes-ra.minutes;
+    return(b.lastActivity||b.createdAt||0)-(a.lastActivity||a.createdAt||0);
+  });
+  const response=all.map(d=>({d,r:dialogReplyState(d)}));
+  const pendingAll=response.filter(x=>x.r.pending).length;
+  const longAll=response.filter(x=>x.r.pending&&x.r.minutes>=15).length;
+  const openAll=all.filter(d=>!d.closed&&!d.banned&&!d.adminBanned).length;
+  const statBox=$('monitorResponseStats');
+  if(statBox)statBox.innerHTML='<div class="monitor-summary">'+
+    '<div><span>Открытые</span><b>'+openAll+'</b></div>'+
+    '<div><span>Без ответа</span><b>'+pendingAll+'</b></div>'+
+    '<div><span>15+ минут</span><b class="'+(longAll?'monitor-alert':'')+'">'+longAll+'</b></div></div>'+
+    (longAll?'<div class="monitor-nudge late">⚠️ Есть обращения, где последнее сообщение пользователя ждёт ответа более 15 минут.</div>':'');
+  const adminBox=$('monitorAdminStats');
+  if(adminBox){
+    const rows=admins.map(a=>{
+      const assigned=all.filter(d=>String(d.adminId)===String(a.id));
+      const waiting=assigned.map(d=>({d,r:dialogReplyState(d)})).filter(x=>x.r.pending);
+      const oldest=waiting.reduce((v,x)=>Math.max(v,x.r.minutes),0);
+      return{a,total:assigned.filter(d=>!d.closed&&!d.banned&&!d.adminBanned).length,waiting:waiting.length,oldest};
+    }).filter(x=>x.total||x.waiting).sort((a,b)=>b.waiting-a.waiting||b.oldest-a.oldest||a.a.name.localeCompare(b.a.name));
+    adminBox.innerHTML='<div class="monitor-subhead">Контроль ответов по администраторам</div>'+
+      '<div class="monitor-admin-strip">'+
+      '<button type="button" class="monitor-admin-chip '+(!monitorAdminFilter?'on':'')+'" data-mafilter="">Все админы</button>'+
+      rows.map(x=>'<button type="button" class="monitor-admin-chip '+(monitorAdminFilter===String(x.a.id)?'on':'')+'" data-mafilter="'+esc(x.a.id)+'">'+
+        '<b>'+esc(x.a.name)+'</b><span>'+x.waiting+' без ответа · '+x.total+' открытых</span>'+
+        (x.oldest>=15?'<i>ожидает '+durationLabel(x.oldest)+'</i>':'')+'</button>').join('')+
+      '</div>';
+  }
+  const stateCounts={all:all.length,active:openAll,waiting:pendingAll,long:longAll,
+    answered:response.filter(x=>!x.r.pending&&x.r.hasUser&&x.r.hasStaff).length,
+    closed:all.filter(d=>d.closed).length,banned:all.filter(d=>d.banned||d.adminBanned).length};
+  const filters=[{id:'all',n:'Все'},{id:'waiting',n:'Без ответа'},{id:'long',n:'15+ минут'},
+    {id:'answered',n:'Есть ответ'},{id:'active',n:'Открытые'},{id:'closed',n:'Закрытые'},{id:'banned',n:'Заблокированные'}];
+  const fb=$('monitorFilters');
+  if(fb)fb.innerHTML=filters.map(f=>'<button class="chipbtn '+(f.id===monitorFilter?'on':'')+'" data-mfilter="'+f.id+'">'+f.n+' · '+stateCounts[f.id]+'</button>').join('');
   const filtered=all.filter(d=>{
-    const state=dialogState(d);
-    const matchState=monitorFilter==='all'||(monitorFilter==='active'&&!d.closed&&!d.banned&&!d.adminBanned)||
-      (monitorFilter==='closed'&&d.closed)||(monitorFilter==='banned'&&(d.banned||d.adminBanned||state==='заблокирован')); 
+    const state=dialogState(d),reply=dialogReplyState(d);
+    const matchState=monitorFilter==='all'||
+      (monitorFilter==='active'&&!d.closed&&!d.banned&&!d.adminBanned)||
+      (monitorFilter==='waiting'&&reply.pending)||
+      (monitorFilter==='long'&&reply.pending&&reply.minutes>=15)||
+      (monitorFilter==='answered'&&!reply.pending&&reply.hasUser&&reply.hasStaff)||
+      (monitorFilter==='closed'&&d.closed)||
+      (monitorFilter==='banned'&&(d.banned||d.adminBanned||state==='заблокирован'));
     const hay=[d.userNickname,d.userId,d.adminName,d.adminId,d.id].join(' ').toLowerCase();
-    return matchState&&(!q||hay.includes(q));
+    const matchAdmin=!monitorAdminFilter||String(d.adminId)===String(monitorAdminFilter);
+    return matchState&&matchAdmin&&(!q||hay.includes(q));
   });
   const count=$('monitorCount');if(count)count.textContent=filtered.length+' / '+all.length;
-  const filters=[{id:'all',n:'Все'},{id:'active',n:'Активные'},{id:'closed',n:'Закрытые'},{id:'banned',n:'Заблокированные'}];
-  const fb=$('monitorFilters');
-  if(fb)fb.innerHTML=filters.map(f=>'<button class="chipbtn '+(f.id===monitorFilter?'on':'')+'" data-mfilter="'+f.id+'">'+f.n+'</button>').join('');
   if(!filtered.some(d=>d.id===monitorDialogId))monitorDialogId=filtered.length?filtered[0].id:null;
   listBox.innerHTML=filtered.length?filtered.map(d=>{
     const selected=d.id===monitorDialogId;
-    const last=(d.messages||[]).slice(-1)[0];
-    const state=dialogState(d);
+    const last=(d.messages||[]).slice(-1)[0],reply=dialogReplyState(d),state=dialogState(d);
+    const waitLine=reply.pending?'<div class="monitor-wait '+(reply.minutes>=15?'late':'')+'">⏳ Без ответа: '+durationLabel(reply.minutes)+'</div>':'';
     return '<button class="tk monitor-item '+(selected?'monitor-selected':'')+'" data-dmon="'+esc(d.id)+'" type="button">'+
-      '<div class="tk-top"><b>'+esc(d.userNickname||'Без ника')+'</b><span class="st '+((state==='заблокирован'||state==='администратор заблокирован')?'new':state==='закрыт'?'done':'work')+'">'+esc(state)+'</span></div>'+ 
+      '<div class="tk-top"><b>'+esc(d.userNickname||'Без ника')+'</b><span class="st '+((state==='заблокирован'||state==='администратор заблокирован')?'new':state==='закрыт'?'done':reply.pending?'new':'work')+'">'+esc(state)+'</span></div>'+ 
       '<div class="tk-meta">ID '+esc(d.userId||'—')+' · '+esc(d.adminName||'админ')+' · '+dfmt(d.lastActivity||d.createdAt)+'</div>'+ 
-      '<div class="tk-last">'+esc(last?String(last.text||'').slice(0,100):'Нет сообщений')+'</div></button>';
-  }).join(''):'<div class="empty"><span class="e">💬</span>Диалоги не найдены</div>';
+      waitLine+'<div class="tk-last">'+esc(last?String(last.text||'').slice(0,100):'Нет сообщений')+'</div></button>';
+  }).join(''):'<div class="empty"><span class="e">💬</span>Подходящих диалогов нет</div>';
   const d=dialogs.find(x=>x.id===monitorDialogId);
   if(!d){detailBox.innerHTML='';return}
-  const banned=!!d.banned;
-  const history=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
-  const messages=(d.messages||[]).map(m=>{
-    const side=m.sender==='user'?'user':m.sender==='system'?'system':'staff';
-    const who=m.sender==='user'?(d.userNickname||'Пользователь'):m.sender==='system'?'Система':(m.adminName||d.adminName||'Администратор');
-    return '<div class="monitor-msg '+side+'"><div class="monitor-msg-top"><b>'+esc(who)+'</b><span>'+esc(m.time||dfmt(m.ts))+'</span></div><div>'+esc(m.text||'')+'</div></div>';
+  const banned=!!d.banned,history=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
+  const reply=dialogReplyState(d),msgs=d.messages||[];
+  const messages=msgs.map(m=>{
+    const kind=messageKind(m),side=kind==='user'?'user':kind==='system'?'system':'staff';
+    const who=kind==='user'?(d.userNickname||'Пользователь'):kind==='system'?'Система':(m.adminName||m.name||d.adminName||'Администратор');
+    const stamp=messageStamp(m,0),when=stamp?dfmt(stamp):(m.time||'время не сохранено');
+    return '<div class="monitor-msg '+side+'"><div class="monitor-msg-top"><b>'+esc(who)+'</b><span>'+esc(when)+'</span></div><div>'+esc(m.text||'')+'</div></div>';
   }).join('')||'<div class="tk-meta">Переписка пока пустая</div>';
   detailBox.innerHTML='<div class="card monitor-detail-card">'+
     '<div class="tk-top"><div><b>'+esc(d.userNickname||'Без ника')+'</b><div class="tk-meta">ID пользователя: '+esc(d.userId||'—')+'</div></div>'+ 
-    '<span class="st '+(banned?'new':d.closed?'done':'work')+'">'+esc(dialogState(d))+'</span></div>'+ 
-    '<div class="tk-meta" style="margin-top:8px">С администратором: '+esc(d.adminName||'—')+' · '+(d.messages||[]).length+' сообщений</div>'+ 
+    '<span class="st '+(banned?'new':d.closed?'done':reply.pending?'new':'work')+'">'+esc(dialogState(d))+'</span></div>'+ 
+    '<div class="tk-meta" style="margin-top:8px">С администратором: '+esc(d.adminName||'—')+' · '+msgs.length+' сообщений · создан '+dfmt(d.createdAt)+'</div>'+ 
+    (reply.pending?'<div class="monitor-nudge '+(reply.minutes>=15?'late':'')+'">'+(reply.minutes>=15?'⚠️':'⏳')+' Последнее сообщение пользователя ждёт ответа '+durationLabel(reply.minutes)+'</div>':
+      (reply.hasStaff?'<div class="monitor-nudge answered">✅ В переписке есть ответ администратора</div>':''))+
     '<div class="monitor-actions">'+
       '<button class="btn small" data-dwarn="'+esc(d.id)+'" type="button">⚠️ Выдать варн</button>'+
       (banned?'<button class="btn small ghost" data-dunban="'+esc(d.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-dban="'+esc(d.id)+'" type="button">🚫 Забанить</button>')+
     '</div>'+
     '<div class="monitor-warn-info">Предупреждений в этом диалоге: <b>'+(d.warns||history.length||0)+'</b>'+
       (history.length?'<div class="tk-meta" style="margin-top:6px">'+history.slice(-3).reverse().map(w=>esc(w.reason||'Без причины')+' · '+dfmt(w.date||w.ts)).join('<br>')+'</div>':'')+'</div>'+ 
-    '<div class="monitor-chat">'+messages+'</div></div>';
+    '<div class="monitor-history-head"><b>Полная история переписки ('+msgs.length+')</b><button type="button" class="btn small ghost" data-mhistory="'+esc(d.id)+'">'+(monitorHistoryExpanded?'Свернуть':'Развернуть всю историю')+'</button></div>'+ 
+    '<div class="monitor-chat '+(monitorHistoryExpanded?'expanded':'')+'">'+messages+'</div>'+ 
+    (can('dialogs')&&!d.closed&&!d.banned&&!d.adminBanned?'<div class="monitor-reply-box"><label class="lbl" for="monitorReplyText">Ответить пользователю</label><textarea id="monitorReplyText" maxlength="1500" placeholder="Напиши ответ пользователю…"></textarea><button class="btn" type="button" data-msend="'+esc(d.id)+'">Отправить ответ</button></div>':'')+
+    '</div>';
 }
 function openModerationForm(dialogId,action){
   if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
@@ -1646,6 +1805,16 @@ function fmtLeft(ms){
   return h+' ч '+pad(m)+' мин';
 }
 
+function updateNewYearCountdown(){
+  const now=new Date();
+  const target=new Date(now.getFullYear()+1,0,1,0,0,0,0);
+  const left=Math.max(0,target.getTime()-now.getTime());
+  const total=Math.floor(left/1000);
+  const days=Math.floor(total/86400),hours=Math.floor((total%86400)/3600),minutes=Math.floor((total%3600)/60),seconds=total%60;
+  const values={nyYear:target.getFullYear(),nyDays:days,nyHours:pad(hours),nyMinutes:pad(minutes),nySeconds:pad(seconds)};
+  Object.keys(values).forEach(id=>{const el=$(id);if(el)el.textContent=values[id]});
+}
+
 /* ==================== УРОВЕНЬ ==================== */
 const LEVELS=[{n:'Новичок',at:0},{n:'Знакомый',at:50},{n:'Свой',at:150},{n:'Полуночник',at:350},{n:'Легенда',at:700}];
 function levelInfo(){
@@ -1668,6 +1837,7 @@ function renderHome(){
   $('candyTop').textContent=profile.candies||0;
   $('streakTop').textContent=profile.streak||0;
   $('homeGreet').textContent='Привет, '+greetName()+' 👋';
+  updateNewYearCountdown();
   $('homeCandy').textContent=profile.candies||0;
   $('homeStreak').textContent=profile.streak||0;
   $('lblCandy').textContent=plural(profile.candies||0,'снежинка','снежинки','снежинок');
@@ -1704,10 +1874,10 @@ function renderHomeAch(){
     '<div class="ach-ico">'+a.icon+'</div><div class="ach-nm">'+esc(a.name)+'</div></div>').join('');
 }
 function adminRow(a){
-  const[c1,c2]=mono(a.name);
+  const[c1,c2]=mono(a.name),r=adminRatingLabel(a.id);
   return '<button class="acard" data-admin="'+esc(a.id)+'">'+
     '<span class="av" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+esc(a.initials)+'</span>'+
-    '<span class="nm"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+'</span></span>'+
+    '<span class="nm"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+' · '+esc(r)+'</span></span>'+
     '<span class="dot-on"></span></button>';
 }
 function renderHomeAdmins(){
@@ -1730,7 +1900,7 @@ function renderAdmins(){
     const[c1,c2]=mono(a.name);
     return '<button class="acard" data-admin="'+esc(a.id)+'">'+
       '<span class="av" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+esc(a.initials)+'</span>'+
-      '<span class="nm"><b>'+esc(a.name)+'</b><span class="acat">'+esc(a.category)+'</span></span>'+
+      '<span class="nm"><b>'+esc(a.name)+'</b><span class="acat">'+esc(a.category)+'</span><span class="admin-rating-line">'+esc(adminRatingLabel(a.id))+'</span></span>'+
       '<span class="dot-on"></span></button>';
   }).join(''):'<div class="empty"><span class="e">🔍</span>Никого не нашлось</div>';
 }
@@ -1744,6 +1914,8 @@ function openAdminSheet(id){
       '<div><div style="font-size:17px;font-weight:700">'+esc(a.name)+'</div>'+
       '<div class="acat">'+esc(a.category)+'</div></div></div>'+
     '<p class="hint">Админ ведёт диалоги: обычное общение, поддержка или универсальный формат.</p>'+
+    '<div class="admin-sheet-rating">'+esc(adminRatingLabel(a.id))+'</div>'+
+    (latestRateableDialog(a.id)?'<button class="btn ghost" data-rate-dialog="'+esc(latestRateableDialog(a.id).id)+'" type="button">⭐ Оценить работу администратора</button>':'')+
     '<button class="btn" data-start="'+esc(a.id)+'">💬 Начать диалог</button>'+
     (a.username?'<button class="btn ghost" data-tg="'+esc(a.username)+'">Написать в Telegram</button>':'')+
     '<button class="btn ghost" data-sheet-close>Закрыть</button>');
@@ -1821,6 +1993,165 @@ function buyItem(id){
   persist();renderProfile();renderHome();toast('Куплено: '+s.name,'🛍️');haptic('success');
 }
 
+/* ==================== РЕЙТИНГ АДМИНИСТРАТОРОВ ==================== */
+function safeFirebaseKey(value){return encodeURIComponent(String(value==null?'':value)).replace(/\./g,'%2E')}
+function adminRatingsNode(adminId){return (adminRatings||{})[safeFirebaseKey(adminId)]||{}}
+function adminRatingStats(adminId){
+  const vals=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5);
+  const avg=vals.length?vals.reduce((n,x)=>n+Number(x.stars),0)/vals.length:0;
+  return{count:vals.length,average:avg};
+}
+function adminRatingLabel(adminId){
+  const r=adminRatingStats(adminId);
+  return r.count?'⭐ '+r.average.toFixed(1)+' · '+r.count+' '+plural(r.count,'оценка','оценки','оценок'):'⭐ Пока без оценок';
+}
+function openAdminReviews(adminId){
+  if(myRole!=='owner')return toast('Отзывы доступны владельцу','🚫');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const rows=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5).sort((x,y)=>(y.ts||0)-(x.ts||0));
+  const content=rows.length?rows.map(r=>'<div class="review-row"><div class="review-row-top"><b>'+esc(r.userNickname||'Пользователь')+'</b><span>'+('★'.repeat(Number(r.stars)))+'<i>'+r.stars+'/5</i></span></div>'+
+    (r.comment?'<p>'+esc(r.comment)+'</p>':'<p class="review-empty">Без комментария</p>')+'<time>'+dfmt(r.ts)+'</time></div>').join(''):'<div class="empty"><span class="e">⭐</span>Оценок пока нет</div>';
+  openSheet('<h3>Отзывы: '+esc(a.name)+'</h3><p class="hint">'+esc(adminRatingLabel(adminId))+'</p>'+content);
+}
+function ratingRecordKey(d){return safeFirebaseKey(String(d.userId||profile.id)+'_'+String(d.id))}
+function getDialogRating(d){return adminRatingsNode(d.adminId)[ratingRecordKey(d)]||null}
+function latestRateableDialog(adminId){
+  return myDialogs().filter(d=>String(d.adminId)===String(adminId)&&(d.messages||[]).some(m=>messageKind(m)==='staff')&&!getDialogRating(d))
+    .sort((a,b)=>(b.lastActivity||0)-(a.lastActivity||0))[0]||null;
+}
+function openRatingForm(dialogId){
+  const d=myDialogs().find(x=>String(x.id)===String(dialogId));if(!d)return;
+  if(!(d.messages||[]).some(m=>messageKind(m)==='staff'))return toast('Оценить можно после ответа администратора','⚠️');
+  if(getDialogRating(d))return toast('Ты уже оценил работу в этом диалоге','⭐');
+  ratingDraft=5;
+  openSheet('<h3>Оценка администратора</h3><p class="hint">Как '+esc(d.adminName||'администратор')+' помог тебе?</p>'+ 
+    '<div class="rating-stars">'+[1,2,3,4,5].map(n=>'<button type="button" class="rating-star '+(n<=ratingDraft?'selected':'')+'" data-ratevalue="'+n+'" aria-label="'+n+' из 5">★</button>').join('')+'</div>'+ 
+    '<div class="rating-caption">1 — плохо · 5 — отлично</div>'+ 
+    '<label class="lbl" for="ratingComment">Комментарий (необязательно)</label><textarea id="ratingComment" maxlength="350" placeholder="Что понравилось или что можно улучшить?" style="min-height:76px"></textarea>'+ 
+    '<button class="btn" type="button" data-ratesubmit="'+esc(d.id)+'">Отправить оценку</button>'+ 
+    '<button class="btn ghost" type="button" data-sheet-close>Не сейчас</button>');
+}
+async function submitAdminRating(dialogId){
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=myDialogs().find(x=>String(x.id)===String(dialogId));if(!d)return;
+  if(!(d.messages||[]).some(m=>messageKind(m)==='staff'))return toast('Сначала дождись ответа администратора','⚠️');
+  if(getDialogRating(d))return toast('Оценка уже отправлена','⭐');
+  const stars=Math.max(1,Math.min(5,Number(ratingDraft)||5));
+  const comment=String(($('ratingComment')&&$('ratingComment').value)||'').trim();
+  const record={adminId:String(d.adminId),adminName:d.adminName||'Администратор',dialogId:String(d.id),userId:String(profile.id),userNickname:profile.nickname||'Пользователь',stars,comment,ts:Date.now()};
+  const akey=safeFirebaseKey(d.adminId),rkey=ratingRecordKey(d),ref=db.ref('sakura/adminRatings/'+akey+'/'+rkey);
+  try{
+    const result=await ref.transaction(current=>current||record);
+    if(!result.committed||!result.snapshot.val()||String(result.snapshot.val().userId)!==String(profile.id))return toast('Не удалось сохранить оценку','⚠️');
+    adminRatings[akey]=adminRatings[akey]||{};adminRatings[akey][rkey]=result.snapshot.val();
+    notifyStaff({title:'Новая оценка администратора',body:(d.adminName||'Администратор')+' получил оценку '+stars+'/5',linkType:'dialog',linkId:d.id},'dialogs');
+    closeSheet();renderAdmins();renderHomeAdmins();renderDialogs();renderTeamAdmins();
+    toast('Спасибо за оценку!','⭐');haptic('success');
+  }catch(e){toast('Не удалось отправить оценку. Проверь доступ к Firebase','⚠️')}
+}
+
+/* ==================== УВЕДОМЛЕНИЯ ==================== */
+function notificationKey(v){return safeFirebaseKey(v)}
+function notifPath(feed,id){return feed==='staff'?'sakura/notifications/staff/'+notificationKey(id):'sakura/notifications/users/'+notificationKey(id)}
+function bindNotificationFeed(feed,id){
+  if(!db||!id)return;
+  const key=notificationKey(id),oldRef=feed==='user'?userNotifRef:staffNotifRef,oldKey=feed==='user'?userNotifKey:staffNotifKey;
+  if(oldRef&&oldKey===key)return;
+  if(oldRef)oldRef.off('value');
+  if(feed==='user'){userNotifRef=null;userNotifKey=key;userNotifications=[];notifReady.user=false;notifKnown.user=[]}
+  else{staffNotifRef=null;staffNotifKey=key;staffNotifications=[];notifReady.staff=false;notifKnown.staff=[]}
+  const ref=db.ref(notifPath(feed,id));
+  if(feed==='user')userNotifRef=ref;else staffNotifRef=ref;
+  ref.on('value',snap=>{
+    const raw=snap.val()||{},items=Object.keys(raw).map(k=>Object.assign({id:k},raw[k]||{}));
+    const known=notifKnown[feed]||[];
+    if(notifReady[feed])items.filter(n=>!known.includes(n.id)&&!n.read).forEach(n=>showNativeNotification(n));
+    notifKnown[feed]=items.map(n=>n.id);notifReady[feed]=true;
+    if(feed==='user')userNotifications=items;else staffNotifications=items;
+    renderNotifications();
+  });
+}
+function syncNotificationListeners(){
+  if(!db)return;
+  if(profile.id)bindNotificationFeed('user',profile.id);
+  const staffId=myRole==='owner'?'owner':(myRole==='admin'?(staffSession&&staffSession.id||'default'):null);
+  if(staffId)bindNotificationFeed('staff',staffId);
+  else if(staffNotifRef){staffNotifRef.off('value');staffNotifRef=null;staffNotifKey='';staffNotifications=[];notifReady.staff=false;notifKnown.staff=[];}
+  renderNotifications();
+}
+async function notifyUser(userId,data){
+  if(!db||!userId)return;
+  try{await db.ref(notifPath('user',userId)).push(Object.assign({createdAt:Date.now(),read:false},data||{}))}catch(e){}
+}
+async function notifyStaff(data,permission){
+  if(!db)return;
+  const targets=[{id:'owner'}];
+  const eligible=staffEntries().filter(st=>{
+    const permissions=st.perms||{};
+    return permission?!!permissions[permission]:true;
+  });
+  eligible.forEach(st=>targets.push({id:st.id}));
+  if(!eligible.length)targets.push({id:'default'});
+  const unique=[...new Set(targets.map(x=>String(x.id)))];
+  await Promise.all(unique.map(id=>db.ref(notifPath('staff',id)).push(Object.assign({createdAt:Date.now(),read:false},data||{})).catch(()=>{})));
+}
+function renderNotifications(){
+  const badge=$('notifyCount'),btn=$('notifyBtn');if(!badge||!btn)return;
+  const unread=userNotifications.filter(n=>!n.read).length+staffNotifications.filter(n=>!n.read).length;
+  badge.hidden=!unread;badge.textContent=unread>99?'99+':String(unread);
+  btn.setAttribute('aria-label',unread?'Уведомления: '+unread+' непрочитанных':'Уведомления');
+}
+function notificationFeed(){
+  const feed=userNotifications.map(n=>Object.assign({_feed:'user'},n));
+  if(myRole)staffNotifications.forEach(n=>feed.push(Object.assign({_feed:'staff'},n)));
+  return feed.sort((a,b)=>(b.createdAt||b.ts||0)-(a.createdAt||a.ts||0));
+}
+function openNotifications(){
+  const list=notificationFeed();
+  const rows=list.length?list.map(n=>'<button type="button" class="notification-row '+(n.read?'read':'unread')+'" data-notifopen="'+esc(n.id)+'" data-notiffeed="'+n._feed+'">'+
+    '<span class="notification-icon">'+(n._feed==='staff'?'🛡️':'❄️')+'</span><span class="notification-content"><b>'+esc(n.title||'Уведомление')+'</b><span>'+esc(n.body||'')+'</span><i>'+dfmt(n.createdAt||n.ts||Date.now())+(n.read?' · прочитано':' · новое')+'</i></span><span class="notification-chevron">›</span></button>').join(''):'<div class="empty"><span class="e">🔔</span>Пока нет уведомлений</div>';
+  openSheet('<div class="notification-head"><div><h3>Уведомления</h3><p class="hint">Сообщения о диалогах, ответах и оценках</p></div>'+(list.some(n=>!n.read)?'<button class="btn small ghost" type="button" data-notifreadall>Прочитать всё</button>':'')+'</div>'+ 
+    '<button class="btn ghost small notify-enable" type="button" data-notifyenable>🔔 Включить уведомления браузера</button>'+rows);
+}
+async function markNotificationRead(feed,id){
+  const list=feed==='staff'?staffNotifications:userNotifications;
+  const item=list.find(n=>String(n.id)===String(id));if(!item||item.read)return;
+  item.read=true;renderNotifications();
+  if(db){const key=feed==='staff'?(myRole==='owner'?'owner':(staffSession&&staffSession.id||'default')):profile.id;
+    try{await db.ref(notifPath(feed,key)+'/'+safeFirebaseKey(id)).update({read:true})}catch(e){}
+  }
+}
+async function markAllNotificationsRead(){
+  const feeds=[['user',userNotifications,profile.id]];
+  if(myRole)feeds.push(['staff',staffNotifications,myRole==='owner'?'owner':(staffSession&&staffSession.id||'default')]);
+  for(const [feed,items,target] of feeds){
+    const updates={};items.forEach(n=>{if(!n.read){updates[safeFirebaseKey(n.id)+'/read']=true;n.read=true}});
+    if(Object.keys(updates).length&&db)try{await db.ref(notifPath(feed,target)).update(updates)}catch(e){}
+  }
+  renderNotifications();openNotifications();
+}
+async function enableBrowserNotifications(){
+  if(!('Notification' in window))return toast('Браузерные уведомления здесь недоступны','⚠️');
+  try{const permission=await Notification.requestPermission();
+    toast(permission==='granted'?'Браузерные уведомления включены':permission==='denied'?'Разрешение отклонено в настройках браузера':'Разрешение не выдано',permission==='granted'?'🔔':'⚠️');
+  }catch(e){toast('Не удалось включить уведомления','⚠️')}
+}
+function showNativeNotification(n){
+  try{if(document.hidden&&'Notification' in window&&Notification.permission==='granted')new Notification(n.title||'По ту сторону',{body:n.body||'Новое событие'})}catch(e){}
+}
+function openNotificationTarget(feed,id){
+  const list=feed==='staff'?staffNotifications:userNotifications,n=list.find(x=>String(x.id)===String(id));
+  if(!n)return;
+  markNotificationRead(feed,id);closeSheet();
+  if(n.linkType==='dialog'&&n.linkId){
+    if(feed==='staff'&&myRole){go('staff');staffTab='dialogs';monitorDialogId=String(n.linkId);renderStaffTabs();renderMonitorDialogs();}
+    else if(feed==='user'){go('dialogs');openChat(String(n.linkId));}
+  }else if(n.linkType==='ticket'&&n.linkId){
+    if(feed==='staff'&&myRole){go('staff');staffTab='queue';renderStaffTabs();openTicket(String(n.linkId));}
+    else{go('support');openTicket(String(n.linkId));}
+  }
+}
+
 /* ==================== ДИАЛОГИ ==================== */
 function myDialogs(){
   const me=String(profile.id||'');
@@ -1844,11 +2175,16 @@ function renderDialogs(){
   box.innerHTML=list.map(d=>{
     const lm=lastMsg(d);
     const st=(d.banned||d.adminBanned)?'приостановлен':d.closed?'закрыт':d.status==='active'?'в диалоге':'ждёт ответа';
-    return '<button class="tk" data-dialog="'+esc(d.id)+'">'+
-      '<div class="tk-top"><b>'+esc(d.adminName||'Админ')+'</b>'+
-      '<span class="st '+(d.closed?'done':'new')+'">'+esc(st)+'</span></div>'+
-      '<div class="tk-meta">'+(d.messages||[]).length+' сообщений</div>'+
-      '<div class="tk-last">'+(lm?esc(String(lm.text).slice(0,70)):'напиши первым')+'</div></button>';
+    const eligible=(d.messages||[]).some(m=>messageKind(m)==='staff');
+    const rated=getDialogRating(d);
+    const rateAction=eligible&&!rated?'<button class="btn small ghost dialog-rate-btn" data-rate-dialog="'+esc(d.id)+'" type="button">⭐ Оценить администратора</button>':
+      (rated?'<div class="dialog-rated">Ваша оценка: '+('★'.repeat(Number(rated.stars)||0))+' · '+(Number(rated.stars)||0)+'/5</div>':'');
+    return '<div class="tk dialog-item">'+
+      '<button class="dialog-open" data-dialog="'+esc(d.id)+'" type="button">'+
+        '<div class="tk-top"><b>'+esc(d.adminName||'Админ')+'</b>'+ 
+        '<span class="st '+(d.closed?'done':'new')+'">'+esc(st)+'</span></div>'+ 
+        '<div class="tk-meta">'+(d.messages||[]).length+' сообщений</div>'+ 
+        '<div class="tk-last">'+(lm?esc(String(lm.text).slice(0,70)):'напиши первым')+'</div></button>'+rateAction+'</div>';
   }).join('');
 }
 function renderBadge(){
@@ -1949,6 +2285,7 @@ function sendMessage(){
   d.messages.push({text:txt,sender:'user',time:nowTime(),ts:Date.now(),status:'sent'});
   d.lastActivity=Date.now();d.status='waiting';
   saveDialogs();
+  notifyStaff({title:'Новое сообщение в диалоге',body:(d.userNickname||'Пользователь')+': '+txt.slice(0,100),linkType:'dialog',linkId:d.id},'dialogs');
   $('chatInput').value='';$('chatInput').style.height='auto';
   renderChat();renderDialogs();
   profile.messagesSent=(profile.messagesSent||0)+1;
@@ -1958,6 +2295,23 @@ function sendMessage(){
   if(txt.length>100)bumpQuest('long_message');
   if(/^\*[\s\S]*\*$/.test(txt))bumpQuest('rp');
   persist();checkAch();
+}
+
+async function sendMonitorReply(dialogId){
+  if(!can('dialogs'))return toast('Нет права отвечать в диалогах','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d)return;
+  if(d.closed||d.banned||d.adminBanned)return toast('Этот диалог приостановлен','⚠️');
+  const input=$('monitorReplyText'),text=String(input&&input.value||'').trim();
+  if(!text)return toast('Напиши ответ пользователю','⚠️');
+  const ts=Date.now(),name=(staffSession&&staffSession.name)||(myRole==='owner'?'Владелец':'Администратор');
+  d.messages=d.messages||[];
+  d.messages.push({text,sender:'staff',name,adminName:name,time:nowTime(),ts,status:'sent'});
+  d.lastActivity=ts;d.status='active';
+  saveDialogs();
+  notifyUser(d.userId,{title:'Ответ администратора',body:name+': '+text.slice(0,100),linkType:'dialog',linkId:d.id});
+  renderMonitorDialogs();renderDialogs();
+  toast('Ответ отправлен пользователю','✅');haptic('success');
 }
 
 /* ==================== ОБРАЩЕНИЯ ==================== */
@@ -1992,6 +2346,7 @@ function createTicket(){
     nickname:profile.nickname||'аноним',tgId:uid(),category:ticketCat,subject:subj,text,status:'new',
     createdAt:Date.now(),messages:[{from:'user',text,name:profile.nickname||'пользователь',ts:Date.now()}]};
   tickets.push(t);saveTickets();
+  notifyStaff({title:'Новое обращение',body:(t.nickname||'Пользователь')+' · '+t.subject,linkType:'ticket',linkId:t.id},'tickets');
   $('tkSubject').value='';$('tkText').value='';
   renderMyTickets();bumpQuest('ticket');
   toast('Обращение отправлено','✅');haptic('success');
@@ -2021,9 +2376,11 @@ function replyTicket(id){
   const t=tickets.find(x=>x.id===id);if(!t)return;
   const v=($('tkReply').value||'').trim();if(v.length<1)return toast('Напиши текст','⚠️');
   t.messages=t.messages||[];
-  t.messages.push({from:myRole?'staff':'user',text:v,name:myRole?'админ':(profile.nickname||'пользователь'),ts:Date.now()});
+  t.messages.push({from:myRole?'staff':'user',text:v,name:myRole?(staffSession&&staffSession.name||'админ'):(profile.nickname||'пользователь'),ts:Date.now()});
   t.status=myRole?'work':'new';
   saveTickets();renderMyTickets();renderStaff();
+  if(myRole)notifyUser(t.userId,{title:'Ответ по обращению',body:v.slice(0,110),linkType:'ticket',linkId:t.id});
+  else notifyStaff({title:'Новое сообщение в обращении',body:(t.nickname||'Пользователь')+': '+v.slice(0,100),linkType:'ticket',linkId:t.id},'tickets');
   closeSheet();toast('Отправлено','✅');
 }
 function setTicketStatus(id,st){
@@ -2078,12 +2435,23 @@ function wire(){
       '[data-ticket],[data-treply],[data-tstatus],[data-tcat],[data-sfilter],[data-tab],[data-av],[data-buy],[data-cat],'+
       '[data-tg],[data-rp],[data-revoke],[data-new-dialog],[data-stab],[data-perm],[data-report],[data-reason],'+
       '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm],'+
-      '[data-mfilter],[data-dmon],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
-      '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit]');
+      '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
+      '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
+      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable]');
     if(!el)return;
     const d=el.dataset;
-    if(d.mfilter){monitorFilter=d.mfilter;renderMonitorDialogs();return}
-    if(d.dmon){monitorDialogId=d.dmon;renderMonitorDialogs();return}
+    if(d.msend){sendMonitorReply(d.msend);return}
+    if(d.rateDialog){openRatingForm(d.rateDialog);return}
+    if(d.ratevalue){ratingDraft=Number(d.ratevalue)||5;document.querySelectorAll('[data-ratevalue]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.ratevalue)<=ratingDraft));return}
+    if(d.ratesubmit){submitAdminRating(d.ratesubmit);return}
+    if(d.notifopen){openNotificationTarget(d.notiffeed,d.notifopen);return}
+    if(d.notifread){markNotificationRead(d.notiffeed,d.notifread);return}
+    if(d.notifreadall!==undefined){markAllNotificationsRead();return}
+    if(d.notifyenable!==undefined){enableBrowserNotifications();return}
+    if(d.mfilter!==undefined){monitorFilter=d.mfilter;renderMonitorDialogs();return}
+    if(d.mafilter!==undefined){monitorAdminFilter=d.mafilter;renderMonitorDialogs();return}
+    if(d.dmon){if(monitorDialogId!==d.dmon)monitorHistoryExpanded=false;monitorDialogId=d.dmon;renderMonitorDialogs();return}
+    if(d.mhistory){monitorHistoryExpanded=!monitorHistoryExpanded;monitorDialogId=d.mhistory;renderMonitorDialogs();return}
     if(d.dwarn){openModerationForm(d.dwarn,'warn');return}
     if(d.dban){openModerationForm(d.dban,'ban');return}
     if(d.dunban){liftUserBan(d.dunban);return}
@@ -2092,6 +2460,7 @@ function wire(){
     if(d.aban){openAdminModerationForm(d.aban,'ban');return}
     if(d.aunban){liftAdminBan(d.aunban);return}
     if(d.amodsubmit){submitAdminModeration(d.adminid,d.amodsubmit);return}
+    if(d.areviews){openAdminReviews(d.areviews);return}
     if(d.grole){gateRole=d.grole;renderGateTabs();if($('gateErr'))$('gateErr').hidden=true;return}
     if(d.nperm){newPerms[d.nperm]=!newPerms[d.nperm];renderNewPerms();return}
     if(d.sperm){toggleStaffPerm(d.sid,d.sperm);return}
@@ -2153,6 +2522,7 @@ function wire(){
     navigator.clipboard&&navigator.clipboard.writeText(v).then(()=>toast('ID скопирован','📋')).catch(()=>toast('ID: '+v,''));
   });
   const th=$('themeBtn');if(th)th.addEventListener('click',toggleTheme);
+  const nb=$('notifyBtn');if(nb)nb.addEventListener('click',openNotifications);
   $('adminSearch').addEventListener('input',e=>{adminQuery=e.target.value;renderAdmins()});
   $('chatBack').addEventListener('click',closeChat);
   $('chatSend').addEventListener('click',sendMessage);
@@ -2194,11 +2564,13 @@ function tick(){
     watchUserModeration();
   });
   initDb();
-  loadRemote().then(()=>{renderAll();});
+  loadRemote().then(()=>{renderAll();syncNotificationListeners();});
   wire();
   renderAll();
   renderTkCats();
+  updateNewYearCountdown();
   setInterval(tick,20000);
+  setInterval(updateNewYearCountdown,1000);
   resolveRole();renderStaff();
 })();
 
@@ -2263,7 +2635,26 @@ body.plain .chip.snowpoints{color:#2764a4}
 .monitor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .btn.danger{background:linear-gradient(135deg,#ef476f,#c72c55);color:#fff;border:1px solid rgba(255,255,255,.12)}
 .monitor-warn-info{margin-top:12px;padding:11px 12px;border-radius:13px;background:var(--surf2);border:1px solid var(--line);font-size:13px;color:var(--hint)}
+.monitor-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.monitor-summary>div{min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:13px;background:var(--surf2)}
+.monitor-summary span{display:block;font-size:10.5px;color:var(--hint)}
+.monitor-summary b{display:block;margin-top:3px;font-size:18px;font-variant-numeric:tabular-nums}
+.monitor-summary b.monitor-alert{color:var(--red)}
+.monitor-nudge{margin-top:9px;padding:9px 11px;border-radius:11px;border:1px solid var(--line);background:var(--surf2);font-size:12px;color:var(--hint)}
+.monitor-nudge.late{border-color:rgba(255,90,90,.35);color:var(--red);background:rgba(255,90,90,.07)}
+.monitor-nudge.answered{color:var(--green)}
+.monitor-subhead{font-size:12px;font-weight:700;color:var(--hint);margin-bottom:7px}
+.monitor-admin-strip{display:flex;gap:7px;overflow-x:auto;padding:1px 1px 5px}
+.monitor-admin-chip{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 10px;border-radius:11px;border:1px solid var(--line);background:var(--surf2);color:var(--text);font-size:11px;text-align:left;max-width:190px}
+.monitor-admin-chip.on{border-color:var(--line2);background:var(--surf);box-shadow:inset 0 0 0 1px var(--line2)}
+.monitor-admin-chip span,.monitor-admin-chip i{font-size:10px;color:var(--hint);font-style:normal}
+.monitor-admin-chip i{color:var(--red)}
+.monitor-wait{margin-top:5px;font-size:11px;color:var(--yellow)}
+.monitor-wait.late{color:var(--red);font-weight:700}
+.monitor-history-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px;font-size:13px}
+.monitor-history-head .btn{margin:0;white-space:nowrap}
 .monitor-chat{display:flex;flex-direction:column;gap:9px;margin-top:14px;max-height:560px;overflow:auto;padding:2px}
+.monitor-chat.expanded{max-height:none;overflow:visible}
 .monitor-msg{max-width:92%;padding:10px 12px;border-radius:15px;background:var(--surf2);border:1px solid var(--line);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
 .monitor-msg.user{align-self:flex-start;border-top-left-radius:5px;background:rgba(127,178,255,.10)}
 .monitor-msg.staff{align-self:flex-end;border-top-right-radius:5px;background:rgba(167,139,250,.13)}
