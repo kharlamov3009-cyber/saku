@@ -1,4 +1,4 @@
-<!doctype html>
+\<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
@@ -1106,8 +1106,13 @@ async function loadRemote(){
         const cur=(staffAuth.staff||{})[staffSession.id];
         if(!cur){staffLogout();toast('Доступ отозван','🚫')}
         else{
-          staffSession.tag=staffTagFor(Object.assign({id:staffSession.id},cur));
-          saveSession();renderStaff();
+          const remoteVersion=Number(cur.updatedAt||0),sessionVersion=Number(staffSession.credentialUpdatedAt||0);
+          if(remoteVersion!==sessionVersion){
+            staffLogout();toast('Пароль изменён владельцем. Войдите с новым паролем.','🔑');
+          }else{
+            staffSession.tag=staffTagFor(Object.assign({id:staffSession.id},cur));
+            saveSession();renderStaff();
+          }
         }
       }
       renderAccess();
@@ -1288,7 +1293,7 @@ async function gateLogin(){
   }
 
   const migratedTag=staffTagFor(hit);
-  staffSession={role:'admin',id:hit.id,tag:migratedTag,since:Date.now()};
+  staffSession={role:'admin',id:hit.id,tag:migratedTag,credentialUpdatedAt:Number(hit.updatedAt||0),since:Date.now()};
   if(!hit.tag&&!hit.loginTag&&db&&hit.id){
     try{
       await db.ref('sakura/staffAuth/staff/'+hit.id+'/tag').set(migratedTag);
@@ -1366,6 +1371,66 @@ function renderStaffTabs(){
   else if(staffTab==='access'&&myRole==='owner')renderAccess();
   else if(staffTab==='settings'&&myRole==='owner')renderSettings();
 }
+function findStaffAccountForAdmin(admin){
+  if(!admin)return null;
+  const entries=staffEntries();
+  const exact=entries.find(st=>String(st.id)===String(admin.id));
+  if(exact)return exact;
+  const tag=normalizeStaffTag(publicAdminTag(admin)||admin.tag||admin.username||admin.name);
+  if(tag){
+    const byTag=entries.find(st=>staffTagFor(st)===tag||staffTagAliases(st).includes(tag));
+    if(byTag)return byTag;
+  }
+  const name=String(admin.name||'').trim().toLowerCase();
+  return name?entries.find(st=>String(st.name||'').trim().toLowerCase()===name)||null:null;
+}
+function openStaffPasswordForAdmin(adminId){
+  if(myRole!=='owner')return toast('Менять пароли может только владелец','🚫');
+  const admin=admins.find(a=>String(a.id)===String(adminId));
+  if(!admin)return toast('Администратор не найден','⚠️');
+  const linked=findStaffAccountForAdmin(admin);
+  if(linked)return openStaffPasswordForm(linked.id);
+  const entries=staffEntries();
+  if(!entries.length)return toast('Нет созданных аккаунтов сотрудников','⚠️');
+  openSheet('<h3 style="margin:0 0 6px">Выбери аккаунт для '+esc(admin.name)+'</h3>'+ 
+    '<p class="hint" style="margin:0 0 10px">Карточка не связана с отдельным логином. Выбери нужный тег вручную.</p>'+ 
+    entries.map(st=>'<button class="btn ghost" style="justify-content:flex-start" data-passedit="'+esc(st.id)+'" type="button">@'+esc(staffTagFor(st))+'</button>').join('')+
+    '<button class="btn ghost" data-sheet-close type="button">Отмена</button>');
+}
+
+function openStaffPasswordForm(staffId){
+  if(myRole!=='owner')return toast('Менять пароли может только владелец','🚫');
+  const st=staffEntries().find(x=>String(x.id)===String(staffId));
+  if(!st)return toast('Аккаунт сотрудника не найден','⚠️');
+  const tag='@'+staffTagFor(st);
+  openSheet('<h3 style="margin:0 0 6px">Изменить пароль сотрудника</h3>'+ 
+    '<p class="hint" style="margin:0 0 10px">Аккаунт '+esc(tag)+'. Новый пароль начнёт действовать сразу после сохранения.</p>'+ 
+    '<label class="lbl" for="staffNewPass">Новый пароль</label>'+ 
+    '<input type="password" id="staffNewPass" maxlength="40" minlength="4" autocomplete="new-password" placeholder="Не короче 4 символов">'+ 
+    '<label class="lbl" for="staffNewPassConfirm">Повтори новый пароль</label>'+ 
+    '<input type="password" id="staffNewPassConfirm" maxlength="40" minlength="4" autocomplete="new-password" placeholder="Повтори пароль">'+ 
+    '<button class="btn" style="margin-top:12px" data-staffpasssave="'+esc(st.id)+'" type="button">Сохранить новый пароль</button>'+ 
+    '<button class="btn ghost" style="margin-top:8px" data-sheet-close type="button">Отмена</button>');
+}
+async function saveStaffPassword(staffId){
+  if(myRole!=='owner')return toast('Менять пароли может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const st=staffEntries().find(x=>String(x.id)===String(staffId));
+  if(!st)return toast('Аккаунт сотрудника не найден','⚠️');
+  const pass=String(($('staffNewPass')&&$('staffNewPass').value)||'').trim();
+  const confirm=String(($('staffNewPassConfirm')&&$('staffNewPassConfirm').value)||'').trim();
+  if(pass.length<4)return toast('Пароль должен содержать минимум 4 символа','⚠️');
+  if(pass!==confirm)return toast('Пароли не совпадают','⚠️');
+  const h=await hashPass(pass),updatedAt=Date.now();
+  try{
+    await db.ref('sakura/staffAuth/staff/'+st.id).update({h,updatedAt});
+    staffAuth.staff=staffAuth.staff||{};
+    staffAuth.staff[st.id]=Object.assign({},staffAuth.staff[st.id]||st,{h,updatedAt});
+    closeSheet();renderAccess();renderTeamAdmins();
+    toast('Пароль для @'+staffTagFor(st)+' изменён','🔑');haptic('success');
+  }catch(e){toast('Не удалось изменить пароль. Проверь права Firebase','⚠️')}
+}
+
 function renderAccess(){
   const list=staffEntries();
   const cnt=$('staffCount2');
@@ -1377,6 +1442,7 @@ function renderAccess(){
       '<div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
       'linear-gradient(135deg,'+mono(tag)[0]+','+mono(tag)[1]+')">'+esc(initials(tag))+'</div>'+
       '<span class="nm">'+esc(tag)+'</span>'+
+      '<button class="btn small ghost" data-passedit="'+esc(st.id)+'" type="button">🔑 Пароль</button>'+
       '<button class="btn small ghost" data-sdel="'+esc(st.id)+'" type="button">снять</button></div>';
   }).join(''):'<div class="tk-meta">Пока никого — создай доступ выше</div>';
   const oh=$('ownerPassHint');
@@ -1653,6 +1719,7 @@ function renderTeamAdmins(){
   box.innerHTML=list.length?list.map(a=>{
     const mod=adminModEntry(a.id),warns=Array.isArray(mod.warns)?mod.warns:(mod.warns&&typeof mod.warns==='object'?Object.values(mod.warns):[]);
     const banned=isAdminBanned(a.id),resting=activeRestForAdmin(a.id),last=warns[warns.length-1],colors=mono(a.name);
+    const staffAccount=findStaffAccountForAdmin(a);
     return '<div class="card team-admin-card">'+
       '<div class="team-admin-head">'+
         '<div class="av" style="background:linear-gradient(135deg,'+colors[0]+','+colors[1]+')">'+esc(a.initials)+'</div>'+
@@ -1661,6 +1728,7 @@ function renderTeamAdmins(){
       '</div>'+
       '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(resting?' · на ресте до '+restDateText(resting.toDate):'')+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
       '<div class="team-admin-actions">'+
+        '<button class="btn small ghost" data-passforadmin="'+esc(a.id)+'" type="button">🔑 Сменить пароль</button>'+
         '<button class="btn small ghost" data-areviews="'+esc(a.id)+'" type="button">⭐ Отзывы ('+adminRatingStats(a.id).count+')</button>'+ 
         '<button class="btn small" data-awarn="'+esc(a.id)+'" type="button">⚠️ Выдать варн</button>'+
         (banned?'<button class="btn small ghost" data-aunban="'+esc(a.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-aban="'+esc(a.id)+'" type="button">🚫 Забанить</button>')+
@@ -2801,10 +2869,13 @@ function wire(){
       '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-sdel],'+
       '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
       '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
-      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm],[data-restsubmit],[data-restapprove],[data-restdecline]');
+      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm],[data-restsubmit],[data-restapprove],[data-restdecline],[data-passedit],[data-staffpasssave],[data-passforadmin]');
     if(!el)return;
     const d=el.dataset;
     if(d.savenorm!==undefined){saveStaffNorm(d.savenorm);return}
+    if(d.passedit!==undefined){openStaffPasswordForm(d.passedit);return}
+    if(d.passforadmin!==undefined){openStaffPasswordForAdmin(d.passforadmin);return}
+    if(d.staffpasssave!==undefined){saveStaffPassword(d.staffpasssave);return}
     if(d.restsubmit!==undefined){submitRestRequest();return}
     if(d.restapprove){decideRestRequest(d.restapprove,'approve');return}
     if(d.restdecline){decideRestRequest(d.restdecline,'decline');return}
