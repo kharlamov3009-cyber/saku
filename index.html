@@ -308,6 +308,33 @@ body.plain .toast{background:rgba(28,12,40,.95)}
 .wchip{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 10px;border-radius:11px;background:var(--surf2);
   border:1px solid var(--line);font-size:12.5px;margin:0 6px 6px 0}
 .wchip button{border:0;background:transparent;color:var(--hint);font-size:15px;line-height:1;padding:0 3px}
+/* Персональные разделы сотрудников: норма, рейтинг, отзывы */
+.norm-progress-card{margin-bottom:10px}
+.norm-progress-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.norm-progress-top>div{min-width:0}
+.norm-progress-top b{display:block;font-size:15px}
+.norm-progress-top span{display:block;color:var(--hint);font-size:11px;margin-top:2px}
+.norm-progress-top strong{font-size:25px;letter-spacing:-.04em;color:var(--violet)}
+.norm-progress-track{height:10px;border-radius:99px;background:var(--surf3);overflow:hidden;margin:14px 0 8px}
+.norm-progress-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#72b9ff,#bfe9ff);box-shadow:0 0 14px rgba(114,185,255,.3)}
+.norm-progress-bottom{display:flex;justify-content:space-between;gap:10px;color:var(--hint);font-size:11px}
+.norm-edit-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.norm-edit-row input{min-width:0;flex:1;padding:10px 11px;min-height:42px}
+.norm-edit-row .btn{margin:0;flex:0 0 auto;min-height:42px}
+.norm-hint{margin-top:6px}
+.norm-info-card p{margin:6px 0 0}
+.norm-owner-settings>b{font-size:14px}
+.staff-rating-card{text-align:center}
+.staff-rating-stars{font-size:46px;font-weight:800;line-height:1.1;color:var(--text);letter-spacing:-.05em}
+.staff-rating-stars span{color:#f6c75b;font-size:35px}
+.staff-rating-card>p{margin:5px 0 0}
+.rating-distribution{display:grid;gap:7px;text-align:left;margin-top:16px}
+.rating-distribution>div{display:grid;grid-template-columns:42px 1fr 22px;align-items:center;gap:8px;font-size:11px;color:var(--hint)}
+.rating-distribution i{height:7px;border-radius:99px;background:var(--surf3);overflow:hidden}
+.rating-distribution i b{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#73baff,#d1efff)}
+.rating-distribution small{text-align:right;font-size:10px}
+@media(max-width:390px){.norm-edit-row{align-items:stretch}.norm-edit-row .btn{padding:0 10px}.norm-progress-bottom{font-size:10px}}
+
 </style>
 
 <style>
@@ -647,6 +674,21 @@ body.plain .toast{background:rgba(25,44,75,.96)}
           <div id="staffQueue" style="margin-top:10px"></div>
         </div>
 
+        <div id="staffTabNorm" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Моя норма</h2><span class="tk-meta">ежедневно</span></div>
+          <div id="staffNormContent"></div>
+        </div>
+
+        <div id="staffTabRating" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Рейтинг</h2></div>
+          <div id="staffRatingContent"></div>
+        </div>
+
+        <div id="staffTabReviews" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Отзывы</h2></div>
+          <div id="staffReviewsContent"></div>
+        </div>
+
         <div id="staffTabDialogs" hidden>
           <div class="sechead" style="margin-top:12px"><h2>Мониторинг диалогов</h2><span class="tk-meta" id="monitorCount"></span></div>
           <div class="card" style="margin-bottom:10px">
@@ -808,7 +850,8 @@ const TICKET_CATS=[{id:'tech',icon:'🔧',name:'Техпроблема'},{id:'bu
   {id:'idea',icon:'💡',name:'Идея'}];
 const PERMS=[{id:'tickets',icon:'🎫',name:'Обращения'},{id:'moderation',icon:'🛡️',name:'Жалобы'},
   {id:'dialogs',icon:'👁️',name:'Отслеживание диалогов'},{id:'access',icon:'👑',name:'Доступы'},{id:'settings',icon:'⚙️',name:'Настройки'}];
-const STAFF_TABS=[{id:'queue',perm:'tickets',name:'Очередь'},{id:'dialogs',perm:'dialogs',name:'Диалоги'},
+const STAFF_TABS=[{id:'norm',name:'Норма'},{id:'rating',name:'Рейтинг'},{id:'reviews',name:'Отзывы'},
+  {id:'queue',perm:'tickets',name:'Очередь'},{id:'dialogs',perm:'dialogs',name:'Диалоги'},
   {id:'team',ownerOnly:true,name:'Админы'},{id:'reports',perm:'moderation',name:'Жалобы'},
   {id:'access',perm:'access',name:'Доступы'},{id:'settings',perm:'settings',name:'Настройки'}];
 const DEF_WORDS=['казино','криптовалюта','заработок в интернете','промокод','ставки на спорт','1xbet',
@@ -841,7 +884,7 @@ let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
 let perms={},reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
 let monitorDialogId=null,monitorFilter='all',monitorQuery='',monitorAdminFilter='',monitorHistoryExpanded=false,userBan=null,userModerationRefId=null,teamAdminQuery='';
-let adminRatings={},ratingDraft=5;
+let adminRatings={},ratingDraft=5,staffNorms={default:0,targets:{}};
 let userNotifications=[],staffNotifications=[],userNotifRef=null,staffNotifRef=null,userNotifKey='',staffNotifKey='',notifReady={user:false,staff:false},notifKnown={user:[],staff:[]};
 const KEY_STAFF='saku-staff-session',DEF_OWNER_PASS='owner123',DEF_ADMIN_PASS='admin123';
 let staffAuth={},staffSession=null,gateRole='owner',newPerms={};
@@ -978,6 +1021,7 @@ async function loadRemote(){
     roles=d.roles||{};
     perms=d.perms||{};
     staffAuth=d.staffAuth||{};
+    staffNorms=d.staffNorms||{default:0,targets:{}};
     reports=toArray(d.reports||{});
     if(d.moderation){
       if(Array.isArray(d.moderation.stopWords))stopWords=d.moderation.stopWords.slice();
@@ -998,6 +1042,7 @@ async function loadRemote(){
       dialogs=toArray(s.val()).map(x=>Object.assign({},x,{messages:Array.isArray(x.messages)?x.messages:[]}));
       renderDialogs();renderHome();renderBadge();if(openDialogId)renderChat();
       if(myRole&&staffTab==='dialogs')renderMonitorDialogs();
+      if(myRole&&staffTab==='norm')renderStaffNorm();
     });
     db.ref('sakura/supportTickets').on('value',s=>{tickets=toArray(s.val());renderMyTickets();renderStaff()});
     db.ref('sakura/roles').on('value',s=>{roles=s.val()||{};resolveRole()});
@@ -1009,6 +1054,11 @@ async function loadRemote(){
       floodCfg=Object.assign({},DEF_FLOOD,m.flood||{});
       adminModeration=m.admins||{};
       renderSettings();renderTeamAdmins();renderAdmins();renderHomeAdmins();
+    });
+    db.ref('sakura/staffNorms').on('value',s=>{
+      staffNorms=s.val()||{default:0,targets:{}};
+      if(!staffNorms.targets)staffNorms.targets={};
+      if(myRole&&staffTab==='norm')renderStaffNorm();
     });
     db.ref('sakura/staffAuth').on('value',s=>{
       staffAuth=s.val()||{};
@@ -1025,9 +1075,11 @@ async function loadRemote(){
     db.ref('sakura/meta/ownerId').on('value',s=>{ownerId=s.val()?String(s.val()):null});
     db.ref('sakura/userAdminData').on('value',s=>{
       const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();renderTeamAdmins();
+      if(myRole&&staffTab==='rating')renderStaffRating();if(myRole&&staffTab==='reviews')renderStaffReviews();
     });
     db.ref('sakura/adminRatings').on('value',s=>{
       adminRatings=s.val()||{};renderAdmins();renderHomeAdmins();renderTeamAdmins();renderDialogs();
+      if(myRole&&staffTab==='rating')renderStaffRating();if(myRole&&staffTab==='reviews')renderStaffReviews();
     });
   }catch(e){offline=true;$('offlineBox').hidden=false}
 }
@@ -1092,7 +1144,7 @@ function can(p){
   return !!m[p];
 }
 function firstAllowedTab(){
-  const t=STAFF_TABS.find(x=>can(x.perm));
+  const t=STAFF_TABS.find(x=>!x.perm||can(x.perm));
   return t?t.id:'queue';
 }
 function renderGateTabs(){
@@ -1151,7 +1203,7 @@ function staffLogout(){
   myRole=null;staffTab='queue';
   const who=$('staffWho');if(who)who.textContent='—';
   const bar=$('staffTabs');if(bar)bar.innerHTML='';
-  ['staffTabQueue','staffTabDialogs','staffTabTeam','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
+  ['staffTabQueue','staffTabNorm','staffTabRating','staffTabReviews','staffTabDialogs','staffTabTeam','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
   renderStaff();renderProfile();syncNotificationListeners();
   toast('Вы вышли из панели','👋');
 }
@@ -1179,12 +1231,15 @@ function renderStaffTabs(){
   if(bar)bar.innerHTML=tabs.length?tabs.map(t=>
     '<button class="chipbtn '+(t.id===staffTab?'on':'')+'" data-stab="'+t.id+'">'+t.name+'</button>').join('')
     :'<span class="tk-meta">Права не выданы — попроси владельца</span>';
-  const map={queue:'staffTabQueue',dialogs:'staffTabDialogs',team:'staffTabTeam',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
+  const map={norm:'staffTabNorm',rating:'staffTabRating',reviews:'staffTabReviews',queue:'staffTabQueue',dialogs:'staffTabDialogs',team:'staffTabTeam',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
   Object.keys(map).forEach(k=>{
     const el=$(map[k]);
     if(el)el.hidden=(k!==staffTab||!tabs.some(t=>t.id===k));
   });
-  if(staffTab==='queue'&&can('tickets'))renderQueue();
+  if(staffTab==='norm')renderStaffNorm();
+  else if(staffTab==='rating')renderStaffRating();
+  else if(staffTab==='reviews')renderStaffReviews();
+  else if(staffTab==='queue'&&can('tickets'))renderQueue();
   else if(staffTab==='dialogs'&&can('dialogs'))renderMonitorDialogs();
   else if(staffTab==='team'&&myRole==='owner')renderTeamAdmins();
   else if(staffTab==='reports'&&can('moderation'))renderReports();
@@ -1293,6 +1348,110 @@ async function changeOwnerPass(){
     $('ownerPass').value='';
     renderAccess();toast('Пароль владельца обновлён','🔑');haptic('success');
   }catch(e){toast('Не получилось','⚠️')}
+}
+
+/* ==================== ЛИЧНАЯ ПАНЕЛЬ: НОРМА / РЕЙТИНГ / ОТЗЫВЫ ==================== */
+function staffIdentity(){
+  return myRole==='owner'?'owner':String((staffSession&&staffSession.id)||'default');
+}
+function staffNormOverride(id){
+  const targets=staffNorms&&staffNorms.targets||{};
+  const value=targets[safeFirebaseKey(id)];
+  return value==null||value===''?null:Math.max(0,Number(value)||0);
+}
+function staffNormTarget(id){
+  const override=staffNormOverride(id);
+  return override==null?Math.max(0,Number(staffNorms&&staffNorms.default)||0):override;
+}
+function todayStart(){const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()}
+function staffHandledToday(id){
+  const start=todayStart(),seen=new Set();
+  dialogs.forEach(d=>{
+    if((d.messages||[]).some(m=>String(m.sender||'').toLowerCase()==='staff'&&String(m.staffId||'')===String(id)&&messageStamp(m,0)>=start))seen.add(String(d.id));
+  });
+  return seen.size;
+}
+function staffNormProgress(id){
+  const target=staffNormTarget(id),done=staffHandledToday(id);
+  return{target,done,percent:target?Math.min(100,Math.round(done/target*100)):0,override:staffNormOverride(id)};
+}
+function renderNormProgress(id,title,editable){
+  const p=staffNormProgress(id),label=p.target?p.done+' из '+p.target+' диалогов':p.done+' обработано';
+  return '<div class="card norm-progress-card"><div class="norm-progress-top"><div><b>'+esc(title)+'</b><span>'+(p.override==null?'Общая норма':'Персональная норма')+'</span></div><strong>'+(p.target?p.percent+'%':'—')+'</strong></div>'+ 
+    '<div class="norm-progress-track"><i style="width:'+p.percent+'%"></i></div>'+ 
+    '<div class="norm-progress-bottom"><span>'+esc(label)+' сегодня</span><span>'+(p.target?'Осталось '+Math.max(0,p.target-p.done):'Норма не установлена')+'</span></div>'+ 
+    (editable?'<div class="norm-edit-row"><input type="number" min="1" max="1000" step="1" id="normInput_'+esc(safeFirebaseKey(id))+'" value="'+(p.override==null?'':p.override)+'" placeholder="Общая норма: '+(Number(staffNorms.default)||'не задана')+'" aria-label="Персональная норма для '+esc(title)+'"><button class="btn small" type="button" data-savenorm="'+esc(safeFirebaseKey(id))+'">Сохранить</button></div><div class="tk-meta norm-hint">Пустое поле — использовать общую норму.</div>':'');
+}
+function renderStaffNorm(){
+  const box=$('staffNormContent');if(!box||!myRole)return;
+  const id=staffIdentity(),name=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Администратор');
+  let html=renderNormProgress(id,name,myRole==='owner');
+  if(myRole==='admin'){
+    const target=staffNormTarget(id);
+    html+='<div class="card norm-info-card"><b>Как считается норма</b><p class="hint">Засчитывается диалог, в котором ты отправил хотя бы один ответ сегодня. Один диалог учитывается один раз, даже если в нём несколько сообщений.</p>'+
+      (target?'':'<p class="hint">Владелец ещё не установил норму. Пока здесь будет отображаться только число обработанных диалогов.</p>')+'</div>';
+  }else{
+    const entries=staffEntries().filter(x=>x.id!=='default');
+    html+='<div class="sechead"><h2>Управление нормами</h2><span class="tk-meta">владелец</span></div>'+
+      '<div class="card norm-owner-settings"><b>Общая норма команды</b><p class="hint">Количество разных диалогов, которые нужно обработать за день. Применяется сотрудникам без персональной нормы.</p>'+
+      '<div class="norm-edit-row"><input type="number" min="0" max="1000" step="1" id="normDefaultInput" value="'+(Number(staffNorms.default)||'')+'" placeholder="Например, 10" aria-label="Общая дневная норма"><button class="btn small" type="button" data-savenorm="default">Сохранить общую</button></div></div>'+
+      '<div class="sechead"><h2>Нормы сотрудников</h2><span class="tk-meta">'+entries.length+'</span></div>'+
+      (entries.length?entries.map(x=>renderNormProgress(x.id,x.name||'Администратор',true)).join(''):'<div class="empty">Пока нет созданных аккаунтов сотрудников.</div>');
+  }
+  box.innerHTML=html;
+}
+function publicAdminForStaff(){
+  if(myRole!=='admin')return null;
+  const id=String((staffSession&&staffSession.id)||''),name=String((staffSession&&staffSession.name)||'').trim().toLowerCase();
+  return admins.find(a=>String(a.id)===id)||admins.find(a=>String(a.name||'').trim().toLowerCase()===name)||null;
+}
+function allRatingRows(){
+  const rows=[];
+  Object.keys(adminRatings||{}).forEach(k=>{
+    const decoded=(()=>{try{return decodeURIComponent(k)}catch(e){return k}})();
+    Object.values(adminRatings[k]||{}).forEach(r=>{if(r&&Number(r.stars)>=1&&Number(r.stars)<=5)rows.push(Object.assign({ratingAdminId:decoded},r))});
+  });
+  return rows.sort((a,b)=>(b.ts||0)-(a.ts||0));
+}
+function currentStaffRatingRows(){
+  if(myRole==='owner')return allRatingRows();
+  const a=publicAdminForStaff();
+  return a?Object.values(adminRatingsNode(a.id)).filter(r=>r&&Number(r.stars)>=1&&Number(r.stars)<=5).sort((x,y)=>(y.ts||0)-(x.ts||0)):[];
+}
+function renderStaffRating(){
+  const box=$('staffRatingContent');if(!box)return;
+  const rows=currentStaffRatingRows(),avg=rows.length?rows.reduce((n,r)=>n+Number(r.stars),0)/rows.length:0;
+  const label=myRole==='owner'?'Общий рейтинг администраторов':(publicAdminForStaff()?publicAdminForStaff().name:'Рейтинг администратора');
+  box.innerHTML='<div class="card staff-rating-card"><div class="staff-rating-stars">'+(rows.length?avg.toFixed(1):'—')+' <span>★</span></div><b>'+esc(label)+'</b><p class="hint">'+rows.length+' '+plural(rows.length,'оценка','оценки','оценок')+'</p><div class="rating-distribution">'+[5,4,3,2,1].map(n=>{const c=rows.filter(r=>Number(r.stars)===n).length;return '<div><span>'+n+' ★</span><i><b style="width:'+(rows.length?c/rows.length*100:0)+'%"></b></i><small>'+c+'</small></div>'}).join('')+'</div></div>'+
+    (myRole==='admin'&&!publicAdminForStaff()?'<div class="card"><p class="hint">Пока не удалось связать этот служебный аккаунт с публичной карточкой администратора. Попроси владельца использовать одинаковое имя в аккаунте и карточке — тогда появятся персональные оценки.</p></div>':'');
+}
+function renderStaffReviews(){
+  const box=$('staffReviewsContent');if(!box)return;
+  const rows=currentStaffRatingRows();
+  const content=rows.length?rows.slice(0,100).map(r=>{
+    const a=admins.find(x=>String(x.id)===String(r.ratingAdminId||r.adminId));
+    const target=myRole==='owner'?(a?a.name:(r.adminName||'Администратор')):(r.adminName||'Администратор');
+    return '<div class="review-row"><div class="review-row-top"><b>'+esc(target)+' · '+esc(r.userNickname||'Пользователь')+'</b><span>'+('★'.repeat(Number(r.stars)))+'<i>'+Number(r.stars)+'/5</i></span></div>'+
+      (r.comment?'<p>'+esc(r.comment)+'</p>':'<p class="review-empty">Без комментария</p>')+'<time>'+dfmt(r.ts)+'</time></div>';
+  }).join(''):'<div class="empty"><span class="e">⭐</span>Отзывов пока нет</div>';
+  box.innerHTML=(myRole==='admin'&&!publicAdminForStaff()?'<div class="card"><p class="hint">Персональные отзывы появятся после привязки аккаунта к карточке администратора.</p></div>':'')+'<div class="card">'+content+'</div>';
+}
+async function saveStaffNorm(key){
+  if(myRole!=='owner')return toast('Изменять нормы может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const input=key==='default'?$ ('normDefaultInput'):$('normInput_'+key);
+  if(!input)return;
+  const raw=String(input.value||'').trim();
+  if(raw&&(!/^\d+$/.test(raw)||Number(raw)<(key==='default'?0:1)||Number(raw)>1000))return toast('Укажи целое число от '+(key==='default'?0:1)+' до 1000','⚠️');
+  const value=raw?Number(raw):0;
+  const path=key==='default'?'sakura/staffNorms/default':'sakura/staffNorms/targets/'+key;
+  try{
+    if(key==='default')await db.ref(path).set(value);
+    else await db.ref(path).set(raw?value:null);
+    if(key==='default')staffNorms.default=value;
+    else if(raw)staffNorms.targets[key]=value;else delete staffNorms.targets[key];
+    renderStaffNorm();toast(key==='default'?'Общая норма обновлена':'Персональная норма сохранена','✅');haptic('success');
+  }catch(e){toast('Не удалось сохранить норму. Проверь права Firebase','⚠️')}
 }
 
 /* ==================== УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ ==================== */
@@ -2306,11 +2465,11 @@ async function sendMonitorReply(dialogId){
   if(!text)return toast('Напиши ответ пользователю','⚠️');
   const ts=Date.now(),name=(staffSession&&staffSession.name)||(myRole==='owner'?'Владелец':'Администратор');
   d.messages=d.messages||[];
-  d.messages.push({text,sender:'staff',name,adminName:name,time:nowTime(),ts,status:'sent'});
+  d.messages.push({text,sender:'staff',name,adminName:name,staffId:staffIdentity(),staffRole:myRole||'admin',time:nowTime(),ts,status:'sent'});
   d.lastActivity=ts;d.status='active';
   saveDialogs();
   notifyUser(d.userId,{title:'Ответ администратора',body:name+': '+text.slice(0,100),linkType:'dialog',linkId:d.id});
-  renderMonitorDialogs();renderDialogs();
+  renderMonitorDialogs();renderDialogs();renderStaffNorm();
   toast('Ответ отправлен пользователю','✅');haptic('success');
 }
 
@@ -2437,9 +2596,10 @@ function wire(){
       '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm],'+
       '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
       '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
-      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable]');
+      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm]');
     if(!el)return;
     const d=el.dataset;
+    if(d.savenorm!==undefined){saveStaffNorm(d.savenorm);return}
     if(d.msend){sendMonitorReply(d.msend);return}
     if(d.rateDialog){openRatingForm(d.rateDialog);return}
     if(d.ratevalue){ratingDraft=Number(d.ratevalue)||5;document.querySelectorAll('[data-ratevalue]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.ratevalue)<=ratingDraft));return}
@@ -2666,3 +2826,34 @@ body.plain .chip.snowpoints{color:#2764a4}
 
 </body>
 </html>
+
+<style>
+
+/* Персональные разделы сотрудников: норма, рейтинг, отзывы */
+.norm-progress-card{margin-bottom:10px}
+.norm-progress-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.norm-progress-top>div{min-width:0}
+.norm-progress-top b{display:block;font-size:15px}
+.norm-progress-top span{display:block;color:var(--hint);font-size:11px;margin-top:2px}
+.norm-progress-top strong{font-size:25px;letter-spacing:-.04em;color:var(--violet)}
+.norm-progress-track{height:10px;border-radius:99px;background:var(--surf3);overflow:hidden;margin:14px 0 8px}
+.norm-progress-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#72b9ff,#bfe9ff);box-shadow:0 0 14px rgba(114,185,255,.3)}
+.norm-progress-bottom{display:flex;justify-content:space-between;gap:10px;color:var(--hint);font-size:11px}
+.norm-edit-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.norm-edit-row input{min-width:0;flex:1;padding:10px 11px;min-height:42px}
+.norm-edit-row .btn{margin:0;flex:0 0 auto;min-height:42px}
+.norm-hint{margin-top:6px}
+.norm-info-card p{margin:6px 0 0}
+.norm-owner-settings>b{font-size:14px}
+.staff-rating-card{text-align:center}
+.staff-rating-stars{font-size:46px;font-weight:800;line-height:1.1;color:var(--text);letter-spacing:-.05em}
+.staff-rating-stars span{color:#f6c75b;font-size:35px}
+.staff-rating-card>p{margin:5px 0 0}
+.rating-distribution{display:grid;gap:7px;text-align:left;margin-top:16px}
+.rating-distribution>div{display:grid;grid-template-columns:42px 1fr 22px;align-items:center;gap:8px;font-size:11px;color:var(--hint)}
+.rating-distribution i{height:7px;border-radius:99px;background:var(--surf3);overflow:hidden}
+.rating-distribution i b{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#73baff,#d1efff)}
+.rating-distribution small{text-align:right;font-size:10px}
+@media(max-width:390px){.norm-edit-row{align-items:stretch}.norm-edit-row .btn{padding:0 10px}.norm-progress-bottom{font-size:10px}}
+
+</style>
