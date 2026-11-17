@@ -672,7 +672,7 @@ body.plain .toast{background:rgba(25,44,75,.96)}
     <section class="view" id="view-staff" hidden>
       <div class="card" id="staffGate" style="margin-top:12px">
         <h3>Служебный вход</h3>
-        <p class="hint" id="staffGateHint">Вход по паролю — аккаунт Telegram не нужен.</p>
+        <p class="hint" id="staffGateHint">Для новых аккаунтов введи тег и пароль. Старый аккаунт можно перенести по прежнему паролю.</p>
         <div class="chips" id="gateTabs" style="margin:0 0 12px"></div>
         <div id="gateTagWrap">
           <label class="lbl" for="gateTag">Тег сотрудника</label>
@@ -759,7 +759,7 @@ body.plain .toast{background:rgba(25,44,75,.96)}
           <div class="card">
             <label class="lbl" for="staffTag">Тег сотрудника — это его имя</label>
             <input type="text" id="staffTag" maxlength="24" placeholder="Например: ascorbinka" autocomplete="off" autocapitalize="none" spellcheck="false">
-            <p class="hint" style="margin:7px 0 0">Тег используется как имя в панели и для входа. Допускаются латинские буквы, цифры и нижнее подчёркивание.</p>
+            <p class="hint" style="margin:7px 0 0">Тег используется как имя в панели и для входа. Допускаются латинские буквы, цифры и нижнее подчёркивание. Старые аккаунты автоматически переносятся при первом входе.</p>
             <label class="lbl" for="staffPass">Пароль</label>
             <div class="role-form">
               <input type="password" id="staffPass" maxlength="40" placeholder="Не короче 4 символов" autocomplete="new-password">
@@ -1155,23 +1155,47 @@ function saveSession(){
     else localStorage.removeItem(KEY_STAFF);
   }catch(e){}
 }
+function legacyHashPass(p){
+  const s='saku$'+String(p);let hsh=0;
+  for(let i=0;i<s.length;i++)hsh=(hsh*31+s.charCodeAt(i))>>>0;
+  return 'f'+hsh.toString(16);
+}
 async function hashPass(p){
   const s='saku$'+String(p);
   try{
+    if(!window.crypto||!crypto.subtle)throw new Error('WebCrypto unavailable');
     const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
     return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-  }catch(e){
-    let hsh=0;for(let i=0;i<s.length;i++)hsh=(hsh*31+s.charCodeAt(i))>>>0;
-    return 'f'+hsh.toString(16);
-  }
+  }catch(e){return legacyHashPass(p)}
+}
+async function staffPasswordMatches(staff,pass){
+  if(!staff||!staff.h)return false;
+  const modern=await hashPass(pass);
+  return staff.h===modern||staff.h===legacyHashPass(pass);
 }
 function ownerHash(){return (staffAuth&&staffAuth.owner&&staffAuth.owner.h)||''}
 function normalizeStaffTag(value){
   return String(value||'').trim().replace(/^[@#]/,'').toLowerCase();
 }
+function legacyTagSlug(value){
+  const map={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'i',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya'};
+  const transliterated=Array.from(String(value||'').toLowerCase()).map(ch=>map[ch]!==undefined?map[ch]:ch).join('');
+  return transliterated.replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,24);
+}
+function staffTagAliases(staff){
+  const values=[staff&&staff.tag,staff&&staff.loginTag,staff&&staff.username,staff&&staff.name];
+  const out=[];
+  values.forEach(v=>{
+    const n=normalizeStaffTag(v);if(n&&!out.includes(n))out.push(n);
+    const slug=legacyTagSlug(v);if(slug&&!out.includes(slug))out.push(slug);
+  });
+  return out;
+}
 function staffTagFor(staff){
-  const raw=staff&&(staff.tag||staff.loginTag);
+  const raw=staff&&(staff.tag||staff.loginTag||staff.username);
   if(raw)return normalizeStaffTag(raw);
+  const legacy=legacyTagSlug(staff&&staff.name);
+  if(legacy)return legacy;
   return String(staff&&staff.id||'staff').toLowerCase().replace(/[^a-z0-9_]/g,'_').slice(0,24)||'staff';
 }
 function publicAdminTag(admin){
@@ -1208,23 +1232,23 @@ function renderGateTabs(){
   const inp=$('gatePass'),tagWrap=$('gateTagWrap'),tagInput=$('gateTag');
   if(inp)inp.placeholder=gateRole==='owner'?'Пароль владельца':'Пароль сотрудника';
   if(tagWrap)tagWrap.hidden=gateRole!=='admin';
-  if(tagInput)tagInput.required=gateRole==='admin';
+  // Тег обязателен для новых аккаунтов; старые аккаунты можно перенести по прежнему паролю.
+  if(tagInput)tagInput.required=false;
 }
 async function gateLogin(){
   const inp=$('gatePass'),err=$('gateErr'),tagInput=$('gateTag');
   const pass=inp?inp.value.trim():'';
   const tag=normalizeStaffTag(tagInput&&tagInput.value);
   if(err)err.hidden=true;
-  if(!pass||(gateRole==='admin'&&!tag)){toast(gateRole==='admin'?'Введите тег и пароль':'Введите пароль','⚠️');return}
+  if(!pass){toast('Введите пароль','⚠️');return}
   const fail=m=>{
     if(err){err.textContent=m;err.hidden=false}else toast(m,'⚠️');
     haptic('error');
     if(inp){inp.value='';inp.focus()}
   };
-  const h=await hashPass(pass);
   if(gateRole==='owner'){
-    const stored=ownerHash();
-    const ok=stored?stored===h:pass===DEF_OWNER_PASS;
+    const h=await hashPass(pass),stored=ownerHash();
+    const ok=stored?(stored===h||stored===legacyHashPass(pass)):pass===DEF_OWNER_PASS;
     if(!ok)return fail(stored?'Неверный пароль владельца':('Неверный пароль. Пароль владельца по умолчанию: '+DEF_OWNER_PASS));
     staffSession={role:'owner',name:'Владелец',since:Date.now()};
     if(!stored&&db){
@@ -1235,15 +1259,46 @@ async function gateLogin(){
     }
     return finishLogin();
   }
+
   const list=staffEntries();
-  let hit=list.find(st=>staffTagFor(st)===tag&&st.h===h);
-  if(!hit&&!list.length&&tag==='default'&&pass===DEF_ADMIN_PASS){
-    hit={id:'default',tag:'default'};
+  let matches=[];
+  for(const st of list){
+    if(!await staffPasswordMatches(st,pass))continue;
+    const aliases=staffTagAliases(st);
+    if(tag&&aliases.includes(tag))matches.push(st);
   }
-  if(!hit)return fail('Неверный тег или пароль сотрудника');
-  staffSession={role:'admin',id:hit.id,tag:staffTagFor(hit),since:Date.now()};
+  let hit=matches.length===1?matches[0]:null;
+
+  // Совместимость со старыми аккаунтами: раньше вход был только по паролю,
+  // а запись содержала name + h без отдельного tag. Если совпадение одно — переносим.
+  if(!tag){
+    const legacyMatches=[];
+    for(const st of list){
+      const hasExplicitTag=!!(st.tag||st.loginTag);
+      if(hasExplicitTag)continue;
+      if(await staffPasswordMatches(st,pass))legacyMatches.push(st);
+    }
+    if(legacyMatches.length===1)hit=legacyMatches[0];
+    else if(legacyMatches.length>1)return fail('Найдено несколько старых аккаунтов с этим паролем. Введи тег сотрудника или попроси владельца обновить доступ.');
+  }
+
+  if(!hit){
+    if(matches.length>1)return fail('Тег не уникален. Обратись к владельцу проекта.');
+    return fail(tag?'Неверный тег или пароль сотрудника':'Введи тег. Для старого аккаунта без тега можно войти по прежнему паролю.');
+  }
+
+  const migratedTag=staffTagFor(hit);
+  staffSession={role:'admin',id:hit.id,tag:migratedTag,since:Date.now()};
+  if(!hit.tag&&!hit.loginTag&&db&&hit.id){
+    try{
+      await db.ref('sakura/staffAuth/staff/'+hit.id+'/tag').set(migratedTag);
+      staffAuth.staff=staffAuth.staff||{};
+      staffAuth.staff[hit.id]=Object.assign({},staffAuth.staff[hit.id]||{},hit,{tag:migratedTag});
+    }catch(e){/* вход не блокируем, если запись миграции временно недоступна */}
+  }
   finishLogin();
 }
+
 function finishLogin(){
   gateRole=staffSession.role;
   saveSession();
