@@ -488,6 +488,26 @@ body.plain .toast{background:rgba(25,44,75,.96)}
 .review-row time{font-size:10px;color:var(--muted)}
 @media(max-width:390px){.tb-right{gap:5px}.chip{padding:6px 8px;font-size:11px}.notify-btn{width:34px;height:34px;flex-basis:34px}.brand-title{font-size:31px}.newyear-box{padding:10px}.newyear-timer{gap:4px}}
 @media(prefers-reduced-motion:reduce){.rating-star{transition:none}}
+.staff-tag-pill{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 10px;border-radius:999px;background:rgba(118,181,255,.14);border:1px solid rgba(154,203,255,.3);color:#cce7ff;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+.staff-access-tag{margin-left:auto;flex:0 0 auto}
+.staff-tag-inline{font-size:11px;font-weight:650;color:#b9dcff;white-space:nowrap}
+.staff-rest-notice{margin:10px 0 0;border-color:rgba(120,190,255,.3);background:linear-gradient(125deg,rgba(100,165,255,.15),rgba(190,225,255,.06));color:#d8ecff;font-size:12.5px}
+.rest-status-card{border-color:rgba(120,190,255,.28);background:linear-gradient(135deg,rgba(85,155,245,.14),rgba(175,220,255,.06))}
+.rest-history-card,.rest-request-card{padding:14px}
+.rest-request-card .rep-act{margin-top:12px}
+.norm-metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}
+.norm-metric{padding:11px;border:1px solid var(--line);border-radius:14px;background:var(--surf2);min-width:0}
+.norm-metric-top{display:flex;justify-content:space-between;align-items:center;gap:7px;font-size:12px}
+.norm-metric-top b{font-size:12px}
+.norm-metric-top strong{font-size:14px;white-space:nowrap;color:var(--violet)}
+.norm-metric .norm-progress-track{height:7px;margin:10px 0 7px}
+.norm-metric .norm-progress-bottom{font-size:10px;flex-wrap:wrap}
+.norm-edit-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.norm-edit-fields label{display:block;min-width:0}
+.norm-edit-fields label span{display:block;color:var(--hint);font-size:11px;margin:0 0 5px}
+.norm-edit-fields input{min-width:0;padding:9px 10px;min-height:42px}
+.staff-head .who{min-width:0;overflow-wrap:anywhere}
+@media(max-width:390px){.staff-head{flex-wrap:wrap}.staff-tag-pill{margin-left:0}.norm-metrics-grid,.norm-edit-fields{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -654,6 +674,10 @@ body.plain .toast{background:rgba(25,44,75,.96)}
         <h3>Служебный вход</h3>
         <p class="hint" id="staffGateHint">Вход по паролю — аккаунт Telegram не нужен.</p>
         <div class="chips" id="gateTabs" style="margin:0 0 12px"></div>
+        <div id="gateTagWrap">
+          <label class="lbl" for="gateTag">Тег сотрудника</label>
+          <input type="text" id="gateTag" maxlength="24" placeholder="Например: sakura" autocomplete="username" autocapitalize="none" spellcheck="false">
+        </div>
         <label class="lbl" for="gatePass">Пароль</label>
         <div class="role-form">
           <input type="password" id="gatePass" placeholder="••••••••" autocomplete="current-password">
@@ -665,7 +689,9 @@ body.plain .toast{background:rgba(25,44,75,.96)}
 
       <div id="staffPanel" hidden>
         <div class="staff-head"><span class="who" id="staffWho">—</span>
+          <span class="staff-tag-pill" id="staffTagBadge" hidden></span>
           <button class="btn small ghost" id="staffLogout" type="button">Выйти</button></div>
+        <div class="card staff-rest-notice" id="staffRestNotice" hidden></div>
         <div class="chips" id="staffTabs" style="margin-top:14px"></div>
 
         <div id="staffTabQueue" hidden>
@@ -675,8 +701,13 @@ body.plain .toast{background:rgba(25,44,75,.96)}
         </div>
 
         <div id="staffTabNorm" hidden>
-          <div class="sechead" style="margin-top:12px"><h2>Моя норма</h2><span class="tk-meta">ежедневно</span></div>
+          <div class="sechead" style="margin-top:12px"><h2>Норма</h2><span class="tk-meta">ежедневно</span></div>
           <div id="staffNormContent"></div>
+        </div>
+
+        <div id="staffTabRest" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Подать рест</h2></div>
+          <div id="staffRestContent"></div>
         </div>
 
         <div id="staffTabRating" hidden>
@@ -712,6 +743,11 @@ body.plain .toast{background:rgba(25,44,75,.96)}
           <div id="teamAdminList"></div>
         </div>
 
+        <div id="staffTabRestRequests" hidden>
+          <div class="sechead" style="margin-top:12px"><h2>Заявки на рест</h2><span class="tk-meta" id="restRequestCount"></span></div>
+          <div id="restRequestList"></div>
+        </div>
+
         <div id="staffTabReports" hidden>
           <div class="sechead" style="margin-top:12px"><h2>Жалобы и автоспам</h2><span class="tk-meta" id="repCount"></span></div>
           <div class="chips" id="repFilters"></div>
@@ -719,17 +755,16 @@ body.plain .toast{background:rgba(25,44,75,.96)}
         </div>
 
         <div id="staffTabAccess" hidden>
-          <div class="sechead" style="margin-top:12px"><h2>Новый доступ</h2></div>
+          <div class="sechead" style="margin-top:12px"><h2>Новый аккаунт администратора</h2></div>
           <div class="card">
-            <label class="lbl" for="staffName">Имя сотрудника</label>
-            <input type="text" id="staffName" maxlength="40" placeholder="Например: Аскорбинка" autocomplete="off">
+            <label class="lbl" for="staffTag">Тег сотрудника — это его имя</label>
+            <input type="text" id="staffTag" maxlength="24" placeholder="Например: ascorbinka" autocomplete="off" autocapitalize="none" spellcheck="false">
+            <p class="hint" style="margin:7px 0 0">Тег используется как имя в панели и для входа. Допускаются латинские буквы, цифры и нижнее подчёркивание.</p>
             <label class="lbl" for="staffPass">Пароль</label>
             <div class="role-form">
               <input type="password" id="staffPass" maxlength="40" placeholder="Не короче 4 символов" autocomplete="new-password">
               <button class="btn ghost small eye" id="passEye" type="button" aria-label="Показать пароль">👁</button>
             </div>
-            <p class="hint" style="margin:12px 0 6px">Права сотрудника</p>
-            <div class="perm-row" id="newPerms"></div>
             <button class="btn" id="staffAdd" type="button">Создать доступ</button>
           </div>
 
@@ -848,12 +883,12 @@ const SHOP=[
 const TICKET_CATS=[{id:'tech',icon:'🔧',name:'Техпроблема'},{id:'bug',icon:'🐛',name:'Ошибка'},
   {id:'admin',icon:'⚠️',name:'Жалоба на админа'},{id:'user',icon:'🚫',name:'Жалоба на пользователя'},
   {id:'idea',icon:'💡',name:'Идея'}];
-const PERMS=[{id:'tickets',icon:'🎫',name:'Обращения'},{id:'moderation',icon:'🛡️',name:'Жалобы'},
-  {id:'dialogs',icon:'👁️',name:'Отслеживание диалогов'},{id:'access',icon:'👑',name:'Доступы'},{id:'settings',icon:'⚙️',name:'Настройки'}];
 const STAFF_TABS=[{id:'norm',name:'Норма'},{id:'rating',name:'Рейтинг'},{id:'reviews',name:'Отзывы'},
-  {id:'queue',perm:'tickets',name:'Очередь'},{id:'dialogs',perm:'dialogs',name:'Диалоги'},
-  {id:'team',ownerOnly:true,name:'Админы'},{id:'reports',perm:'moderation',name:'Жалобы'},
-  {id:'access',perm:'access',name:'Доступы'},{id:'settings',perm:'settings',name:'Настройки'}];
+  {id:'rest',adminOnly:true,name:'Рест'},
+  {id:'queue',name:'Очередь'},{id:'dialogs',name:'Диалоги'},
+  {id:'team',ownerOnly:true,name:'Админы'},{id:'restRequests',ownerOnly:true,name:'Заявки на рест'},
+  {id:'reports',ownerOnly:true,name:'Жалобы'},{id:'access',ownerOnly:true,name:'Доступы'},
+  {id:'settings',ownerOnly:true,name:'Антиспам и настройки'}];
 const DEF_WORDS=['казино','криптовалюта','заработок в интернете','промокод','ставки на спорт','1xbet',
   'подписывайся на канал','инвестиции без риска'];
 const DEF_FLOOD={burst:5,burstMs:10000,perMin:15,mute:30};
@@ -876,18 +911,19 @@ const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 const tgUser=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
 const uid=()=>tgUser?String(tgUser.id):'';
 
-let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],roles={},ownerId=null,myRole=null,offline=false,adminModeration={};
+let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],myRole=null,offline=false,adminModeration={};
 let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0,candiesEarned:0,questsDone:0,
   halloweenTasks:{},halloweenPurchases:[],achievements:[],streak:0,lastVisit:null,lastDailyReset:null,
   messagesSent:0,rpUsed:0,distinctAdmins:null,nightWrite:0};
 
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
-let perms={},reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
+let reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
 let monitorDialogId=null,monitorFilter='all',monitorQuery='',monitorAdminFilter='',monitorHistoryExpanded=false,userBan=null,userModerationRefId=null,teamAdminQuery='';
-let adminRatings={},ratingDraft=5,staffNorms={default:0,targets:{}};
+let adminRatings={},ratingDraft=5,staffNorms={targets:{}},restRequests=[];
+let restDayKey=todayKey();
 let userNotifications=[],staffNotifications=[],userNotifRef=null,staffNotifRef=null,userNotifKey='',staffNotifKey='',notifReady={user:false,staff:false},notifKnown={user:[],staff:[]};
 const KEY_STAFF='saku-staff-session',DEF_OWNER_PASS='owner123',DEF_ADMIN_PASS='admin123';
-let staffAuth={},staffSession=null,gateRole='owner',newPerms={};
+let staffAuth={},staffSession=null,gateRole='owner';
 let floodCfg=Object.assign({},DEF_FLOOD);
 let flood={times:[],last:'',dup:0,lockUntil:0,strikes:[]};
 
@@ -1018,17 +1054,16 @@ async function loadRemote(){
     admins=list.length?list:FALLBACK_ADMINS;
     dialogs=toArray(d.realDialogs).map(x=>Object.assign({},x,{messages:Array.isArray(x.messages)?x.messages:[]}));
     tickets=toArray(d.supportTickets||{});
-    roles=d.roles||{};
-    perms=d.perms||{};
     staffAuth=d.staffAuth||{};
-    staffNorms=d.staffNorms||{default:0,targets:{}};
+    staffNorms=d.staffNorms||{targets:{}};
+    if(!staffNorms.targets)staffNorms.targets={};
+    restRequests=toArray(d.restRequests||{});
     reports=toArray(d.reports||{});
     if(d.moderation){
       if(Array.isArray(d.moderation.stopWords))stopWords=d.moderation.stopWords.slice();
       if(d.moderation.flood)floodCfg=Object.assign({},DEF_FLOOD,d.moderation.flood);
       adminModeration=d.moderation.admins||{};
     }
-    ownerId=d.meta&&d.meta.ownerId?String(d.meta.ownerId):null;
     const remote=(d.userProfile||{})[profile.id];
     if(remote){
       const localDone=Object.keys(profile.halloweenTasks||{}).length;
@@ -1045,8 +1080,6 @@ async function loadRemote(){
       if(myRole&&staffTab==='norm')renderStaffNorm();
     });
     db.ref('sakura/supportTickets').on('value',s=>{tickets=toArray(s.val());renderMyTickets();renderStaff()});
-    db.ref('sakura/roles').on('value',s=>{roles=s.val()||{};resolveRole()});
-    db.ref('sakura/perms').on('value',s=>{perms=s.val()||{};renderStaff()});
     db.ref('sakura/reports').on('value',s=>{reports=toArray(s.val());renderReports()});
     db.ref('sakura/moderation').on('value',s=>{
       const m=s.val()||{};
@@ -1056,9 +1089,16 @@ async function loadRemote(){
       renderSettings();renderTeamAdmins();renderAdmins();renderHomeAdmins();
     });
     db.ref('sakura/staffNorms').on('value',s=>{
-      staffNorms=s.val()||{default:0,targets:{}};
+      staffNorms=s.val()||{targets:{}};
       if(!staffNorms.targets)staffNorms.targets={};
       if(myRole&&staffTab==='norm')renderStaffNorm();
+    });
+    db.ref('sakura/restRequests').on('value',s=>{
+      restRequests=toArray(s.val()||{});
+      renderAdmins();renderHomeAdmins();renderTeamAdmins();
+      if(myRole&&staffTab==='rest')renderStaffRest();
+      if(myRole==='owner'&&staffTab==='restRequests')renderRestRequests();
+      renderStaff();
     });
     db.ref('sakura/staffAuth').on('value',s=>{
       staffAuth=s.val()||{};
@@ -1066,13 +1106,12 @@ async function loadRemote(){
         const cur=(staffAuth.staff||{})[staffSession.id];
         if(!cur){staffLogout();toast('Доступ отозван','🚫')}
         else{
-          staffSession.perms=cur.perms||{};staffSession.name=cur.name||staffSession.name;
-          saveSession();renderStaffTabs();
+          staffSession.tag=staffTagFor(Object.assign({id:staffSession.id},cur));
+          saveSession();renderStaff();
         }
       }
       renderAccess();
     });
-    db.ref('sakura/meta/ownerId').on('value',s=>{ownerId=s.val()?String(s.val()):null});
     db.ref('sakura/userAdminData').on('value',s=>{
       const l=normAdmins(toArray(s.val()));if(l.length)admins=l;renderAdmins();renderHome();renderTeamAdmins();
       if(myRole&&staffTab==='rating')renderStaffRating();if(myRole&&staffTab==='reviews')renderStaffReviews();
@@ -1102,7 +1141,11 @@ function saveFlood(){if(!db)return;db.ref('sakura/moderation/flood').set(floodCf
 function loadSession(){
   try{
     const raw=localStorage.getItem(KEY_STAFF);
-    if(raw){const s=JSON.parse(raw);if(s&&s.role)staffSession=s}
+    if(raw){
+      const s=JSON.parse(raw);
+      if(s&&s.role==='admin'&&!String(s.tag||'').trim())localStorage.removeItem(KEY_STAFF);
+      else if(s&&s.role)staffSession=s;
+    }
   }catch(e){}
   myRole=staffSession?staffSession.role:null;
 }
@@ -1123,6 +1166,22 @@ async function hashPass(p){
   }
 }
 function ownerHash(){return (staffAuth&&staffAuth.owner&&staffAuth.owner.h)||''}
+function normalizeStaffTag(value){
+  return String(value||'').trim().replace(/^[@#]/,'').toLowerCase();
+}
+function staffTagFor(staff){
+  const raw=staff&&(staff.tag||staff.loginTag);
+  if(raw)return normalizeStaffTag(raw);
+  return String(staff&&staff.id||'staff').toLowerCase().replace(/[^a-z0-9_]/g,'_').slice(0,24)||'staff';
+}
+function publicAdminTag(admin){
+  const entries=staffEntries();
+  const wanted=normalizeStaffTag(admin&&(admin.username||admin.tag||admin.name));
+  const linked=entries.find(st=>String(st.id)===String(admin&&admin.id))||
+    entries.find(st=>wanted&&staffTagFor(st)===wanted)||
+    entries.find(st=>String(st.name||'').trim().toLowerCase()===String(admin&&admin.name||'').trim().toLowerCase());
+  return linked?staffTagFor(linked):wanted;
+}
 function staffEntries(){
   const s=(staffAuth&&staffAuth.staff)||{};
   return Object.keys(s).map(k=>Object.assign({id:k},s[k]||{}));
@@ -1133,32 +1192,30 @@ function resolveRole(){
 }
 function roleLabel(){
   if(myRole==='owner')return'👑 владелец';
-  if(myRole==='admin')return'🛡️ администратор'+(staffSession&&staffSession.name?': '+staffSession.name:'');
+  if(myRole==='admin')return'🛡️ администратор @'+staffTagFor(staffSession);
   return tgUser?'гость':'гость · без Telegram';
 }
+/* Все администраторы имеют единый набор рабочих разделов.
+   Разграничение вкладок оставлено только между владельцем и сотрудником. */
 function can(p){
-  if(myRole==='owner')return true;
-  if(myRole!=='admin')return false;
-  const m=(staffSession&&staffSession.perms)||{};
-  if(!Object.keys(m).length)return p==='tickets';
-  return !!m[p];
+  return myRole==='owner'||myRole==='admin';
 }
-function firstAllowedTab(){
-  const t=STAFF_TABS.find(x=>!x.perm||can(x.perm));
-  return t?t.id:'queue';
-}
+function firstAllowedTab(){return myRole==='owner'?'norm':'norm';}
 function renderGateTabs(){
   const bar=$('gateTabs');if(!bar)return;
   bar.innerHTML=[['owner','👑 Владелец'],['admin','🛡️ Сотрудник']].map(p=>
     '<button class="chipbtn '+(gateRole===p[0]?'on':'')+'" data-grole="'+p[0]+'" type="button">'+p[1]+'</button>').join('');
-  const inp=$('gatePass');
+  const inp=$('gatePass'),tagWrap=$('gateTagWrap'),tagInput=$('gateTag');
   if(inp)inp.placeholder=gateRole==='owner'?'Пароль владельца':'Пароль сотрудника';
+  if(tagWrap)tagWrap.hidden=gateRole!=='admin';
+  if(tagInput)tagInput.required=gateRole==='admin';
 }
 async function gateLogin(){
-  const inp=$('gatePass'),err=$('gateErr');
+  const inp=$('gatePass'),err=$('gateErr'),tagInput=$('gateTag');
   const pass=inp?inp.value.trim():'';
+  const tag=normalizeStaffTag(tagInput&&tagInput.value);
   if(err)err.hidden=true;
-  if(!pass){toast('Введите пароль','⚠️');return}
+  if(!pass||(gateRole==='admin'&&!tag)){toast(gateRole==='admin'?'Введите тег и пароль':'Введите пароль','⚠️');return}
   const fail=m=>{
     if(err){err.textContent=m;err.hidden=false}else toast(m,'⚠️');
     haptic('error');
@@ -1179,12 +1236,12 @@ async function gateLogin(){
     return finishLogin();
   }
   const list=staffEntries();
-  let hit=list.find(s=>s.h===h);
-  if(!hit&&!list.length&&pass===DEF_ADMIN_PASS){
-    hit={id:'default',name:'Сотрудник',perms:{tickets:true,moderation:true}};
+  let hit=list.find(st=>staffTagFor(st)===tag&&st.h===h);
+  if(!hit&&!list.length&&tag==='default'&&pass===DEF_ADMIN_PASS){
+    hit={id:'default',tag:'default'};
   }
-  if(!hit)return fail(list.length?'Неверный пароль сотрудника':('Неверный пароль. Пароль сотрудника по умолчанию: '+DEF_ADMIN_PASS));
-  staffSession={role:'admin',id:hit.id,name:hit.name||'Сотрудник',perms:hit.perms||{tickets:true},since:Date.now()};
+  if(!hit)return fail('Неверный тег или пароль сотрудника');
+  staffSession={role:'admin',id:hit.id,tag:staffTagFor(hit),since:Date.now()};
   finishLogin();
 }
 function finishLogin(){
@@ -1193,9 +1250,10 @@ function finishLogin(){
   myRole=staffSession.role;
   staffTab=firstAllowedTab();
   if($('gatePass'))$('gatePass').value='';
+  if($('gateTag'))$('gateTag').value='';
   if($('gateErr'))$('gateErr').hidden=true;
   renderStaff();renderProfile();syncNotificationListeners();
-  toast(myRole==='owner'?'Вы вошли как владелец':('Привет, '+(staffSession.name||'сотрудник')),myRole==='owner'?'👑':'🛡️');
+  toast(myRole==='owner'?'Вы вошли как владелец':('Привет, @'+staffTagFor(staffSession)),myRole==='owner'?'👑':'🛡️');
   haptic('success');
 }
 function staffLogout(){
@@ -1203,7 +1261,9 @@ function staffLogout(){
   myRole=null;staffTab='queue';
   const who=$('staffWho');if(who)who.textContent='—';
   const bar=$('staffTabs');if(bar)bar.innerHTML='';
-  ['staffTabQueue','staffTabNorm','staffTabRating','staffTabReviews','staffTabDialogs','staffTabTeam','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
+  ['staffTabQueue','staffTabNorm','staffTabRating','staffTabReviews','staffTabRest','staffTabDialogs','staffTabTeam','staffTabRestRequests','staffTabReports','staffTabAccess','staffTabSettings'].forEach(k=>{const el=$(k);if(el)el.hidden=true});
+  const tag=$('staffTagBadge');if(tag){tag.hidden=true;tag.textContent=''}
+  const notice=$('staffRestNotice');if(notice)notice.hidden=true;
   renderStaff();renderProfile();syncNotificationListeners();
   toast('Вы вышли из панели','👋');
 }
@@ -1212,8 +1272,11 @@ function renderStaff(){
   if(myRole){
     gate.hidden=true;panel.hidden=false;
     const who=$('staffWho');
-    if(who)who.textContent=myRole==='owner'?'👑 Владелец':
-      ('🛡️ '+(staffSession&&staffSession.name?staffSession.name:'Сотрудник'));
+    if(who)who.textContent=myRole==='owner'?'👑 Владелец':'🛡️ Сотрудник';
+    const tag=$('staffTagBadge');
+    if(tag){const value=myRole==='admin'?staffTagFor(staffSession):'';tag.hidden=!value;tag.textContent=value?'@'+value:''}
+    const notice=$('staffRestNotice'),rest=myRole==='admin'?activeRestForStaff(staffSession&&staffSession.id):null;
+    if(notice){notice.hidden=!rest;notice.textContent=rest?'🌴 Ты на ресте до '+restDateText(rest.toDate)+'. Новые обращения и ответы временно отключены.':''}
     renderStaffTabs();
   }else{
     gate.hidden=false;panel.hidden=true;
@@ -1225,13 +1288,13 @@ function renderStaff(){
   }
 }
 function renderStaffTabs(){
-  const tabs=STAFF_TABS.filter(t=>(!t.ownerOnly||myRole==='owner')&&(!t.perm||can(t.perm)));
-  if(!tabs.some(t=>t.id===staffTab))staffTab=tabs.length?tabs[0].id:'queue';
+  const resting=myRole==='admin'&&isStaffResting(staffSession&&staffSession.id);
+  const tabs=STAFF_TABS.filter(t=>(!t.ownerOnly||myRole==='owner')&&(!t.adminOnly||myRole==='admin')&&(!resting||!['queue','dialogs'].includes(t.id)));
+  if(!tabs.some(t=>t.id===staffTab))staffTab=tabs.length?tabs[0].id:'norm';
   const bar=$('staffTabs');
-  if(bar)bar.innerHTML=tabs.length?tabs.map(t=>
-    '<button class="chipbtn '+(t.id===staffTab?'on':'')+'" data-stab="'+t.id+'">'+t.name+'</button>').join('')
-    :'<span class="tk-meta">Права не выданы — попроси владельца</span>';
-  const map={norm:'staffTabNorm',rating:'staffTabRating',reviews:'staffTabReviews',queue:'staffTabQueue',dialogs:'staffTabDialogs',team:'staffTabTeam',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
+  if(bar)bar.innerHTML=tabs.map(t=>
+    '<button class="chipbtn '+(t.id===staffTab?'on':'')+'" data-stab="'+t.id+'">'+t.name+'</button>').join('');
+  const map={norm:'staffTabNorm',rating:'staffTabRating',reviews:'staffTabReviews',rest:'staffTabRest',queue:'staffTabQueue',dialogs:'staffTabDialogs',team:'staffTabTeam',restRequests:'staffTabRestRequests',reports:'staffTabReports',access:'staffTabAccess',settings:'staffTabSettings'};
   Object.keys(map).forEach(k=>{
     const el=$(map[k]);
     if(el)el.hidden=(k!==staffTab||!tabs.some(t=>t.id===k));
@@ -1239,83 +1302,50 @@ function renderStaffTabs(){
   if(staffTab==='norm')renderStaffNorm();
   else if(staffTab==='rating')renderStaffRating();
   else if(staffTab==='reviews')renderStaffReviews();
+  else if(staffTab==='rest'&&myRole==='admin')renderStaffRest();
   else if(staffTab==='queue'&&can('tickets'))renderQueue();
   else if(staffTab==='dialogs'&&can('dialogs'))renderMonitorDialogs();
   else if(staffTab==='team'&&myRole==='owner')renderTeamAdmins();
-  else if(staffTab==='reports'&&can('moderation'))renderReports();
-  else if(staffTab==='access'&&can('access'))renderAccess();
-  else if(staffTab==='settings'&&can('settings'))renderSettings();
-}
-function renderRoles(){
-  const box=$('rolesList');if(!box)return;
-  const keys=Object.keys(roles||{});
-  box.innerHTML=keys.length?keys.map(k=>{
-    const own=String(ownerId)===k||roles[k]==='owner';
-    const m=perms[k]||{};
-    return '<div class="role-row">'+
-      '<div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
-      'linear-gradient(135deg,'+mono(k)[0]+','+mono(k)[1]+')">'+(own?'👑':'🛡️')+'</div>'+
-      '<span class="nm">'+esc(k)+(own?' · владелец':'')+'</span>'+
-      (own?'<span class="tk-meta">все права</span>':
-        '<button class="btn small ghost" data-revoke="'+esc(k)+'">снять</button>')+'</div>'+
-      (own?'':'<div class="perm-row">'+PERMS.map(p=>
-        '<button class="pchip'+(m[p.id]?' on':'')+'" data-perm="'+p.id+'" data-pid="'+esc(k)+'">'+
-        p.icon+' '+p.name+'</button>').join('')+'</div>');
-  }).join(''):'<div class="tk-meta">Пока никого — выдай доступ по ID</div>';
-}
-async function togglePerm(pid,perm){
-  if(!db)return toast('Нет связи с базой','⚠️');
-  const cur=!!(perms[pid]&&perms[pid][perm]);
-  const nm=(PERMS.find(p=>p.id===perm)||{name:perm}).name;
-  try{
-    await db.ref('sakura/perms/'+pid+'/'+perm).set(!cur);
-    perms[pid]=Object.assign({},perms[pid]||{},{[perm]:!cur});
-    renderRoles();toast((cur?'Снято: ':'Выдано: ')+nm,'✅');haptic('success');
-  }catch(e){toast('Не получилось','⚠️')}
+  else if(staffTab==='restRequests'&&myRole==='owner')renderRestRequests();
+  else if(staffTab==='reports'&&myRole==='owner')renderReports();
+  else if(staffTab==='access'&&myRole==='owner')renderAccess();
+  else if(staffTab==='settings'&&myRole==='owner')renderSettings();
 }
 function renderAccess(){
   const list=staffEntries();
-  renderNewPerms();
   const cnt=$('staffCount2');
   if(cnt)cnt.textContent=list.length+' '+plural(list.length,'человек','человека','человек');
   const box=$('staffList');
-  if(box)box.innerHTML=list.length?list.map(s=>{
-    const nm=s.name||'сотрудник';
-    const m=s.perms||{};
+  if(box)box.innerHTML=list.length?list.map(st=>{
+    const tag='@'+staffTagFor(st);
     return '<div class="role-row">'+
       '<div class="av" style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;font-size:10px;background:'+
-      'linear-gradient(135deg,'+mono(nm)[0]+','+mono(nm)[1]+')">'+esc(initials(nm))+'</div>'+
-      '<span class="nm">'+esc(nm)+'</span>'+
-      '<button class="btn small ghost" data-sdel="'+esc(s.id)+'" type="button">снять</button></div>'+
-      '<div class="perm-row">'+PERMS.map(p=>'<button class="pchip'+(m[p.id]?' on':'')+'" data-sperm="'+p.id+
-        '" data-sid="'+esc(s.id)+'" type="button">'+p.icon+' '+p.name+'</button>').join('')+'</div>';
+      'linear-gradient(135deg,'+mono(tag)[0]+','+mono(tag)[1]+')">'+esc(initials(tag))+'</div>'+
+      '<span class="nm">'+esc(tag)+'</span>'+
+      '<button class="btn small ghost" data-sdel="'+esc(st.id)+'" type="button">снять</button></div>';
   }).join(''):'<div class="tk-meta">Пока никого — создай доступ выше</div>';
   const oh=$('ownerPassHint');
   if(oh)oh.textContent=ownerHash()
     ?('Пароль владельца задан'+(staffAuth.owner&&staffAuth.owner.updatedAt?' · изменён '+dfmt(staffAuth.owner.updatedAt):''))
     :('Пароль по умолчанию: '+DEF_OWNER_PASS+' — смени его');
 }
-function renderNewPerms(){
-  const box=$('newPerms');if(!box)return;
-  box.innerHTML=PERMS.map(p=>'<button class="pchip'+(newPerms[p.id]?' on':'')+'" data-nperm="'+p.id+
-    '" type="button">'+p.icon+' '+p.name+'</button>').join('');
-}
 async function createStaff(){
+  if(myRole!=='owner')return toast('Создавать доступы может только владелец','🚫');
   if(!db)return toast('Нет связи с базой','⚠️');
-  const name=($('staffName')&&$('staffName').value||'').trim();
+  const tag=normalizeStaffTag($('staffTag')&&$('staffTag').value);
   const pass=($('staffPass')&&$('staffPass').value||'').trim();
-  if(name.length<2)return toast('Введи имя сотрудника','⚠️');
+  if(!/^[a-z0-9_]{3,24}$/.test(tag))return toast('Тег: 3–24 символа, латиница, цифры или _','⚠️');
+  if(staffEntries().some(st=>staffTagFor(st)===tag))return toast('Такой тег уже занят','⚠️');
   if(pass.length<4)return toast('Пароль короче 4 символов','⚠️');
-  if(!PERMS.some(p=>newPerms[p.id]))return toast('Отметь хотя бы одно право','⚠️');
   const id='st_'+Date.now().toString(36);
   const h=await hashPass(pass);
-  const rec={name:name,h:h,perms:Object.assign({},newPerms),createdAt:Date.now()};
+  const rec={tag:tag,h:h,createdAt:Date.now()};
   try{
     await db.ref('sakura/staffAuth/staff/'+id).set(rec);
     staffAuth.staff=staffAuth.staff||{};
     staffAuth.staff[id]=rec;
-    $('staffName').value='';$('staffPass').value='';newPerms={};
-    renderAccess();toast('Доступ создан: '+name,'✅');haptic('success');
+    $('staffTag').value='';$('staffPass').value='';
+    renderAccess();toast('Доступ создан: @'+tag,'✅');haptic('success');
   }catch(e){toast('Не получилось','⚠️')}
 }
 async function removeStaff(id){
@@ -1324,17 +1354,6 @@ async function removeStaff(id){
     await db.ref('sakura/staffAuth/staff/'+id).remove();
     if(staffAuth.staff)delete staffAuth.staff[id];
     renderAccess();toast('Доступ снят','✅');
-  }catch(e){toast('Не получилось','⚠️')}
-}
-async function toggleStaffPerm(id,perm){
-  if(!db)return toast('Нет связи с базой','⚠️');
-  const cur=!!((((staffAuth.staff||{})[id]||{}).perms)||{})[perm];
-  const nm=(PERMS.find(p=>p.id===perm)||{name:perm}).name;
-  try{
-    await db.ref('sakura/staffAuth/staff/'+id+'/perms/'+perm).set(!cur);
-    staffAuth.staff[id]=staffAuth.staff[id]||{};
-    staffAuth.staff[id].perms=Object.assign({},staffAuth.staff[id].perms||{},{[perm]:!cur});
-    renderAccess();toast((cur?'Снято: ':'Выдано: ')+nm,'✅');
   }catch(e){toast('Не получилось','⚠️')}
 }
 async function changeOwnerPass(){
@@ -1357,11 +1376,12 @@ function staffIdentity(){
 function staffNormOverride(id){
   const targets=staffNorms&&staffNorms.targets||{};
   const value=targets[safeFirebaseKey(id)];
-  return value==null||value===''?null:Math.max(0,Number(value)||0);
+  if(value==null||value==='')return null;
+  if(typeof value==='number')return{pz:Math.max(1,Number(value)||3),messages:100};
+  return{pz:Math.max(1,Number(value.pz??value.dialogs)||3),messages:Math.max(1,Number(value.messages)||100)};
 }
 function staffNormTarget(id){
-  const override=staffNormOverride(id);
-  return override==null?Math.max(0,Number(staffNorms&&staffNorms.default)||0):override;
+  return staffNormOverride(id)||{pz:3,messages:100};
 }
 function todayStart(){const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()}
 function staffHandledToday(id){
@@ -1371,39 +1391,48 @@ function staffHandledToday(id){
   });
   return seen.size;
 }
-function staffNormProgress(id){
-  const target=staffNormTarget(id),done=staffHandledToday(id);
-  return{target,done,percent:target?Math.min(100,Math.round(done/target*100)):0,override:staffNormOverride(id)};
+function staffMessagesToday(id){
+  const start=todayStart();let count=0;
+  dialogs.forEach(d=>(d.messages||[]).forEach(m=>{
+    if(String(m.sender||'').toLowerCase()==='staff'&&String(m.staffId||'')===String(id)&&messageStamp(m,0)>=start)count++;
+  }));
+  tickets.forEach(t=>(t.messages||[]).forEach(m=>{
+    if(String(m.from||'').toLowerCase()==='staff'&&String(m.staffId||'')===String(id)&&Number(m.ts||0)>=start)count++;
+  }));
+  return count;
+}
+function normMetric(label,done,target){
+  const pct=target?Math.min(100,Math.round(done/target*100)):100;
+  return '<div class="norm-metric"><div class="norm-metric-top"><b>'+esc(label)+'</b><strong>'+done+' / '+target+'</strong></div>'+ 
+    '<div class="norm-progress-track"><i style="width:'+pct+'%"></i></div>'+ 
+    '<div class="norm-progress-bottom"><span>Выполнено '+pct+'%</span><span>Осталось '+Math.max(0,target-done)+'</span></div></div>';
 }
 function renderNormProgress(id,title,editable){
-  const p=staffNormProgress(id),label=p.target?p.done+' из '+p.target+' диалогов':p.done+' обработано';
-  return '<div class="card norm-progress-card"><div class="norm-progress-top"><div><b>'+esc(title)+'</b><span>'+(p.override==null?'Общая норма':'Персональная норма')+'</span></div><strong>'+(p.target?p.percent+'%':'—')+'</strong></div>'+ 
-    '<div class="norm-progress-track"><i style="width:'+p.percent+'%"></i></div>'+ 
-    '<div class="norm-progress-bottom"><span>'+esc(label)+' сегодня</span><span>'+(p.target?'Осталось '+Math.max(0,p.target-p.done):'Норма не установлена')+'</span></div>'+ 
-    (editable?'<div class="norm-edit-row"><input type="number" min="1" max="1000" step="1" id="normInput_'+esc(safeFirebaseKey(id))+'" value="'+(p.override==null?'':p.override)+'" placeholder="Общая норма: '+(Number(staffNorms.default)||'не задана')+'" aria-label="Персональная норма для '+esc(title)+'"><button class="btn small" type="button" data-savenorm="'+esc(safeFirebaseKey(id))+'">Сохранить</button></div><div class="tk-meta norm-hint">Пустое поле — использовать общую норму.</div>':'');
+  const target=staffNormTarget(id),pz=staffHandledToday(id),messages=staffMessagesToday(id),key=safeFirebaseKey(id),override=staffNormOverride(id);
+  return '<div class="card norm-progress-card"><div class="norm-progress-top"><div><b>'+esc(title)+'</b><span>'+(override?'Персональная норма':'Стандарт: 3 ПЗ и 100 сообщений')+'</span></div></div>'+ 
+    '<div class="norm-metrics-grid">'+normMetric('ПЗ',pz,target.pz)+normMetric('Сообщения',messages,target.messages)+'</div>'+ 
+    (editable?'<div class="norm-edit-fields"><label><span>Норма ПЗ</span><input type="number" min="1" max="1000" step="1" id="normPzInput_'+esc(key)+'" value="'+(override?override.pz:'')+'" placeholder="3 по умолчанию"></label>'+ 
+      '<label><span>Норма сообщений</span><input type="number" min="1" max="1000" step="1" id="normMsgInput_'+esc(key)+'" value="'+(override?override.messages:'')+'" placeholder="100 по умолчанию"></label></div>'+ 
+      '<button class="btn small" style="margin-top:10px" type="button" data-savenorm="'+esc(key)+'">Сохранить нормы</button><div class="tk-meta norm-hint">Пустые поля возвращают значения по умолчанию: 3 ПЗ и 100 сообщений.</div>':'')+
+    '</div>';
 }
 function renderStaffNorm(){
   const box=$('staffNormContent');if(!box||!myRole)return;
-  const id=staffIdentity(),name=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Администратор');
-  let html=renderNormProgress(id,name,myRole==='owner');
   if(myRole==='admin'){
-    const target=staffNormTarget(id);
-    html+='<div class="card norm-info-card"><b>Как считается норма</b><p class="hint">Засчитывается диалог, в котором ты отправил хотя бы один ответ сегодня. Один диалог учитывается один раз, даже если в нём несколько сообщений.</p>'+
-      (target?'':'<p class="hint">Владелец ещё не установил норму. Пока здесь будет отображаться только число обработанных диалогов.</p>')+'</div>';
-  }else{
-    const entries=staffEntries().filter(x=>x.id!=='default');
-    html+='<div class="sechead"><h2>Управление нормами</h2><span class="tk-meta">владелец</span></div>'+
-      '<div class="card norm-owner-settings"><b>Общая норма команды</b><p class="hint">Количество разных диалогов, которые нужно обработать за день. Применяется сотрудникам без персональной нормы.</p>'+
-      '<div class="norm-edit-row"><input type="number" min="0" max="1000" step="1" id="normDefaultInput" value="'+(Number(staffNorms.default)||'')+'" placeholder="Например, 10" aria-label="Общая дневная норма"><button class="btn small" type="button" data-savenorm="default">Сохранить общую</button></div></div>'+
-      '<div class="sechead"><h2>Нормы сотрудников</h2><span class="tk-meta">'+entries.length+'</span></div>'+
-      (entries.length?entries.map(x=>renderNormProgress(x.id,x.name||'Администратор',true)).join(''):'<div class="empty">Пока нет созданных аккаунтов сотрудников.</div>');
+    const id=staffIdentity(),name='@'+staffTagFor(staffSession);
+    box.innerHTML=renderNormProgress(id,name,false)+
+      '<div class="card norm-info-card"><b>Как считается норма</b><p class="hint">ПЗ — количество уникальных личных диалогов, в которых ты отправил хотя бы один ответ за день. Повторные ответы в том же диалоге не увеличивают ПЗ.</p><p class="hint">Сообщения — все твои исходящие ответы за день в личных диалогах и обращениях. Каждое отправленное сообщение считается отдельно.</p></div>';
+    return;
   }
-  box.innerHTML=html;
+  const entries=staffEntries().filter(x=>x.id!=='default');
+  box.innerHTML='<div class="card norm-info-card"><b>Нормы администраторов</b><p class="hint">Владелец может изменить ПЗ и количество сообщений отдельно у любого администратора. Стандартные значения — 3 ПЗ и 100 сообщений в день. У владельца собственной нормы нет.</p></div>'+
+    '<div class="sechead"><h2>Нормы администраторов</h2><span class="tk-meta">'+entries.length+'</span></div>'+
+    (entries.length?entries.map(x=>renderNormProgress(x.id,'@'+staffTagFor(x),true)).join(''):'<div class="empty">Пока нет созданных аккаунтов сотрудников.</div>');
 }
 function publicAdminForStaff(){
   if(myRole!=='admin')return null;
-  const id=String((staffSession&&staffSession.id)||''),name=String((staffSession&&staffSession.name)||'').trim().toLowerCase();
-  return admins.find(a=>String(a.id)===id)||admins.find(a=>String(a.name||'').trim().toLowerCase()===name)||null;
+  const id=String((staffSession&&staffSession.id)||''),tag=staffTagFor(staffSession);
+  return admins.find(a=>String(a.id)===id)||admins.find(a=>publicAdminTag(a)===tag)||null;
 }
 function allRatingRows(){
   const rows=[];
@@ -1411,47 +1440,150 @@ function allRatingRows(){
     const decoded=(()=>{try{return decodeURIComponent(k)}catch(e){return k}})();
     Object.values(adminRatings[k]||{}).forEach(r=>{if(r&&Number(r.stars)>=1&&Number(r.stars)<=5)rows.push(Object.assign({ratingAdminId:decoded},r))});
   });
-  return rows.sort((a,b)=>(b.ts||0)-(a.ts||0));
+  return rows.filter(r=>String(r.comment||'').trim()).sort((a,b)=>(b.ts||0)-(a.ts||0));
 }
 function currentStaffRatingRows(){
   if(myRole==='owner')return allRatingRows();
   const a=publicAdminForStaff();
-  return a?Object.values(adminRatingsNode(a.id)).filter(r=>r&&Number(r.stars)>=1&&Number(r.stars)<=5).sort((x,y)=>(y.ts||0)-(x.ts||0)):[];
+  return a?Object.values(adminRatingsNode(a.id)).filter(r=>r&&Number(r.stars)>=1&&Number(r.stars)<=5&&String(r.comment||'').trim()).sort((x,y)=>(y.ts||0)-(x.ts||0)):[];
 }
 function renderStaffRating(){
   const box=$('staffRatingContent');if(!box)return;
   const rows=currentStaffRatingRows(),avg=rows.length?rows.reduce((n,r)=>n+Number(r.stars),0)/rows.length:0;
-  const label=myRole==='owner'?'Общий рейтинг администраторов':(publicAdminForStaff()?publicAdminForStaff().name:'Рейтинг администратора');
-  box.innerHTML='<div class="card staff-rating-card"><div class="staff-rating-stars">'+(rows.length?avg.toFixed(1):'—')+' <span>★</span></div><b>'+esc(label)+'</b><p class="hint">'+rows.length+' '+plural(rows.length,'оценка','оценки','оценок')+'</p><div class="rating-distribution">'+[5,4,3,2,1].map(n=>{const c=rows.filter(r=>Number(r.stars)===n).length;return '<div><span>'+n+' ★</span><i><b style="width:'+(rows.length?c/rows.length*100:0)+'%"></b></i><small>'+c+'</small></div>'}).join('')+'</div></div>'+
-    (myRole==='admin'&&!publicAdminForStaff()?'<div class="card"><p class="hint">Пока не удалось связать этот служебный аккаунт с публичной карточкой администратора. Попроси владельца использовать одинаковое имя в аккаунте и карточке — тогда появятся персональные оценки.</p></div>':'');
+  const label=myRole==='owner'?'Отзывы администраторов':'Рейтинг @'+staffTagFor(staffSession);
+  box.innerHTML='<div class="card staff-rating-card"><div class="staff-rating-stars">'+(rows.length?avg.toFixed(1):'—')+' <span>★</span></div><b>'+esc(label)+'</b><p class="hint">'+rows.length+' '+plural(rows.length,'отзыв','отзыва','отзывов')+'</p><div class="rating-distribution">'+[5,4,3,2,1].map(n=>{const c=rows.filter(r=>Number(r.stars)===n).length;return '<div><span>'+n+' ★</span><i><b style="width:'+(rows.length?c/rows.length*100:0)+'%"></b></i><small>'+c+'</small></div>'}).join('')+'</div></div>';
 }
 function renderStaffReviews(){
   const box=$('staffReviewsContent');if(!box)return;
   const rows=currentStaffRatingRows();
   const content=rows.length?rows.slice(0,100).map(r=>{
     const a=admins.find(x=>String(x.id)===String(r.ratingAdminId||r.adminId));
-    const target=myRole==='owner'?(a?a.name:(r.adminName||'Администратор')):(r.adminName||'Администратор');
+    const target=myRole==='owner'?(a?'@'+publicAdminTag(a):(r.staffTag?'@'+r.staffTag:(r.adminName||'Администратор'))):'@'+staffTagFor(staffSession);
     return '<div class="review-row"><div class="review-row-top"><b>'+esc(target)+' · '+esc(r.userNickname||'Пользователь')+'</b><span>'+('★'.repeat(Number(r.stars)))+'<i>'+Number(r.stars)+'/5</i></span></div>'+
       (r.comment?'<p>'+esc(r.comment)+'</p>':'<p class="review-empty">Без комментария</p>')+'<time>'+dfmt(r.ts)+'</time></div>';
   }).join(''):'<div class="empty"><span class="e">⭐</span>Отзывов пока нет</div>';
-  box.innerHTML=(myRole==='admin'&&!publicAdminForStaff()?'<div class="card"><p class="hint">Персональные отзывы появятся после привязки аккаунта к карточке администратора.</p></div>':'')+'<div class="card">'+content+'</div>';
+  box.innerHTML='<div class="card">'+content+'</div>';
 }
 async function saveStaffNorm(key){
   if(myRole!=='owner')return toast('Изменять нормы может только владелец','🚫');
   if(!db)return toast('Нет связи с базой данных','⚠️');
-  const input=key==='default'?$ ('normDefaultInput'):$('normInput_'+key);
-  if(!input)return;
-  const raw=String(input.value||'').trim();
-  if(raw&&(!/^\d+$/.test(raw)||Number(raw)<(key==='default'?0:1)||Number(raw)>1000))return toast('Укажи целое число от '+(key==='default'?0:1)+' до 1000','⚠️');
-  const value=raw?Number(raw):0;
-  const path=key==='default'?'sakura/staffNorms/default':'sakura/staffNorms/targets/'+key;
+  const pzInput=$('normPzInput_'+key),msgInput=$('normMsgInput_'+key);
+  if(!pzInput||!msgInput)return;
+  const pzRaw=String(pzInput.value||'').trim(),msgRaw=String(msgInput.value||'').trim();
+  const valid=v=>!v||(/^\d+$/.test(v)&&Number(v)>=1&&Number(v)<=1000);
+  if(!valid(pzRaw)||!valid(msgRaw))return toast('Норма должна быть целым числом от 1 до 1000','⚠️');
+  const path='sakura/staffNorms/targets/'+key;
   try{
-    if(key==='default')await db.ref(path).set(value);
-    else await db.ref(path).set(raw?value:null);
-    if(key==='default')staffNorms.default=value;
-    else if(raw)staffNorms.targets[key]=value;else delete staffNorms.targets[key];
-    renderStaffNorm();toast(key==='default'?'Общая норма обновлена':'Персональная норма сохранена','✅');haptic('success');
-  }catch(e){toast('Не удалось сохранить норму. Проверь права Firebase','⚠️')}
+    if(!pzRaw&&!msgRaw){await db.ref(path).remove();delete staffNorms.targets[key]}
+    else{
+      const value={pz:pzRaw?Number(pzRaw):3,messages:msgRaw?Number(msgRaw):100};
+      await db.ref(path).set(value);staffNorms.targets[key]=value;
+    }
+    renderStaffNorm();toast('Индивидуальные нормы сохранены','✅');haptic('success');
+  }catch(e){toast('Не удалось сохранить нормы. Проверь права Firebase','⚠️')}
+}
+
+/* ==================== ЗАЯВКИ НА РЕСТ ==================== */
+function restDateText(value){
+  const m=String(value||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m?m[3]+'.'+m[2]+'.'+m[1]:'—';
+}
+function activeRestForStaff(staffId){
+  const id=String(staffId||''),today=todayKey();
+  return restRequests.filter(r=>r&&r.status==='approved'&&String(r.staffId||r.adminId)===id&&r.fromDate<=today&&r.toDate>=today)
+    .sort((a,b)=>(b.approvedAt||b.createdAt||0)-(a.approvedAt||a.createdAt||0))[0]||null;
+}
+function isStaffResting(staffId){return !!activeRestForStaff(staffId)}
+function activeRestForAdmin(adminId){
+  const id=String(adminId||''),today=todayKey(),a=admins.find(x=>String(x.id)===id);
+  return restRequests.find(r=>{
+    if(!r||r.status!=='approved'||!(r.fromDate<=today&&r.toDate>=today))return false;
+    const linked=String(r.publicAdminId||'')===id||String(r.adminId||'')===id||String(r.staffId||'')===id;
+    const sameName=a&&String(r.adminName||'').trim().toLowerCase()===String(a.name||'').trim().toLowerCase();
+    return linked||sameName;
+  })||null;
+}
+function isAdminResting(adminId){return !!activeRestForAdmin(adminId)}
+function restStatusText(r){
+  if(r.status==='pending')return'Ожидает решения';
+  if(r.status==='declined')return'Отклонена';
+  if(r.status==='approved'){
+    if(r.toDate<todayKey())return'Рест завершён';
+    if(r.fromDate>todayKey())return'Одобрена';
+    return'На ресте';
+  }
+  return'—';
+}
+function hasOpenRestRequest(staffId){
+  const id=String(staffId||''),today=todayKey();
+  return restRequests.find(r=>String(r.staffId||r.adminId)===id&&(r.status==='pending'||(r.status==='approved'&&String(r.toDate||'')>=today)))||null;
+}
+function renderStaffRest(){
+  const box=$('staffRestContent');if(!box||myRole!=='admin')return;
+  const id=String(staffSession&&staffSession.id||''),rows=restRequests.filter(r=>String(r.staffId||r.adminId)===id).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const open=hasOpenRestRequest(id),active=activeRestForStaff(id);
+  const formDisabled=!!open;
+  box.innerHTML=(active?'<div class="card rest-status-card"><b>🌴 Ты сейчас на ресте</b><p class="hint">С '+restDateText(active.fromDate)+' по '+restDateText(active.toDate)+'. Доступность восстановится автоматически после последнего дня.</p></div>': '')+
+    (open&&!active?'<div class="card rest-status-card"><b>Заявка уже есть</b><p class="hint">'+restStatusText(open)+': с '+restDateText(open.fromDate)+' по '+restDateText(open.toDate)+'. Новую заявку можно отправить после решения или окончания периода.</p></div>':'')+
+    '<div class="card"><p class="hint" style="margin:0 0 10px">Укажи первый и последний день отдыха. Заявка отправится владельцу на подтверждение.</p>'+ 
+    '<label class="lbl" for="restFrom">Начало реста</label><input type="date" id="restFrom" min="'+todayKey()+'" '+(formDisabled?'disabled':'')+'>'+ 
+    '<label class="lbl" for="restTo">До какого числа</label><input type="date" id="restTo" min="'+todayKey()+'" '+(formDisabled?'disabled':'')+'>'+ 
+    '<button class="btn" type="button" data-restsubmit="1" '+(formDisabled?'disabled':'')+'>Отправить заявку владельцу</button></div>'+ 
+    '<div class="sechead"><h2>Мои заявки</h2><span class="tk-meta">'+rows.length+'</span></div>'+ 
+    (rows.length?rows.map(r=>'<div class="card rest-history-card"><div class="tk-top"><b>'+esc(restStatusText(r))+'</b><span class="st '+(r.status==='approved'?'done':r.status==='declined'?'new':'work')+'">'+(r.status==='approved'?'Решено':r.status==='declined'?'Отклонено':'Ожидает')+'</span></div><div class="tk-meta">'+restDateText(r.fromDate)+' — '+restDateText(r.toDate)+'</div>'+(r.ownerComment?'<p class="hint">'+esc(r.ownerComment)+'</p>':'')+'</div>').join(''):'<div class="empty">Заявок пока нет</div>');
+}
+async function submitRestRequest(){
+  if(myRole!=='admin'||!staffSession)return toast('Заявка доступна только сотруднику','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const from=String(($('restFrom')&&$('restFrom').value)||''),to=String(($('restTo')&&$('restTo').value)||''),today=todayKey();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to))return toast('Выбери обе даты','⚠️');
+  if(from<today)return toast('Нельзя подать заявку задним числом','⚠️');
+  if(to<from)return toast('Дата окончания должна быть не раньше начала','⚠️');
+  if(hasOpenRestRequest(staffSession.id))return toast('У тебя уже есть активная заявка или одобренный период','⚠️');
+  const publicAdmin=publicAdminForStaff();
+  const record={staffId:String(staffSession.id),adminId:String(staffSession.id),publicAdminId:publicAdmin?String(publicAdmin.id):String(staffSession.id),
+    adminName:'@'+staffTagFor(staffSession),staffTag:staffTagFor(staffSession),fromDate:from,toDate:to,status:'pending',createdAt:Date.now()};
+  try{
+    const ref=db.ref('sakura/restRequests').push();record.id=ref.key;
+    await ref.set(record);
+    restRequests.push(record);renderStaffRest();
+    await db.ref(notifPath('staff','owner')).push({title:'Новая заявка на рест',body:record.adminName+' · '+restDateText(from)+' — '+restDateText(to),linkType:'rest',linkId:record.id,createdAt:Date.now(),read:false}).catch(()=>{});
+    toast('Заявка отправлена владельцу','✅');haptic('success');
+  }catch(e){toast('Не удалось отправить заявку','⚠️')}
+}
+function renderRestRequests(){
+  const box=$('restRequestList');if(!box||myRole!=='owner')return;
+  const rows=restRequests.slice().sort((a,b)=>{
+    const ap=a.status==='pending'?1:0,bp=b.status==='pending'?1:0;
+    return bp-ap||(b.createdAt||0)-(a.createdAt||0);
+  });
+  const pending=rows.filter(r=>r.status==='pending').length,cnt=$('restRequestCount');if(cnt)cnt.textContent=pending?pending+' ожидают':rows.length+' всего';
+  box.innerHTML=rows.length?rows.map(r=>{
+    const isPending=r.status==='pending',status=restStatusText(r);
+    return '<div class="card rest-request-card"><div class="tk-top"><b>'+esc(r.adminName||'Администратор')+' <span class="staff-tag-inline">@'+esc(r.staffTag||r.staffId||'')+'</span></b>'+ 
+      '<span class="st '+(isPending?'new':r.status==='approved'?'done':'work')+'">'+esc(status)+'</span></div>'+ 
+      '<div class="tk-meta">Период: <b>'+restDateText(r.fromDate)+'</b> — <b>'+restDateText(r.toDate)+'</b></div>'+ 
+      '<div class="tk-meta">Заявка: '+dfmt(r.createdAt)+'</div>'+ 
+      (r.status==='approved'&&r.toDate>=todayKey()?'<p class="hint">После наступления даты начала администратор автоматически скроется из доступных.</p>':'')+
+      (isPending?'<div class="rep-act"><button class="btn small" type="button" data-restapprove="'+esc(r.id)+'">Принять</button><button class="btn small danger" type="button" data-restdecline="'+esc(r.id)+'">Отклонить</button></div>':
+        (r.ownerComment?'<p class="hint">Комментарий: '+esc(r.ownerComment)+'</p>':''))+'</div>';
+  }).join(''):'<div class="empty"><span class="e">🌴</span>Заявок на рест пока нет</div>';
+}
+async function decideRestRequest(requestId,decision){
+  if(myRole!=='owner')return toast('Решать заявки может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const req=restRequests.find(r=>String(r.id)===String(requestId));if(!req||req.status!=='pending')return toast('Эта заявка уже обработана','⚠️');
+  const status=decision==='approve'?'approved':'declined',now=Date.now();
+  const patch={status,decidedAt:now,decidedBy:'owner'};
+  try{
+    await db.ref('sakura/restRequests/'+req.id).update(patch);
+    Object.assign(req,patch);
+    const title=status==='approved'?'Заявка на рест одобрена':'Заявка на рест отклонена';
+    await db.ref(notifPath('staff',req.staffId||req.adminId)).push({title,body:restDateText(req.fromDate)+' — '+restDateText(req.toDate),linkType:'rest',linkId:req.id,createdAt:now,read:false}).catch(()=>{});
+    renderRestRequests();renderAdmins();renderHomeAdmins();renderTeamAdmins();
+    if(status==='approved'&&req.fromDate<=todayKey()&&req.toDate>=todayKey())renderStaff();
+    toast(status==='approved'?'Рест одобрен':'Заявка отклонена',status==='approved'?'✅':'⚠️');haptic('success');
+  }catch(e){toast('Не удалось обновить заявку','⚠️')}
 }
 
 /* ==================== УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ ==================== */
@@ -1465,14 +1597,14 @@ function renderTeamAdmins(){
   const cnt=$('teamAdminCount');if(cnt)cnt.textContent=list.length+' / '+admins.length;
   box.innerHTML=list.length?list.map(a=>{
     const mod=adminModEntry(a.id),warns=Array.isArray(mod.warns)?mod.warns:(mod.warns&&typeof mod.warns==='object'?Object.values(mod.warns):[]);
-    const banned=isAdminBanned(a.id),last=warns[warns.length-1],colors=mono(a.name);
+    const banned=isAdminBanned(a.id),resting=activeRestForAdmin(a.id),last=warns[warns.length-1],colors=mono(a.name);
     return '<div class="card team-admin-card">'+
       '<div class="team-admin-head">'+
         '<div class="av" style="background:linear-gradient(135deg,'+colors[0]+','+colors[1]+')">'+esc(a.initials)+'</div>'+
-        '<div class="team-admin-name"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+' · ID '+esc(a.id)+'</span></div>'+
-        '<span class="st '+(banned?'new':'done')+'">'+(banned?'Заблокирован':'Активен')+'</span>'+
+        '<div class="team-admin-name"><b>'+esc(a.name)+'</b><span>'+(publicAdminTag(a)?'@'+esc(publicAdminTag(a))+' · ':'')+esc(a.category)+' · '+esc(adminRatingLabel(a.id))+'</span></div>'+
+        '<span class="st '+(banned?'new':resting?'work':'done')+'">'+(banned?'Заблокирован':resting?'На ресте':'Активен')+'</span>'+
       '</div>'+
-      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b> · '+esc(adminRatingLabel(a.id))+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
+      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(resting?' · на ресте до '+restDateText(resting.toDate):'')+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
       '<div class="team-admin-actions">'+
         '<button class="btn small ghost" data-areviews="'+esc(a.id)+'" type="button">⭐ Отзывы ('+adminRatingStats(a.id).count+')</button>'+ 
         '<button class="btn small" data-awarn="'+esc(a.id)+'" type="button">⚠️ Выдать варн</button>'+
@@ -1698,7 +1830,7 @@ async function submitModeration(dialogId,action){
   const reason=(($('moderationReason')&&$('moderationReason').value)||'').trim();
   if(reason.length<3)return toast('Укажи причину (минимум 3 символа)','⚠️');
   const userId=String(d.userId||'');if(!userId)return toast('У диалога нет ID пользователя','⚠️');
-  const actor=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Модератор');
+  const actor=myRole==='owner'?'Владелец':('@'+staffTagFor(staffSession));
   const record={id:'mod_'+Date.now().toString(36),type:action,userId,userNickname:d.userNickname||'Пользователь',
     dialogId:d.id,reason,by:actor,byRole:myRole,ts:Date.now()};
   try{
@@ -1734,7 +1866,7 @@ async function liftUserBan(dialogId){
   if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
   if(!db)return toast('Нет связи с базой данных','⚠️');
   const d=dialogs.find(x=>x.id===dialogId);if(!d||!d.userId)return;
-  const userId=String(d.userId),actor=myRole==='owner'?'Владелец':((staffSession&&staffSession.name)||'Модератор');
+  const userId=String(d.userId),actor=myRole==='owner'?'Владелец':('@'+staffTagFor(staffSession));
   try{
     await db.ref('sakura/moderation/userBans/'+userId).remove();
     dialogs.filter(x=>String(x.userId)===userId).forEach(x=>{
@@ -1819,6 +1951,7 @@ function sendReport(reason){
   toast('Жалоба отправлена','✅');haptic('success');
 }
 function renderReports(){
+  if(myRole!=='owner')return;
   const box=$('repList');if(!box)return;
   const fb=$('repFilters');
   if(fb)fb.innerHTML=[{id:'new',n:'новые'},{id:'resolved',n:'решённые'},{id:'all',n:'все'}].map(f=>
@@ -1841,6 +1974,7 @@ function renderReports(){
   }).join(''):'<div class="empty"><span class="e">🛡️</span>Жалоб нет — тихо</div>';
 }
 function reportResolve(id,action){
+  if(myRole!=='owner')return toast('Жалобы может рассматривать только владелец','🚫');
   const r=reports.find(x=>x.id===id);if(!r)return;
   if(action==='del'){
     const d=dialogs.find(x=>x.id===r.dialogId);
@@ -1859,6 +1993,7 @@ function reportResolve(id,action){
   toast(action==='ban'?'Автор забанен':action==='del'?'Сообщение удалено':'Жалоба отклонена','✅');
 }
 function renderSettings(){
+  if(myRole!=='owner')return;
   const f=$('floodCard');if(!f)return;
   f.innerHTML='<label class="lbl">Сообщений подряд за 10 секунд</label>'+
     '<input type="number" id="fBurst" min="1" max="20" value="'+floodCfg.burst+'">'+
@@ -1881,6 +2016,7 @@ function renderSettings(){
   const wc=$('wordsCount');if(wc)wc.textContent=stopWords.length?stopWords.length+' шт':'';
 }
 function addWord(){
+  if(myRole!=='owner')return toast('Антиспамом управляет только владелец','🚫');
   const inp=$('wordInput');if(!inp)return;
   const v=String(inp.value||'').trim().toLowerCase();
   if(v.length<3)return toast('Минимум 3 символа','⚠️');
@@ -2033,15 +2169,15 @@ function renderHomeAch(){
     '<div class="ach-ico">'+a.icon+'</div><div class="ach-nm">'+esc(a.name)+'</div></div>').join('');
 }
 function adminRow(a){
-  const[c1,c2]=mono(a.name),r=adminRatingLabel(a.id);
+  const[c1,c2]=mono(a.name),r=adminRatingLabel(a.id),tag=publicAdminTag(a);
   return '<button class="acard" data-admin="'+esc(a.id)+'">'+
     '<span class="av" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+esc(a.initials)+'</span>'+
-    '<span class="nm"><b>'+esc(a.name)+'</b><span>'+esc(a.category)+' · '+esc(r)+'</span></span>'+
+    '<span class="nm"><b>'+esc(a.name)+'</b><span>'+(tag?'@'+esc(tag)+' · ':'')+esc(a.category)+' · '+esc(r)+'</span></span>'+
     '<span class="dot-on"></span></button>';
 }
 function renderHomeAdmins(){
   const box=$('homeAdmins');if(!box)return;
-  const list=admins.filter(a=>!isAdminBanned(a.id)).slice(0,4);
+  const list=admins.filter(a=>!isAdminBanned(a.id)&&!isAdminResting(a.id)).slice(0,4);
   box.innerHTML=list.length?list.map(adminRow).join(''):'<div class="empty"><span class="e">🌙</span>Админы загружаются</div>';
 }
 
@@ -2053,19 +2189,20 @@ function renderAdmins(){
     cats.innerHTML=all.map(c=>'<button class="chipbtn'+(c===adminCat?' on':'')+'" data-cat="'+esc(c)+'">'+esc(c)+'</button>').join('');
   }
   const q=adminQuery.trim().toLowerCase();
-  const list=admins.filter(a=>!isAdminBanned(a.id)&&(adminCat==='Все'||a.category===adminCat)&&(!q||a.name.toLowerCase().includes(q)));
-  $('adminCount').textContent=list.length+' из '+admins.length;
+  const list=admins.filter(a=>!isAdminBanned(a.id)&&!isAdminResting(a.id)&&(adminCat==='Все'||a.category===adminCat)&&(!q||a.name.toLowerCase().includes(q)));
+  $('adminCount').textContent=list.length+' доступно из '+admins.filter(a=>!isAdminBanned(a.id)).length;
   $('adminList').innerHTML=list.length?list.map(a=>{
-    const[c1,c2]=mono(a.name);
+    const[c1,c2]=mono(a.name),tag=publicAdminTag(a);
     return '<button class="acard" data-admin="'+esc(a.id)+'">'+
       '<span class="av" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+esc(a.initials)+'</span>'+
-      '<span class="nm"><b>'+esc(a.name)+'</b><span class="acat">'+esc(a.category)+'</span><span class="admin-rating-line">'+esc(adminRatingLabel(a.id))+'</span></span>'+
+      '<span class="nm"><b>'+esc(a.name)+'</b><span class="acat">'+(tag?'@'+esc(tag)+' · ':'')+esc(a.category)+'</span><span class="admin-rating-line">'+esc(adminRatingLabel(a.id))+'</span></span>'+
       '<span class="dot-on"></span></button>';
   }).join(''):'<div class="empty"><span class="e">🔍</span>Никого не нашлось</div>';
 }
 function openAdminSheet(id){
   const a=admins.find(x=>x.id===id);if(!a)return;
   if(isAdminBanned(a.id))return toast('Этот администратор временно заблокирован','🚫');
+  if(isAdminResting(a.id)){const rest=activeRestForAdmin(a.id);return toast('Администратор на ресте до '+restDateText(rest&&rest.toDate),'🌴')}
   const[c1,c2]=mono(a.name);
   openSheet(
     '<div style="display:flex;align-items:center;gap:13px;margin-bottom:12px">'+
@@ -2156,18 +2293,18 @@ function buyItem(id){
 function safeFirebaseKey(value){return encodeURIComponent(String(value==null?'':value)).replace(/\./g,'%2E')}
 function adminRatingsNode(adminId){return (adminRatings||{})[safeFirebaseKey(adminId)]||{}}
 function adminRatingStats(adminId){
-  const vals=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5);
+  const vals=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5&&String(x.comment||'').trim());
   const avg=vals.length?vals.reduce((n,x)=>n+Number(x.stars),0)/vals.length:0;
   return{count:vals.length,average:avg};
 }
 function adminRatingLabel(adminId){
   const r=adminRatingStats(adminId);
-  return r.count?'⭐ '+r.average.toFixed(1)+' · '+r.count+' '+plural(r.count,'оценка','оценки','оценок'):'⭐ Пока без оценок';
+  return r.count?'⭐ '+r.average.toFixed(1)+' · '+r.count+' '+plural(r.count,'отзыв','отзыва','отзывов'):'⭐ Пока без отзывов';
 }
 function openAdminReviews(adminId){
   if(myRole!=='owner')return toast('Отзывы доступны владельцу','🚫');
   const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
-  const rows=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5).sort((x,y)=>(y.ts||0)-(x.ts||0));
+  const rows=Object.values(adminRatingsNode(adminId)).filter(x=>x&&Number(x.stars)>=1&&Number(x.stars)<=5&&String(x.comment||'').trim()).sort((x,y)=>(y.ts||0)-(x.ts||0));
   const content=rows.length?rows.map(r=>'<div class="review-row"><div class="review-row-top"><b>'+esc(r.userNickname||'Пользователь')+'</b><span>'+('★'.repeat(Number(r.stars)))+'<i>'+r.stars+'/5</i></span></div>'+
     (r.comment?'<p>'+esc(r.comment)+'</p>':'<p class="review-empty">Без комментария</p>')+'<time>'+dfmt(r.ts)+'</time></div>').join(''):'<div class="empty"><span class="e">⭐</span>Оценок пока нет</div>';
   openSheet('<h3>Отзывы: '+esc(a.name)+'</h3><p class="hint">'+esc(adminRatingLabel(adminId))+'</p>'+content);
@@ -2175,38 +2312,48 @@ function openAdminReviews(adminId){
 function ratingRecordKey(d){return safeFirebaseKey(String(d.userId||profile.id)+'_'+String(d.id))}
 function getDialogRating(d){return adminRatingsNode(d.adminId)[ratingRecordKey(d)]||null}
 function latestRateableDialog(adminId){
-  return myDialogs().filter(d=>String(d.adminId)===String(adminId)&&(d.messages||[]).some(m=>messageKind(m)==='staff')&&!getDialogRating(d))
-    .sort((a,b)=>(b.lastActivity||0)-(a.lastActivity||0))[0]||null;
+  return myDialogs().filter(d=>{
+    if(String(d.adminId)!==String(adminId)||!(d.messages||[]).some(m=>messageKind(m)==='staff'))return false;
+    const rating=getDialogRating(d);return !rating||!String(rating.comment||'').trim();
+  }).sort((a,b)=>(b.lastActivity||0)-(a.lastActivity||0))[0]||null;
 }
 function openRatingForm(dialogId){
   const d=myDialogs().find(x=>String(x.id)===String(dialogId));if(!d)return;
   if(!(d.messages||[]).some(m=>messageKind(m)==='staff'))return toast('Оценить можно после ответа администратора','⚠️');
-  if(getDialogRating(d))return toast('Ты уже оценил работу в этом диалоге','⭐');
-  ratingDraft=5;
-  openSheet('<h3>Оценка администратора</h3><p class="hint">Как '+esc(d.adminName||'администратор')+' помог тебе?</p>'+ 
+  const existing=getDialogRating(d);
+  if(existing&&String(existing.comment||'').trim())return toast('Ты уже оставил отзыв в этом диалоге','⭐');
+  ratingDraft=existing?Math.max(1,Math.min(5,Number(existing.stars)||5)):5;
+  const title=existing?'Добавить отзыв':'Оценка администратора';
+  openSheet('<h3>'+title+'</h3><p class="hint">Как '+esc(d.adminName||'администратор')+' помог тебе?</p>'+ 
     '<div class="rating-stars">'+[1,2,3,4,5].map(n=>'<button type="button" class="rating-star '+(n<=ratingDraft?'selected':'')+'" data-ratevalue="'+n+'" aria-label="'+n+' из 5">★</button>').join('')+'</div>'+ 
     '<div class="rating-caption">1 — плохо · 5 — отлично</div>'+ 
-    '<label class="lbl" for="ratingComment">Комментарий (необязательно)</label><textarea id="ratingComment" maxlength="350" placeholder="Что понравилось или что можно улучшить?" style="min-height:76px"></textarea>'+ 
-    '<button class="btn" type="button" data-ratesubmit="'+esc(d.id)+'">Отправить оценку</button>'+ 
+    '<label class="lbl" for="ratingComment">Отзыв (обязательно)</label><textarea id="ratingComment" maxlength="350" placeholder="Что понравилось или что можно улучшить?" style="min-height:76px"></textarea>'+ 
+    '<button class="btn" type="button" data-ratesubmit="'+esc(d.id)+'">'+(existing?'Сохранить отзыв':'Отправить отзыв')+'</button>'+ 
     '<button class="btn ghost" type="button" data-sheet-close>Не сейчас</button>');
 }
 async function submitAdminRating(dialogId){
   if(!db)return toast('Нет связи с базой данных','⚠️');
   const d=myDialogs().find(x=>String(x.id)===String(dialogId));if(!d)return;
   if(!(d.messages||[]).some(m=>messageKind(m)==='staff'))return toast('Сначала дождись ответа администратора','⚠️');
-  if(getDialogRating(d))return toast('Оценка уже отправлена','⭐');
+  const existing=getDialogRating(d);
+  if(existing&&String(existing.comment||'').trim())return toast('Отзыв уже отправлен','⭐');
   const stars=Math.max(1,Math.min(5,Number(ratingDraft)||5));
   const comment=String(($('ratingComment')&&$('ratingComment').value)||'').trim();
+  if(comment.length<3)return toast('Напиши отзыв минимум из 3 символов','⚠️');
   const record={adminId:String(d.adminId),adminName:d.adminName||'Администратор',dialogId:String(d.id),userId:String(profile.id),userNickname:profile.nickname||'Пользователь',stars,comment,ts:Date.now()};
   const akey=safeFirebaseKey(d.adminId),rkey=ratingRecordKey(d),ref=db.ref('sakura/adminRatings/'+akey+'/'+rkey);
   try{
-    const result=await ref.transaction(current=>current||record);
-    if(!result.committed||!result.snapshot.val()||String(result.snapshot.val().userId)!==String(profile.id))return toast('Не удалось сохранить оценку','⚠️');
-    adminRatings[akey]=adminRatings[akey]||{};adminRatings[akey][rkey]=result.snapshot.val();
-    notifyStaff({title:'Новая оценка администратора',body:(d.adminName||'Администратор')+' получил оценку '+stars+'/5',linkType:'dialog',linkId:d.id},'dialogs');
+    const result=await ref.transaction(current=>{
+      if(current&&String(current.comment||'').trim())return current;
+      return Object.assign({},current||{},record);
+    });
+    const saved=result&&result.snapshot&&result.snapshot.val();
+    if(!result.committed||!saved||String(saved.userId)!==String(profile.id)||!String(saved.comment||'').trim())return toast('Не удалось сохранить отзыв','⚠️');
+    adminRatings[akey]=adminRatings[akey]||{};adminRatings[akey][rkey]=saved;
+    notifyStaff({title:'Новый отзыв администратора',body:(d.adminName||'Администратор')+' получил '+stars+'/5',linkType:'dialog',linkId:d.id},'dialogs');
     closeSheet();renderAdmins();renderHomeAdmins();renderDialogs();renderTeamAdmins();
-    toast('Спасибо за оценку!','⭐');haptic('success');
-  }catch(e){toast('Не удалось отправить оценку. Проверь доступ к Firebase','⚠️')}
+    toast('Спасибо за отзыв!','⭐');haptic('success');
+  }catch(e){toast('Не удалось отправить отзыв. Проверь доступ к Firebase','⚠️')}
 }
 
 /* ==================== УВЕДОМЛЕНИЯ ==================== */
@@ -2245,10 +2392,7 @@ async function notifyUser(userId,data){
 async function notifyStaff(data,permission){
   if(!db)return;
   const targets=[{id:'owner'}];
-  const eligible=staffEntries().filter(st=>{
-    const permissions=st.perms||{};
-    return permission?!!permissions[permission]:true;
-  });
+  const eligible=staffEntries().filter(st=>!isStaffResting(st.id));
   eligible.forEach(st=>targets.push({id:st.id}));
   if(!eligible.length)targets.push({id:'default'});
   const unique=[...new Set(targets.map(x=>String(x.id)))];
@@ -2302,7 +2446,9 @@ function openNotificationTarget(feed,id){
   const list=feed==='staff'?staffNotifications:userNotifications,n=list.find(x=>String(x.id)===String(id));
   if(!n)return;
   markNotificationRead(feed,id);closeSheet();
-  if(n.linkType==='dialog'&&n.linkId){
+  if(n.linkType==='rest'){
+    if(feed==='staff'&&myRole){go('staff');staffTab=myRole==='owner'?'restRequests':'rest';renderStaffTabs();}
+  }else if(n.linkType==='dialog'&&n.linkId){
     if(feed==='staff'&&myRole){go('staff');staffTab='dialogs';monitorDialogId=String(n.linkId);renderStaffTabs();renderMonitorDialogs();}
     else if(feed==='user'){go('dialogs');openChat(String(n.linkId));}
   }else if(n.linkType==='ticket'&&n.linkId){
@@ -2335,9 +2481,9 @@ function renderDialogs(){
     const lm=lastMsg(d);
     const st=(d.banned||d.adminBanned)?'приостановлен':d.closed?'закрыт':d.status==='active'?'в диалоге':'ждёт ответа';
     const eligible=(d.messages||[]).some(m=>messageKind(m)==='staff');
-    const rated=getDialogRating(d);
-    const rateAction=eligible&&!rated?'<button class="btn small ghost dialog-rate-btn" data-rate-dialog="'+esc(d.id)+'" type="button">⭐ Оценить администратора</button>':
-      (rated?'<div class="dialog-rated">Ваша оценка: '+('★'.repeat(Number(rated.stars)||0))+' · '+(Number(rated.stars)||0)+'/5</div>':'');
+    const rated=getDialogRating(d),hasReview=!!(rated&&String(rated.comment||'').trim());
+    const rateAction=eligible&&!hasReview?'<button class="btn small ghost dialog-rate-btn" data-rate-dialog="'+esc(d.id)+'" type="button">'+(rated?'✍️ Добавить отзыв':'⭐ Оценить администратора')+'</button>':
+      (hasReview?'<div class="dialog-rated">Ваш отзыв: '+('★'.repeat(Number(rated.stars)||0))+' · '+(Number(rated.stars)||0)+'/5</div>':'');
     return '<div class="tk dialog-item">'+
       '<button class="dialog-open" data-dialog="'+esc(d.id)+'" type="button">'+
         '<div class="tk-top"><b>'+esc(d.adminName||'Админ')+'</b>'+ 
@@ -2360,6 +2506,7 @@ function startDialog(adminId){
   if(!profile.nickname)return toast('Сначала ник в профиле','⚠️');
   const a=admins.find(x=>x.id===adminId);if(!a)return;
   if(isAdminBanned(adminId))return toast('Этот администратор временно заблокирован','🚫');
+  if(isAdminResting(adminId)){const rest=activeRestForAdmin(adminId);return toast('Администратор на ресте до '+restDateText(rest&&rest.toDate),'🌴')}
   const act=activeDialog();
   if(act&&act.adminId!==adminId)return toast('Уже идёт диалог: '+act.adminName,'⚠️');
   let d=myDialogs().find(x=>x.adminId===adminId&&!x.closed);
@@ -2457,13 +2604,14 @@ function sendMessage(){
 }
 
 async function sendMonitorReply(dialogId){
+  if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста ответы отключены','🌴');
   if(!can('dialogs'))return toast('Нет права отвечать в диалогах','🚫');
   if(!db)return toast('Нет связи с базой данных','⚠️');
   const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d)return;
   if(d.closed||d.banned||d.adminBanned)return toast('Этот диалог приостановлен','⚠️');
   const input=$('monitorReplyText'),text=String(input&&input.value||'').trim();
   if(!text)return toast('Напиши ответ пользователю','⚠️');
-  const ts=Date.now(),name=(staffSession&&staffSession.name)||(myRole==='owner'?'Владелец':'Администратор');
+  const ts=Date.now(),name=myRole==='owner'?'Владелец':'@'+staffTagFor(staffSession);
   d.messages=d.messages||[];
   d.messages.push({text,sender:'staff',name,adminName:name,staffId:staffIdentity(),staffRole:myRole||'admin',time:nowTime(),ts,status:'sent'});
   d.lastActivity=ts;d.status='active';
@@ -2532,10 +2680,11 @@ function openTicket(id){
       '<button class="btn ghost small" style="flex:1;min-height:44px" data-tstatus="done" data-tid="'+esc(t.id)+'">Закрыть</button></div>':''));
 }
 function replyTicket(id){
+  if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста ответы отключены','🌴');
   const t=tickets.find(x=>x.id===id);if(!t)return;
   const v=($('tkReply').value||'').trim();if(v.length<1)return toast('Напиши текст','⚠️');
   t.messages=t.messages||[];
-  t.messages.push({from:myRole?'staff':'user',text:v,name:myRole?(staffSession&&staffSession.name||'админ'):(profile.nickname||'пользователь'),ts:Date.now()});
+  t.messages.push({from:myRole?'staff':'user',text:v,name:myRole?(myRole==='owner'?'Владелец':'@'+staffTagFor(staffSession)):(profile.nickname||'пользователь'),staffId:myRole?staffIdentity():null,staffRole:myRole||null,ts:Date.now()});
   t.status=myRole?'work':'new';
   saveTickets();renderMyTickets();renderStaff();
   if(myRole)notifyUser(t.userId,{title:'Ответ по обращению',body:v.slice(0,110),linkType:'ticket',linkId:t.id});
@@ -2543,6 +2692,7 @@ function replyTicket(id){
   closeSheet();toast('Отправлено','✅');
 }
 function setTicketStatus(id,st){
+  if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста нельзя менять обращения','🌴');
   const t=tickets.find(x=>x.id===id);if(!t)return;
   t.status=st;saveTickets();renderStaff();renderMyTickets();closeSheet();
   toast(st==='done'?'Обращение закрыто':'Принято в работу','✅');
@@ -2592,14 +2742,17 @@ function wire(){
   document.addEventListener('click',e=>{
     const el=e.target.closest('[data-view],[data-go],[data-admin],[data-start],[data-sheet-close],[data-dialog],'+
       '[data-ticket],[data-treply],[data-tstatus],[data-tcat],[data-sfilter],[data-tab],[data-av],[data-buy],[data-cat],'+
-      '[data-tg],[data-rp],[data-revoke],[data-new-dialog],[data-stab],[data-perm],[data-report],[data-reason],'+
-      '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-nperm],[data-sdel],[data-sperm],'+
+      '[data-tg],[data-rp],[data-new-dialog],[data-stab],[data-report],[data-reason],'+
+      '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-sdel],'+
       '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
       '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
-      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm]');
+      '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm],[data-restsubmit],[data-restapprove],[data-restdecline]');
     if(!el)return;
     const d=el.dataset;
     if(d.savenorm!==undefined){saveStaffNorm(d.savenorm);return}
+    if(d.restsubmit!==undefined){submitRestRequest();return}
+    if(d.restapprove){decideRestRequest(d.restapprove,'approve');return}
+    if(d.restdecline){decideRestRequest(d.restdecline,'decline');return}
     if(d.msend){sendMonitorReply(d.msend);return}
     if(d.rateDialog){openRatingForm(d.rateDialog);return}
     if(d.ratevalue){ratingDraft=Number(d.ratevalue)||5;document.querySelectorAll('[data-ratevalue]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.ratevalue)<=ratingDraft));return}
@@ -2622,8 +2775,6 @@ function wire(){
     if(d.amodsubmit){submitAdminModeration(d.adminid,d.amodsubmit);return}
     if(d.areviews){openAdminReviews(d.areviews);return}
     if(d.grole){gateRole=d.grole;renderGateTabs();if($('gateErr'))$('gateErr').hidden=true;return}
-    if(d.nperm){newPerms[d.nperm]=!newPerms[d.nperm];renderNewPerms();return}
-    if(d.sperm){toggleStaffPerm(d.sid,d.sperm);return}
     if(d.sdel){removeStaff(d.sdel);return}
     if(d.newDialog!==undefined){go('admins');return}
     if(d.view){go(d.view);return}
@@ -2643,9 +2794,7 @@ function wire(){
     if(d.cat){adminCat=d.cat;renderAdmins();return}
     if(d.tg){try{(tg&&tg.openTelegramLink?tg.openTelegramLink:window.open)('https://t.me/'+d.tg,tg?'':'blank')}catch(err){window.open('https://t.me/'+d.tg,'_blank')}return}
     if(d.rp){const r=RP[+d.rp];const inp=$('chatInput');inp.value=r.text;inp.focus();return}
-    if(d.revoke){revokeRole(d.revoke);return}
     if(d.stab){staffTab=d.stab;renderStaffTabs();return}
-    if(d.perm){togglePerm(d.pid,d.perm);return}
     if(d.report!==undefined){openReport(+d.report);return}
     if(d.reason){sendReport(d.reason);return}
     if(d.rfilter){repFilter=d.rfilter;renderReports();return}
@@ -2653,16 +2802,21 @@ function wire(){
     if(d.rdel){reportResolve(d.rdel,'del');return}
     if(d.rok){reportResolve(d.rok,'ok');return}
     if(d.wdel!==undefined){
+      if(myRole!=='owner')return toast('Антиспамом управляет только владелец','🚫');
       stopWords.splice(+d.wdel,1);saveWords();renderSettings();toast('Слово убрано','✅');return;
     }
   });
   $('saveProfileBtn').addEventListener('click',saveProfile);
   $('tkCreate').addEventListener('click',createTicket);
   const gb=$('gateBtn');if(gb)gb.addEventListener('click',gateLogin);
-  const gp=$('gatePass');
+  const gp=$('gatePass'),gt=$('gateTag');
   if(gp){
     gp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();gateLogin()}});
     gp.addEventListener('input',()=>{const er=$('gateErr');if(er)er.hidden=true});
+  }
+  if(gt){
+    gt.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();gateLogin()}});
+    gt.addEventListener('input',()=>{const er=$('gateErr');if(er)er.hidden=true});
   }
   const lo=$('staffLogout');if(lo)lo.addEventListener('click',staffLogout);
   const sa=$('staffAdd');if(sa)sa.addEventListener('click',createStaff);
@@ -2697,6 +2851,8 @@ function wire(){
 
 /* ==================== ТИК ==================== */
 function tick(){
+  const today=todayKey();
+  if(today!==restDayKey){restDayKey=today;renderAdmins();renderHomeAdmins();renderTeamAdmins();if(myRole)renderStaff();}
   const left=$('resetLeft');
   if(left)left.textContent=fmtLeft(nextResetMs());
   if(profile.lastDailyReset!==todayKey()){
