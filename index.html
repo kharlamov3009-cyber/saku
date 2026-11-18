@@ -1,4 +1,4 @@
-\<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
@@ -509,6 +509,7 @@ body.plain .toast{background:rgba(25,44,75,.96)}
 .staff-head .who{min-width:0;overflow-wrap:anywhere}
 @media(max-width:390px){.staff-head{flex-wrap:wrap}.staff-tag-pill{margin-left:0}.norm-metrics-grid,.norm-edit-fields{grid-template-columns:1fr}}
 </style>
+<style>.mod-warn-row{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:7px 0;border-top:1px solid var(--line);font-size:11.5px;color:var(--hint)}.mod-warn-row>span{flex:1;min-width:0;overflow-wrap:anywhere}.mod-warn-row .btn{flex:0 0 auto}.team-admin-warnings{margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(120,170,230,.05)}</style>
 </head>
 <body>
 <div class="app">
@@ -676,7 +677,7 @@ body.plain .toast{background:rgba(25,44,75,.96)}
         <div class="chips" id="gateTabs" style="margin:0 0 12px"></div>
         <div id="gateTagWrap">
           <label class="lbl" for="gateTag">Тег сотрудника</label>
-          <input type="text" id="gateTag" maxlength="24" placeholder="Например: sakura" autocomplete="username" autocapitalize="none" spellcheck="false">
+          <input type="text" id="gateTag" maxlength="24" placeholder="Например: Сакура_01" autocomplete="username" autocapitalize="none" spellcheck="false">
         </div>
         <label class="lbl" for="gatePass">Пароль</label>
         <div class="role-form">
@@ -758,8 +759,8 @@ body.plain .toast{background:rgba(25,44,75,.96)}
           <div class="sechead" style="margin-top:12px"><h2>Новый аккаунт администратора</h2></div>
           <div class="card">
             <label class="lbl" for="staffTag">Тег сотрудника — это его имя</label>
-            <input type="text" id="staffTag" maxlength="24" placeholder="Например: ascorbinka" autocomplete="off" autocapitalize="none" spellcheck="false">
-            <p class="hint" style="margin:7px 0 0">Тег используется как имя в панели и для входа. Допускаются латинские буквы, цифры и нижнее подчёркивание. Старые аккаунты автоматически переносятся при первом входе.</p>
+            <input type="text" id="staffTag" maxlength="24" placeholder="Например: Сакура_01" autocomplete="off" autocapitalize="none" spellcheck="false">
+            <p class="hint" style="margin:7px 0 0">Тег используется как имя в панели и для входа. Допускаются русские и латинские буквы, цифры и нижнее подчёркивание; пробелы и спецсимволы нельзя. Старые аккаунты автоматически переносятся при первом входе.</p>
             <label class="lbl" for="staffPass">Пароль</label>
             <div class="role-form">
               <input type="password" id="staffPass" maxlength="40" placeholder="Не короче 4 символов" autocomplete="new-password">
@@ -911,14 +912,14 @@ const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 const tgUser=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
 const uid=()=>tgUser?String(tgUser.id):'';
 
-let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],myRole=null,offline=false,adminModeration={};
+let db=null,admins=FALLBACK_ADMINS.slice(),dialogs=[],tickets=[],myRole=null,offline=false,adminModeration={},userMutes={};
 let profile={nickname:'',avatar:'😊',since:Date.now(),id:'',warns:[],candies:0,candiesEarned:0,questsDone:0,
   halloweenTasks:{},halloweenPurchases:[],achievements:[],streak:0,lastVisit:null,lastDailyReset:null,
   messagesSent:0,rpUsed:0,distinctAdmins:null,nightWrite:0};
 
 let current='home',activeTab='quests',adminCat='Все',adminQuery='',openDialogId=null,ticketCat='tech',staffFilter='new';
 let reports=[],stopWords=DEF_WORDS.slice(),staffTab='queue',repFilter='new',reportTarget=null;
-let monitorDialogId=null,monitorFilter='all',monitorQuery='',monitorAdminFilter='',monitorHistoryExpanded=false,userBan=null,userModerationRefId=null,teamAdminQuery='';
+let monitorDialogId=null,monitorFilter='all',monitorQuery='',monitorAdminFilter='',monitorHistoryExpanded=false,userBan=null,userMute=null,userModerationRefId=null,teamAdminQuery='';
 let adminRatings={},ratingDraft=5,staffNorms={targets:{}},restRequests=[];
 let restDayKey=todayKey();
 let userNotifications=[],staffNotifications=[],userNotifRef=null,staffNotifRef=null,userNotifKey='',staffNotifKey='',notifReady={user:false,staff:false},notifKnown={user:[],staff:[]};
@@ -1005,6 +1006,12 @@ function watchUserModeration(){
     if(openDialogId)openChat(openDialogId);
     renderProfile();
   });
+  db.ref('sakura/moderation/userMutes/'+safeFirebaseKey(id)).on('value',s=>{
+    userMute=s.val()||null;
+    userMutes=userMutes||{};
+    if(userMute)userMutes[safeFirebaseKey(id)]=userMute;else delete userMutes[safeFirebaseKey(id)];
+    if(openDialogId)openChat(openDialogId);
+  });
 }
 
 async function ensureId(){
@@ -1063,6 +1070,7 @@ async function loadRemote(){
       if(Array.isArray(d.moderation.stopWords))stopWords=d.moderation.stopWords.slice();
       if(d.moderation.flood)floodCfg=Object.assign({},DEF_FLOOD,d.moderation.flood);
       adminModeration=d.moderation.admins||{};
+      userMutes=d.moderation.userMutes||{};
     }
     const remote=(d.userProfile||{})[profile.id];
     if(remote){
@@ -1086,7 +1094,9 @@ async function loadRemote(){
       if(Array.isArray(m.stopWords))stopWords=m.stopWords.slice();
       floodCfg=Object.assign({},DEF_FLOOD,m.flood||{});
       adminModeration=m.admins||{};
+      userMutes=m.userMutes||{};
       renderSettings();renderTeamAdmins();renderAdmins();renderHomeAdmins();
+      if(myRole){renderStaff();if(staffTab==='dialogs')renderMonitorDialogs()}
     });
     db.ref('sakura/staffNorms').on('value',s=>{
       staffNorms=s.val()||{targets:{}};
@@ -1180,7 +1190,7 @@ async function staffPasswordMatches(staff,pass){
 }
 function ownerHash(){return (staffAuth&&staffAuth.owner&&staffAuth.owner.h)||''}
 function normalizeStaffTag(value){
-  return String(value||'').trim().replace(/^[@#]/,'').toLowerCase();
+  return String(value||'').normalize('NFC').trim().replace(/^[@#]/,'').toLowerCase();
 }
 function legacyTagSlug(value){
   const map={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'i',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya'};
@@ -1227,7 +1237,10 @@ function roleLabel(){
 /* Все администраторы имеют единый набор рабочих разделов.
    Разграничение вкладок оставлено только между владельцем и сотрудником. */
 function can(p){
-  return myRole==='owner'||myRole==='admin';
+  if(myRole==='owner')return true;
+  if(myRole!=='admin')return false;
+  const staffAdmin=publicAdminForStaff(),staffAdminId=staffAdmin&&staffAdmin.id||staffSession&&staffSession.id;
+  return !isAdminBanned(staffAdminId);
 }
 function firstAllowedTab(){return myRole==='owner'?'norm':'norm';}
 function renderGateTabs(){
@@ -1269,8 +1282,9 @@ async function gateLogin(){
   let matches=[];
   for(const st of list){
     if(!await staffPasswordMatches(st,pass))continue;
+    const explicit=normalizeStaffTag(st.tag||st.loginTag||st.username);
     const aliases=staffTagAliases(st);
-    if(tag&&aliases.includes(tag))matches.push(st);
+    if(tag&&(explicit?explicit===tag:aliases.includes(tag)))matches.push(st);
   }
   let hit=matches.length===1?matches[0]:null;
 
@@ -1292,7 +1306,10 @@ async function gateLogin(){
     return fail(tag?'Неверный тег или пароль сотрудника':'Введи тег. Для старого аккаунта без тега можно войти по прежнему паролю.');
   }
 
-  const migratedTag=staffTagFor(hit);
+  const candidateTag=staffTagFor(hit);
+  const linkedAdmin=admins.find(a=>String(a.id)===String(hit.id))||admins.find(a=>publicAdminTag(a)===candidateTag);
+  if(linkedAdmin&&isAdminBanned(linkedAdmin.id))return fail('Доступ администратора заблокирован владельцем. Обратись к владельцу проекта.');
+  const migratedTag=candidateTag;
   staffSession={role:'admin',id:hit.id,tag:migratedTag,credentialUpdatedAt:Number(hit.updatedAt||0),since:Date.now()};
   if(!hit.tag&&!hit.loginTag&&db&&hit.id){
     try{
@@ -1336,7 +1353,9 @@ function renderStaff(){
     const tag=$('staffTagBadge');
     if(tag){const value=myRole==='admin'?staffTagFor(staffSession):'';tag.hidden=!value;tag.textContent=value?'@'+value:''}
     const notice=$('staffRestNotice'),rest=myRole==='admin'?activeRestForStaff(staffSession&&staffSession.id):null;
-    if(notice){notice.hidden=!rest;notice.textContent=rest?'🌴 Ты на ресте до '+restDateText(rest.toDate)+'. Новые обращения и ответы временно отключены.':''}
+    const staffAdmin=publicAdminForStaff(),staffAdminId=staffAdmin&&staffAdmin.id||staffSession&&staffSession.id;
+    const banned=myRole==='admin'&&isAdminBanned(staffAdminId),muted=myRole==='admin'&&isAdminMuted(staffAdminId),muteEntry=myRole==='admin'?adminModEntry(staffAdminId).mute:null;
+    if(notice){notice.hidden=!(rest||muted||banned);notice.textContent=banned?'🚫 Доступ к панели администратора заблокирован владельцем.':rest?'🌴 Ты на ресте до '+restDateText(rest.toDate)+'. Новые обращения и ответы временно отключены.':muted?'🔇 Действует мут до '+dfmt(muteEntry.until)+'. Очередь и ответы временно отключены.':''}
     renderStaffTabs();
   }else{
     gate.hidden=false;panel.hidden=true;
@@ -1348,8 +1367,10 @@ function renderStaff(){
   }
 }
 function renderStaffTabs(){
-  const resting=myRole==='admin'&&isStaffResting(staffSession&&staffSession.id);
-  const tabs=STAFF_TABS.filter(t=>(!t.ownerOnly||myRole==='owner')&&(!t.adminOnly||myRole==='admin')&&(!resting||!['queue','dialogs'].includes(t.id)));
+  const staffAdmin=publicAdminForStaff(),staffAdminId=staffAdmin&&staffAdmin.id||staffSession&&staffSession.id;
+  const banned=myRole==='admin'&&isAdminBanned(staffAdminId);
+  const restricted=myRole==='admin'&&(isStaffResting(staffSession&&staffSession.id)||isAdminMuted(staffAdminId));
+  const tabs=STAFF_TABS.filter(t=>(!t.ownerOnly||myRole==='owner')&&(!t.adminOnly||myRole==='admin')&&(!banned)&&(!restricted||!['queue','dialogs'].includes(t.id)));
   if(!tabs.some(t=>t.id===staffTab))staffTab=tabs.length?tabs[0].id:'norm';
   const bar=$('staffTabs');
   if(bar)bar.innerHTML=tabs.map(t=>
@@ -1455,7 +1476,7 @@ async function createStaff(){
   if(!db)return toast('Нет связи с базой','⚠️');
   const tag=normalizeStaffTag($('staffTag')&&$('staffTag').value);
   const pass=($('staffPass')&&$('staffPass').value||'').trim();
-  if(!/^[a-z0-9_]{3,24}$/.test(tag))return toast('Тег: 3–24 символа, латиница, цифры или _','⚠️');
+  if(!/^[\p{L}\p{N}_]{3,24}$/u.test(tag))return toast('Тег: 3–24 символа, буквы любого алфавита, цифры или _; без пробелов','⚠️');
   if(staffEntries().some(st=>staffTagFor(st)===tag))return toast('Такой тег уже занят','⚠️');
   if(pass.length<4)return toast('Пароль короче 4 символов','⚠️');
   const id='st_'+Date.now().toString(36);
@@ -1711,6 +1732,10 @@ async function decideRestRequest(requestId,decision){
 function adminModKey(id){return encodeURIComponent(String(id||'')).replace(/\./g,'%2E')}
 function adminModEntry(id){return (adminModeration||{})[adminModKey(id)]||{}}
 function isAdminBanned(id){const b=adminModEntry(id).ban;return !!(b&&b.active)}
+function isAdminMuted(id){const m=adminModEntry(id).mute;return !!(m&&m.active&&(!Number(m.until)||Number(m.until)>Date.now()))}
+function userMuteKey(id){return safeFirebaseKey(String(id||''))}
+function getUserMute(id){const key=userMuteKey(id),entry=(userMutes||{})[key]||(String(id)===String(profile.id)?userMute:null);return entry&&entry.active&&(!Number(entry.until)||Number(entry.until)>Date.now())?entry:null}
+function warningKey(w,i){return String(w&&w.id||('legacy_'+String(w&&(w.dialogId||''))+'_'+String(w&&(w.date||w.ts)||i)))}
 function renderTeamAdmins(){
   const box=$('teamAdminList');if(!box||myRole!=='owner')return;
   const q=String(teamAdminQuery||'').trim().toLowerCase();
@@ -1718,19 +1743,23 @@ function renderTeamAdmins(){
   const cnt=$('teamAdminCount');if(cnt)cnt.textContent=list.length+' / '+admins.length;
   box.innerHTML=list.length?list.map(a=>{
     const mod=adminModEntry(a.id),warns=Array.isArray(mod.warns)?mod.warns:(mod.warns&&typeof mod.warns==='object'?Object.values(mod.warns):[]);
-    const banned=isAdminBanned(a.id),resting=activeRestForAdmin(a.id),last=warns[warns.length-1],colors=mono(a.name);
-    const staffAccount=findStaffAccountForAdmin(a);
+    const banned=isAdminBanned(a.id),muted=isAdminMuted(a.id),resting=activeRestForAdmin(a.id),last=warns[warns.length-1],colors=mono(a.name);
+    const warnRows=warns.length?'<div class="team-admin-warnings">'+warns.map((w,i)=>
+      '<div class="mod-warn-row"><span>'+esc(w.reason||'Предупреждение без причины')+' · '+dfmt(w.date||w.ts)+'</span>'+ 
+      '<button class="btn small ghost" type="button" data-awarnremove="'+esc(a.id)+'" data-warnid="'+esc(warningKey(w,i))+'">Снять</button></div>'
+    ).join('')+'<button class="btn small ghost" type="button" data-awarnclear="'+esc(a.id)+'">Снять все варны</button></div>':'';
     return '<div class="card team-admin-card">'+
       '<div class="team-admin-head">'+
         '<div class="av" style="background:linear-gradient(135deg,'+colors[0]+','+colors[1]+')">'+esc(a.initials)+'</div>'+
         '<div class="team-admin-name"><b>'+esc(a.name)+'</b><span>'+(publicAdminTag(a)?'@'+esc(publicAdminTag(a))+' · ':'')+esc(a.category)+' · '+esc(adminRatingLabel(a.id))+'</span></div>'+
-        '<span class="st '+(banned?'new':resting?'work':'done')+'">'+(banned?'Заблокирован':resting?'На ресте':'Активен')+'</span>'+
+        '<span class="st '+(banned?'new':muted?'new':resting?'work':'done')+'">'+(banned?'Заблокирован':muted?'Мут':resting?'На ресте':'Активен')+'</span>'+
       '</div>'+
-      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(resting?' · на ресте до '+restDateText(resting.toDate):'')+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+
+      '<div class="team-admin-meta">Предупреждений: <b>'+warns.length+'</b>'+(resting?' · на ресте до '+restDateText(resting.toDate):'')+(muted?' · мут до '+dfmt(adminModEntry(a.id).mute.until):'')+(last?' · последнее: '+esc(last.reason||'без причины'):'')+'</div>'+warnRows+
       '<div class="team-admin-actions">'+
         '<button class="btn small ghost" data-passforadmin="'+esc(a.id)+'" type="button">🔑 Сменить пароль</button>'+
         '<button class="btn small ghost" data-areviews="'+esc(a.id)+'" type="button">⭐ Отзывы ('+adminRatingStats(a.id).count+')</button>'+ 
         '<button class="btn small" data-awarn="'+esc(a.id)+'" type="button">⚠️ Выдать варн</button>'+
+        (muted?'<button class="btn small ghost" data-aunmute="'+esc(a.id)+'" type="button">Снять мут</button>':'<button class="btn small ghost" data-amute="'+esc(a.id)+'" type="button">🔇 Выдать мут</button>')+
         (banned?'<button class="btn small ghost" data-aunban="'+esc(a.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-aban="'+esc(a.id)+'" type="button">🚫 Забанить</button>')+
       '</div>'+
     '</div>';
@@ -1739,12 +1768,13 @@ function renderTeamAdmins(){
 function openAdminModerationForm(adminId,action){
   if(myRole!=='owner')return toast('Только владелец может модерировать администраторов','🚫');
   const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
-  const isWarn=action==='warn';
-  openSheet('<h3 style="margin:0 0 6px">'+(isWarn?'Выдать варн администратору':'Заблокировать администратора')+'</h3>'+ 
+  const isWarn=action==='warn',isMute=action==='mute';
+  openSheet('<h3 style="margin:0 0 6px">'+(isWarn?'Выдать варн администратору':isMute?'Временно замутить администратора':'Заблокировать администратора')+'</h3>'+ 
     '<p class="hint" style="margin:0 0 10px">'+esc(a.name)+' · ID '+esc(a.id)+'</p>'+ 
-    '<label class="lbl" for="adminModerationReason">'+(isWarn?'Причина предупреждения':'Причина блокировки')+'</label>'+ 
+    (isMute?'<label class="lbl" for="adminMuteHours">Срок мута, часов</label><input type="number" id="adminMuteHours" min="1" max="720" value="24">':'')+
+    '<label class="lbl" for="adminModerationReason">'+(isWarn?'Причина предупреждения':isMute?'Причина мута':'Причина блокировки')+'</label>'+ 
     '<textarea id="adminModerationReason" maxlength="400" placeholder="Опиши нарушение и причину…"></textarea>'+ 
-    '<button class="btn '+(isWarn?'':'danger')+'" style="margin-top:10px" data-amodsubmit="'+action+'" data-adminid="'+esc(a.id)+'" type="button">'+(isWarn?'Выдать варн':'Подтвердить бан')+'</button>'+ 
+    '<button class="btn '+(isWarn||isMute?'':'danger')+'" style="margin-top:10px" data-amodsubmit="'+action+'" data-adminid="'+esc(a.id)+'" type="button">'+(isWarn?'Выдать варн':isMute?'Выдать мут':'Подтвердить бан')+'</button>'+ 
     '<button class="btn ghost" style="margin-top:8px" data-sheet-close type="button">Отмена</button>');
 }
 async function submitAdminModeration(adminId,action){
@@ -1753,6 +1783,7 @@ async function submitAdminModeration(adminId,action){
   const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
   const reason=(($('adminModerationReason')&&$('adminModerationReason').value)||'').trim();
   if(reason.length<3)return toast('Укажи причину (минимум 3 символа)','⚠️');
+  const muteHours=action==='mute'?Math.max(1,Math.min(720,Number(($('adminMuteHours')&&$('adminMuteHours').value)||24))):0;
   const key=adminModKey(adminId),base='sakura/moderation/admins/'+key;
   const actor='Владелец',ts=Date.now();
   const record={id:'admin_mod_'+ts.toString(36),targetType:'admin',adminId:String(adminId),adminName:a.name,
@@ -1776,10 +1807,16 @@ async function submitAdminModeration(adminId,action){
         d.messages.push({text:'🚫 Диалог приостановлен: администратор временно заблокирован. '+reason,sender:'system',time:nowTime(),ts});
       });
       saveDialogs();
+    }else if(action==='mute'){
+      const mute={active:true,reason,by:actor,at:ts,until:ts+muteHours*3600000};
+      await db.ref(base+'/mute').set(mute);
+      adminModeration[key]=adminModeration[key]||{};
+      adminModeration[key].mute=mute;
+      record.until=mute.until;
     }
     await db.ref('sakura/moderation/actions').push(record);
     closeSheet();renderTeamAdmins();renderAdmins();renderHomeAdmins();renderDialogs();
-    toast(action==='warn'?'Предупреждение администратору выдано':'Администратор заблокирован на площадке',action==='warn'?'⚠️':'🚫');
+    toast(action==='warn'?'Предупреждение администратору выдано':action==='mute'?'Администратор временно замучен':'Администратор заблокирован на площадке',action==='warn'?'⚠️':action==='mute'?'🔇':'🚫');
     haptic('success');
   }catch(e){toast('Не удалось выполнить действие. Проверь права Firebase','⚠️')}
 }
@@ -1797,9 +1834,97 @@ async function liftAdminBan(adminId){
     });
     await db.ref('sakura/moderation/actions').push({targetType:'admin',adminId:String(adminId),adminName:a.name,
       type:'unban',by:'Владелец',byRole:'owner',ts});
-    saveDialogs();renderTeamAdmins();renderAdmins();renderHomeAdmins();renderDialogs();
+    saveDialogs();renderTeamAdmins();renderAdmins();renderHomeAdmins();renderDialogs();renderStaff();
     toast('Блокировка администратора снята','✅');
   }catch(e){toast('Не удалось снять блокировку','⚠️')}
+}
+
+async function removeAdminWarn(adminId,warnId){
+  if(myRole!=='owner')return toast('Снимать варны может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const key=adminModKey(adminId),ref=db.ref('sakura/moderation/admins/'+key+'/warns');
+  try{
+    const snap=await ref.once('value'),raw=snap.val();
+    const list=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.keys(raw).map(k=>raw[k]):[]);
+    const kept=warnId==='all'?[]:list.filter((w,i)=>warningKey(w,i)!==String(warnId));
+    if(kept.length===list.length&&warnId!=='all')return toast('Это предупреждение уже снято','⚠️');
+    await ref.set(kept);adminModeration[key]=adminModeration[key]||{};adminModeration[key].warns=kept;
+    await db.ref('sakura/moderation/actions').push({targetType:'admin',adminId:String(adminId),adminName:a.name,type:'unwarn',warnId:warnId==='all'?'all':String(warnId),by:'Владелец',byRole:'owner',ts:Date.now()}).catch(()=>{});
+    renderTeamAdmins();toast('Предупреждение снято','✅');
+  }catch(e){toast('Не удалось снять варн. Проверь Firebase Rules','⚠️')}
+}
+async function liftAdminMute(adminId){
+  if(myRole!=='owner')return toast('Снимать мут может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const a=admins.find(x=>String(x.id)===String(adminId));if(!a)return;
+  const key=adminModKey(adminId),ts=Date.now();
+  try{
+    await db.ref('sakura/moderation/admins/'+key+'/mute').remove();
+    adminModeration[key]=adminModeration[key]||{};delete adminModeration[key].mute;
+    await db.ref('sakura/moderation/actions').push({targetType:'admin',adminId:String(adminId),adminName:a.name,type:'unmute',by:'Владелец',byRole:'owner',ts}).catch(()=>{});
+    renderTeamAdmins();renderStaff();toast('Мут с администратора снят','✅');
+  }catch(e){toast('Не удалось снять мут','⚠️')}
+}
+
+async function removeUserWarn(dialogId,warnId){
+  if(myRole!=='owner')return toast('Снимать варны может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d||!d.userId)return;
+  const userId=String(d.userId),ref=db.ref('sakura/userProfile/'+userId+'/warns');
+  try{
+    const snap=await ref.once('value'),raw=snap.val();
+    const list=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.keys(raw).map(k=>raw[k]):[]);
+    const kept=warnId==='all'?[]:list.filter((w,i)=>warningKey(w,i)!==String(warnId));
+    const history=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
+    if(kept.length===list.length&&warnId!=='all'&&!history.some((w,i)=>warningKey(w,i)===String(warnId)))return toast('Это предупреждение уже снято','⚠️');
+    await ref.set(kept);
+    dialogs.filter(x=>String(x.userId)===userId).forEach(x=>{
+      const old=Array.isArray(x.warnsHistory)?x.warnsHistory:[];
+      x.warnsHistory=warnId==='all'?[]:old.filter((w,i)=>warningKey(w,i)!==String(warnId));
+      x.warns=x.warnsHistory.length;x.messages=x.messages||[];
+      x.messages.push({text:'✅ Владелец снял предупреждение пользователя.',sender:'system',time:nowTime(),ts:Date.now()});
+    });
+    if(String(profile.id)===userId){profile.warns=kept;try{localStorage.setItem(KEY_PROFILE,JSON.stringify(profile))}catch(e){}renderProfile()}
+    await db.ref('sakura/moderation/actions').push({type:'unwarn',userId,dialogId:d.id,warnId:warnId==='all'?'all':String(warnId),by:'Владелец',byRole:'owner',ts:Date.now()}).catch(()=>{});
+    saveDialogs();renderMonitorDialogs();toast(warnId==='all'?'Все предупреждения сняты':'Предупреждение снято','✅');
+  }catch(e){toast('Не удалось снять варн. Проверь Firebase Rules','⚠️')}
+}
+function openUserMuteForm(dialogId){
+  if(myRole!=='owner')return toast('Выдавать мут может только владелец','🚫');
+  const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d||!d.userId)return;
+  openSheet('<h3 style="margin:0 0 6px">Временно замутить пользователя</h3><p class="hint">'+esc(d.userNickname||'Пользователь')+' · ID '+esc(d.userId)+'</p>'+ 
+    '<label class="lbl" for="userMuteHours">Срок мута, часов</label><input type="number" id="userMuteHours" min="1" max="720" value="24">'+ 
+    '<label class="lbl" for="userMuteReason">Причина</label><textarea id="userMuteReason" maxlength="400" placeholder="Укажи причину мута…"></textarea>'+ 
+    '<button class="btn" data-usermutesubmit="'+esc(d.id)+'" type="button">Выдать мут</button><button class="btn ghost" data-sheet-close type="button">Отмена</button>');
+}
+async function submitUserMute(dialogId){
+  if(myRole!=='owner')return toast('Выдавать мут может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d||!d.userId)return;
+  const reason=String(($('userMuteReason')&&$('userMuteReason').value)||'').trim();
+  const hours=Math.max(1,Math.min(720,Number(($('userMuteHours')&&$('userMuteHours').value)||24)));
+  if(reason.length<3)return toast('Укажи причину мута','⚠️');
+  const userId=String(d.userId),key=userMuteKey(userId),ts=Date.now(),mute={active:true,reason,by:'Владелец',byRole:'owner',at:ts,until:ts+hours*3600000};
+  try{
+    await db.ref('sakura/moderation/userMutes/'+key).set(mute);
+    userMutes=userMutes||{};userMutes[key]=mute;
+    await db.ref('sakura/moderation/actions').push({type:'mute',userId,dialogId:d.id,reason,until:mute.until,by:'Владелец',byRole:'owner',ts}).catch(()=>{});
+    closeSheet();renderMonitorDialogs();toast('Пользователь замучен на '+hours+' ч','🔇');
+  }catch(e){toast('Не удалось выдать мут. Проверь Firebase Rules','⚠️')}
+}
+async function liftUserMute(dialogId){
+  if(myRole!=='owner')return toast('Снимать мут может только владелец','🚫');
+  if(!db)return toast('Нет связи с базой данных','⚠️');
+  const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d||!d.userId)return;
+  const userId=String(d.userId),key=userMuteKey(userId),ts=Date.now();
+  try{
+    await db.ref('sakura/moderation/userMutes/'+key).remove();
+    if(userMutes)delete userMutes[key];if(String(profile.id)===userId)userMute=null;
+    await db.ref('sakura/moderation/actions').push({type:'unmute',userId,dialogId:d.id,by:'Владелец',byRole:'owner',ts}).catch(()=>{});
+    renderMonitorDialogs();if(String(profile.id)===userId&&openDialogId)openChat(openDialogId);
+    toast('Мут с пользователя снят','✅');
+  }catch(e){toast('Не удалось снять мут','⚠️')}
 }
 
 /* ==================== МОНИТОРИНГ И МОДЕРАЦИЯ ДИАЛОГОВ ==================== */
@@ -1910,8 +2035,9 @@ function renderMonitorDialogs(){
   }).join(''):'<div class="empty"><span class="e">💬</span>Подходящих диалогов нет</div>';
   const d=dialogs.find(x=>x.id===monitorDialogId);
   if(!d){detailBox.innerHTML='';return}
-  const banned=!!d.banned,history=Array.isArray(d.warnsHistory)?d.warnsHistory:[];
+  const banned=!!d.banned,history=Array.isArray(d.warnsHistory)?d.warnsHistory:[],userMuteEntry=getUserMute(d.userId);
   const reply=dialogReplyState(d),msgs=d.messages||[];
+  const warnRows=history.map((w,i)=>'<div class="mod-warn-row"><span>'+esc(w.reason||'Предупреждение без причины')+' · '+dfmt(w.date||w.ts)+'</span>'+(myRole==='owner'?'<button class="btn small ghost" type="button" data-dwarnremove="'+esc(d.id)+'" data-warnid="'+esc(warningKey(w,i))+'">Снять</button>':'')+'</div>').join('');
   const messages=msgs.map(m=>{
     const kind=messageKind(m),side=kind==='user'?'user':kind==='system'?'system':'staff';
     const who=kind==='user'?(d.userNickname||'Пользователь'):kind==='system'?'Система':(m.adminName||m.name||d.adminName||'Администратор');
@@ -1926,10 +2052,13 @@ function renderMonitorDialogs(){
       (reply.hasStaff?'<div class="monitor-nudge answered">✅ В переписке есть ответ администратора</div>':''))+
     '<div class="monitor-actions">'+
       '<button class="btn small" data-dwarn="'+esc(d.id)+'" type="button">⚠️ Выдать варн</button>'+
-      (banned?'<button class="btn small ghost" data-dunban="'+esc(d.id)+'" type="button">Снять бан</button>':'<button class="btn small danger" data-dban="'+esc(d.id)+'" type="button">🚫 Забанить</button>')+
+      (banned?(myRole==='owner'?'<button class="btn small ghost" data-dunban="'+esc(d.id)+'" type="button">Снять бан</button>':''):'<button class="btn small danger" data-dban="'+esc(d.id)+'" type="button">🚫 Забанить</button>')+
+      (myRole==='owner'?(userMuteEntry?'<button class="btn small ghost" data-dunmute="'+esc(d.id)+'" type="button">Снять мут</button>':'<button class="btn small ghost" data-dmute="'+esc(d.id)+'" type="button">🔇 Выдать мут</button>'):'')+
     '</div>'+
     '<div class="monitor-warn-info">Предупреждений в этом диалоге: <b>'+(d.warns||history.length||0)+'</b>'+
-      (history.length?'<div class="tk-meta" style="margin-top:6px">'+history.slice(-3).reverse().map(w=>esc(w.reason||'Без причины')+' · '+dfmt(w.date||w.ts)).join('<br>')+'</div>':'')+'</div>'+ 
+      (myRole==='owner'&&(history.length||Number(d.warns)>0)?'<button class="btn small ghost" style="margin-left:8px" data-dwarnclear="'+esc(d.id)+'" type="button">Снять все варны</button>':'')+
+      (history.length?'<div class="team-admin-warnings" style="margin-top:8px">'+warnRows+'</div>':'')+
+      (userMuteEntry?'<div class="tk-meta" style="margin-top:7px">🔇 Мут до '+dfmt(userMuteEntry.until)+' · '+esc(userMuteEntry.reason||'без причины')+'</div>':'')+'</div>'+ 
     '<div class="monitor-history-head"><b>Полная история переписки ('+msgs.length+')</b><button type="button" class="btn small ghost" data-mhistory="'+esc(d.id)+'">'+(monitorHistoryExpanded?'Свернуть':'Развернуть всю историю')+'</button></div>'+ 
     '<div class="monitor-chat '+(monitorHistoryExpanded?'expanded':'')+'">'+messages+'</div>'+ 
     (can('dialogs')&&!d.closed&&!d.banned&&!d.adminBanned?'<div class="monitor-reply-box"><label class="lbl" for="monitorReplyText">Ответить пользователю</label><textarea id="monitorReplyText" maxlength="1500" placeholder="Напиши ответ пользователю…"></textarea><button class="btn" type="button" data-msend="'+esc(d.id)+'">Отправить ответ</button></div>':'')+
@@ -1986,7 +2115,7 @@ async function submitModeration(dialogId,action){
   }catch(e){toast('Не удалось выполнить действие. Проверьте доступ к Firebase','⚠️')}
 }
 async function liftUserBan(dialogId){
-  if(!can('dialogs'))return toast('Нет права на модерацию диалогов','🚫');
+  if(myRole!=='owner')return toast('Снимать бан может только владелец','🚫');
   if(!db)return toast('Нет связи с базой данных','⚠️');
   const d=dialogs.find(x=>x.id===dialogId);if(!d||!d.userId)return;
   const userId=String(d.userId),actor=myRole==='owner'?'Владелец':('@'+staffTagFor(staffSession));
@@ -2657,12 +2786,12 @@ function openChat(id){
   av.style.background='linear-gradient(135deg,'+c1+','+c2+')';
   $('chatName').textContent=d.adminName||'Админ';
   const globalBanned=!!(userBan&&userBan.active&&String(d.userId)===String(profile.id));
-  const blocked=!!(d.banned||d.adminBanned||globalBanned);
-  $('chatSub').textContent=d.adminBanned?'администратор заблокирован':blocked?'заблокирован':d.closed?'диалог закрыт':d.status==='active'?'на связи':'ждёт ответа';
+  const blocked=!!(d.banned||d.adminBanned||globalBanned),muted=!!getUserMute(d.userId);
+  $('chatSub').textContent=d.adminBanned?'администратор заблокирован':blocked?'заблокирован':muted?'временный мут':d.closed?'диалог закрыт':d.status==='active'?'на связи':'ждёт ответа';
   const input=$('chatInput');
-  input.disabled=!!(d.closed||blocked);
-  $('chatSend').disabled=!!(d.closed||blocked);
-  input.placeholder=blocked?'Заблокирован':d.closed?'Диалог закрыт':'Написать сообщение…';
+  input.disabled=!!(d.closed||blocked||muted);
+  $('chatSend').disabled=!!(d.closed||blocked||muted);
+  input.placeholder=blocked?'Заблокирован':muted?'Временный мут':d.closed?'Диалог закрыт':'Написать сообщение…';
   renderRp();renderChat();
   document.body.style.overflow='hidden';
 }
@@ -2692,6 +2821,7 @@ function renderChat(){
 function sendMessage(){
   const d=dialogs.find(x=>x.id===openDialogId);if(!d||d.closed||d.banned||d.adminBanned)return;
   if(userBan&&userBan.active&&String(d.userId)===String(profile.id)){toast('Вы заблокированы и не можете отправлять сообщения','🚫');return;}
+  const mute=getUserMute(d.userId);if(mute){toast('Действует мут до '+dfmt(mute.until),'🔇');return;}
   const txt=$('chatInput').value.trim();if(!txt)return;
   const fc=floodCheck(txt);
   if(fc.block){
@@ -2728,6 +2858,7 @@ function sendMessage(){
 
 async function sendMonitorReply(dialogId){
   if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста ответы отключены','🌴');
+  const staffAdmin=publicAdminForStaff();if(myRole==='admin'&&isAdminMuted(staffAdmin&&staffAdmin.id||staffSession&&staffSession.id))return toast('На аккаунте действует мут','🔇');
   if(!can('dialogs'))return toast('Нет права отвечать в диалогах','🚫');
   if(!db)return toast('Нет связи с базой данных','⚠️');
   const d=dialogs.find(x=>String(x.id)===String(dialogId));if(!d)return;
@@ -2803,7 +2934,9 @@ function openTicket(id){
       '<button class="btn ghost small" style="flex:1;min-height:44px" data-tstatus="done" data-tid="'+esc(t.id)+'">Закрыть</button></div>':''));
 }
 function replyTicket(id){
+  const linkedAdmin=publicAdminForStaff();if(myRole==='admin'&&isAdminBanned(linkedAdmin&&linkedAdmin.id||staffSession&&staffSession.id))return toast('Доступ администратора заблокирован','🚫');
   if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста ответы отключены','🌴');
+  const staffAdmin=publicAdminForStaff();if(myRole==='admin'&&isAdminMuted(staffAdmin&&staffAdmin.id||staffSession&&staffSession.id))return toast('На аккаунте действует мут','🔇');
   const t=tickets.find(x=>x.id===id);if(!t)return;
   const v=($('tkReply').value||'').trim();if(v.length<1)return toast('Напиши текст','⚠️');
   t.messages=t.messages||[];
@@ -2815,7 +2948,9 @@ function replyTicket(id){
   closeSheet();toast('Отправлено','✅');
 }
 function setTicketStatus(id,st){
+  const linkedAdmin=publicAdminForStaff();if(myRole==='admin'&&isAdminBanned(linkedAdmin&&linkedAdmin.id||staffSession&&staffSession.id))return toast('Доступ администратора заблокирован','🚫');
   if(myRole==='admin'&&isStaffResting(staffSession&&staffSession.id))return toast('Во время реста нельзя менять обращения','🌴');
+  const staffAdmin=publicAdminForStaff();if(myRole==='admin'&&isAdminMuted(staffAdmin&&staffAdmin.id||staffSession&&staffSession.id))return toast('На аккаунте действует мут','🔇');
   const t=tickets.find(x=>x.id===id);if(!t)return;
   t.status=st;saveTickets();renderStaff();renderMyTickets();closeSheet();
   toast(st==='done'?'Обращение закрыто':'Принято в работу','✅');
@@ -2867,8 +3002,8 @@ function wire(){
       '[data-ticket],[data-treply],[data-tstatus],[data-tcat],[data-sfilter],[data-tab],[data-av],[data-buy],[data-cat],'+
       '[data-tg],[data-rp],[data-new-dialog],[data-stab],[data-report],[data-reason],'+
       '[data-rfilter],[data-rban],[data-rdel],[data-rok],[data-wdel],[data-grole],[data-sdel],'+
-      '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-modsubmit],'+
-      '[data-awarn],[data-aban],[data-aunban],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
+      '[data-mfilter],[data-dmon],[data-mafilter],[data-mhistory],[data-dwarn],[data-dban],[data-dunban],[data-dwarnremove],[data-dwarnclear],[data-dmute],[data-dunmute],[data-usermutesubmit],[data-modsubmit],'+
+      '[data-awarn],[data-aban],[data-aunban],[data-amute],[data-aunmute],[data-awarnremove],[data-awarnclear],[data-amodsubmit],[data-areviews],[data-msend],[data-rate-dialog],[data-ratevalue],[data-ratesubmit],'+
       '[data-notifopen],[data-notifread],[data-notifreadall],[data-notifyenable],[data-savenorm],[data-restsubmit],[data-restapprove],[data-restdecline],[data-passedit],[data-staffpasssave],[data-passforadmin]');
     if(!el)return;
     const d=el.dataset;
@@ -2894,10 +3029,19 @@ function wire(){
     if(d.dwarn){openModerationForm(d.dwarn,'warn');return}
     if(d.dban){openModerationForm(d.dban,'ban');return}
     if(d.dunban){liftUserBan(d.dunban);return}
+    if(d.dwarnremove){removeUserWarn(d.dwarnremove,d.warnid);return}
+    if(d.dwarnclear){removeUserWarn(d.dwarnclear,'all');return}
+    if(d.dmute){openUserMuteForm(d.dmute);return}
+    if(d.dunmute){liftUserMute(d.dunmute);return}
+    if(d.usermutesubmit){submitUserMute(d.usermutesubmit);return}
     if(d.modsubmit){submitModeration(d.mdialog,d.modsubmit);return}
     if(d.awarn){openAdminModerationForm(d.awarn,'warn');return}
     if(d.aban){openAdminModerationForm(d.aban,'ban');return}
     if(d.aunban){liftAdminBan(d.aunban);return}
+    if(d.amute){openAdminModerationForm(d.amute,'mute');return}
+    if(d.aunmute){liftAdminMute(d.aunmute);return}
+    if(d.awarnremove){removeAdminWarn(d.awarnremove,d.warnid);return}
+    if(d.awarnclear){removeAdminWarn(d.awarnclear,'all');return}
     if(d.amodsubmit){submitAdminModeration(d.adminid,d.amodsubmit);return}
     if(d.areviews){openAdminReviews(d.areviews);return}
     if(d.grole){gateRole=d.grole;renderGateTabs();if($('gateErr'))$('gateErr').hidden=true;return}
@@ -2979,6 +3123,13 @@ function wire(){
 function tick(){
   const today=todayKey();
   if(today!==restDayKey){restDayKey=today;renderAdmins();renderHomeAdmins();renderTeamAdmins();if(myRole)renderStaff();}
+  if(openDialogId&&userMute&&Number(userMute.until)&&Number(userMute.until)<=Date.now())openChat(openDialogId);
+  if(myRole==='admin'){
+    const staffAdmin=publicAdminForStaff(),staffAdminId=staffAdmin&&staffAdmin.id||staffSession&&staffSession.id;
+    const mute=adminModEntry(staffAdminId).mute;
+    if(mute&&mute.active&&Number(mute.until)>0&&Number(mute.until)<=Date.now())renderStaff();
+  }
+  if(myRole==='owner'&&staffTab==='team')renderTeamAdmins();
   const left=$('resetLeft');
   if(left)left.textContent=fmtLeft(nextResetMs());
   if(profile.lastDailyReset!==todayKey()){
